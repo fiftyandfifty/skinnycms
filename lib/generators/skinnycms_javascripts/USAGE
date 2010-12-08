@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_javascripts generator.
+ 
+Example:
+  rails g skinnycms_javascripts
+
+  This copies Engine's javascript files to your application.
+  See the README for more details.

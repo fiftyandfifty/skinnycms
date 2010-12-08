@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_styles generator.
+
+Example:
+  rails g skinnycms_styles
+
+  This copies Engine's css files to your application.
+  See the README for more details.

@@ -12,13 +12,14 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "news"
-  gem.homepage = "http://github.com/RuslanHamidullin/news"
+  gem.name = "skinnycms"
+  gem.homepage = "https://github.com/fiftyandfifty/skinnycms"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "skinnycms gem"
+  gem.description = "long description"
   gem.email = "ruslan.hamidullin@flatsoft.com"
   gem.authors = ["RuslanHamidullin"]
+  gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "{public}/**/*"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
   #  gem.add_runtime_dependency 'jabber4r', '> 0.1'

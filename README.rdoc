@@ -1,19 +1,45 @@
-= news
+= SkinnyCms Engine
 
-Description goes here.
+== Description
 
-== Contributing to news
+This is a Rails::Engine.
+It generates basic CMS functional in your application:
+
+* migrations
+
+* models
+
+* controllers
+
+* views
+
+* css styles
+
+* javascripts
+
+* images
+
+* routes and rake tasks
+
+== Instalation (for Rails 3)
  
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-* Fork the project
-* Start a feature/bugfix branch
-* Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+* Add to Gemfile:
+  gem 'skinnycms', :require => 'skinnycms', :git => 'git@github.com:RuslanHamidullin/news.git'
+
+* Then 'bundle install'
+
+* rails g skinnycms_migrations
+
+== Usage
+
+* rails g skinnycms_styles (if you want to use engine's css styles)
+
+* rails g skinnycms_javascripts (if you want to use engine's javascripts)
+
+* rails g skinnycms_images (if you want to use engine's images)
 
 == Copyright
 
-Copyright (c) 2010 RuslanHamidullin. See LICENSE.txt for
+Copyright (c) 2010 Fifty & Fifty. See LICENSE.txt for
 further details.
 

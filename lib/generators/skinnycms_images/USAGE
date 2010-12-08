@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_images generator.
+
+Example:
+  rails g skinnycms_images
+
+  This copies Engine's images to your application.
+  See the README for more details.
