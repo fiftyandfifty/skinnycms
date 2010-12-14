@@ -1,4 +1,4 @@
-Rails.application.routes.draw do |map|
+RailsRoot::Application.routes.draw do
   # define your skinnycms routes here, for example:
   # resources :news, :controller => 'skinnycms/news'
 

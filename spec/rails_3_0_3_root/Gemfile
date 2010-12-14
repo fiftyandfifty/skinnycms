@@ -19,3 +19,4 @@ group :test, :development do
   gem 'rcov', '0.9.9'
 end
 
+gem 'skinnycms', :path => '../../'

@@ -1,9 +1,9 @@
 class Page < ActiveRecord::Base
-  acts_as_tree :order => :position
-  acts_as_list :scope => :parent_id
+ # acts_as_tree :order => :position
+ # acts_as_list :scope => :parent_id
 
   has_many :page_contents
-  has_friendly_id :title, :use_slug => true, :approximate_ascii => true
+ # has_friendly_id :title, :use_slug => true, :approximate_ascii => true
 
   validates :title, :permalink, :presence => true
 
