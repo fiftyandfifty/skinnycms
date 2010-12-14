@@ -22,4 +22,4 @@ Jeweler::Tasks.new do |gem|
 end
 Jeweler::RubygemsDotOrgTasks.new
 
-Dir["#{File.dirname(__FILE__)}/lib/skinnycms/railties/*.rake"].sort.each { |ext| load ext }
+Dir["#{File.dirname(__FILE__)}/tasks/*.rake"].sort.each { |ext| load ext }

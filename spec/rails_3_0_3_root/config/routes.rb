@@ -1,4 +1,4 @@
-RailsRoot::Application.routes.draw do
+Rails303Root::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
