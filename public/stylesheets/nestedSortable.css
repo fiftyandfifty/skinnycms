@@ -1,0 +1,123 @@
+/* styles for sortable pages */
+
+.placeholder {
+  background-color: #cfcfcf;
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+  padding-left: 30px;
+}
+
+ol.sortable, ol.sortable ol {
+  margin: 0 0 0 25px;
+  padding: 0;
+  list-style-type: none;
+}
+
+ol.sortable {
+  margin: 0;
+}
+
+.sortable li {
+  margin: 0;
+  padding: 0;
+}
+
+.sortable li div  {
+  cursor: move;
+}
+
+dl {
+  margin: 0;
+}
+
+dd {
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+
+#public, #private {
+  color:#1d6175;
+  font-size:15px;
+  list-style-type:none;
+  margin:0;
+  padding:0;
+  padding-top:5px;
+}
+
+#public li .item,
+#private li .item {
+  border: solid 1px #e4e3e3;
+  display:block;
+  min-height:32px;
+  margin-bottom:5px;
+  padding:0 5px 0 10px;
+  vertical-align:middle;
+}
+
+#public li, #private li {
+  margin-bottom: 5px;
+}
+
+#public li .item p,
+#private li .item p {
+  padding:5px 0px;
+  width:435px;
+}
+
+.pages_header {
+  background: #494949;
+  border-bottom: solid 1px #e4e3e3;
+  padding: 7px 14px;
+  margin: 30px 0 1px 0;
+}
+
+.header h3 span {
+  color: #999;
+  font-weight: normal;
+}
+
+.reorder {
+  float:right;
+  cursor: pointer;
+}
+
+.clip_in_private, .clip_in_public, .plus {
+  overflow: hidden;
+  float: left;
+  background-repeat: no-repeat;
+}
+
+.clip_in_private, .clip_in_public {
+  width: 7px;
+  height: 14px;
+  margin: 9px 13px 0 2px;
+  background-image: url('/images/admin/sortable_icons/skrepka.jpg');
+  display: none;
+}
+
+.plus {
+  width: 10px;
+  height: 10px;
+  margin: 11px 13px 0 0;
+  background-image: url('/images/admin/sortable_icons/plus.jpg');
+}
+
+.page_list li .item p {
+  width: 100px;
+  float: left;
+}
+
+#reorder_public a, #reorder_private a {
+  color: #fff;
+  outline: none;
+  text-decoration: none;
+}
+
+#reorder_public a:hover, #reorder_private a:hover {
+  color: #259195;
+  outline: none;
+  text-decoration: none;
+}

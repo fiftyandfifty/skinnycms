@@ -1,0 +1,183 @@
+<%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery-1.4.2.min.js' %>
+<%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js' %>
+<%= stylesheet_link_tag 'skinnycms/nestedSortable' %>
+
+<h1>Pages</h1>
+
+<div class="toolbar">
+  <ul>
+    <li>
+      <a href="/admin/pages/new">
+        <img src="/images/admin/img-add-page.gif" alt="" /> Add a New Page
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="cl"></div>
+
+<p style="color: green; font-size: 14px; margin-top: 20px;">
+  <%= flash[:notice] %>
+</p>
+
+<h3 class="pages_header">Main Navigation Pages<div id="reorder_public" class="reorder"><%= link_to "Enable Page Order", "javascript:void(0);" %></div></h3>
+<ol class="sortable" id="public">
+  <%= render 'page_list', :pages => @pages, :visibility => ['public', 'redirect'], :type => 'public' %>
+</ol>
+
+<h3 class="pages_header">Private Pages<div id="reorder_private" class="reorder"><%= link_to "Enable Page Order", "javascript:void(0);" %></div></h3>
+<ol class="sortable" id="private">
+  <%= render 'page_list', :pages => @private_pages, :visibility => ['private'], :type => 'private' %>
+</ol>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+
+        <!-- create public sortable array -->
+
+		$('ol.sortable#public').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placeholder',
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+                        update: function(){
+                          updateTree();
+                        }
+		});
+
+        <!-- create private sortable array -->
+
+                $('ol.sortable#private').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placeholder',
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+                        update: function(){
+                          updateTree();
+                        }
+		});
+
+        <!-- disable both sortable arrays -->
+
+                $('ol.sortable#public').nestedSortable('disable');
+
+                $('ol.sortable#private').nestedSortable('disable');
+
+        <!-- click handlers for enable or disable sortable arrays -->
+
+                $('#reorder_public a').click(function() {
+                  var text_value = $('#reorder_public a').text();
+                  if(text_value == "Enable Page Order") {
+                    var next_text = "Save Page Order";
+                    $('ol.sortable#public').nestedSortable('enable');
+                    $('.clip_in_public').css("display", "block");
+                  }
+                  else {
+                    var next_text = "Enable Page Order";
+                    public_pages = $('ol.sortable#public').nestedSortable('toArray', {startDepthCount: 1});
+                    updateOrderPages(public_pages);
+                    $('ol.sortable#public').nestedSortable('disable');
+                    $('.clip_in_public').css('display', 'none');
+                  }
+                  $('div#reorder_public a').html(next_text);
+                });
+
+                $('#reorder_private a').click(function() {
+                  var text_value = $('#reorder_private a').text();
+                  if(text_value == "Enable Page Order") {
+                    var next_text = "Save Page Order";
+                    $('ol.sortable#private').nestedSortable('enable');
+                    $('.clip_in_private').css("display", "block");
+                  }
+                  else {
+                    var next_text = "Enable Page Order";
+                    private_pages = $('ol.sortable#private').nestedSortable('toArray', {startDepthCount: 1});
+                    updateOrderPages(private_pages);
+                    $('ol.sortable#private').nestedSortable('disable');
+                    $('.clip_in_private').css('display', 'none');
+                  }
+                  $('div#reorder_private a').html(next_text);
+                });
+
+        <!-- define parents and childs after click on (+/-) picker -->
+
+               $('.plus').click(function() {
+                 var li_parent = $(this).parent().parent().parent();
+                 var child_ol_block = li_parent.children("ol");
+                 var childs_css_display = child_ol_block.css('display');
+                 if (childs_css_display == "none") {
+                   child_ol_block.css("display", "block");
+                   $(this).css("background-image", "url('/images/skinnycms/sortable_icons/minus.jpg')");
+                 }
+                 else {
+                   child_ol_block.css("display", "none");
+                   $(this).css("background-image", "url('/images/skinnycms/sortable_icons/plus.jpg')");
+                 }
+               });
+
+	});
+
+        <!-- Common block -->
+
+	function dump(arr,level) {
+		var dumped_text = "";
+		if(!level) level = 0;
+
+		//The padding given at the beginning of the line.
+		var level_padding = "";
+		for(var j=0;j<level+1;j++) level_padding += "    ";
+
+		if(typeof(arr) == 'object') { //Array/Hashes/Objects
+			for(var item in arr) {
+				var value = arr[item];
+
+				if(typeof(value) == 'object') { //If it is an array,
+					dumped_text += level_padding + "'" + item + "' ...\n";
+					dumped_text += dump(value,level+1);
+				} else {
+					dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+				}
+			}
+		} else { //Stings/Chars/Numbers etc.
+			dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
+		}
+		return dumped_text;
+	}
+
+        <!-- Update pages ordering -->
+
+        function updateOrderPages(pages)
+          {
+            $.post('<%= update_sort_path -%>', { 'pages': pages })
+          }
+
+        <!-- Update (+/-) pickers in a pages tree -->
+
+        function updateTree()
+          {
+            $('li').find('.plus').css("display","none");
+            var li_array = $('li:has(ol > li) > div > .item > .plus');
+            $.each(li_array, function(index, value) {
+              var li_parent = $(value).parent().parent().parent();
+              var ol_child = li_parent.find('ol').css("display");
+              if (ol_child == 'none') {
+                $(value).css("background-image", "url('/images/skinnycms/sortable_icons/plus.jpg')");
+              }
+              else {
+                $(value).css("background-image", "url('/images/skinnycms/sortable_icons/minus.jpg')");
+              }
+              $(value).css("display","block");
+            });
+          }
+
+</script>

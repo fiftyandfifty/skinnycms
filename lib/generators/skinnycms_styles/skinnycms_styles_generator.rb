@@ -7,7 +7,8 @@ class SkinnycmsStylesGenerator < Rails::Generators::Base
   end
 
   def copy_stylesheet_file
-    copy_file "scaffold.css", "public/stylesheets/skinnycms/admin/pages.css"
+    copy_file "admin.css", "public/stylesheets/admin/admin.css"
+    copy_file "nestedSortable.css", "public/stylesheets/admin/nestedSortable.css"
     puts "Engine's CSS styles succesfully copied!"
   end
 end

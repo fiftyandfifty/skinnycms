@@ -1,0 +1,129 @@
+<h1>Edit Page</h1>
+
+<%= form_for([:admin, @page], :html => {:class => "admin_form"}) do |f| %>
+
+<fieldset>
+  <h3 class="header">Page Information</h3>
+  <ul>
+    <li class="row">
+      <label>Page Title</label>
+      <%= f.text_field :title, :class => "field field_long" %>
+    </li>
+    <li class="row url left-row">
+      <label>Page URL (Optional)</label>
+      <span>http://www.resolveuganda.com/</span>
+      <%= f.text_field :permalink, :class => "field" %>
+    </li>
+    <li class="row">
+      <label>Category</label>
+      <% if @category %>
+				<%= collection_select(
+				    :category, :category_id, Category.all, 
+				    :id, :name, 
+				    {:include_blank => "- No Category -"},
+				    :selected => @category.category_id  ) %>
+  		<% else %>
+				<%= collection_select(
+				    :category, :category_id, Category.all, 
+				    :id, :name, 
+				    {:include_blank => "- No Category -"}) %>
+			<% end %>
+    </li>
+    <li class="row left-row">
+      <label>Page Parent:</label>
+      <%= f.collection_select(
+          :parent_id, 
+          Page.all(:order => "title"), 
+          :id, :title,
+          { :include_blank => "- No Category - "} )%>
+    </li>
+    <li class="row">
+      <label>Include Sidebar?</label>
+      <%= f.select :sidebar,
+          [['True', 'true'], ['False', 'false']],
+          {:selected => @page.sidebar.to_s}, :class => "select" %>
+    </li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <h3 class="header">Publish Settings</h3>
+    <ul>
+      <li class="row left-row">
+        <label>Status</label>
+        <%= f.select :status, 
+                  [['Public', 'public'], ['Private', 'private']],
+                  {:selected => @page.visibility.to_s }, :class => "select" %>
+      </li>
+	    <li>
+	      <label>Visibility</label>
+				<%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], {:selected => @page.visibility.to_s} %>
+	    </li>
+			<div style="clear:both;"></div>
+	    <li>
+	      <label>Redirect URL</label>
+				<%= f.text_field :redirect_url, :class => "field field_long" %>
+	    </li>
+    </ul>
+</fieldset>
+
+<fieldset>
+  <h3 class="header">Header</h3>
+  <ul>
+    <li>
+      <%= f.text_area :header, 
+                  :style => "width:100%;", 
+                  :class => "field"%>
+    </li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <h3 class="header">Content</h3>
+  <ul>
+    </li>
+    <%= text_area "page_content", "content", 
+                  :class => "field mceEditor", 
+                  :style => "width:100%;" %>
+    </li>
+  </ul>
+</fieldset>
+
+<fieldset>
+  <h3 class="header">Sidebar Content</h3>
+  <ul>
+    </li>
+    <%= text_area "sidebar_content", "content", 
+                  :class => "field", 
+                  :style => "width:100%;" %>
+    </li>
+  </ul>
+</fieldset>
+
+
+<fieldset>
+  <h3 class="header">SEO Fields</h3>
+  <ul>
+    <li class="row">
+      <label>Meta Title (if different than page title)</label>
+      <%= f.text_field :seo_title, :class => "field" %>
+    </li>
+    
+    <li class="row">
+			<label>Meta Description (150 characters is best for SEO)</label>
+			<%= f.text_area :seo_description, :class => "field", :style => "width:100%; height: 80px" %>
+    </li>
+    
+    <li class="row">
+			<label>Meta Keywords (separated by commas)</label>
+			<%= f.text_area :seo_keywords, :class => "field", :style => "width:100%; height: 80px" %>
+    </li>
+  </ul>
+</fieldset>
+
+<div class="main-buttons">
+	<input type="submit" name="submit" value="Update Page" id="submit" class="save button" />
+	<div class="cl">&nbsp;</div>
+</div>
+
+<% end %>

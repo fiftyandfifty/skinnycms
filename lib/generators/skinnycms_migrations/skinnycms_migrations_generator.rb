@@ -18,7 +18,7 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
   end
   
   def create_migration_file
-    migration_template 'some_migration.rb', 'db/migrate/create_some_table.rb'
+    migration_template 'create_pages.rb', 'db/migrate/create_pages_table.rb'
     rake("db:migrate")
     puts "SkinnyCms Engine succesfully installed!"
   end

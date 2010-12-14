@@ -7,7 +7,9 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
   end
 
   def copy_javascript_file
-    copy_file "some.js", "public/javascripts/skinnycms/admin/some.js"
+    copy_file "nestedSortable.1.2.1/jquery-1.4.2.min.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-1.4.2.min.js"
+    copy_file "nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js"
+    copy_file "nestedSortable.1.2.1/jquery.ui.nestedSortable.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js"
     puts "Engine's javascript files succesfully copied!"
   end
 end

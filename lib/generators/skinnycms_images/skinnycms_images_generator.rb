@@ -7,7 +7,9 @@ class SkinnycmsImagesGenerator < Rails::Generators::Base
   end
 
   def copy_stylesheet_file
-    copy_file "some.gif", "public/images/skinnycms/admin/some.gif"
+    copy_file "sortable_icons/minus.jpg", "public/images/skinnycms/sortable_icons/minus.jpg"
+    copy_file "sortable_icons/plus.jpg", "public/images/skinnycms/sortable_icons/plus.jpg"
+    copy_file "sortable_icons/skrepka.jpg", "public/images/skinnycms/sortable_icons/skrepka.jpg"
     puts "Engine's images succesfully copied!"
   end
 end

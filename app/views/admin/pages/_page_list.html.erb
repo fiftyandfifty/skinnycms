@@ -1,0 +1,46 @@
+<% pages.each do |child| %>
+
+  <li id="list_<%= child.id %>">
+    <div>
+      <div class="link_options">
+        <%= link_to 'Preview',
+          page_path(child),
+          :class => "preview",
+          :target => "_blank" %>
+        <span class="sep">|</span>
+        <%= link_to 'Edit',
+          edit_admin_page_path(child),
+          :class => "edit" %>
+        <span class="sep">|</span>
+        <%= link_to 'Delete',
+          admin_page_path(child),
+          :class => "delete",
+          :method => :delete,
+          :confirm => "Are you sure?" %>
+        <div class="cl">&nbsp;</div>
+      </div>
+
+      <span class="item">
+        <% if child.visibility == 'private' %>
+          <div class="clip_in_private"></div>
+        <% else %>
+          <div class="clip_in_public"></div>
+        <% end %>
+        <% if child.children.present? %>
+          <div class="plus"></div>
+        <% else %>
+          <div class="plus" style="display: none;"></div>
+        <% end %>
+        <p><%= link_to child.title, edit_admin_page_path(child) %></p>
+      </span>
+
+    </div>
+
+    <% unless child.children.blank? %>
+      <ol class="sortable" id="<%= type %>" style="margin: 0 0 0 20px; padding:0; list-style-type:none; display: none;">
+        <%= render 'page_list', :pages => child.children, :visibility => visibility %>
+      </ol>
+    <% end %>
+  </li>
+  
+<% end %>
