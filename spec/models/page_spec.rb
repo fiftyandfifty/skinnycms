@@ -9,11 +9,10 @@ describe Page do
   subject { @page }
 
   describe "when creating" do
-
-    it { should be_valid }
-
-    it { should validate_presence_of(:title) }
-    it { should validate_presence_of(:permalink) }
-    
+    context 'validates' do
+      it { should be_valid }
+      it { should validate_presence_of :title }
+      it { should validate_presence_of :permalink }
+    end
   end
 end

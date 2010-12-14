@@ -10,11 +10,10 @@ describe PageContent do
   subject { @page_content }
 
   describe "when creating" do
-
-    it { should be_valid }
-
-    it { should validate_presence_of(:page_id) }
-    it { should validate_presence_of(:location) }
-
+    context 'validates' do
+      it { should be_valid }
+      it { should validate_presence_of :page_id }
+      it { should validate_presence_of :location }
+    end
   end
 end

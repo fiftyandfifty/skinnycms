@@ -17,6 +17,5 @@ group :test, :development do
   gem 'autotest-rails', '4.1.0'
   gem 'autotest', '4.4.1'
   gem 'rcov', '0.9.9'
+  gem 'skinnycms', :path => '../../'
 end
-
-gem 'skinnycms', :path => '../../'
