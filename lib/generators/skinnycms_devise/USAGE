@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_devise generator.
+ 
+Example:
+  rails g skinnycms_devise
+
+  This copies devise files to your application.
+  See the README for more details.
