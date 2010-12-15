@@ -1,0 +1,42 @@
+<h1>Users</h1>
+
+<div class="toolbar">
+  <ul>
+    <li>
+      <a href="/admin/users/new">
+        <img src="/images/admin/img-add-page.gif" />
+        Add User
+      </a>
+    </li>
+  </ul>
+  <div class="cl">&nbsp;</div>
+</div>
+
+<div class="section">
+  <div class="header">
+    <input type="checkbox" 
+           name="select-all" 
+           value="select-all" /> Select All
+  </div>
+  <div class="content">
+    <ul id="content_summary">
+      <% @users.each do |user| %>
+      <li class="row" id="user_<%= user.id %>">
+        <input type="checkbox"
+               name="select-user" 
+               value="select" /> <%= link_to user.email %>
+        <p class="buttons">
+          <%= link_to "Delete User", admin_user_path(user), 
+                      :class => "delete", 
+                      :method => :delete, 
+                      :confirm => "Are you sure?" %>
+          <%= link_to "Edit User", admin_user_path(user),
+                      :class => "edit" %>
+        </p>
+        <div class="cl">&nbsp;</div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+

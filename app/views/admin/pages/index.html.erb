@@ -158,7 +158,7 @@
 
         function updateOrderPages(pages)
           {
-            $.post('<%= update_sort_path -%>', { 'pages': pages })
+            $.post('<%#= update_sort_path -%>', { 'pages': pages })
           }
 
         <!-- Update (+/-) pickers in a pages tree -->
