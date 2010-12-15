@@ -24,6 +24,5 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     sleep(1)
     migration_template 'devise_create_users.rb', 'db/migrate/devise_create_users.rb'
     rake("db:migrate")
-    puts "SkinnyCms Engine succesfully installed!"
   end
 end

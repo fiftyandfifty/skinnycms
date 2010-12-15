@@ -2,7 +2,7 @@ Description:
   This is the skinnycms_cucumber_features generator.
  
 Example:
-  rails g skinnycms_cucumber_features
+  rails generate skinnycms_cucumber_features
 
   This copies Engine's cucumber features to your application.
   See the README for more details.

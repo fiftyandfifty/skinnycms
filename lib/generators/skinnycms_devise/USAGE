@@ -2,7 +2,7 @@ Description:
   This is the skinnycms_devise generator.
  
 Example:
-  rails g skinnycms_devise
+  rails generate skinnycms_devise
 
-  This copies devise files to your application.
+  This install devise authentication to your application.
   See the README for more details.

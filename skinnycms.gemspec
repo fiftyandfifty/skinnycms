@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2010-12-14}
+  s.date = %q{2010-12-15}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -27,15 +27,23 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "app/controllers/admin/pages_controller.rb",
+    "app/controllers/admin/users_controller.rb",
     "app/models/page.rb",
     "app/models/page_content.rb",
+    "app/models/user.rb",
     "app/views/admin/pages/_page_list.html.erb",
     "app/views/admin/pages/edit.html.erb",
     "app/views/admin/pages/index.html.erb",
     "app/views/admin/pages/new.html.erb",
     "app/views/admin/pages/show.html.erb",
+    "app/views/admin/users/edit.html.erb",
+    "app/views/admin/users/index.html.erb",
+    "app/views/admin/users/new.html.erb",
+    "app/views/admin/users/show.html.erb",
     "config/routes.rb",
     "init.rb",
+    "lib/generators/skinnycms/USAGE",
+    "lib/generators/skinnycms/skinnycms_generator.rb",
     "lib/generators/skinnycms_cucumber_features/USAGE",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/factories.rb",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/skinnycms/CRUD_methods_for_pages_in_admin_panel.feature",
@@ -44,27 +52,39 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_cucumber_features/features_templates/features/step_definitions/skinnycms/admin_pages_steps.rb",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/step_definitions/skinnycms/authentication_steps.rb",
     "lib/generators/skinnycms_cucumber_features/skinnycms_cucumber_features_generator.rb",
+    "lib/generators/skinnycms_devise/USAGE",
+    "lib/generators/skinnycms_devise/devise_files/initializers/devise.rb",
+    "lib/generators/skinnycms_devise/devise_files/locales/devise.en.yml",
+    "lib/generators/skinnycms_devise/skinnycms_devise_generator.rb",
     "lib/generators/skinnycms_images/USAGE",
+    "lib/generators/skinnycms_images/images/sortable_icons/minus.jpg",
+    "lib/generators/skinnycms_images/images/sortable_icons/plus.jpg",
+    "lib/generators/skinnycms_images/images/sortable_icons/skrepka.jpg",
     "lib/generators/skinnycms_images/skinnycms_images_generator.rb",
     "lib/generators/skinnycms_javascripts/USAGE",
+    "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery-1.4.2.min.js",
+    "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js",
+    "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
     "lib/generators/skinnycms_javascripts/skinnycms_javascripts_generator.rb",
+    "lib/generators/skinnycms_layouts/USAGE",
+    "lib/generators/skinnycms_layouts/layouts/admin.html.erb",
+    "lib/generators/skinnycms_layouts/layouts/application.html.erb",
+    "lib/generators/skinnycms_layouts/layouts/devise.html.erb",
+    "lib/generators/skinnycms_layouts/skinnycms_layouts_generator.rb",
     "lib/generators/skinnycms_migrations/USAGE",
     "lib/generators/skinnycms_migrations/skinnycms_migrations_generator.rb",
     "lib/generators/skinnycms_migrations/templates/create_page_contents.rb",
     "lib/generators/skinnycms_migrations/templates/create_pages.rb",
+    "lib/generators/skinnycms_migrations/templates/devise_create_users.rb",
     "lib/generators/skinnycms_styles/USAGE",
     "lib/generators/skinnycms_styles/skinnycms_styles_generator.rb",
+    "lib/generators/skinnycms_styles/stylesheets/admin.css",
+    "lib/generators/skinnycms_styles/stylesheets/base.css",
+    "lib/generators/skinnycms_styles/stylesheets/defaults.css",
+    "lib/generators/skinnycms_styles/stylesheets/nestedSortable.css",
     "lib/skinnycms.rb",
     "lib/skinnycms/engine.rb",
     "lib/skinnycms/railties/tasks.rake",
-    "public/images/sortable_icons/minus.jpg",
-    "public/images/sortable_icons/plus.jpg",
-    "public/images/sortable_icons/skrepka.jpg",
-    "public/javasripts/nestedSortable.1.2.1/jquery-1.4.2.min.js",
-    "public/javasripts/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js",
-    "public/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
-    "public/stylesheets/admin.css",
-    "public/stylesheets/nestedSortable.css",
     "skinnycms.gemspec",
     "spec/models/page_content_spec.rb",
     "spec/models/page_spec.rb",
@@ -106,7 +126,6 @@ Gem::Specification.new do |s|
     "spec/rails_3_0_3_root/public/500.html",
     "spec/rails_3_0_3_root/public/favicon.ico",
     "spec/rails_3_0_3_root/public/images/rails.png",
-    "spec/rails_3_0_3_root/public/index.html",
     "spec/rails_3_0_3_root/public/javascripts/application.js",
     "spec/rails_3_0_3_root/public/javascripts/controls.js",
     "spec/rails_3_0_3_root/public/javascripts/dragdrop.js",
@@ -183,6 +202,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_development_dependency(%q<bundler>, ["= 1.0.7"])
       s.add_development_dependency(%q<jeweler>, ["= 1.5.1"])
+      s.add_runtime_dependency(%q<devise>, ["= 1.1.rc2"])
       s.add_runtime_dependency(%q<rails>, ["= 3.0.3"])
       s.add_development_dependency(%q<mongrel>, ["= 1.2.0.pre2"])
       s.add_development_dependency(%q<sqlite3-ruby>, ["= 1.3.2"])
@@ -218,6 +238,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rcov>, ["= 0.9.9"])
       s.add_dependency(%q<bundler>, ["= 1.0.7"])
       s.add_dependency(%q<jeweler>, ["= 1.5.1"])
+      s.add_dependency(%q<devise>, ["= 1.1.rc2"])
       s.add_dependency(%q<rails>, ["= 3.0.3"])
       s.add_dependency(%q<mongrel>, ["= 1.2.0.pre2"])
       s.add_dependency(%q<sqlite3-ruby>, ["= 1.3.2"])
@@ -254,6 +275,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rcov>, ["= 0.9.9"])
     s.add_dependency(%q<bundler>, ["= 1.0.7"])
     s.add_dependency(%q<jeweler>, ["= 1.5.1"])
+    s.add_dependency(%q<devise>, ["= 1.1.rc2"])
     s.add_dependency(%q<rails>, ["= 3.0.3"])
     s.add_dependency(%q<mongrel>, ["= 1.2.0.pre2"])
     s.add_dependency(%q<sqlite3-ruby>, ["= 1.3.2"])

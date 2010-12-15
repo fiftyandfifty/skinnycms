@@ -22,6 +22,5 @@ class SkinnycmsDeviseGenerator < Rails::Generators::Base
     end
     copy_file "initializers/devise.rb", "config/initializers/devise.rb"
     copy_file "locales/devise.en.yml", "config/locales/devise.en.yml"
-    run "rails generate skinnycms_migrations"
   end   
 end

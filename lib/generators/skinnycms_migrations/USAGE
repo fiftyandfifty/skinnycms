@@ -2,7 +2,7 @@ Description:
   This is the skinnycms_migrations generator.
  
 Example:
-  rails g skinnycms_migrations
+  rails generate skinnycms_migrations
 
   This creates a skinnycms migrations in your application and runs rake db:migrate.
   See the README for more details.

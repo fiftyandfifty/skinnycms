@@ -1,4 +1,4 @@
-= SkinnyCms Engine
+= SkinnyCms
 
 == Description
 
@@ -11,7 +11,7 @@ It generates basic CMS functional in your application:
 
 * controllers
 
-* views
+* views and layouts
 
 * css styles
 
@@ -22,21 +22,28 @@ It generates basic CMS functional in your application:
 * routes and rake tasks
 
 == Instalation (for Rails 3)
- 
-* Add to Gemfile:
-  gem 'skinnycms', :require => 'skinnycms', :git => 'git@github.com:RuslanHamidullin/news.git'
 
-* Then 'bundle install'
+Add to Gemfile:
 
-* rails g skinnycms_migrations
+  gem 'skinnycms', :git => 'git@github.com:fiftyandfifty/skinnycms.git'
 
-== Usage
+Then:
 
-* rails g skinnycms_styles (if you want to use engine's css styles)
+  bundle install
 
-* rails g skinnycms_javascripts (if you want to use engine's javascripts)
+  rails generate skinnycms
 
-* rails g skinnycms_images (if you want to use engine's images)
+== Rspec and Cucumber support
+
+Skinnycms have rspec tests and cucumber features.
+
+Rspec tests runs inside Engine. To run rspec tests go to root of cloned Engine and run:
+
+  rake spec
+
+Cucumber features copies and runs in your application. To run cucumber features go to root of your application and run:
+
+  rake cucumber
 
 == Copyright
 

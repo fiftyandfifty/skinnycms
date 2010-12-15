@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_layouts generator.
+ 
+Example:
+  rails generate skinnycms_layouts
+
+  This copies Engine's layout files to your application.
+  See the README for more details.
