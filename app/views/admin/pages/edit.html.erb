@@ -16,18 +16,18 @@
     </li>
     <li class="row">
       <label>Category</label>
-      <% if @category %>
-				<%= collection_select(
-				    :category, :category_id, Category.all, 
-				    :id, :name, 
-				    {:include_blank => "- No Category -"},
-				    :selected => @category.category_id  ) %>
-  		<% else %>
-				<%= collection_select(
-				    :category, :category_id, Category.all, 
-				    :id, :name, 
-				    {:include_blank => "- No Category -"}) %>
-			<% end %>
+      <% #if @category %>
+				<%  #= collection_select(
+				   # :category, :category_id, Category.all,
+				   # :id, :name,
+				   # {:include_blank => "- No Category -"},
+				   # :selected => @category.category_id  ) %>
+  		<% #else %>
+				<% # = collection_select(
+				   # :category, :category_id, Category.all,
+				   # :id, :name,
+				   # {:include_blank => "- No Category -"}) %>
+			<% #end %>
     </li>
     <li class="row left-row">
       <label>Page Parent:</label>

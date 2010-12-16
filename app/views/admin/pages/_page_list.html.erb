@@ -4,7 +4,7 @@
     <div>
       <div class="link_options">
         <%= link_to 'Preview',
-          page_path(child),
+          admin_page_path(child),
           :class => "preview",
           :target => "_blank" %>
         <span class="sep">|</span>
@@ -26,21 +26,21 @@
         <% else %>
           <div class="clip_in_public"></div>
         <% end %>
-        <% if child.children.present? %>
+        <% #if child.children.present? %>
           <div class="plus"></div>
-        <% else %>
+        <% #else %>
           <div class="plus" style="display: none;"></div>
-        <% end %>
+        <% #end %>
         <p><%= link_to child.title, edit_admin_page_path(child) %></p>
       </span>
 
     </div>
 
-    <% unless child.children.blank? %>
+    <% #unless child.children.blank? %>
       <ol class="sortable" id="<%= type %>" style="margin: 0 0 0 20px; padding:0; list-style-type:none; display: none;">
-        <%= render 'page_list', :pages => child.children, :visibility => visibility %>
+        <% #= render 'page_list', :pages => child.children, :visibility => visibility %>
       </ol>
-    <% end %>
+    <% #end %>
   </li>
   
 <% end %>

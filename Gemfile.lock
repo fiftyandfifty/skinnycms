@@ -33,7 +33,6 @@ GEM
     autotest (4.4.1)
     autotest-rails (4.1.0)
       ZenTest
-    bcrypt-ruby (2.1.2)
     builder (2.1.2)
     capybara (0.3.9)
       culerity (>= 0.2.4)
@@ -58,9 +57,6 @@ GEM
       cucumber (>= 0.8.0)
     culerity (0.2.12)
     daemons (1.0.10)
-    devise (1.1.rc2)
-      bcrypt-ruby (~> 2.1.2)
-      warden (~> 0.10.7)
     diff-lcs (1.1.2)
     email_spec (1.0.0)
     erubis (2.6.6)
@@ -145,8 +141,6 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
-    warden (0.10.7)
-      rack (>= 1.0.0)
 
 PLATFORMS
   ruby
@@ -159,7 +153,6 @@ DEPENDENCIES
   capybara-mechanize (= 0.2.3)
   cucumber (= 0.9.4)
   cucumber-rails (= 0.3.2)
-  devise (= 1.1.rc2)
   email_spec (= 1.0.0)
   factory_girl_rails (= 1.0)
   jeweler (= 1.5.1)

@@ -17,7 +17,9 @@ class SkinnycmsCucumberFeaturesGenerator < Rails::Generators::Base
     when /the user login page/
       '/users/sign_in'
     when /the admin_pages page/
-      '/admin/pages'\n"
+      '/admin/pages'
+    when /the admin_users page/
+      '/admin/users'\n"
     end
   end
 end

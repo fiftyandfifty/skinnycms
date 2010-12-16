@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2010-12-15}
+  s.date = %q{2010-12-16}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
     "app/views/admin/users/index.html.erb",
     "app/views/admin/users/new.html.erb",
     "app/views/admin/users/show.html.erb",
+    "app/views/shared/_error_messages.html.erb",
     "config/routes.rb",
     "init.rb",
     "lib/generators/skinnycms/USAGE",
@@ -47,8 +48,10 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_cucumber_features/USAGE",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/factories.rb",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/skinnycms/CRUD_methods_for_pages_in_admin_panel.feature",
+    "lib/generators/skinnycms_cucumber_features/features_templates/features/skinnycms/CRUD_methods_for_users_in_admin_panel.feature",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/skinnycms/pages_reordering_in_admin_panel.feature",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/skinnycms/view_pages_settings_in_admin_panel.feature",
+    "lib/generators/skinnycms_cucumber_features/features_templates/features/skinnycms/view_users_settings_in_admin_panel.feature",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/step_definitions/skinnycms/admin_pages_steps.rb",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/step_definitions/skinnycms/authentication_steps.rb",
     "lib/generators/skinnycms_cucumber_features/skinnycms_cucumber_features_generator.rb",
@@ -67,9 +70,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
     "lib/generators/skinnycms_javascripts/skinnycms_javascripts_generator.rb",
     "lib/generators/skinnycms_layouts/USAGE",
-    "lib/generators/skinnycms_layouts/layouts/admin.html.erb",
     "lib/generators/skinnycms_layouts/layouts/application.html.erb",
-    "lib/generators/skinnycms_layouts/layouts/devise.html.erb",
     "lib/generators/skinnycms_layouts/skinnycms_layouts_generator.rb",
     "lib/generators/skinnycms_migrations/USAGE",
     "lib/generators/skinnycms_migrations/skinnycms_migrations_generator.rb",
@@ -78,16 +79,18 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/devise_create_users.rb",
     "lib/generators/skinnycms_styles/USAGE",
     "lib/generators/skinnycms_styles/skinnycms_styles_generator.rb",
-    "lib/generators/skinnycms_styles/stylesheets/admin.css",
-    "lib/generators/skinnycms_styles/stylesheets/base.css",
-    "lib/generators/skinnycms_styles/stylesheets/defaults.css",
+    "lib/generators/skinnycms_styles/stylesheets/960.css",
+    "lib/generators/skinnycms_styles/stylesheets/demo.css",
     "lib/generators/skinnycms_styles/stylesheets/nestedSortable.css",
+    "lib/generators/skinnycms_styles/stylesheets/reset.css",
+    "lib/generators/skinnycms_styles/stylesheets/text.css",
     "lib/skinnycms.rb",
     "lib/skinnycms/engine.rb",
     "lib/skinnycms/railties/tasks.rake",
     "skinnycms.gemspec",
     "spec/models/page_content_spec.rb",
     "spec/models/page_spec.rb",
+    "spec/models/user_spec.rb",
     "spec/rails_3_0_3_root/.gitignore",
     "spec/rails_3_0_3_root/.rspec",
     "spec/rails_3_0_3_root/.rvmrc",
@@ -153,6 +156,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/models/page_content_spec.rb",
     "spec/models/page_spec.rb",
+    "spec/models/user_spec.rb",
     "spec/rails_3_0_3_root/app/controllers/application_controller.rb",
     "spec/rails_3_0_3_root/app/helpers/application_helper.rb",
     "spec/rails_3_0_3_root/autotest/discover.rb",
