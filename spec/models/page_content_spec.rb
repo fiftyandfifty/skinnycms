@@ -1,4 +1,4 @@
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe PageContent do
 
@@ -15,5 +15,9 @@ describe PageContent do
       it { should validate_presence_of :page_id }
       it { should validate_presence_of :location }
     end
+  end
+
+  describe "associations" do
+    it { should belong_to(:page) }
   end
 end

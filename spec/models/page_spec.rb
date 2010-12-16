@@ -15,4 +15,8 @@ describe Page do
       it { should validate_presence_of :permalink }
     end
   end
+
+  describe "associations" do
+    it { should have_many(:page_contents) }
+  end
 end

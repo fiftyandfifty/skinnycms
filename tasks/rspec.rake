@@ -13,7 +13,6 @@ namespace :spec do
     rails_path = File.expand_path(File.dirname(__FILE__) + '/../spec/rails_3_0_3_root')
 
     system "cd #{rails_path} && bundle install"
-    system "cd #{rails_path} && rails generate skinnycms_cucumber_features"
   end
 
   desc "Test the skinnycms models"
