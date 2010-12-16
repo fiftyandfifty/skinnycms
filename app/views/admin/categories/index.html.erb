@@ -1,0 +1,35 @@
+<h1>Categories</h1>
+
+<div class="toolbar">
+  <h3>What would you like to do?</h3>
+  	<ul>
+  		<li>
+  		  <a href="/admin/categories/new">
+  		    <img src="/images/admin/img-add-page.gif" /> Add a Category
+  		  </a>
+  		</li>
+	</ul>
+</div>
+<div class="cl">&nbsp;</div>
+
+<p style="color: green; font-size: 14px; margin-top: 20px; margin-bottom: 20px;">
+  <%= flash[:notice] %>
+</p>
+
+<div class="section_list">
+  <h3 class="header">Your Posts</h3>
+  <ul class="page_list">
+    <% @categories.each do |category| %>
+    <li class="content_summary">
+      	<div class="link_options">
+	        <%= link_to "Edit", edit_admin_category_path(category), :class => "edit" %><span class="sep">|</span>
+	        <%= link_to "Delete", admin_category_path(category), :class  => "delete", :method => "delete", :confirm => "Are you sure?" %>
+		</div>
+		<span class="item">
+        	<p><%= link_to category.name, admin_category_path(category) %></p>
+ 		</span>
+        <div class="cl">&nbsp;</div>
+    </li>
+    <% end %>
+  </ul>
+</div>

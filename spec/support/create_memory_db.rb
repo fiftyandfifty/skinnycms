@@ -45,5 +45,17 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  :order
     t.timestamps
   end
+
+  create_table :categories do |t|
+    t.string   :name
+    t.timestamps
+  end
+
+  create_table :category_items do |t|
+    t.integer  :category_id
+    t.integer  :categorizable_id
+    t.string   :categorizable_type
+    t.timestamps
+  end
 end
 

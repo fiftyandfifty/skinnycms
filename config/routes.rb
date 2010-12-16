@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users
     resources :pages
+    resources :categories
   end
 
   match 'update_sort', :controller => 'admin/pages', :action => 'update_sort'

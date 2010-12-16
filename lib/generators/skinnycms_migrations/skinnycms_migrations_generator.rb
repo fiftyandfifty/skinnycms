@@ -18,11 +18,15 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
   end
   
   def create_migration_file
-    migration_template 'create_pages.rb', 'db/migrate/create_pages_table.rb'
-    sleep(1)
-    migration_template 'create_page_contents.rb', 'db/migrate/create_page_contents_table.rb'
-    sleep(1)
     migration_template 'devise_create_users.rb', 'db/migrate/devise_create_users.rb'
+    sleep(1)
+    migration_template 'create_pages.rb', 'db/migrate/create_pages.rb'
+    sleep(1)
+    migration_template 'create_page_contents.rb', 'db/migrate/create_page_contents.rb'
+    sleep(1)
+    migration_template 'create_categories.rb', 'db/migrate/create_categories.rb'
+    sleep(1)
+    migration_template 'create_category_items.rb', 'db/migrate/create_category_items.rb'
     rake("db:migrate")
   end
 end

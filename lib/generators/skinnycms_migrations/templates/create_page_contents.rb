@@ -1,4 +1,4 @@
-class CreatePageContentsTable < ActiveRecord::Migration
+class CreatePageContents < ActiveRecord::Migration
   def self.up
     create_table :page_contents do |t|
       t.text     :content

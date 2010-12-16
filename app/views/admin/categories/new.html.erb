@@ -1,0 +1,29 @@
+<h1>Add Category</h1>
+
+<%= form_for([:admin, @category], :html => {:class => "admin_form"}) do |f| %>
+<fieldset>
+  <h3 class="header">Category Information</h3>
+  <ul class="content">
+    <li class="row">
+      <label class="big">Name</label>
+      <% if @category.errors.any? %>
+        <% @category.errors.full_messages.each do |msg| %>
+          <li>
+            <%= msg %>
+          </li>
+        <% end %>
+      <% end %>
+      <%= f.text_field :name, :class => "field field-big" %>
+    </li>
+    <div class="cl">&nbsp;</div>
+  </ul>
+</fieldset>
+<div class="main-buttons">
+  <input type="submit" 
+         name="submit" 
+         value="Create Category"
+         id="submit"  
+         class="save" />
+	<div class="cl">&nbsp;</div>
+</div>
+<% end %>
