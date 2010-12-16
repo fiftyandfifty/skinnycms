@@ -15,3 +15,11 @@ Factory.define :page_content do |page_content|
   page_content.location      "foobar"
   page_content.content       "foobar"
 end
+
+Factory.define :category do |category|
+  category.name              "foobar"
+end
+
+Factory.define :category_item do |category_item|
+  category_item.categorizable_type "page"
+end
