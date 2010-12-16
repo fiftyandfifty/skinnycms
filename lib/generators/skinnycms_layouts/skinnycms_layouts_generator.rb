@@ -7,7 +7,6 @@ class SkinnycmsLayoutsGenerator < Rails::Generators::Base
   end
 
   def copy_layout_files
-    copy_file "admin.html.erb", "app/views/layouts/admin.html.erb"
-    copy_file "devise.html.erb", "app/views/layouts/devise.html.erb"
+    copy_file "application.html.erb", "app/views/layouts/application.html.erb"
   end
 end

@@ -1,121 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-	  <meta charset="utf-8" />
-
-	<%= render :partial => "shared/meta_content" %>
-
-	  <link rel="shortcut icon" href="/favicon.ico" />
-	  <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="all" />
-	  <link rel="stylesheet" href="/stylesheets/jquery.fancybox-1.3.1.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	  <!--[if IE 6]>
-		  <link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" />
-	  <![endif]-->
-	  <%= render :partial => "shared/frontend_javascripts" %>
-	
-		<script src="/javascripts/pinned-footer.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$("#footer").pinFooter('relative');
-			});
-			
-			$(window).resize(function() {
-			    $("#footer").pinFooter('relative');
-			});
-		</script>
-		<script src="/javascripts/cufon-yui.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/AkzidentGroteskBE-Cn_500.font.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/AkzidentGroteskBE-MdCn_500.font.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/AkzidentGroteskBE-BdCn_700.font.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/AkzidenzGroteskBE-XBd_400.font.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/Helvetica_Bold_700.font.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/slidedeck.jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/jquery.fancybox-1.3.1.pack.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/jquery.easing-1.3.pack.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/javascripts/jquery.mousewheel-3.0.2.pack.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-			// //Condensed Fonts
-			Cufon.replace('.box-title', { fontFamily: 'AkzidentGroteskBE-Cn', hover:true });
-			Cufon.replace('.cufonregular', { fontFamily: 'AkzidentGroteskBE-Cn', hover:true });
-
-			// 
-			//Medium Condensed Font
-			Cufon.replace('#navigation > ul > li > a', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('#join-us .btn-join-us', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('#join-us .title', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('#join-us-2 h2', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('#footer h3 a', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('.button2', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('.button', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('#slidedeck_frame a', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			Cufon.replace('.cufon_mdm_cond', { fontFamily: 'AkzidentGroteskBE-MdCn', hover:true });
-			// 
-			// 
-			// //Bold Fonts
-			// Cufon.replace('#navigation .subnav a', { fontFamily: 'Helvetica Bold', hover:true });
-			// Cufon.replace('.slider .caption h3', { fontFamily: 'Helvetica Bold', hover:true });
-			// Cufon.replace('.featured-slider .caption h3', { fontFamily: 'Helvetica Bold', hover:true });
-			// Cufon.replace('.post-title a', { fontFamily: 'Helvetica Bold', hover:true });
-			// Cufon.replace('.entry h2 a', { fontFamily: 'Helvetica Bold', hover:true });
-			// Cufon.replace('.post h2 a', { fontFamily: 'Helvetica Bold', hover:true });
-			// 
-			//Bold Condensed
-			Cufon.replace('#map-callout h2 a', { fontFamily: 'AkzidentGroteskBE-BdCn', hover:true });
-			Cufon.replace('#give-to-resolve h2', { fontFamily: 'AkzidentGroteskBE-BdCn', hover:true });
-			Cufon.replace('#sign-pledge h2', { fontFamily: 'AkzidentGroteskBE-BdCn', hover:true });		
-			Cufon.replace('#our-agenda h2', { fontFamily: 'AkzidentGroteskBE-BdCn', hover:true });
-			Cufon.replace('.cufonbold', { fontFamily: 'AkzidentGroteskBE-BdCn', hover:true });
-			// 
-			// //Extra Bold Fonts
-			Cufon.replace('#join-us h2', { fontFamily: 'AkzidenzGroteskBE-XBd', hover:true });
-			Cufon.replace('.article h2', { fontFamily: 'AkzidenzGroteskBE-XBd', hover:true });
-
-		</script>
-		
-		<script type="text/javascript">
-		$(document).ready(function(){
-			$('#navigation .prev').click(function(event){
-				// Stuff to do when "Prev" is clicked.
-				myDeck.prev();
-			});
-			$('#navigation .next').click(function(event){
-				// Stuff to do when "Next" is clicked.
-				myDeck.next();
-			});
-			// select the links on the page with a class of 'goToSlide'
-			$('a.goToSlide').click(function(event){
-				// ignore the <a> tag's default behavior
-				event.preventDefault();
-				// the regular expression below matches anything up to '#slide-', leaving just the number.
-				myDeck.goTo(this.href.replace(/.+#/,''));
-			});
-		});
-		</script>
-		
-		
-		<script type="text/javascript">
-		var disqus_shortname = 'theresolve';
-		(function () {
-		  var s = document.createElement('script'); s.async = true;
-		  s.src = 'http://disqus.com/forums/theresolve/count.js';
-		  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-		}());
-		</script>
-		
-		
-		
-
-  </head>
-  <body>
-    <div id="page">
-      <div id="header">
-        <%= render :partial => "shared/header" %>
-      </div>
-	    <%= yield %>	
-    </div>
-    <div id="footer" class="footer-condensed">
-      <%= render :partial => "shared/footer" %>
-    </div>
-	
-  </body>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Skinny CMS Default Template</title>
+<%= stylesheet_link_tag 'skinnycms/reset.css' %>
+<%= stylesheet_link_tag 'skinnycms/text.css' %>
+<%= stylesheet_link_tag 'skinnycms/960.css' %>
+<%= stylesheet_link_tag 'skinnycms/demo.css' %>
+</head>
+<body>
+<h1>
+	<a href="http://960.gs/">Skinny CMS Default Template</a>
+</h1>
+<div class="container_12">
+	<h2>
+		Site Layout
+	</h2>
+	<div class="grid_12">
+		<p>
+			Header Content
+		</p>
+	</div>
+	<div class="clear"></div>
+	<div class="grid_8">
+		<p>
+			<%= yield %>
+		</p>
+	</div>
+	<div class="grid_4">
+		<p>
+			Rigth Column Content
+		</p>
+	</div>
+	<div class="clear"></div>
+	<div class="grid_12">
+		<p>
+			Footer
+		</p>
+	</div>
+	<div class="clear"></div>
+</div>
+</body>
 </html>
