@@ -10,7 +10,7 @@ class SkinnycmsDeviseGenerator < Rails::Generators::Base
 
   def copy_devise_file
     run "gem install devise -v '1.1.rc2'"
-    inject_into_file "Gemfile", :before => "group" do
+    inject_into_file "Gemfile", :before => "gem 'skinnycms'" do
 "gem 'devise', '1.1.rc2'\n\n"
     end
     run "bundle install"
