@@ -1,7 +1,7 @@
 class Admin::PagesController < ApplicationController
 
   before_filter :authenticate_user!
-  layout "application"
+  layout "front_end"
  # uses_tiny_mce
   respond_to :html, :xml
 

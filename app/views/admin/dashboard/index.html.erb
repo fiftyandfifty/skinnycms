@@ -1,0 +1,56 @@
+<h1>Dashboard</h1>
+
+<div class="toolbar">
+  <h3>What would you like to do?</h3>
+  <ul>
+    <li>
+      <a href="#">
+        <img src="/images/admin/img-write-article.gif" alt="" />
+        Write an Article
+      </a>  
+    </li>
+    <li>
+      <a href="/admin/pages/new">
+        <img src="/images/admin/img-add-page.gif" alt="" />
+        Add a New Page
+      </a>
+    </li>
+  	<li>
+  	  <a href="#">
+  	    <img src="/images/admin/img-upload-image.gif" />
+  	    Upload an Image
+  	  </a>
+  	</li>
+  </ul>
+</div>
+<div class="cl">&nbsp;</div>
+
+<div class="section">  
+  <h3 class="header">Your Content</h3>
+  <div class="content">
+    <ul id="content_summary">
+      <li class="row">
+        <p>
+          <%= link_to pluralize(@pages.count, 'Page'), 
+                      admin_pages_path, 
+                      :class => "big" %>
+        </p>
+      </li>
+      <li class="row">
+        <p>
+          <a href="#" class="big">0 Images</a>
+        </p>
+      </li>
+      <li class="row">
+        <p>
+          <a href="#" class="big">0 Posts</a>
+        </p>
+      </li>
+      <li class="row last-row">
+        <p>
+          <a href="#" class="big">0 Videos</a>
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>

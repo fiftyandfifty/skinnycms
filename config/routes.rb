@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     resources :categories
   end
 
+  match '/admin', :controller => "admin/dashboard", :action => "index"
+
   match 'update_sort', :controller => 'admin/pages', :action => 'update_sort'
 
   root :to => "admin/pages#index"
