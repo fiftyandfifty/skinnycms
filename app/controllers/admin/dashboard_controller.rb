@@ -1,6 +1,6 @@
 class Admin::DashboardController < ApplicationController
   before_filter :authenticate_user!
-  layout "front_end"
+  layout "admin"
   
   def index
     @title = "Dashboard"

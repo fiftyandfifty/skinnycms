@@ -18,7 +18,7 @@
     
     <li class="row">
       <label>Category</label>
-      <%#= collection_select(
+      <%= collection_select(
         :category, :category_id, Category.all,
         :id, :name,
         { :include_blank => "- No Category - " } )%>
@@ -89,7 +89,7 @@
 <fieldset>
   <h3 class="header">Sidebar Content</h3>
   <ul>
-    </li>
+    <li>
     <%= text_area "sidebar_content", "content", 
                   :class => "field", 
                   :style => "width:100%;" %>

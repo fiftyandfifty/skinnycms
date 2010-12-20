@@ -16,18 +16,18 @@
     </li>
     <li class="row">
       <label>Category</label>
-      <% #if @category %>
-				<%  #= collection_select(
-				   # :category, :category_id, Category.all,
-				   # :id, :name,
-				   # {:include_blank => "- No Category -"},
-				   # :selected => @category.category_id  ) %>
-  		<% #else %>
-				<% # = collection_select(
-				   # :category, :category_id, Category.all,
-				   # :id, :name,
-				   # {:include_blank => "- No Category -"}) %>
-			<% #end %>
+      <% if @category %>
+				<%= collection_select(
+				    :category, :category_id, Category.all,
+				    :id, :name,
+				    {:include_blank => "- No Category -"},
+				    :selected => @category.category_id  ) %>
+  		<% else %>
+				<%= collection_select(
+				    :category, :category_id, Category.all,
+				    :id, :name,
+				    {:include_blank => "- No Category -"}) %>
+			<% end %>
     </li>
     <li class="row left-row">
       <label>Page Parent:</label>
@@ -81,7 +81,7 @@
 <fieldset>
   <h3 class="header">Content</h3>
   <ul>
-    </li>
+    <li>
     <%= text_area "page_content", "content", 
                   :class => "field mceEditor", 
                   :style => "width:100%;" %>
@@ -92,7 +92,7 @@
 <fieldset>
   <h3 class="header">Sidebar Content</h3>
   <ul>
-    </li>
+    <li>
     <%= text_area "sidebar_content", "content", 
                   :class => "field", 
                   :style => "width:100%;" %>

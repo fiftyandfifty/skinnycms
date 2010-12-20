@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SkinnyCMS</title>
+        <%= stylesheet_link_tag 'skinnycms/admin/all.css' %>
+        <%= javascript_include_tag 'skinnycms/admin/main.js' %>
+	<!--[if lt IE 8]><%= stylesheet_link_tag 'skinnycms/admin/ie.css' %><![endif]-->
+</head>
+<body>
+	<!-- wrapper -->
+	<div id="wrapper">
+		<!-- header -->
+		<div id="header">
+			<!-- logo -->
+			<h1 class="logo"><a href="#">skinny cms</a></h1>
+			<!-- navigation  -->
+			<ul id="nav">
+				<li><a href="#" class="active">Pages</a></li>
+				<li><a href="#">Modules</a></li>
+				<li><a href="#">Assets</a></li>
+				<li><a href="#">Settings</a></li>
+				<li class="visit-site"><a href="#">Visit Site</a></li>
+			</ul>
+		</div>
+		<!-- main -->
+		<div id="main" class="shadow">
+			<!-- content -->
+			<div id="content">
+		          <%= yield %>
+			</div>
+			<!-- sidebar -->
+			<div id="sidebar">
+				<h3>Available Modules</h3>
+				<ul class="add-nav">
+					<li><a href="#" class="active"><span><strong>WYSIWYG</strong></span></a></li>
+					<li class="divider">&nbsp;</li>
+					<li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+					<li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+					<li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
+					<li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
+					<li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+					<li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+					<li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
+					<li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
+					<li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+					<li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+				</ul>
+				<!-- paging -->
+				<ul class="paging">
+					<li class="next"><a href="#">next</a></li>
+					<li class="back"><a href="#">back</a></li>
+					<li><strong>1</strong></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
