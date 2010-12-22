@@ -1,0 +1,46 @@
+<h1>Posts</h1>
+
+<div>
+  <h3>What would you like to do?</h3>
+  <ul>
+    <li>
+      <a href="/admin/posts/new">
+        <img src="/images/admin/img-write-article.gif" alt="Add a New Post" />
+      </a>
+    </li>
+    <li>
+      <a href="/admin/categories/new">
+        <img src="/images/admin/img-manage-cats.gif" alt="Manage Categories" />
+      </a>
+    </li>  
+    <li>
+      <a href="<%= tumblr_force_reload_path %>">
+        <img src="/images/admin/img-manage-comments.gif" alt="Force Cache Reload" />
+      </a>
+    </li>    
+  </ul>
+</div>
+
+<p style="color: green; font-size: 14px; margin-top: 20px;">
+  <%= flash[:notice] %>
+</p>
+
+<div>
+  <h3>
+  Your Posts
+  </h3>
+  <ul>
+    <% for post in @posts %>
+    <li id="post_<%= post.tumblr_post_id %>">
+      <div>
+        <%= link_to "Preview", admin_post_path(post) %><span class="sep">|</span>
+        <%= link_to "Edit", edit_admin_post_path(post) %><span class="sep">|</span>
+        <%= link_to "Delete", admin_post_path(post), :method => "delete", :confirm => "Are you sure?" %>
+      </div>
+      <span>
+        <p><%= link_to post.title, edit_admin_post_path(post) %></p>
+      </span>
+    </li>
+    <% end %>
+  </ul>
+</div>

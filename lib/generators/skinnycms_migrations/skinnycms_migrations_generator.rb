@@ -27,6 +27,8 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     migration_template 'create_categories.rb', 'db/migrate/create_categories.rb'
     sleep(1)
     migration_template 'create_category_items.rb', 'db/migrate/create_category_items.rb'
+    sleep(1)
+    migration_template 'create_cache_tumblr_posts.rb', 'db/migrate/create_cache_tumblr_posts.rb'
     rake("db:migrate")
   end
 end

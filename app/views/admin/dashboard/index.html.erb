@@ -1,54 +1,48 @@
 <h1>Dashboard</h1>
 
-<div class="toolbar">
+<div>
   <h3>What would you like to do?</h3>
   <ul>
     <li>
-      <a href="#">
-        <img src="/images/admin/img-write-article.gif" alt="" />
-        Write an Article
+      <a href="/admin/posts/new">
+        <img src="/images/admin/img-write-article.gif" alt="Write Post" />
       </a>  
     </li>
     <li>
       <a href="/admin/pages/new">
-        <img src="/images/admin/img-add-page.gif" alt="" />
-        Add a New Page
+        <img src="/images/admin/img-add-page.gif" alt="Add a New Page" />
       </a>
     </li>
   	<li>
   	  <a href="#">
-  	    <img src="/images/admin/img-upload-image.gif" />
-  	    Upload an Image
+  	    <img src="/images/admin/img-upload-image.gif" alt="Upload an Image" />
   	  </a>
   	</li>
   </ul>
 </div>
-<div class="cl">&nbsp;</div>
 
-<div class="section">  
-  <h3 class="header">Your Content</h3>
-  <div class="content">
-    <ul id="content_summary">
-      <li class="row">
+<div>  
+  <h3>Your Content</h3>
+  <div>
+    <ul>
+      <li>
         <p>
-          <%= link_to pluralize(@pages.count, 'Page'), 
-                      admin_pages_path, 
-                      :class => "big" %>
+          <%= link_to pluralize(@pages.count, 'Page'), admin_pages_path %>
         </p>
       </li>
-      <li class="row">
+      <li>
         <p>
-          <a href="#" class="big">0 Images</a>
+          <a href="#">0 Images</a>
         </p>
       </li>
-      <li class="row">
+      <li>
         <p>
-          <a href="#" class="big">0 Posts</a>
+          <%= link_to pluralize(@posts.count, 'Post'), admin_posts_path %>
         </p>
       </li>
-      <li class="row last-row">
+      <li>
         <p>
-          <a href="#" class="big">0 Videos</a>
+          <a href="#">0 Videos</a>
         </p>
       </li>
     </ul>

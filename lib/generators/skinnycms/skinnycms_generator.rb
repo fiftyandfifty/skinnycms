@@ -4,6 +4,7 @@ class SkinnycmsGenerator < Rails::Generators::Base
 
   def install
     run "rails generate skinnycms_devise"
+    run "rails generate skinnycms_tumblr"
     run "rails generate skinnycms_migrations"
     run "rails generate skinnycms_javascripts"
     run "rails generate skinnycms_styles"
