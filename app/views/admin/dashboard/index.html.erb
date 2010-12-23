@@ -14,7 +14,7 @@
       </a>
     </li>
   	<li>
-  	  <a href="#">
+  	  <a href="/admin/images/new">
   	    <img src="/images/admin/img-upload-image.gif" alt="Upload an Image" />
   	  </a>
   	</li>
@@ -32,7 +32,7 @@
       </li>
       <li>
         <p>
-          <a href="#">0 Images</a>
+          <%= link_to pluralize(@images.count, 'Image'), admin_images_path %>
         </p>
       </li>
       <li>

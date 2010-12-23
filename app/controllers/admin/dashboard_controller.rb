@@ -6,7 +6,7 @@ class Admin::DashboardController < ApplicationController
     @title = "Dashboard"
     
     @pages = Page.all
-    #@images = Image.all
+    @images = Image.all
     @posts = CacheTumblrPost.all(:conditions => "incomplete != 1")
         
     #tumblr_user = login_and_get_tumblr_user('theresolve')

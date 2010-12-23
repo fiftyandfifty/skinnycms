@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :pages
     resources :categories
     resources :posts
+    resources :images
   end
 
   match '/admin', :controller => "admin/dashboard", :action => "index"
