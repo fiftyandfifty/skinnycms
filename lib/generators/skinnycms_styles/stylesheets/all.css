@@ -1,0 +1,1160 @@
+/* v1.0 | 20080212 */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body {
+	line-height: 1;
+	margin:0;
+	color:#000;
+	font:bold 12px/16px Helvetica, arial, sans-serif;
+	background:#fff url(/images/skinnycms/admin/bg-body.gif) repeat-x;
+	min-width:950px;
+}
+img {border-style:none;}
+a {
+	text-decoration:none;
+	color:#69c;
+}
+a:hover {text-decoration:underline;}
+input, textarea, select {
+	font: 12px/14px Helvetica, arial,sans-serif;
+	vertical-align:middle;
+	color:#000;
+}
+form, fieldset {
+	margin:0;
+	padding:0;
+	border-style:none;
+}
+#wrapper {
+	width:950px;
+	margin:0 auto;
+}
+#header {
+	overflow:hidden;
+	width:950px;
+	padding:15px 0 0;
+	background:#f3f3f3 url(/images/skinnycms/admin/bg-header.gif) no-repeat 50% 100%;
+}
+.logo {
+	float:left;
+	background:url(/images/skinnycms/admin/logo.gif) no-repeat;
+	width: 50px;
+	height: 37px;
+	text-indent:-9999px;
+	overflow:hidden;
+}
+.logo a {
+	height:100%;
+	display:block;
+}
+#nav {
+	float:right;
+	line-height:51px;
+	text-transform:uppercase;
+}
+#nav li {
+	float:left;
+	padding:0 18px;
+}
+#nav a {
+	display:block;
+	color:#598ebf;
+}
+#nav a:hover,
+#nav .active {
+	color:#000;
+	background:url(/images/skinnycms/admin/arrow.gif) no-repeat 50% 100%;
+	text-decoration:none;
+}
+#nav .visit-site {
+	background:url(/images/skinnycms/admin/separator.gif) no-repeat 0 50%;
+	padding: 0 1px 0 32px;
+	margin: 0 0 0 11px;
+}
+.heading {
+	overflow:hidden;
+	width:950px;
+	padding:30px 0 26px 0;
+	border-bottom:1px solid #d6d6d6;
+	margin:0 0 18px;
+}
+.heading h2 {
+	font-size:28px;
+	line-height:42px;
+}
+.buttons {
+	float:right;
+	line-height:41px;
+	text-transform:uppercase;
+}
+.buttons li {
+	float:left;
+	margin:0 0 0 10px;
+	display:inline;
+}
+.buttons a {
+	float:left;
+	color:#000;
+	background:url(/images/skinnycms/admin/bg-button-l.gif) no-repeat;
+}
+.buttons span {
+	float:left;
+	background:url(/images/skinnycms/admin/bg-button-r.gif) no-repeat 100% 0;
+	padding: 0 20px 0 21px;
+	cursor:pointer;
+}
+
+.buttons .active,
+.buttons a:hover {
+	background:url(/images/skinnycms/admin/bg-button-l.gif) no-repeat 0 -41px;
+	text-decoration:none;
+}
+.buttons .active span,
+.buttons a:hover span {background:url(/images/skinnycms/admin/bg-button-r.gif) no-repeat 100% -41px;}
+.add-pages {
+	width:950px;
+	margin-bottom:-15px;
+}
+.add-pages .row {
+	overflow:hidden;
+	width:100%;
+	margin-bottom:9px;
+}
+.add-pages .section {
+	float:left;
+	padding:0 11px 3px 10px;
+	margin: 0 9px 0 -10px;
+	background:url(/images/skinnycms/admin/separator2.gif) no-repeat 0 3px;
+}
+.add-pages .text,
+.module-title .text {
+	background:url(/images/skinnycms/admin/bg-text-big.gif) no-repeat;
+	width: 335px;
+	display:block;
+	overflow:hidden;
+}
+.add-pages .text input,
+.module-title .text input {
+	float:left;
+	background:none;
+	border:0;
+	width:327px;
+	padding:10px 4px 12px;
+	margin:0;
+}
+.add-pages label,
+.seo-fields label {
+	font-size:11px;
+	line-height:21px;
+	display:block;
+	color:#666;
+	font-weight:normal;
+	padding:0 0 1px;
+}
+.add-pages .small-text,
+.seo-fields .text {
+	background:url(/images/skinnycms/admin/bg-text-small.gif) no-repeat;
+	width: 277px;
+	display:block;
+	overflow:hidden;
+}
+.add-pages .small-text input,
+.seo-fields .text input,
+.seo-fields .long-text input {
+	float:left;
+	width:271px;
+	padding: 4px 3px 6px;
+	background:none;
+	border:0;
+	margin:0;
+	line-height:15px;
+	color:#666;
+	font-weight:normal;
+}
+.add-pages select {
+	width:191px;
+	color:#666;
+	font-weight:normal;
+}
+.add-pages .t-holder {
+	margin:0 0 0 18px;
+	padding-left:25px;
+}
+.add-pages .template {
+	overflow:hidden;
+	width:100%;
+}
+.add-pages .multiple,
+.add-pages .mono {
+	background:url(/images/skinnycms/admin/ico1.gif) no-repeat;
+	width: 24px;
+	height: 25px;
+	border:0;
+	float:left;
+	margin-right:6px;
+	padding:0;
+	cursor:pointer;
+}
+.add-pages .mono {background:url(/images/skinnycms/admin/ico2.gif) no-repeat;}
+#main {
+	overflow:hidden;
+	width:100%;
+	padding:42px 0 70px;
+}
+#wrapper .shadow {
+	background:url(/images/skinnycms/admin/bg-main.gif) no-repeat;
+	padding:46px 0 70px 49px;
+	width:950px;
+	margin:0 -30px 0 -49px;
+	position:relative;
+}
+.shadow #content {
+	float:left;
+	width:670px;
+	padding-top:13px;
+}
+#content h3 {
+	font-size:18px;
+	line-height:30px;
+}
+.shadow #content h3 {padding-bottom:13px;}
+.module .title,
+.module .title1 {
+	padding:11px 14px 22px 11px;
+	overflow:hidden;
+	width:645px;
+	background:url(/images/skinnycms/admin/bg-title.gif) no-repeat;
+}
+.module .title1 {
+	padding:13px 13px 20px 20px;
+	width:637px;
+}
+#content h4 {
+	font-size:12px;
+	line-height:16px;
+	text-transform:uppercase;
+	float:left;
+}
+.head {
+	background:url(/images/skinnycms/admin/ico3.gif) no-repeat 0 50%;
+	padding-left:18px;
+}
+.module {margin:0 0 6px;}
+.module .title a,
+.module .title1 a,
+.seo-fields .title a {
+	float:right;
+	color:#598ebf;
+	font-size:11px;
+	line-height:16px;
+}
+.module .inner {
+	background:#a5cdef url(/images/skinnycms/admin/bg-inner.gif) no-repeat;
+	width: 670px;
+}
+.module .inner .holder {
+	background:url(/images/skinnycms/admin/bg-inner.gif) no-repeat 100% 100%;
+	padding:11px 13px 14px 12px;
+	width:645px;
+}
+.module .inner .headline {
+	overflow:hidden;
+	width:644px;
+	padding-bottom:10px;
+}
+.module .inner h4 {
+	font-size:12px;
+	line-height:16px;
+	padding:0 0 0 24px;
+	text-transform:uppercase;
+	float:left;
+}
+.module .inner .headline a,
+#content .area a {
+	float:right;
+	font-size:11px;
+	color:#333;
+	line-height:16px;
+}
+.module .edit-box {
+	background:url(/images/skinnycms/admin/bg-edit-box.gif) repeat-y -644px 0;
+	width:644px;
+}
+.module .edit-box .holder,
+#content .add .edit-box .holder {
+	background:url(/images/skinnycms/admin/bg-edit-box.gif) no-repeat 0 1px;
+	padding:0;
+	width:644px;
+}
+#content .add h3 {
+	padding:12px 0 2px;
+}
+.module .edit-box .frame,
+#content .add .edit-box .frame {
+	background:url(/images/skinnycms/admin/bg-edit-box.gif) no-repeat -1288px 100%;
+}
+.edits-title {
+	overflow:hidden;
+	padding:4px 6px 0;
+	width:632px;
+	height:22px;
+}
+.format {
+	margin-right:9px;
+	width:86px;
+	float:left;
+}
+.edits-title .format select {width:86px;}
+.edits-title .links {
+	float:left;
+	padding:4px 0 0;
+}
+.edits-title .links li {
+	float:left;
+	margin-right:9px;
+}
+.edits-title .links a {
+	display:block;
+	text-indent:-9999px;
+	overflow:hidden;
+}
+.edits-title .links .bold {
+	background:url(/images/skinnycms/admin/text-icons.gif) no-repeat;
+	width:9px;
+	margin-right:4px;
+}
+.edits-title .links .italic {
+	background:url(/images/skinnycms/admin/text-icons.gif) no-repeat -9px 0;
+	width:9px;
+	margin-right:4px;
+}
+.edits-title .links .add-link {
+	background:url(/images/skinnycms/admin/text-icons.gif) no-repeat -18px 0;
+	width:15px;
+}
+.edits-title .links .remove-link {
+	background:url(/images/skinnycms/admin/text-icons.gif) no-repeat -33px 0;
+	width:15px;
+}
+.edits-title .links .add-image {
+	background:url(/images/skinnycms/admin/text-icons.gif) no-repeat -48px 0;
+	width:15px;
+}
+.edit-box .text {
+	min-height:194px;
+	padding:5px;
+}
+* html .edit-box .text {height:194px;}
+#content .area {
+	background:#d7eef8 url(/images/skinnycms/admin/bg-area.gif) no-repeat 0 0;
+	width:670px;
+	margin-bottom:40px;
+}
+#content .area .holder{
+	padding:13px 14px 12px 16px;
+	background:url(/images/skinnycms/admin/bg-area.gif) no-repeat -670px 100%;
+	width:640px;
+	overflow:hidden;
+}
+#content .area .holder h4 {
+	background:url(/images/skinnycms/admin/ico-line.gif) no-repeat 0 50%;
+	padding-left:24px;
+}
+#content .area a {color:#598ebf;}
+.tabset {
+	overflow:hidden;
+	width:100%;
+	background:url(/images/skinnycms/admin/bg-tabset.gif) repeat-x 0 100%;
+	padding:0 0 26px;
+}
+.tabset li {float:left;}
+.tabset a {
+	display:block;
+	color:#6c9bc6;
+	text-transform:uppercase;
+	line-height:36px;
+	width:335px;
+	height:36px;
+	background:#fff;
+}
+.tabset a span {
+	background:url(/images/skinnycms/admin/ico-l.gif) no-repeat 11px 50%;
+	padding-left:30px;
+}
+.tabset .tabset-r span {background:url(/images/skinnycms/admin/ico-r.gif) no-repeat 12px 50%;}
+.tabset .active {
+	background:url(/images/skinnycms/admin/bg-tabset-active.gif) no-repeat;
+	color:#000;
+}
+.tabset a:hover {text-decoration:none;}
+.tab-content h4 {background:url(/images/skinnycms/admin/ico-line.gif) no-repeat 2px 50%;}
+.module .text-area {
+	width:670px;
+	background:url(/images/skinnycms/admin/bg-text-area.gif) repeat-y -670px 0;
+	margin:-5px 0 0;
+} 
+.module .text-area .holder {background:url(/images/skinnycms/admin/bg-text-area.gif) no-repeat;}
+.module .text-area .frame {
+	background:url(/images/skinnycms/admin/bg-text-area.gif) no-repeat -1340px 100%;
+	padding:12px 12px 14px 15px;
+}
+.module .text-area em {
+	font-weight:normal;
+	color:#333;
+	font-size:11px;
+	line-height:15px;
+}
+.seo-fields {
+	margin:40px 0 10px;
+	background:#f4f4f4 url(/images/skinnycms/admin/bg-seo-fields.gif) no-repeat;
+}
+.seo-fields .form-holder {
+	background:url(/images/skinnycms/admin/bg-seo-fields.gif) no-repeat -670px 100%;
+	padding:14px 12px 10px 17px;
+}
+.seo-fields .title {
+	overflow:hidden;
+	width:639px;
+	padding:0 0 12px 2px;
+}
+.seo-fields label {padding-left:2px;}
+.seo-fields .row {padding:0 0 5px;}
+.seo-fields .long-text {
+	background:url(/images/skinnycms/admin/bg-long-text.gif) no-repeat;
+	width: 638px;
+	display:block;
+	overflow:hidden;
+}
+.seo-fields .long-text input {width:632px;}
+.seo-fields .textarea {
+	width:637px;
+	background:url(/images/skinnycms/admin/bg-textarea.gif) repeat-y -637px 0;
+}
+.seo-fields .textarea .holder {background:url(/images/skinnycms/admin/bg-textarea.gif) no-repeat 0 0;}
+.seo-fields .textarea .frame {
+	background:url(/images/skinnycms/admin/bg-textarea.gif) no-repeat -1274px 100%;
+}
+.seo-fields textarea {
+	background:none;
+	border:none;
+	width:629px;
+	margin:0;
+	padding:4px;
+	max-width:629px;
+	min-height:44px;
+}
+* html .seo-fields textarea {height:44px;}
+#content .heading {
+	width:670px;
+	margin: 0 0 20px;
+}
+.module .menu {
+	float:right;
+	font-size:10px;
+	text-transform:uppercase;
+	overflow:hidden;
+	padding-top:4px;
+}
+.module .menu li {
+	float:left;
+	padding:0 7px 0 4px;
+	background:url(/images/skinnycms/admin/separator1.gif) no-repeat 0 2px;
+	margin:0 2px 0 -2px;
+	line-height:12px;
+}
+.module .menu a {color:#313131;}
+.add .inner {
+	background:#d7eef8 url(/images/skinnycms/admin/bg-add.gif) no-repeat 0 0;
+	width:669px;
+}
+.add .inner .holder {
+	background:url(/images/skinnycms/admin/bg-add.gif) no-repeat -1340px 100%;
+	padding:17px 13px 12px 11px;
+	width:645px;
+}
+.add .inner .frame {background:url(/images/skinnycms/admin/bg-add.gif) no-repeat -1340px 100%;}
+.add .inner .headline {padding-bottom:18px;}
+.add .inner h4 {padding: 0 0 0 18px;}
+.add .inner .headline a {color:#598ebf;}
+.add .head {background:url(/images/skinnycms/admin/ico4.gif) no-repeat 0 50%;}
+#content .add .edit-box .holder {width:644px;}
+.shadow .gray-area {
+	width:670px;
+	background:#eaeaea url(/images/skinnycms/admin/bg-gray-area.gif) no-repeat 0 0;
+	margin-bottom:9px;
+}
+.shadow .gray-area .holder {
+	background:url(/images/skinnycms/admin/bg-gray-area.gif) no-repeat -670px 100%;
+	padding:18px 17px 13px 11px;
+	overflow:hidden;
+	width:642px;
+}
+.shadow .gray-area a {float:right;}
+.medium {
+	background:url(/images/skinnycms/admin/ico5.gif) no-repeat 0 50%;
+	padding-left:22px;
+}
+.small-content {
+	background:url(/images/skinnycms/admin/ico6.gif) no-repeat 0 50%;
+	padding-left:22px;
+}
+.module-title {margin-top:-9px;}
+.module-title label {
+	display:block;
+	font-size:18px;
+	line-height:30px;
+}
+#sidebar {
+	float:right;
+	width:240px;
+	padding-top:5px;
+}
+#sidebar h3 {
+	line-height:48px;
+	font-size:18px;
+	padding:0 0 1px 2px;
+}
+.shadow #sidebar h3 {
+	line-height:40px;
+	padding:1px 0 0 1px;
+}
+.add-nav li {
+	margin-bottom:9px;
+	width:239px;
+	overflow:hidden;
+	vertical-align:top;
+}
+.add-nav a {
+	text-transform:uppercase;
+	line-height:12px;
+	background:#d7eef8 url(/images/skinnycms/admin/bg-add-nav-li.gif) no-repeat;
+	width:239px;
+	color:#000;
+	float:left;
+}
+.add-nav a span {
+	background:url(/images/skinnycms/admin/bg-add-nav-li.gif) no-repeat -240px 100%;
+	padding:15px 35px 14px 13px;
+	width:191px;
+	float:left;
+	cursor:pointer;
+}
+.add-nav a strong {
+	background:url(/images/skinnycms/admin/ico-line.gif) no-repeat 0 50%;
+	display:block;
+	padding-left:24px;
+	cursor:pointer;
+}
+.add-nav a:hover,
+.add-nav .active {
+	text-decoration:none;
+	background:#a5cdef url(/images/skinnycms/admin/bg-add-nav-active.gif) no-repeat;
+}
+.add-nav a:hover span,
+.add-nav .active span {background:url(/images/skinnycms/admin/bg-add-nav-active.gif) no-repeat -240px 100%;}
+.add-nav .divider {
+	height:9px;
+	background:url(/images/skinnycms/admin/divider.gif) no-repeat 98px 50%;
+	vertical-align:top;
+	line-height:0;
+	font-size:0;
+}
+.paging {
+	overflow:hidden;
+	line-height:20px;
+	text-transform:uppercase;
+	text-align:center;
+}
+.paging li {
+	display:inline;
+	margin:0 1px 0 2px;
+}
+#sidebar .paging {
+	padding:0 16px 0 15px;
+	width:209px;
+}
+.paging a {color:#598ebf;}
+
+.paging .back {
+	float:left;
+	margin:0;
+}
+.paging .back a {color:#5a5a5a;}
+.paging .next {
+	float:right;
+	margin:0;
+}
+#content {
+	float:left;
+	width:690px;
+}
+#content h2 {
+	font-size:28px;
+	line-height:32px;
+}
+.heading-holder {
+	overflow:hidden;
+	width:100%;
+} 
+.btn-pages,
+.btn-view {
+	float:right;
+	background:url(/images/skinnycms/admin/btn-gray-l.gif) no-repeat 0 0;
+	line-height:31px;
+	text-transform:uppercase;
+	margin:14px 0 10px;
+}
+.btn-view {margin:0;}
+.btn-pages span,
+.btn-view span {
+	float:left;
+	background:url(/images/skinnycms/admin/btn-gray-r.gif) no-repeat 100% 0;
+	padding:0 13px 0 9px;
+	letter-spacing:1px;
+	cursor:pointer;
+}
+.items {
+	width:688px;
+	table-layout:fixed;
+	margin-bottom:15px;
+}
+.items thead th {
+	background:#f4f4f4;
+	text-transform:uppercase;
+	line-height:24px;
+	padding-top:4px;
+}
+.items .name {
+	width:279px;
+	padding-left:18px;
+}
+.items th,
+.items td {
+	width:108px;
+	text-align:left;
+}
+.items .data {width:142px;}
+.items .actions {width:138px;}
+.items thead .name {background:#f4f4f4 url(/images/skinnycms/admin/bg-thead-l.gif) no-repeat;}
+.items thead .actions {background:#f4f4f4 url(/images/skinnycms/admin/bg-thead-r.gif) no-repeat 100% 0;}
+.items thead .divider td {
+	background:url(/images/skinnycms/admin/thead-divider.gif) no-repeat;
+	height:19px;
+	padding:0;
+}
+.items td {
+	background:#d7eef8;
+	vertical-align:middle;
+	color:#666;
+	font-size:11px;
+	line-height:17px;
+	padding:8px 0;
+}
+.items tbody .divider td {
+	background:url(/images/skinnycms/admin/tbody-divider.gif) no-repeat;
+	height: 17px;
+	padding:0;
+}
+.items tbody .name {
+	text-transform:uppercase;
+	color:#598ebf;
+}
+.items tbody .actions {overflow:hidden;}
+.items tbody .actions li {
+	float:left;
+	padding:0 5px 0 6px;
+	background:url(/images/skinnycms/admin/bg-actions.gif) no-repeat 0 50%;
+	margin: 0 6px 0 -6px;
+}
+.items .last-row-l {
+	background:#d7eef8 url(/images/skinnycms/admin/bg-tbody-l.gif) no-repeat 0 100%;
+	padding-bottom:12px;
+}
+
+.items .last-row-r {
+	background:#d7eef8 url(/images/skinnycms/admin/bg-tbody-r.gif) no-repeat 100% 100%;
+	padding-bottom:12px;
+}
+#content .paging {padding:0 15px 0 16px;}
+.bar {
+	overflow:hidden;
+	width:100%;
+	margin-bottom:10px;
+	line-height:31px;
+	text-transform:uppercase;
+}
+.bar li {
+	float:left;
+	margin-right:9px;
+}
+.bar a {
+	float:left;
+	background:url(/images/skinnycms/admin/btn-gray-l.gif) no-repeat;
+	color:#598ebf;
+}
+.bar a span{
+	float:left;
+	background:url(/images/skinnycms/admin/btn-gray-r.gif) no-repeat 100% 0;
+	padding:0 14px 0 16px;
+	cursor:pointer;
+}
+.bar a:hover,
+.bar .active {
+	background:url(/images/skinnycms/admin/bg-bar-l.gif) no-repeat;
+	color:#000;
+	text-decoration:none;
+}
+.bar a:hover span,
+.bar .active span {background:url(/images/skinnycms/admin/bg-bar-r.gif) no-repeat 100% 0;}
+.site-map {margin-bottom:36px;}
+.site-map li {
+	vertical-align:top;
+	height:1%;
+	margin-bottom:9px;
+}
+.site-map li .holder{
+	background:url(/images/skinnycms/admin/bg-dark-gray-l.gif) no-repeat;
+}
+.site-map li .frame {
+	overflow:hidden;
+	height:41px;
+	background:url(/images/skinnycms/admin/bg-dark-gray-r.gif) no-repeat 100% 0;
+}
+.site-map li a {
+	text-transform:uppercase;
+	padding-left:17px;
+	line-height:41px;
+	float:left;
+}
+.site-map .actions,
+.list .actions {
+	float:right;
+	overflow:hidden;
+	margin:0;
+	width:149px;
+	font-size:11px;
+}
+.site-map .actions li,
+.list .actions li {
+	float:left;
+	padding:0 5px 0 11px;
+	background:url(/images/skinnycms/admin/bg-actions.gif) no-repeat 0 50%;
+	margin: 0 6px 0 -6px;
+}
+.site-map .actions a,
+.list .actions a {
+	text-transform:capitalize;
+	padding:0;
+}
+.site-map .divider {
+	background:url(/images/skinnycms/admin/divider.gif) no-repeat 50% 10px;
+	padding-top:25px;
+	width:100%;
+}
+.site-map ul {
+	overflow:hidden;
+	margin-bottom:-6px;
+}
+.site-map ul li {
+	margin:0 0 7px 18px;
+	vertical-align:top;
+	height:1%;
+}
+.site-map ul li .holder {
+	background:url(/images/skinnycms/admin/bg-blue-l.gif) no-repeat;
+}
+.site-map ul li .frame {
+	overflow:hidden;
+	background:url(/images/skinnycms/admin/bg-blue-r.gif) no-repeat 100% 0;
+	height:41px;
+}
+.site-map ul ul {
+	margin:7px 0 -6px;
+	overflow:hidden;
+}
+.site-map ul ul li {margin-left:20px;}
+.site-map ul ul a {padding-left:20px;}
+.site-map .mark .holder {background:url(/images/skinnycms/admin/bg-gray-l.gif) no-repeat;}
+.site-map ul .mark .frame {background:url(/images/skinnycms/admin/bg-gray-r.gif) no-repeat 100% 0;}
+.site-map .mark a {padding-left:14px;}
+.site-map .mark .actions a {padding:0;}
+.site-map ul .about {
+	background:url(/images/skinnycms/admin/ico-line.gif) no-repeat 16px 50%;
+	padding-left:40px;
+}
+.site-map ul .community-act {
+	background:url(/images/skinnycms/admin/arrow1.gif) no-repeat 15px 19px;
+	padding:0 16px 0 43px;
+}
+.site-map ul .community {
+	background:url(/images/skinnycms/admin/arrow2.gif) no-repeat 14px 50%;
+	padding-left:40px;
+}
+.site-map ul .btn-draft {
+	float:left;
+	margin:10px  0 0 0;
+	background:url(/images/skinnycms/admin/btn-draft-l.gif) no-repeat;
+	padding:0;
+	line-height:21px;
+	font-size:10px;
+	color:#000;
+}
+.btn-draft  span {
+	float:left;
+	background:url(/images/skinnycms/admin/btn-draft-r.gif) no-repeat 100% 0;
+	padding: 0 9px 0 7px;
+	cursor:pointer;
+}
+.list {margin:15px 0 46px;}
+.list li {
+	background:url(/images/skinnycms/admin/bg-gray-l.gif) no-repeat;
+	line-height:41px;
+	margin-bottom:10px;
+	height:1%;
+	vertical-align:top;
+}
+.list li .holder {
+	background:url(/images/skinnycms/admin/bg-gray-r.gif) no-repeat 100% 0;
+	overflow:hidden;
+	width:100%;
+}
+.list a {
+	padding-left:17px;
+	text-transform:uppercase;
+	float:left;
+}
+.blue {margin:24px 0 46px;}
+.blue li {background:url(/images/skinnycms/admin/bg-blue-l.gif) no-repeat;}
+.blue li .holder {background:url(/images/skinnycms/admin/bg-blue-r.gif) no-repeat 100% 0;}
+.container {
+	padding-bottom:26px;
+	border-bottom:1px solid #d6d6d6;
+	margin-bottom:16px;
+	overflow:hidden;
+	width:100%;
+}
+.container h2 {
+	float:left;
+	padding-top:6px;
+}
+.container .btn {
+	float:right;
+	background:url(/images/skinnycms/admin/bg-button-l.gif) no-repeat 0 -41px;
+	line-height:41px;
+	text-transform:uppercase;
+	color:#000;
+	margin:0 0 0 9px;
+}
+.container .btn span {
+	background:url(/images/skinnycms/admin/bg-button-r.gif) no-repeat 100% -41px;
+	float:left;
+	padding:0 22px 0 26px;
+	cursor:pointer;
+}
+.container .btn:hover {text-decoration:none;}
+.container .search {
+	float:right;
+	background:url(/images/skinnycms/admin/bg-button-l.gif) no-repeat;
+	width:299px;
+}
+.container .search .holder{
+	background:url(/images/skinnycms/admin/bg-button-r.gif) no-repeat 100% 0;
+	padding:8px 0 0 9px;
+	height:33px;
+	overflow:hidden;
+}
+.container .search .text {
+	background:url(/images/skinnycms/admin/bg-search-txt.gif) no-repeat;
+	width: 210px;
+	float:left;
+	font-weight:normal;
+	margin-right:7px;
+	display:inline;
+}
+.container .search .text input {
+	background:none;
+	border:0;
+	line-height:14px;
+	padding:6px 3px 8px;
+	width:204px;
+	margin:0;
+	float:left;
+}
+.container .search .submit {
+	float:left;
+	background:none;
+	border:0;
+	text-transform:uppercase;
+	padding:5px 0 0;
+	cursor:pointer;
+	font-weight:bold;
+	margin:0;
+	width:54px;
+}
+.btn-bar {margin-bottom:10px;}
+.btn-bar li {
+	margin-bottom:5px;
+	line-height:41px;
+	overflow:hidden;
+	width:100%;
+	text-transform:uppercase;
+	vertical-align:top;
+}
+.btn-bar a {
+	float:left;
+	background:url(/images/skinnycms/admin/bg-button-l.gif) no-repeat 0 -41px;
+	color:#000;
+}
+.btn-bar a span {
+	background:url(/images/skinnycms/admin/bg-button-r.gif) no-repeat 100% -41px;
+	float:left;
+	padding:0 15px 0 20px;
+	width:205px;
+	cursor:pointer;
+}
+.gray-btn {margin-top:-4px;}
+.gray-btn li {margin-bottom:10px;}
+.gray-btn a {
+	background:url(/images/skinnycms/admin/bg-button-l.gif) no-repeat;
+	height:41px;
+	color:#999798;
+	font-size:22px;
+	font-weight:bold;
+}
+.gray-btn a span {
+	background:url(/images/skinnycms/admin/bg-button-r.gif) no-repeat 100% 0;
+	padding:11px 15px 12px 18px;
+}
+.gray-btn a strong {
+	text-transform:capitalize;
+	color:#69c;
+	float:right;
+	font-size:11px;
+	line-height:18px;
+}
+.btn-bar a:hover {text-decoration:none;}
+.black-text {margin:7px 0 41px;}
+.black-text a {color:#333;}
+.gray-btn a em {
+	float:left;
+	text-indent:-9999px;
+	overflow:hidden;
+}
+.vimeo {
+	background:url(/images/skinnycms/admin/logo-vimeo.gif) no-repeat;
+	width: 69px;
+	height: 18px;
+}
+.flickr {
+	background:url(/images/skinnycms/admin/logo-flickr.gif) no-repeat;
+	width: 69px;
+	height: 18px;
+}
+.tumblr {
+	background:url(/images/skinnycms/admin/logo-tumblr.gif) no-repeat;
+	width: 69px;
+	height: 18px;
+}
+.gray-area {
+	background:#f4f4f4 url(/images/skinnycms/admin/bg-gray-area1.gif) no-repeat;
+	width:688px;
+	margin-bottom:10px;
+}
+.gray-area .holder {
+	background:url(/images/skinnycms/admin/bg-gray-area1.gif) no-repeat -688px 100%;
+	padding:13px 16px 10px;
+}
+.small .holder {padding:10px 7px 9px 16px;}
+.gray-area a {
+	float:right;
+	font-size:11px;
+	line-height:11px;
+}
+.admin-email fieldset {
+	overflow:hidden;
+	height:1%;
+}
+.admin-email .col {
+	float:left;
+	width:265px;
+}
+.admin-email label {
+	display:block;
+	font-size:11px;
+	font-weight:normal;
+	line-height:18px;
+	text-transform:uppercase;
+	padding-left:2px;
+}
+.disabled label {line-height:14px;}
+.admin-email .text,
+.admin-email .password {
+	background:url(/images/skinnycms/admin/bg-emai-text.gif) no-repeat;
+	width: 259px;
+	display:block;
+	overflow:hidden;
+	margin-top:2px;
+}
+.disabled .text {margin:0;}
+.admin-email .text input,
+.admin-email .password input {
+	background:none;
+	border:0;
+	padding:7px 3px 11px 11px;
+	width:245px;
+	float:left;
+	font-size:16px;
+	color:#666;
+	font-weight:bold;
+	line-height:20px;
+	margin:0;
+}
+.admin-email .password input {
+	font-size:12px;
+	padding:9px 3px 12px 11px;
+}
+.disabled .text,
+.disabled .password {background:none;}
+.disabled .text input,
+.disabled .password input {
+	padding:4px 0 3px;
+	color:#333;
+}
+.admin-email a {
+	float:left;
+	line-height:31px;
+}
+.admin-email .row {
+	padding:8px 0 6px;
+	overflow:hidden;
+	width:100%;
+}
+.admin-email .high {padding:19px 0 4px;}
+.admin-email .submit {
+	float:left;
+	background:url(/images/skinnycms/admin/bg-submit.gif) no-repeat;
+	width: 118px;
+	height: 31px;
+	text-transform:uppercase;
+	line-height:31px;
+	cursor:pointer;
+	border:0;
+	font-weight:bold;
+	padding:0;
+	margin: 0 10px 0 0;
+}
+.info-block {margin-bottom:35px;}
+.title-holder {
+	padding-bottom:18px;
+	overflow:hidden;
+	width:100%;
+}
+.title-holder a {
+	float:right;
+	background:url(/images/skinnycms/admin/btn-gray-l.gif) no-repeat;
+	line-height:31px;
+	text-transform:uppercase;
+}
+.title-holder a span {
+	float:left;
+	background:url(/images/skinnycms/admin/btn-gray-r.gif) no-repeat 100% 0;
+	padding:0 14px 0 15px;
+	cursor:pointer;
+}
+.gray-area .section,
+.gray-area .block {
+	overflow:hidden;
+	width:100%;
+	padding-bottom:11px;
+}
+.gray-area .block {padding:0;}
+.gray-area .section .name,
+.gray-area .block .name {
+	float:left;
+	text-transform:uppercase;
+	color:#333;
+	line-height:21px;
+	padding:0 17px 0 1px;
+	border-right:1px solid #c3c3c3;
+	margin-right:12px;
+}
+.gray-area dl {
+	float:left;
+	color:#999;
+	font-size:11px;
+	line-height:21px;
+}
+.gray-area dt,
+.gray-area dd {float:left;}
+.gray-area dt {padding-right:5px;}
+.gray-area dd {padding-right:18px;}
+.green {color:#6cab6c;}
+.red {color:#c74537;}
+.gray-area .actions {
+	float:right;
+	overflow:hidden;
+	padding:5px 0 0;
+	font-size:11px;
+}
+.gray-area .actions li {
+	float:left;
+	padding:0 5px 0 8px;
+	background:url(/images/skinnycms/admin/bg-actions.gif) no-repeat 0 50%;
+	margin: 0 6px 0 -6px;
+	width:auto;
+}
+.gray-area .actions a {
+	text-transform:capitalize;
+	padding:0;
+	float:left;
+}
+.gray-area .block .light {
+	color:#a7a7a7;
+	border:none;
+}

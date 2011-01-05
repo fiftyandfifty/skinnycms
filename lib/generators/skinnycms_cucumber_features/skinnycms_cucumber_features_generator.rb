@@ -21,7 +21,11 @@ class SkinnycmsCucumberFeaturesGenerator < Rails::Generators::Base
     when /the admin_users page/
       '/admin/users'
     when /the admin_categories page/
-      '/admin/categories'\n"
+      '/admin/categories'
+    when /the admin_posts page/
+      '/admin/posts'
+    when /the admin_dashboard page/
+      '/admin'\n"
     end
   end
 end

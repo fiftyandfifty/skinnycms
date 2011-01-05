@@ -1,7 +1,7 @@
 class Admin::PagesController < ApplicationController
 
   before_filter :authenticate_user!
-  layout "application"
+  layout "admin"
  # uses_tiny_mce
   respond_to :html, :xml
 
@@ -42,7 +42,7 @@ class Admin::PagesController < ApplicationController
     @page = Page.find(params[:id]) rescue nil
     @page = type_error_fix(params[:id]) if @page.blank?
     @page_content = PageContent.find(:first, :conditions => ["page_id = ?", @page.id])
-  #  @category = CategoryItem.find(:first, :conditions => "categorizable_type = 'Page' AND categorizable_id = #{@page.id}")
+    @category = CategoryItem.find(:first, :conditions => "categorizable_type = 'Page' AND categorizable_id = #{@page.id}")
     @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
   end
 
@@ -52,7 +52,7 @@ class Admin::PagesController < ApplicationController
     if @page.save
       PageContent.create(:content => params[:page_content][:content], :page_id => @page.id, :location => "content") if params[:page_content][:content]
       PageContent.create(:content => params[:sidebar_content][:content], :page_id => @page.id, :location => "sidebar") if params[:sidebar_content][:content]
-     # CategoryItem.create(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page") if params[:category][:category_id]
+      CategoryItem.create(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page") if params[:category][:category_id]
 
       redirect_to(admin_pages_url, :notice => 'Page successfully created!')
     else
@@ -66,13 +66,13 @@ class Admin::PagesController < ApplicationController
     @page.update_attributes(params[:page])
 
     @page_content = PageContent.find(:first, :conditions => ["page_id = ?", @page.id])
- #   @category_item = CategoryItem.find(:first, :conditions => "categorizable_type = 'page' AND categorizable_id = #{@page.id}")
+    @category_item = CategoryItem.find(:first, :conditions => "categorizable_type = 'page' AND categorizable_id = #{@page.id}")
 
-  #  if @category_item
-  #    @category_item.update_attributes(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page")
-  #  else
-  #    CategoryItem.create(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page")
-  #  end
+    if @category_item
+      @category_item.update_attributes(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page")
+    else
+      CategoryItem.create(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page")
+    end
 
     if @page_content
       @page_content.update_attributes(params[:page_content])

@@ -1,6 +1,6 @@
 class Admin::CategoriesController < ApplicationController
   before_filter :authenticate_user!
-  layout "application"
+  layout "admin"
   respond_to :html, :xml
   
   def index

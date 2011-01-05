@@ -23,3 +23,8 @@ end
 Factory.define :category_item do |category_item|
   category_item.categorizable_type "page"
 end
+
+Factory.define :cache_tumblr_post do |cache_tumblr_post|
+  cache_tumblr_post.title    "my_blog"
+  cache_tumblr_post.desc     "my_blog_description"
+end

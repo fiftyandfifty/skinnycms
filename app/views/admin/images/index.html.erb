@@ -1,0 +1,29 @@
+<h1>Images</h1>
+
+<div>
+  <a href="/admin/images/new">
+    <img src="/images/admin/img-upload-image.gif" alt="Upload an Image" />
+  </a>
+</div>
+
+<div>
+  <h3>Your Media</h3>
+  <div>
+    <ul style="margin: 15px;">
+      <% @images.each do |image| %>
+        <li>
+          <p>
+            <a href="<%= admin_image_path(image) %>">
+              <%= image_tag image.image.url(:small) %>
+            </a>
+          </p>
+          <p>
+            <h4 style="margin-right: 20px;"><%= link_to image.title, admin_image_path(image) %></h4>
+            <h4 style="margin-right: 20px;"><%= link_to "Edit", edit_admin_image_path(image) %></h4>
+            <%= link_to "Delete", admin_image_path(image), :confirm => "Are you sure", :method => :delete %>
+          </p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

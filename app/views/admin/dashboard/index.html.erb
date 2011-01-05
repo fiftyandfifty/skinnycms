@@ -1,0 +1,50 @@
+<h1>Dashboard</h1>
+
+<div>
+  <h3>What would you like to do?</h3>
+  <ul>
+    <li>
+      <a href="/admin/posts/new">
+        <img src="/images/admin/img-write-article.gif" alt="Write Post" />
+      </a>  
+    </li>
+    <li>
+      <a href="/admin/pages/new">
+        <img src="/images/admin/img-add-page.gif" alt="Add a New Page" />
+      </a>
+    </li>
+  	<li>
+  	  <a href="/admin/images/new">
+  	    <img src="/images/admin/img-upload-image.gif" alt="Upload an Image" />
+  	  </a>
+  	</li>
+  </ul>
+</div>
+
+<div>  
+  <h3>Your Content</h3>
+  <div>
+    <ul>
+      <li>
+        <p>
+          <%= link_to pluralize(@pages.count, 'Page'), admin_pages_path %>
+        </p>
+      </li>
+      <li>
+        <p>
+          <%= link_to pluralize(@images.count, 'Image'), admin_images_path %>
+        </p>
+      </li>
+      <li>
+        <p>
+          <%= link_to pluralize(@posts.count, 'Post'), admin_posts_path %>
+        </p>
+      </li>
+      <li>
+        <p>
+          <a href="#">0 Videos</a>
+        </p>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<h1>View Image</h1>
+
+<div>
+  <ul>
+    <li>
+      <a href="/admin/images/new">
+        <img src="/images/admin/img-upload-image.gif" alt="Upload an Image" />
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div>
+  <div>
+    <h3>Your Image</h3>
+  </div>
+  <div>
+    <div>
+      <div>
+        <label>Title:</label>
+        <p><%= @image.title %></p>
+      </div>
+      <div>
+        <label>Description</label>
+        <p><%=h @image.description %></p>
+      </div>
+      <div>
+        <label>Image:</label>
+        <p><%= image_tag @image.image.url(:small) %></p>
+      </div>
+      <div>
+        <label>Other URLS:</label>
+        <p>Original <%= link_to "(view)", @image.image.url(), :target => "_blank" %>:</p> <p><%= @image.image.url() %></p>
+        <p>Large <%= link_to "(view)", @image.image.url(:large), :target => "_blank" %>:</p> <p> <%= @image.image.url(:large) %></p>
+        <p>Medium <%= link_to "(view)", @image.image.url(:medium), :target => "_blank" %>:</p> <p> <%= @image.image.url(:medium) %></p>
+        <p>Small <%= link_to "(view)", @image.image.url(:small), :target => "_blank" %>:</p> <p> <%= @image.image.url(:small) %></p>
+         <p>Thumbnail <%= link_to "(view)", @image.image.url(:thumbnail), :target => "_blank" %>:</p> <p> <%= @image.image.url(:thumbnail) %></p>
+      </div>
+    </div>
+  </div>
+</div>
