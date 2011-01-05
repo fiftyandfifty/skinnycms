@@ -19,4 +19,8 @@ group :development do
   gem 'rcov', '0.9.9'
   gem 'bundler', '1.0.7'
   gem 'jeweler', '1.5.1'
+  gem 'bcrypt-ruby', '2.1.3'
+  gem 'warden', '0.10.7'
+  gem 'devise', '1.1.rc2'
+  gem 'paperclip', '2.3.8'
 end
