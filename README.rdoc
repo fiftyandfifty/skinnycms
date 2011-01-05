@@ -46,6 +46,8 @@ Before this, you must go to spec/rails_3_0_3_root/ of your cloned Engine's direc
   rails generate skinnycms_devise (to install devise to rails_3_0_3_root application)
 
   rails generate skinnycms_migrations (to pass migrations to rails_3_0_3_root application)
+  
+  rails generate skinnycms_paperclip (to pass paperclip to rails_3_0_3_root application)
 
 Cucumber features copies and runs in your application. To run cucumber features go to root of your application and run:
 
