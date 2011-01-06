@@ -14,6 +14,8 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     inject_into_file "Gemfile", :before => "gem 'skinnycms'" do
 "gem 'devise', '1.1.rc2'\n
 gem 'paperclip', '2.3.8'\n
+gem 'cloudfiles', '1.4.10'\n
+gem 'paperclip-cloudfiles', '2.3.8', :require => 'paperclip'\n
 gem 'tumblr-api', '0.1.4', :require => 'tumblr'\n
 gem 'tiny_mce', '0.1.4'\n\n"
     end
