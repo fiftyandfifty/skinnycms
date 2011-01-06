@@ -5,6 +5,8 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
 
   include Rails::Generators::Migration
 
+  desc "Creating SKINNYCMS migrations to application"
+
   def self.source_root
       @source_root ||= File.join(File.dirname(__FILE__), 'templates')
   end
@@ -17,7 +19,9 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     end
   end
   
-  def create_migration_file
+  def create_migration_files
+    puts SkinnycmsMigrationsGenerator.start_description
+    sleep(3)
     migration_template 'devise_create_users.rb', 'db/migrate/devise_create_users.rb'
     sleep(1)
     migration_template 'create_pages.rb', 'db/migrate/create_pages.rb'
@@ -32,5 +36,26 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     sleep(1)
     migration_template 'create_images.rb', 'db/migrate/create_images.rb'
     rake("db:migrate")
+    puts SkinnycmsMigrationsGenerator.end_description
+  end
+
+  def self.start_description
+        <<-DESCRIPTION
+*******************************************************************
+
+  SKINNYCMS: Create migrations ...
+
+*******************************************************************
+        DESCRIPTION
+  end
+
+  def self.end_description
+        <<-DESCRIPTION
+*******************************************************************
+
+  Migrations successfully created!
+
+*******************************************************************
+        DESCRIPTION
   end
 end

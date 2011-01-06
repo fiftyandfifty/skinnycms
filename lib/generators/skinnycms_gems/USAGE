@@ -1,0 +1,8 @@
+Description:
+  This is the complex skinnycms_gems generator.
+ 
+Example:
+  rails generate skinnycms_gems
+
+  This install all SKINNYCMS gems to your application.
+  See the README for more details.

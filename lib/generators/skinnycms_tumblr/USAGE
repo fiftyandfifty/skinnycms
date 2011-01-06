@@ -1,8 +1,0 @@
-Description:
-  This is the skinnycms_tumblr generator.
- 
-Example:
-  rails generate skinnycms_tumblr
-
-  This install tumblr-api to your application.
-  See the README for more details.
