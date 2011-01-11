@@ -1,9 +1,170 @@
+<%= javascript_include_tag 'jquery/jquery-1.4.4.min.js' %>
+<%= javascript_include_tag 'jquery/jquery-ui-1.8.7.custom.min.js' %>
+
 <style type="text/css">
-  input.save_button {
-    margin: 0;
-    border: 1px dashed #97C3EB;
+input.save_button {
+  margin: 0;
+  border: 1px dashed #97C3EB;
 }
 </style>
+<script type="text/javascript">
+
+$(document).ready(function(){
+  
+  <!-- Variables for WYSIWYG module status -->
+
+  var status = false; // if status = true, then wysiwyg added; if status = false, then wysiwyg not added
+
+  <!-- Pages template logic -->
+
+  $('.multiple').click(function() {
+    $('#right_content').css('display','block');
+    $('#left_content a').css('background-repeat','no-repeat');
+    $('#left_content').css('width','335px');
+    $('#left_content a').css('width','335px');
+    $('#left_content a').attr('class','tabset-l active');
+    $('#right_content a').attr('class','tabset-r');
+
+    if(status){
+      $('div#content_drag').css('height','335px');
+      $('div#content_drag > .holder').css('height','310px');
+      $('#frame_content_drag').css('height','285px');
+      $('#page_content_content_ifr').css('height','255px');
+      $('div#sidebar_drag').css('display', 'none');
+      $('div#content_drag').slideDown(1000);
+    }
+
+  });
+
+  $('.mono').click(function() {
+    $('#right_content').css('display','none');
+    $('#left_content a').css('background-repeat','repeat');
+    $('#left_content').css('width','100%');
+    $('#left_content a').css('width','100%');
+    $('#left_content a').attr('class','tabset-l active');
+    $('#right_content a').attr('class','tabset-r');
+
+    // copying data then mono mode of page templates
+    var sidebar_content = $('#sidebar_content_content_ifr').contents().find('body.mceContentBody').html();
+    $('#page_content_content_ifr').contents().find('body.mceContentBody').append(sidebar_content);
+    $('#sidebar_content_content_ifr').contents().find('body.mceContentBody').empty();
+
+    if(status){
+      $('div#content_drag').css('height','335px');
+      $('div#content_drag > .holder').css('height','310px');
+      $('#frame_content_drag').css('height','285px');
+      $('#page_content_content_ifr').css('height','255px');
+      $('div#sidebar_drag').css('display', 'none');
+      $('div#content_drag').slideDown(1000);
+    }
+
+  });
+  
+  $('#left_content a').click(function() {
+    $('#left_content a').attr('class','tabset-l  active');
+    $('#right_content a').attr('class','tabset-r');
+
+    if(status){
+      $('div#content_drag').css('height','335px');
+      $('div#content_drag > .holder').css('height','310px');
+      $('#frame_content_drag').css('height','285px');
+      $('#page_content_content_ifr').css('height','255px');
+      $('div#sidebar_drag').css('display', 'none');
+      $('div#content_drag').slideDown(1000);
+    }
+  });
+
+  $('#right_content a').click(function() {
+    $('#left_content a').attr('class','tabset-l');
+    $('#right_content a').attr('class','tabset-r  active');
+
+    if(status){
+      $('div#sidebar_drag').css('height','335px');
+      $('div#sidebar_drag > .holder').css('height','310px');
+      $('#frame_sidebar_drag').css('height','285px');
+      $('#sidebar_content_content_ifr').css('height','255px');
+      $('div#content_drag').css('display', 'none');
+      $('div#sidebar_drag').slideDown(1000);
+    }
+  });
+
+  <!-- WYSIWYG drag and drop logic test -->
+
+  // Basic drag and drop elements
+  //$(ui.draggable) draggable element
+  //$(this) droppable element
+
+  $('div#header_drag').css('display','none');
+  $('div#content_drag').css('display','none');
+  $('div#sidebar_drag').css('display','none');
+
+  $('#wysiwyg').draggable({
+    helper : 'clone',
+    opacity : 0.3
+  });
+
+  $('div.title').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event_1, ui) {
+      $('div#header_drag').css('height','335px');
+      $('div#header_drag > .holder').css('height','310px');
+      $('#frame_header_drag').css('height','285px');
+      $('#header_content_content_ifr').css('height','255px');
+      $('div#header_drag').fadeIn('slow');
+    }
+  });
+
+  $('ul.tabset').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event_2, ui) {
+      if(!status){
+        $('div#content_drag').css('height','335px');
+        $('div#content_drag > .holder').css('height','310px');
+        $('#frame_content_drag').css('height','285px');
+        $('#page_content_content_ifr').css('height','255px');
+        $('#left_content a').attr('class','tabset-l  active');
+        $('#right_content a').attr('class','tabset-r');
+        $('div#content_drag').fadeIn('slow');
+        status = !status;
+      }
+    }
+  });
+
+  <!-- WYSIWYG remove -->
+
+  $('#remove_header_wysiwyg').click(function() {
+    $('div#header_drag').fadeOut('slow');
+  });
+
+  $('#remove_content_wysiwyg').click(function() {
+    $('div#content_drag').fadeOut('slow');
+    status = false;
+  });
+
+  $('#remove_sidebar_wysiwyg').click(function() {
+    $('div#sidebar_drag').fadeOut('slow');
+    status = false;
+  });
+
+  <!-- MODULES hide -->
+
+  $('#hide_header_module').click(function() {
+    $('div.module#header_module').fadeOut('slow');
+  });
+
+  $('#hide_seo_fields').click(function() {
+    $('div.seo-fields').fadeOut('slow');
+  });
+
+  $('#hide_scripts').click(function() {
+    $('div.module#scripts_module').fadeOut('slow');
+  });
+   
+});
+
+</script>
 
 <!-- form of adding pages -->
 <%= form_for([:admin, @page], :html => { :class => "add-pages" }) do |f| %>
@@ -81,20 +242,20 @@
     <div id="content">
       <h3>Page Content</h3>
       <!-- module -->
-      <div class="module">
+      <div class="module" id="header_module">
 	<div class="title">
 	  <h4 class="head">HEADER Modules</h4>
-          <a href="#">Hide</a>
+          <a href="javascript:void(0);" id="hide_header_module">Hide</a>
 	</div>
-	<div class="inner">
+	<div class="inner" id="header_drag">
 	  <div class="holder">
 	    <div class="headline">
 	      <h4>WYSIWYG</h4>
-	      <a href="#">Remove</a>
+	      <a href="javascript:void(0);" id="remove_header_wysiwyg">Remove</a>
 	    </div>
 	    <div class="edit-box">
 	      <div class="holder">
-		<div class="frame">
+		<div class="frame" id="frame_header_drag">
                   <%= text_area "header_content", "content", :style => "width:100%;", :class => "field mceEditor" %>
 		</div>
 	      </div>
@@ -109,21 +270,35 @@
      <!-- module -->
      <div class="module">
        <ul class="tabset">
-         <li><a href="#tab-1" class="active"><span>Left Column Modules</span></a></li>
-         <li><a href="#tab-2" class="tabset-r"><span>Right Column Modules</span></a></li>
+         <li id="left_content"><a href="javascript:void(0);" class="tabset-l active"><span>Left Column Modules</span></a></li>
+         <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
        </ul>
        <div class="tab-content" id="tab-1">
-	 <div class="inner">
+	 <div class="inner" id="content_drag">
 	   <div class="holder">
 	     <div class="headline">
 	       <h4>WYSIWYG</h4>
-	       <a href="#">Remove</a>
+	       <a href="javascript:void(0);" id="remove_content_wysiwyg">Remove</a>
 	     </div>
 	     <div class="edit-box">
 	       <div class="holder">
-	         <div class="frame">
+	         <div class="frame" id="frame_content_drag">
 	           <%= text_area "page_content", "content", :class => "field mceEditor", :style => "width:100%;" %>
-                   <%= text_area "sidebar_content", "content", :class => "field mceEditor", :style => "width:100%; display:none;" %>
+	         </div>
+	       </div>
+	     </div>
+           </div>
+	</div>
+        <div class="inner" id="sidebar_drag">
+	   <div class="holder">
+	     <div class="headline">
+	       <h4>WYSIWYG</h4>
+	       <a href="javascript:void(0);" id="remove_sidebar_wysiwyg">Remove</a>
+	     </div>
+	     <div class="edit-box">
+	       <div class="holder">
+	         <div class="frame" id="frame_sidebar_drag">
+                   <%= text_area "sidebar_content", "content", :class => "field mceEditor", :style => "width:100%;" %>
 	         </div>
 	       </div>
 	     </div>
@@ -136,10 +311,10 @@
     </div>
 
     <!-- module -->
-   <div class="module">
+   <div class="module"  id="scripts_module">
      <div class="title1">
-       <h4>Script Includets</h4>
-       <a href="#">Hide</a>
+       <h4>Script Includes</h4>
+       <a href="javascript:void(0);" id="hide_scripts">Hide</a>
      </div>
      <div class="text-area">
        <div class="holder">
@@ -156,7 +331,7 @@
        <div class="form-holder">
          <div class="title">
            <h4>SEO Fields</h4>
-	   <a href="#">Hide</a>
+	   <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
 	 </div>
          <div class="row">
 	   <label for="site-name">Page URL (Optional)</label>
@@ -185,7 +360,7 @@
  <div id="sidebar">
    <h3>Available Modules</h3>
    <ul class="add-nav">
-     <li><a href="#" class="active"><span><strong>WYSIWYG</strong></span></a></li>
+     <li><a href="#" class="active"><span><strong id="wysiwyg">WYSIWYG</strong></span></a></li>
      <li class="divider">&nbsp;</li>
      <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
      <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
