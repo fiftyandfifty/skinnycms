@@ -4,19 +4,13 @@
   <h3>What would you like to do?</h3>
   <ul>
     <li>
-      <a href="/admin/posts/new">
-        <img src="/images/admin/img-write-article.gif" alt="Add a New Post" />
-      </a>
+      <%= link_to "Add User", new_admin_user_path %>
     </li>
     <li>
-      <a href="/admin/categories/new">
-        <img src="/images/admin/img-manage-cats.gif" alt="Manage Categories" />
-      </a>
+      <%= link_to "Manage Categories", new_admin_category_path %>
     </li>  
     <li>
-      <a href="<%= tumblr_force_reload_path %>">
-        <img src="/images/admin/img-manage-comments.gif" alt="Force Cache Reload" />
-      </a>
+      <%= link_to "Force Cache Reload", tumblr_force_reload_path %>
     </li>    
   </ul>
 </div>

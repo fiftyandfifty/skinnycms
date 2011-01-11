@@ -1,12 +1,12 @@
 <% pages.each do |child| %>
 
   <li id="list_<%= child.id %>">
-    <div>
-      <div class="link_options">
+    <div style="height: 41px; overflow: hidden; background-color: #D7EEF8; margin-bottom: 5px; padding-left: 10px;">
+      <div style="width: 149px; height: 41px; overflow: hidden;float: right; font-size: 11px; padding-top: 12px;">
         <%= link_to 'Preview',
-          admin_page_path(child),
+          page_path(child),
           :class => "preview",
-          :target => "_blank" %>
+          :target => "_blank", :style => "margin-left:12px;" %>
         <span class="sep">|</span>
         <%= link_to 'Edit',
           edit_admin_page_path(child),
@@ -17,30 +17,29 @@
           :class => "delete",
           :method => :delete,
           :confirm => "Are you sure?" %>
-        <div class="cl">&nbsp;</div>
       </div>
 
-      <span class="item">
+      <span class="item" style="height: 41px; float: left; margin-top:13px;">
         <% if child.visibility == 'private' %>
           <div class="clip_in_private"></div>
         <% else %>
           <div class="clip_in_public"></div>
         <% end %>
-        <% #if child.children.present? %>
+        <% if child.children.present? %>
           <div class="plus"></div>
-        <% #else %>
+        <% else %>
           <div class="plus" style="display: none;"></div>
-        <% #end %>
-        <p><%= link_to child.title, edit_admin_page_path(child) %></p>
+        <% end %>
+        <p style="width: 250px; height: 20px;"><%= link_to child.title, edit_admin_page_path(child) %></p>
       </span>
 
     </div>
 
-    <% #unless child.children.blank? %>
-      <ol class="sortable" id="<%= type %>" style="margin: 0 0 0 20px; padding:0; list-style-type:none; display: none;">
-        <% #= render 'page_list', :pages => child.children, :visibility => visibility %>
+    <% unless child.children.blank? %>
+      <ol class="sortable" id="<%= type %>" style="margin: 5px 0 0 20px; padding:0; list-style-type:none; display: none;">
+        <%= render 'page_list', :pages => child.children, :visibility => visibility %>
       </ol>
-    <% #end %>
+    <% end %>
   </li>
   
 <% end %>

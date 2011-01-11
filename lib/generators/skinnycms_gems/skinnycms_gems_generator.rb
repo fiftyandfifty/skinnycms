@@ -9,15 +9,21 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     sleep(3)
     run "gem install devise -v '1.1.rc2'"
     run "gem install paperclip -v '2.3.8'"
+    run "gem install cloudfiles -v '1.4.10'"
+    run "gem install paperclip-cloudfiles -v '2.3.8'"
     run "gem install tumblr-api -v '0.1.4'"
     run "gem install tiny_mce -v '0.1.4'"
+    run "gem install acts_as_list -v '0.1.2'"
+    run "gem install acts_as_tree -v '0.1.1'"
     inject_into_file "Gemfile", :before => "gem 'skinnycms'" do
 "gem 'devise', '1.1.rc2'\n
 gem 'paperclip', '2.3.8'\n
 gem 'cloudfiles', '1.4.10'\n
 gem 'paperclip-cloudfiles', '2.3.8', :require => 'paperclip'\n
 gem 'tumblr-api', '0.1.4', :require => 'tumblr'\n
-gem 'tiny_mce', '0.1.4'\n\n"
+gem 'tiny_mce', '0.1.4'\n
+gem 'acts_as_list', '0.1.2'\n
+gem 'acts_as_tree', '0.1.1'\n\n"
     end
     run "bundle install"
     puts SkinnycmsGemsGenerator.end_description
@@ -40,8 +46,12 @@ gem 'tiny_mce', '0.1.4'\n\n"
    Gems:
      devise '1.1.rc2'
      paperclip '2.3.8'
+     cloudfiles, '1.4.10'
+     paperclip-cloudfiles, '2.3.8'
      tumblr-api '0.1.4'
      tinymce '0.1.4'
+     acts_as_list, '0.1.2'
+     acts_as_tree, '0.1.1'
    successfully installed!
 
 *******************************************************************

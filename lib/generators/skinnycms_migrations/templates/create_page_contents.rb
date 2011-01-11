@@ -5,6 +5,8 @@ class CreatePageContents < ActiveRecord::Migration
       t.integer  :page_id
       t.string   :location
       t.integer  :order
+      t.string   :module_type
+      t.integer  :module_id
       t.timestamps
     end
   end

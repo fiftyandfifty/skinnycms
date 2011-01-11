@@ -1,5 +1,6 @@
 class Admin::PostsController < ApplicationController  
   before_filter :authenticate_user!
+  before_filter :define_page
   layout "admin"
  
   def index
@@ -125,5 +126,9 @@ class Admin::PostsController < ApplicationController
         CacheTumblrPost.update_all(:incomplete => false)
       end
     end
+  end
+
+  def define_page
+    @current_page = 'modules'
   end
 end

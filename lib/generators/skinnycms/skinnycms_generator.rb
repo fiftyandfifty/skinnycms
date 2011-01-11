@@ -13,6 +13,7 @@ class SkinnycmsGenerator < Rails::Generators::Base
     run "rails generate skinnycms_styles"
     run "rails generate skinnycms_javascripts"
     run "rails generate skinnycms_images"
+    remove_file 'public/index.html'
     puts SkinnycmsGenerator.end_description
   end
 

@@ -157,6 +157,7 @@ form, fieldset {
 }
 .buttons .active span,
 .buttons a:hover span {background:url(/images/skinnycms/admin/bg-button-r.gif) no-repeat 100% -41px;}
+
 .add-pages {
 	width:950px;
 	margin-bottom:-15px;
@@ -438,7 +439,7 @@ form, fieldset {
 	width:670px;
 	background:url(/images/skinnycms/admin/bg-text-area.gif) repeat-y -670px 0;
 	margin:-5px 0 0;
-} 
+}
 .module .text-area .holder {background:url(/images/skinnycms/admin/bg-text-area.gif) no-repeat;}
 .module .text-area .frame {
 	background:url(/images/skinnycms/admin/bg-text-area.gif) no-repeat -1340px 100%;
@@ -641,7 +642,7 @@ form, fieldset {
 .heading-holder {
 	overflow:hidden;
 	width:100%;
-} 
+}
 .btn-pages,
 .btn-view {
 	float:right;
@@ -1158,3 +1159,25 @@ form, fieldset {
 	color:#a7a7a7;
 	border:none;
 }
+
+/* save_button for pages */
+
+input.save_button {
+  margin-top: 20px;
+  float: left;
+  border:0;
+  background: 0;
+  color:#000;
+  background:url(/images/skinnycms/admin/bg-button-lr.gif) no-repeat;
+  font: bold 12px/16px Helvetica,arial,sans-serif;
+  text-transform: uppercase;
+  line-height: 41px;
+  width: 140px;
+  height: 41px;
+  cursor:pointer;
+}
+
+input.save_button:hover {
+  background:url(/images/skinnycms/admin/bg-button-lr.gif) no-repeat 0 -41px;
+}
+

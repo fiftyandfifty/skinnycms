@@ -28,6 +28,10 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     sleep(1)
     migration_template 'create_page_contents.rb', 'db/migrate/create_page_contents.rb'
     sleep(1)
+    migration_template 'create_api_modules.rb', 'db/migrate/create_api_modules.rb'
+    sleep(1)
+    migration_template 'create_custom_modules.rb', 'db/migrate/create_custom_modules.rb'
+    sleep(1)
     migration_template 'create_categories.rb', 'db/migrate/create_categories.rb'
     sleep(1)
     migration_template 'create_category_items.rb', 'db/migrate/create_category_items.rb'
@@ -35,6 +39,7 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     migration_template 'create_cache_tumblr_posts.rb', 'db/migrate/create_cache_tumblr_posts.rb'
     sleep(1)
     migration_template 'create_images.rb', 'db/migrate/create_images.rb'
+    sleep(1)
     rake("db:migrate")
     puts SkinnycmsMigrationsGenerator.end_description
   end

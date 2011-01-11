@@ -1,33 +1,45 @@
 <%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery-1.4.2.min.js' %>
 <%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js' %>
-<% # = stylesheet_link_tag 'skinnycms/nestedSortable' %>
+<%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js' %>
+<%= stylesheet_link_tag 'skinnycms/nestedSortable' %>
 
-<h1>Pages</h1>
+<!-- main -->
+<div id="main">
 
-<div class="toolbar">
-  <ul>
-    <li>
-      <a href="/admin/pages/new">
-        <img src="/images/admin/img-add-page.gif" alt="" /> Add a New Page
-      </a>
-    </li>
-  </ul>
+  <!-- content -->
+  <div id="content">
+
+    <!-- heading -->
+    <div class="heading-holder">
+      <%= link_to("javascript:void(0);", :class => "btn-pages") do %>
+        <span>reorder pages</span>
+      <% end %>
+      <h2>Site Pages</h2>
+    </div>
+
+    <ol class="sortable" id="public" style="margin-left: 0; margin-bottom: 25px;">
+      <%= render 'page_list', :pages => @pages, :visibility => ['public', 'redirect'], :type => 'public' %>
+    </ol>
+                                
+    <h2>Private Pages</h2>
+    <ol class="sortable" id="private" style="margin-left: 0; margin-bottom: 25px; margin-top: 20px;">
+      <%= render 'page_list', :pages => @private_pages, :visibility => ['private'], :type => 'private' %>
+    </ol>
+  </div>
+
+  <!-- sidebar -->
+  <div id="sidebar">
+    <h3>Quick Links</h3>
+    <ul class="btn-bar">
+      <li>
+        <%= link_to(new_admin_page_path) do %>
+          <span>Add a New Page</span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  
 </div>
-<div class="cl"></div>
-
-<p style="color: green; font-size: 14px; margin-top: 20px;">
-  <%= flash[:notice] %>
-</p>
-
-<h3 class="pages_header">Main Navigation Pages<div id="reorder_public" class="reorder"><%= link_to "Enable Page Order", "javascript:void(0);" %></div></h3>
-<ol class="sortable" id="public">
-  <%= render 'page_list', :pages => @pages, :visibility => ['public', 'redirect'], :type => 'public' %>
-</ol>
-
-<h3 class="pages_header">Private Pages<div id="reorder_private" class="reorder"><%= link_to "Enable Page Order", "javascript:void(0);" %></div></h3>
-<ol class="sortable" id="private">
-  <%= render 'page_list', :pages => @private_pages, :visibility => ['private'], :type => 'private' %>
-</ol>
 
 <script type="text/javascript">
 
@@ -75,21 +87,32 @@
 
         <!-- click handlers for enable or disable sortable arrays -->
 
-                $('#reorder_public a').click(function() {
-                  var text_value = $('#reorder_public a').text();
-                  if(text_value == "Enable Page Order") {
-                    var next_text = "Save Page Order";
+                var status = false;
+
+                $('a.btn-pages').click(function() {
+               //   var text_value = $('#reorder_public a').text();
+                  if(status == false) {
+                   // var next_text = "Save Page Order";
                     $('ol.sortable#public').nestedSortable('enable');
-                    $('.clip_in_public').css("display", "block");
+                    $('ol.sortable#private').nestedSortable('enable');
+                    status = !status;
+                    $('a.btn-pages span').html("Save reordering");
+                 //   $('.clip_in_public').css("display", "block");
                   }
                   else {
-                    var next_text = "Enable Page Order";
+               //     var next_text = "Enable Page Order";
                     public_pages = $('ol.sortable#public').nestedSortable('toArray', {startDepthCount: 1});
                     updateOrderPages(public_pages);
+                    private_pages = $('ol.sortable#private').nestedSortable('toArray', {startDepthCount: 1});
+                    updateOrderPages(private_pages);
+                //    alert(public_pages);
                     $('ol.sortable#public').nestedSortable('disable');
-                    $('.clip_in_public').css('display', 'none');
+                    $('ol.sortable#private').nestedSortable('disable');
+                    status = !status;
+                    $('a.btn-pages span').html("Reorder pages");
+               //     $('.clip_in_public').css('display', 'none');
                   }
-                  $('div#reorder_public a').html(next_text);
+               //   $('div#reorder_public a').html(next_text);
                 });
 
                 $('#reorder_private a').click(function() {
@@ -117,11 +140,21 @@
                  var childs_css_display = child_ol_block.css('display');
                  if (childs_css_display == "none") {
                    child_ol_block.css("display", "block");
-                   $(this).css("background-image", "url('/images/skinnycms/sortable_icons/minus.jpg')");
+                   $(this).css("width", "7px");
+                   $(this).css("height", "13px");
+                   $(this).css("margin-top", "1px");
+                   $(this).css("margin-left", "0px");
+                   $(this).css("margin-right", "15px");
+                   $(this).css("background-image", "url('/images/skinnycms/admin/arrow2.gif')");
                  }
                  else {
                    child_ol_block.css("display", "none");
-                   $(this).css("background-image", "url('/images/skinnycms/sortable_icons/plus.jpg')");
+                   $(this).css("width", "15px");
+                   $(this).css("height", "8px");
+                   $(this).css("margin-top", "5px");
+                   $(this).css("margin-left", "0px");
+                   $(this).css("margin-right", "15px");
+                   $(this).css("background-image", "url('/images/skinnycms/admin/arrow1.gif')");
                  }
                });
 
@@ -158,7 +191,7 @@
 
         function updateOrderPages(pages)
           {
-            $.post('<%#= update_sort_path -%>', { 'pages': pages })
+            $.post('<%= update_sort_path -%>', { 'pages': pages })
           }
 
         <!-- Update (+/-) pickers in a pages tree -->
@@ -171,13 +204,24 @@
               var li_parent = $(value).parent().parent().parent();
               var ol_child = li_parent.find('ol').css("display");
               if (ol_child == 'none') {
-                $(value).css("background-image", "url('/images/skinnycms/sortable_icons/plus.jpg')");
+                $(value).css("width", "15px");
+                $(value).css("height", "8px");
+                $(value).css("margin-top", "5px");
+                $(value).css("margin-left", "0px");
+                $(value).css("margin-right", "15px");
+                $(value).css("background-image", "url('/images/skinnycms/admin/arrow1.gif')");
               }
               else {
-                $(value).css("background-image", "url('/images/skinnycms/sortable_icons/minus.jpg')");
+                $(value).css("width", "7px");
+                $(value).css("height", "13px");
+                $(value).css("margin-top", "1px");
+                $(value).css("margin-left", "0px");
+                $(value).css("margin-right", "15px");
+                $(value).css("background-image", "url('/images/skinnycms/admin/arrow2.gif')");
               }
               $(value).css("display","block");
             });
           }
 
 </script>
+

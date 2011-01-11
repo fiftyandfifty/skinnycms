@@ -5,6 +5,9 @@
 	<title>SkinnyCMS</title>
         <%= stylesheet_link_tag 'skinnycms/admin/all.css' %>
         <%= javascript_include_tag 'skinnycms/admin/main.js' %>
+        <%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery-1.4.2.min.js' %>
+        <%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js' %>
+        <%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js' %>
 	<!--[if lt IE 8]><%= stylesheet_link_tag 'skinnycms/admin/ie.css' %><![endif]-->
         <%= include_tiny_mce_if_needed %>
 </head>
@@ -17,48 +20,15 @@
 			<h1 class="logo"><a href="#">skinny cms</a></h1>
 			<!-- navigation  -->
 			<ul id="nav">
-				<li><a href="#" class="active">Pages</a></li>
-				<li><a href="#">Modules</a></li>
-				<li><a href="#">Assets</a></li>
-				<li><a href="#">Settings</a></li>
-				<li class="visit-site"><a href="#">Visit Site</a></li>
+				<li><%= link_to "Pages", admin_pages_path, :class => @current_page == 'pages' ? 'active' : '' %></li>
+				<li><%= link_to "Modules", admin_modules_path, :class => @current_page == 'modules' ? 'active' : '' %></li>
+				<li><%= link_to "Assets", admin_assets_path, :class => @current_page == 'assets' ? 'active' : '' %></li>
+				<li><%= link_to "Settings", admin_settings_path, :class => @current_page == 'settings' ? 'active' : '' %></li>
+				<li class="visit-site"><%= link_to "Visit Site", pages_path %></li>
 			</ul>
 		</div>
-		<!-- main -->
-		<div id="main" class="shadow">
-			<!-- content -->
-			<div id="content">
-		          <%= yield %>
-			</div>
-			<!-- sidebar -->
-			<div id="sidebar">
-				<h3>Available Modules</h3>
-				<ul class="add-nav">
-					<li><a href="#" class="active"><span><strong>WYSIWYG</strong></span></a></li>
-					<li class="divider">&nbsp;</li>
-					<li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
-					<li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
-					<li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
-					<li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
-					<li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
-					<li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
-					<li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
-					<li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
-					<li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
-					<li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
-				</ul>
-				<!-- paging -->
-				<ul class="paging">
-					<li class="next"><a href="#">next</a></li>
-					<li class="back"><a href="#">back</a></li>
-					<li><strong>1</strong></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-				</ul>
-			</div>
-		</div>
+	        <%= yield %>
 	</div>
 </body>
 </html>
+

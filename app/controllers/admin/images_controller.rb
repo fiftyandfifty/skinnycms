@@ -1,5 +1,6 @@
 class Admin::ImagesController < ApplicationController  
   before_filter :authenticate_user!
+  before_filter :define_page
   layout "admin"
   
   def index
@@ -59,5 +60,9 @@ class Admin::ImagesController < ApplicationController
       format.html { redirect_to(admin_images_url) }
       format.xml  { head :ok }
     end
+  end
+
+  def define_page
+    @current_page = 'assets'
   end
 end

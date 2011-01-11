@@ -1,0 +1,217 @@
+<style type="text/css">
+  input.save_button {
+    margin: 0;
+    border: 1px dashed #97C3EB;
+}
+</style>
+
+<!-- form of adding pages -->
+<%= form_for([:admin, @page], :html => { :class => "add-pages" }) do |f| %>
+
+  <!-- heading -->
+  <div class="heading">
+
+    <ul class="buttons">
+      <li><a href="#" class="active"><span>Preview</span></a></li>
+      <li><a href="#"><span>save draft</span></a></li>
+      <li><input type="submit" name="submit" value="Publish" id="submit" class="save_button" /></li>
+    </ul>
+
+    <h2>
+      <% if @page.id.present? %>
+      Edit Page
+      <% else %>
+      Add New Page
+      <% end %>
+    </h2>
+
+  </div>
+
+  <fieldset>
+
+    <!-- row -->
+    <div class="row">
+      <label for="page-title">Page Title</label>
+      <span class="text"><%= f.text_field :title, :html => { :id => "page-title" } %></span>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+	<label for="page-url">Page URL</label>
+	<span class="small-text"><%= f.text_field :permalink, :value => "http://www.clienturl.com/", :html => { :id => "page-url" } %></span>
+      </div>
+
+      <div class="section">
+	<label for="status">Status</label>
+        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
+      </div>
+
+      <div class="section">
+	<label for="visibility">Visibility</label>
+        <%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], {:selected => @page.visibility.to_s, :id => "visibility"} %>
+      </div>
+
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+	<label for="parent">Page Parent</label>
+        <%= f.collection_select(:parent_id, Page.all(:order => "title"), :id, :title, { :include_blank => "- No Parent - ", :id => "parent" } )%>
+      </div>
+
+      <div class="section t-holder">
+	<label for="template">Page Template</label>
+	<div class="template" id="template">
+	  <input type="button" value="" class="multiple"/>
+          <input type="button" value="" class="mono" />
+	</div>
+      </div>
+
+    </div>
+
+  </fieldset>
+
+  <!-- main -->
+  <div id="main" class="shadow">
+    <!-- content -->
+    <div id="content">
+      <h3>Page Content</h3>
+      <!-- module -->
+      <div class="module">
+	<div class="title">
+	  <h4 class="head">HEADER Modules</h4>
+          <a href="#">Hide</a>
+	</div>
+	<div class="inner">
+	  <div class="holder">
+	    <div class="headline">
+	      <h4>WYSIWYG</h4>
+	      <a href="#">Remove</a>
+	    </div>
+	    <div class="edit-box">
+	      <div class="holder">
+		<div class="frame">
+                  <%= text_area "header_content", "content", :style => "width:100%;", :class => "field mceEditor" %>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+        </div>
+     </div>
+
+     <div class="area">
+     </div>
+
+     <!-- module -->
+     <div class="module">
+       <ul class="tabset">
+         <li><a href="#tab-1" class="active"><span>Left Column Modules</span></a></li>
+         <li><a href="#tab-2" class="tabset-r"><span>Right Column Modules</span></a></li>
+       </ul>
+       <div class="tab-content" id="tab-1">
+	 <div class="inner">
+	   <div class="holder">
+	     <div class="headline">
+	       <h4>WYSIWYG</h4>
+	       <a href="#">Remove</a>
+	     </div>
+	     <div class="edit-box">
+	       <div class="holder">
+	         <div class="frame">
+	           <%= text_area "page_content", "content", :class => "field mceEditor", :style => "width:100%;" %>
+                   <%= text_area "sidebar_content", "content", :class => "field mceEditor", :style => "width:100%; display:none;" %>
+	         </div>
+	       </div>
+	     </div>
+           </div>
+	</div>
+      </div>
+    </div>
+
+    <div class="area">
+    </div>
+
+    <!-- module -->
+   <div class="module">
+     <div class="title1">
+       <h4>Script Includets</h4>
+       <a href="#">Hide</a>
+     </div>
+     <div class="text-area">
+       <div class="holder">
+         <div class="frame">
+           <em>There are currently no modules in this section</em>
+	 </div>
+       </div>
+     </div>
+   </div>
+
+   <!-- seo fields form -->
+   <div class="seo-fields">
+     <fieldset>
+       <div class="form-holder">
+         <div class="title">
+           <h4>SEO Fields</h4>
+	   <a href="#">Hide</a>
+	 </div>
+         <div class="row">
+	   <label for="site-name">Page URL (Optional)</label>
+	   <span class="text"><%= f.text_field :seo_title, :value => "Site Name - ", :html => { :id => "site-name" } %></span>
+         </div>
+	 <div class="row">
+           <label for="keywords">Keywords (Separate with commas)</label>
+	   <span class="long-text"  style="height: 25px;"><%= f.text_area :seo_keywords %></span>
+	 </div>
+         <div class="row">
+	   <label for="description">Description (Max - 150 characters)</label>
+	   <div class="textarea">
+	     <div class="holder">
+	       <div class="frame">
+                 <%= f.text_area :seo_description, :style => "height:44px;" %>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </fieldset>
+   </div>
+ </div>
+
+ <!-- sidebar -->
+ <div id="sidebar">
+   <h3>Available Modules</h3>
+   <ul class="add-nav">
+     <li><a href="#" class="active"><span><strong>WYSIWYG</strong></span></a></li>
+     <li class="divider">&nbsp;</li>
+     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+     <li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
+     <li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+     <li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
+     <li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+   </ul>
+
+  <!-- paging -->
+  <ul class="paging">
+    <li class="next"><a href="#">next</a></li>
+    <li class="back"><a href="#">back</a></li>
+    <li><strong>1</strong></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+  </ul>
+</div>
+
+</div>
+
+<% end %>
+

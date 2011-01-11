@@ -1,5 +1,6 @@
 class Admin::UsersController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :define_page
   layout "admin"
   respond_to :html, :xml
 
@@ -71,5 +72,9 @@ class Admin::UsersController < ApplicationController
       format.html { redirect_to(admin_users_url, :notice => 'User was successfully deleted!') }
       format.xml  { head :ok }
     end
+  end
+
+  def define_page
+    @current_page = 'settings'
   end
 end

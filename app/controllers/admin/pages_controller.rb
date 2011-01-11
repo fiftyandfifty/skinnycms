@@ -1,6 +1,6 @@
 class Admin::PagesController < ApplicationController
-
   before_filter :authenticate_user!
+  before_filter :define_page
   layout "admin"
   uses_tiny_mce
   respond_to :html, :xml
@@ -19,7 +19,6 @@ class Admin::PagesController < ApplicationController
 
   def show
     @page = Page.find(params[:id]) rescue nil
-    @page = type_error_fix(params[:id]) if @page.blank?
 
     respond_to do |format|
       format.html
@@ -41,18 +40,18 @@ class Admin::PagesController < ApplicationController
   def edit
     @page = Page.find(params[:id]) rescue nil
     @page = type_error_fix(params[:id]) if @page.blank?
-    @page_content = PageContent.find(:first, :conditions => ["page_id = ?", @page.id])
-    @category = CategoryItem.find(:first, :conditions => "categorizable_type = 'Page' AND categorizable_id = #{@page.id}")
+    @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
     @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
+    @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
   end
 
   def create
     @page = Page.new(params[:page])
 
     if @page.save
-      PageContent.create(:content => params[:page_content][:content], :page_id => @page.id, :location => "content") if params[:page_content][:content]
-      PageContent.create(:content => params[:sidebar_content][:content], :page_id => @page.id, :location => "sidebar") if params[:sidebar_content][:content]
-      CategoryItem.create(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page") if params[:category][:category_id]
+      PageContent.create(:content => params[:header_content][:content], :page_id => @page.id, :location => "header") if params[:header_content][:content].present?
+      PageContent.create(:content => params[:page_content][:content], :page_id => @page.id, :location => "content") if params[:page_content][:content].present?
+      PageContent.create(:content => params[:sidebar_content][:content], :page_id => @page.id, :location => "sidebar") if params[:sidebar_content][:content].present?
 
       redirect_to(admin_pages_url, :notice => 'Page successfully created!')
     else
@@ -61,30 +60,31 @@ class Admin::PagesController < ApplicationController
   end
 
   def update
-    @page = Page.find(params[:id]) rescue nil
-    @page = type_error_fix(params[:id]) if @page.blank?
+    @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
 
-    @page_content = PageContent.find(:first, :conditions => ["page_id = ?", @page.id])
-    @category_item = CategoryItem.find(:first, :conditions => "categorizable_type = 'page' AND categorizable_id = #{@page.id}")
-
-    if @category_item
-      @category_item.update_attributes(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page")
-    else
-      CategoryItem.create(:category_id => params[:category][:category_id], :categorizable_id => @page.id, :categorizable_type => "page")
-    end
+    @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
 
     if @page_content
-      @page_content.update_attributes(params[:page_content])
+      @page_content.update_attribute(:content, params[:page_content][:content])
     else
       PageContent.create(:content => params[:page_content][:content], :page_id => @page.id)
     end
 
     @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
+
     if @sidebar_content
-      @sidebar_content.update_attributes(params[:sidebar_content])
+      @sidebar_content.update_attribute(:content, params[:sidebar_content][:content])
     else
       PageContent.create(:content => params[:sidebar_content][:content], :page_id => @page.id, :location => "sidebar")
+    end
+
+    @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
+
+    if @header_content
+      @header_content.update_attribute(:content, params[:header_content][:content])
+    else
+      PageContent.create(:content => params[:header_content][:content], :page_id => @page.id, :location => "header")
     end
 
     respond_to do |format|
@@ -122,4 +122,11 @@ class Admin::PagesController < ApplicationController
 
     render :nothing => true
   end
+
+  private
+
+  def define_page
+    @current_page = 'pages'
+  end
 end
+
