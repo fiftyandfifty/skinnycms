@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_db_seeds_generator generator.
+ 
+Example:
+  rails generate skinnycms_db_seeds_generator
+
+  This add skinnycms lines to db/seeds.rb to your application.
+  See the README for more details.

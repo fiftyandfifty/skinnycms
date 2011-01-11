@@ -38,8 +38,7 @@ class Admin::PagesController < ApplicationController
   end
 
   def edit
-    @page = Page.find(params[:id]) rescue nil
-    @page = type_error_fix(params[:id]) if @page.blank?
+    @page = Page.find(params[:id])
     @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
     @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
     @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
