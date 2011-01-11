@@ -13,6 +13,7 @@ class SkinnycmsLayoutsGenerator < Rails::Generators::Base
     sleep(3)
     copy_file "front_end.html.erb", "app/views/layouts/front_end.html.erb"
     copy_file "admin.html.erb", "app/views/layouts/admin.html.erb"
+    copy_file "devise.html.erb", "app/views/layouts/devise.html.erb"
     puts SkinnycmsLayoutsGenerator.end_description
   end
 

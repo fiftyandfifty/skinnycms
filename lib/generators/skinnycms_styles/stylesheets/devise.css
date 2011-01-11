@@ -1,0 +1,51 @@
+body {
+  width:900px;
+  margin:0px auto;
+  background-color:#1b1b1b;
+}
+
+#container {
+  width:400px;
+  margin:0px auto;
+  padding-top:300px;
+}
+
+#form {
+  background-color:#FFF;
+  padding:15px 20px;
+  margin-top:10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#form h2 {
+  display:none;
+}
+
+#form h3 {
+  margin:0px;
+  font: 24px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+  color:#1b1b1b;
+}
+
+label {
+  font: 15px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+  color:#666666;
+}
+
+input[type=text], input[type=password] {
+  font-size:14px;
+  width:250px;
+}
+
+input[type=submit] {
+  background-color:#1d6175;
+  border:0px;
+  font-weight:bold;
+  padding:5px 8px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  cursor:pointer;
+}

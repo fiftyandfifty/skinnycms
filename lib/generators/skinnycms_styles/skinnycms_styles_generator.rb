@@ -17,6 +17,7 @@ class SkinnycmsStylesGenerator < Rails::Generators::Base
     copy_file "demo.css", "public/stylesheets/skinnycms/demo.css"
     copy_file "all.css", "public/stylesheets/skinnycms/admin/all.css"
     copy_file "ie.css", "public/stylesheets/skinnycms/admin/ie.css"
+    copy_file "devise.css", "public/stylesheets/skinnycms/admin/devise.css"
     copy_file "nestedSortable.css", "public/stylesheets/skinnycms/nestedSortable.css"
     puts SkinnycmsStylesGenerator.end_description
   end

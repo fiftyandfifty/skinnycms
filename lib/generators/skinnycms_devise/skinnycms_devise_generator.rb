@@ -17,6 +17,17 @@ class SkinnycmsDeviseGenerator < Rails::Generators::Base
     inject_into_file "config/routes.rb", :after => "Application.routes.draw do\n" do
 "  devise_for :users\n"
     end
+    inject_into_file "app/controllers/application_controller.rb", :after => "class ApplicationController < ActionController::Base\n" do
+"  layout :layout_by_resource
+
+  def layout_by_resource
+    if devise_controller?
+      'devise'
+    else
+      'application'
+    end
+  end\n\n"
+    end
     copy_file "initializers/devise.rb", "config/initializers/devise.rb"
     copy_file "locales/devise.en.yml", "config/locales/devise.en.yml"
     puts SkinnycmsDeviseGenerator.end_description
