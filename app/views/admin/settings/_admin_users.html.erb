@@ -1,0 +1,46 @@
+<% @admin_users.each do |user| %>
+
+   <div class="admin-user" id="<%= user.id %>">
+
+      <div class="gray-area">
+        <div class="holder">
+          <a href="javascript:void(0);" class="edit_settings">Edit Settings</a>
+          <form action="" class="admin-email disabled">
+            <fieldset>
+              <div class="col">
+                <label>ADMIN EMAIL</label>
+                <span class="text"><input type="text" disabled="disabled" value="<%= user.email %>"/></span>
+              </div>
+              <div class="col">
+                <label>PASSWORD </label>
+                <span class="password"><input type="password" value="password" disabled="disabled" /></span>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <div class="gray-area seetings">
+        <div class="holder">
+          <%= form_tag(add_admin_settings_path, :class => "admin-email") do -%>
+            <fieldset>
+              <div class="col">
+                <label>ADMIN EMAIL</label>
+                <span class="text"><%= text_field "admin_settings[#{user.id}]", "login" %></span>
+              </div>
+              <div class="col">
+                <label>PASSWORD </label>
+                <span class="password"><%= text_field "admin_settings[#{user.id}]", "password", :type => "password" %></span>
+              </div>
+              <div class="row">
+                <%= submit_tag 'save Changes', :class => 'submit' %>
+                <a href="javascript:void(0);" class="cancel_edit_user">Cancel</a>
+              </div>
+            </fieldset>
+          <% end %>
+        </div>
+      </div>
+
+   </div>
+
+<% end %>

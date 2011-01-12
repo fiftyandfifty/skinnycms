@@ -24,6 +24,14 @@ Rails.application.routes.draw do
 
   match 'admin/settings', :controller => 'admin/settings', :action => 'index'
 
+  match 'add_admin_settings', :controller => 'admin/settings', :action => 'add_admin_settings'
+
+  match 'add_module', :controller => 'admin/settings', :action => 'add_module'
+
+  match 'edit_module', :controller => 'admin/settings', :action => 'edit_module'
+
+  match 'clear_api_cashes', :controller => 'admin/settings', :action => 'clear_api_cashes'
+
   root :to => "admin/pages#index"
 end
 

@@ -1,0 +1,36 @@
+<% @undefined_modules.each do |api_module| %>
+
+      <div class="gray-area api_modules">
+        <div class="holder api_modules">
+          <div class="block">
+            <strong class="name light"><%= api_module.module_name %></strong>
+            <ul class="actions">
+              <li><a href="javascript:void(0);" class="activate_api_module">Activate</a></li>
+            </ul>
+          </div>
+
+          <div class="edit_api_module" style="margin-top: 20px;">
+
+           <%= form_tag(add_module_path, :class => "admin-email") do -%>
+             <fieldset>
+              <%= text_field "api_settings", "api_module", :value => api_module.module_name, :style => "display:none;" %>
+              <div class="col">
+                <label>API KEY</label>
+                <span class="text"><%= text_field "api_settings", "api_key" %></span>
+              </div>
+              <div class="col">
+                <label>API TOKEN</label>
+                <span class="password"><%= text_field "api_settings", "api_token", :type => "password" %></span>
+              </div>
+              <div class="row high">
+                <%= submit_tag 'save Changes', :class => 'submit' %>
+                <a href="javascript:void(0);" class="cancel_api_module">Cancel</a>
+              </div>
+             </fieldset>
+           <% end %>
+
+          </div>
+        </div>
+      </div>
+
+<% end %>
