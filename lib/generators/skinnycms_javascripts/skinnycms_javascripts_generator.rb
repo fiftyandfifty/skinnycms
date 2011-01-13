@@ -15,7 +15,6 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
     copy_file "nestedSortable.1.2.1/jquery-1.4.2.min.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-1.4.2.min.js"
     copy_file "nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js"
     copy_file "nestedSortable.1.2.1/jquery.ui.nestedSortable.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js"
-    copy_file "main.js", "public/javascripts/skinnycms/admin/main.js"
     copy_file "jquery/jquery-1.4.4.min.js", "public/javascripts/skinnycms/jquery/jquery-1.4.4.min.js"
     copy_file "jquery/jquery-ui-1.8.7.custom.min.js", "public/javascripts/skinnycms/jquery/jquery-ui-1.8.7.custom.min.js"
     puts SkinnycmsJavascriptsGenerator.end_description
