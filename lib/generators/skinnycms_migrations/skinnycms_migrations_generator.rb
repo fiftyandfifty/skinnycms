@@ -38,6 +38,10 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     sleep(1)
     migration_template 'create_cache_tumblr_posts.rb', 'db/migrate/create_cache_tumblr_posts.rb'
     sleep(1)
+    migration_template 'create_cache_fleakr_galleries.rb', 'db/migrate/create_cache_fleakr_galleries.rb'
+    sleep(1)
+    migration_template 'create_cache_vimeo_videos.rb', 'db/migrate/create_cache_vimeo_videos.rb'
+    sleep(1)
     migration_template 'create_images.rb', 'db/migrate/create_images.rb'
     sleep(1)
     rake("db:migrate")

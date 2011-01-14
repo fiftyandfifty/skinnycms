@@ -9,8 +9,14 @@ class Admin::GalleriesController < ApplicationController
     @galleries = CacheFleakrGallery.find(:all, :conditions => "incomplete != 1")
   end
 
+  def force_reload_galleries
+    update_cached_galleries
+
+    redirect_to(admin_settings_path)
+  end
+
   def login_and_get_fleakr_user
-    fleakr_module = ApiModule.where(:module_name => 'fleakr basic')
+    fleakr_module = ApiModule.find_by_module_name('fleakr basic')
     Fleakr.api_key = fleakr_module.api_key
     Fleakr.user(fleakr_module.api_token)
   end
@@ -30,7 +36,7 @@ class Admin::GalleriesController < ApplicationController
 
     if cache_age_minutes > max_cache_length_in_minutes || fleakr_cache_sample.blank?
 
-      galleries = login_and_get_fleakr_user.sets rescue {}
+      galleries = self.login_and_get_fleakr_user.sets rescue {}
       if galleries.present?
          galleries.each do |gallery|
              new_data = {:fleakr_gallery_id => gallery.id,
@@ -43,6 +49,8 @@ class Admin::GalleriesController < ApplicationController
         CacheFleakrGallery.update_all(:incomplete => false)
       end
     end
+
+    ApiModule.find_by_module_name('fleakr basic').update_attribute(:updated_at, Time.now)
   end
 
   def define_page

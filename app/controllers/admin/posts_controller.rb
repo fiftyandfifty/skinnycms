@@ -9,8 +9,14 @@ class Admin::PostsController < ApplicationController
     @posts = CacheTumblrPost.find(:all, :conditions => "incomplete != 1")
   end
 
+  def force_reload_posts
+    update_cached_posts
+    
+    redirect_to(admin_settings_path)
+  end
+
   def login_and_get_tumblr_user
-    tumblr_module = ApiModule.where(:module_name => 'tumblr basic')
+    tumblr_module = ApiModule.find_by_module_name('tumblr basic')
     api_token = tumblr_module.api_token
     api_key = tumblr_module.api_key
     user = Tumblr::User.new(api_token, api_key)
@@ -69,6 +75,8 @@ class Admin::PostsController < ApplicationController
         CacheTumblrPost.update_all(:incomplete => false)
       end
     end
+
+    ApiModule.find_by_module_name('tumblr basic')
   end
 
   def define_page

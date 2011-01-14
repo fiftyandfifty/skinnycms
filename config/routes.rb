@@ -30,11 +30,11 @@ Rails.application.routes.draw do
 
   match 'clear_api_cashes', :controller => 'admin/settings', :action => 'clear_api_cashes'
 
-  match 'update_cached_posts', :controller => 'admin/posts', :action => 'update_cached_posts'
+  match 'force_reload_posts', :controller => 'admin/posts', :action => 'force_reload_posts'
 
-  match 'update_cached_galleries', :controller => 'admin/galleries', :action => 'update_cached_galleries'
+  match 'force_reload_galleries', :controller => 'admin/galleries', :action => 'force_reload_galleries'
 
-  match 'update_cached_videos', :controller => 'admin/videos', :action => 'update_cached_videos'
+  match 'force_reload_videos', :controller => 'admin/videos', :action => 'force_reload_videos'
 
   root :to => "admin/pages#index"
 end

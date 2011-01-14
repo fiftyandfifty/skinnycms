@@ -11,7 +11,15 @@
               <dd><%= time_ago_in_words(api_module.updated_at.to_s) %> ago</dd>
             </dl>
             <ul class="actions" style="margin-right: -10px;">
-              <li><a href="javascript:void(0);" class="clear_cache">Clear Cache</a></li>
+              <li>
+              <% if api_module.module_name == 'tumblr basic' %>
+                <%= link_to("Clear Cache", force_reload_posts_path) %>
+              <% elsif api_module.module_name == 'vimeo basic' %>
+                <%= link_to("Clear Cache", force_reload_videos_path) %>
+              <% elsif api_module.module_name == 'fleakr basic' %>
+                <%= link_to("Clear Cache", force_reload_galleries_path) %>
+              <% end %>
+              </li>
               <li><a href="javascript:void(0);" class="edit_api_settings">Edit</a></li>
               <li><a href="javascript:void(0);" class="remove_api_settings">Remove</a></li>
             </ul>
