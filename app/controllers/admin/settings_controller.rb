@@ -29,7 +29,14 @@ class Admin::SettingsController < ApplicationController
     end
   end
 
-  def add_admin_settings
+  def edit_admin_settings
+    if params[:admin_settings][:user] && params[:admin_settings][:login] && params[:admin_settings][:password]
+      admin_user = User.find(params[:admin_settings][:user])
+      admin_user.update_attributes(:email => params[:admin_settings][:login],
+                                   :password => params[:admin_settings][:password],
+                                   :password_confirmation => params[:admin_settings][:password],
+                                   :confirmed_at => Time.now)
+    end
 
     redirect_to(admin_settings_path)
   end
@@ -56,6 +63,9 @@ class Admin::SettingsController < ApplicationController
   end
 
   def clear_api_cashes
+    Admin::PostsController.update_cached_posts
+    Admin::VideosController.update_cached_videos
+    Admin::GalleriesController.update_cached_galleries
 
     redirect_to(admin_settings_path)
   end

@@ -5,6 +5,10 @@ class Admin::AssetsController < ApplicationController
 
   def index
     @title = "Assets"
+    @videos = Vimeo::Simple::User.all_videos("user4101556")
+    Fleakr.api_key = "d4666eafcdb675929ad56f51412393e5"
+    user = Fleakr.user('http://www.flickr.com/photos/51384181@N04/')
+    @galleries = user.sets
 
   end
 
