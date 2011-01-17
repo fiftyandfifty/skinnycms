@@ -1,0 +1,55 @@
+<!-- form of adding pages -->
+<%= form_for([:admin, @custom_module], :html => { :class => "module-title" }) do |f| %>
+
+  <!-- heading -->
+  <div class="heading">
+
+    <ul class="buttons">
+      <li><input type="submit" name="submit" value="Create" id="submit" class="save_button" style="margin-top: 0;" /></li>
+    </ul>
+
+    <h2>Add New Module</h2>
+
+  </div>
+
+  <!-- main -->
+  <div id="main" class="shadow">
+
+    <!-- content -->
+    <div id="content">
+      <%= render :partial => 'form', :locals => { :f => f } %>
+    </div>
+
+ <!-- sidebar -->
+ <div id="sidebar">
+   <h3>Available Modules</h3>
+   <ul class="add-nav">
+     <li><a href="#" class="active"><span><strong id="wysiwyg">WYSIWYG</strong></span></a></li>
+     <li class="divider">&nbsp;</li>
+     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+     <li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
+     <li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+     <li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
+     <li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
+     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+   </ul>
+
+  <!-- paging -->
+  <ul class="paging">
+    <li class="next"><a href="#">next</a></li>
+    <li class="back"><a href="#">back</a></li>
+    <li><strong>1</strong></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+  </ul>
+</div>
+
+</div>
+
+<% end %>

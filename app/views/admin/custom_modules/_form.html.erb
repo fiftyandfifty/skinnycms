@@ -1,0 +1,219 @@
+<%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
+<%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
+
+<style type="text/css">
+input.save_button {
+  margin: 0;
+  border: 1px dashed #97C3EB;
+}
+
+.parent_container {
+  margin-bottom:10px;
+}
+</style>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  <!-- WYSIWYG drag and drop logic test -->
+
+  // Basic drag and drop elements
+  //$(ui.draggable) draggable element
+  //$(this) droppable element
+
+  $('#large_content').hide();
+  $('#medium_content').hide();
+  $('#small_content').hide();
+
+  $('#wysiwyg').draggable({
+    helper : 'clone',
+    opacity : 0.3
+  });
+
+  $('#large_title').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event, ui) {
+      if(!status){
+        $('div#large_content').css('height','335px');
+        $('div#large_content > .holder').css('height','310px');
+        $('#frame_large_content').css('height','285px');
+        $('#custom_module_content_ifr').css('height','247px');
+        $('div#large_content').fadeIn('slow');
+        $('#large_title').fadeOut('slow');
+      }
+    }
+  });
+
+  $('#medium_title').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event, ui) {
+      if(!status){
+        $('div#medium_content').css('height','335px');
+        $('div#medium_content > .holder').css('height','310px');
+        $('#frame_medium_content').css('height','285px');
+        $('#custom_module_header_ifr').css('height','247px');
+        $('div#medium_content').fadeIn('slow');
+        $('#medium_title').fadeOut('slow');
+      }
+    }
+  });
+
+  $('#small_title').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event, ui) {
+      if(!status){
+        $('div#small_content').css('height','335px');
+        $('div#small_content > .holder').css('height','310px');
+        $('#frame_small_content').css('height','285px');
+        $('#custom_module_sidebar_ifr').css('height','247px');
+        $('div#small_content').fadeIn('slow');
+        $('#small_title').fadeOut('slow');
+      }
+    }
+  });
+
+  <!-- MODULES hide -->
+
+  $('#hide_large_wysiwyg').click(function() {
+    $('#large_content').fadeOut('slow');
+    $('#large_title').fadeIn('slow');
+  });
+
+  $('#hide_medium_wysiwyg').click(function() {
+    $('#medium_content').fadeOut('slow');
+    $('#medium_title').fadeIn('slow');
+  });
+
+  $('#hide_small_wysiwyg').click(function() {
+    $('#small_content').fadeOut('slow');
+    $('#small_title').fadeIn('slow');
+  });
+
+  <!-- MODULES show -->
+
+  $('#show_large_wysiwyg').click(function() {
+
+    $('div#large_content').css('height','335px');
+    $('div#large_content > .holder').css('height','310px');
+    $('#frame_large_content').css('height','285px');
+    $('#custom_module_content_ifr').css('height','247px');
+
+    $('#large_content').fadeIn('slow');
+    $('#large_title').fadeOut('slow');
+  });
+
+  $('#show_medium_wysiwyg').click(function() {
+
+    $('div#medium_content').css('height','335px');
+    $('div#medium_content > .holder').css('height','310px');
+    $('#frame_medium_content').css('height','285px');
+    $('#custom_module_header_ifr').css('height','247px');
+
+    $('#medium_content').fadeIn('slow');
+    $('#medium_title').fadeOut('slow');
+  });
+
+  $('#show_small_wysiwyg').click(function() {
+
+    $('div#small_content').css('height','335px');
+    $('div#small_content > .holder').css('height','310px');
+    $('#frame_small_content').css('height','285px');
+    $('#custom_module_sidebar_ifr').css('height','247px');
+
+    $('#small_content').fadeIn('slow');
+    $('#small_title').fadeOut('slow');
+  });
+
+});
+
+</script>
+
+
+      <fieldset>
+	<label for="module-title">Module Title</label>
+	<span class="text"><%= f.text_field :title %></span>
+      </fieldset>
+
+      <!-- module -->
+      <div class="module add">
+	<h3>Module Content</h3>
+
+        <div class="parent_container">
+        <div class="gray-area" id="large_title">
+          <div class="holder">
+	    <h4 class="head">Large Module Content</h4>
+	    <a href="javascript:void(0);" id="show_large_wysiwyg">Show</a>
+	  </div>
+        </div>
+
+	<div class="inner" id="large_content">
+	  <div class="holder">
+	    <div class="headline">
+              <h4 class="head">Large Module Content</h4>
+	      <a href="javascript:void(0);" id="hide_large_wysiwyg">Hide</a>
+	    </div>
+	    <div class="edit-box">
+    	      <div class="holder">
+		<div class="frame">
+		  <%= f.text_area "content", :style => "width:100%;", :class => "field mceEditor" %>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+        </div>
+
+        <div class="parent_container">
+        <div class="gray-area" id="medium_title">
+          <div class="holder">
+	    <h4 class="medium">Medium Module Content</h4>
+	    <a href="javascript:void(0);" id="show_medium_wysiwyg">Show</a>
+	  </div>
+        </div>
+
+	<div class="inner" id="medium_content">
+	  <div class="holder">
+	    <div class="headline">
+              <h4 class="medium">Medium Module Content</h4>
+	      <a href="javascript:void(0);" id="hide_medium_wysiwyg">Hide</a>
+	    </div>
+	    <div class="edit-box">
+    	      <div class="holder">
+		<div class="frame">
+		  <%= f.text_area "header", :class => "field mceEditor", :style => "width:100%;" %>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+        </div>
+
+        <div class="parent_container">
+        <div class="gray-area" id="small_title">
+          <div class="holder">
+	    <h4 class="small-content">Small Module Content</h4>
+	    <a href="javascript:void(0);" id="show_small_wysiwyg">Show</a>
+	  </div>
+        </div>
+
+        <div class="inner" id="small_content">
+	  <div class="holder">
+	    <div class="headline">
+              <h4 class="small-content">Small Module Content</h4>
+	      <a href="javascript:void(0);" id="hide_small_wysiwyg">Hide</a>
+	    </div>
+	    <div class="edit-box">
+    	      <div class="holder">
+		<div class="frame">
+		  <%= f.text_area "sidebar", :class => "field mceEditor", :style => "width:100%;" %>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+       </div>
+      </div>
+
