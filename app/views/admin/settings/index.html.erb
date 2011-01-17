@@ -112,9 +112,22 @@
    <div id="sidebar">
      <h3>Quick Links</h3>
      <ul class="btn-bar">
-       <li><a href="#"><span>Add a Module</span></a></li>
-       <li><a href="#"><span>Upload a File</span></a></li>
-       <li><a href="#"><span>Create a Module</span></a></li>
+       <li>
+         <%= link_to(new_admin_custom_module_path) do %>
+           <span>Add a Module</span>
+         <% end %>
+       </li>
+       <li>
+         <%= link_to(new_admin_image_path) do %>
+           <span>Upload a File</span>
+         <% end %>
+       </li>
+     </ul>
+     <h3>API Links</h3>
+     <ul class="btn-bar gray-btn">
+      <li><a href="#"><span><strong>Log-in</strong><em class="vimeo">vimeo</em></span></a></li>
+      <li><a href="#"><span><strong>Log-in</strong><em class="flickr">flickr</em></span></a></li>
+      <li><a href="#"><span><strong>Log-in</strong><em class="tumblr">tumblr.</em></span></a></li>
      </ul>
   </div>
 </div><!-- main -->

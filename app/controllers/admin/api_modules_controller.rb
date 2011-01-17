@@ -8,6 +8,16 @@ class Admin::ApiModulesController < ApplicationController
 
   end
 
+  def destroy
+    @api_module = ApiModule.find(params[:id])
+    @api_module.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(admin_settings_url, :notice => 'Api module successfully deleted!') }
+      format.xml  { head :ok }
+    end
+  end
+
   private
 
   def define_page

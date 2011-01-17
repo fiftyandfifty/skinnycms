@@ -21,7 +21,7 @@
               <% end %>
               </li>
               <li><a href="javascript:void(0);" class="edit_api_settings">Edit</a></li>
-              <li><a href="javascript:void(0);" class="remove_api_settings">Remove</a></li>
+              <li><%= link_to("Remove", admin_api_module_path(api_module), :confirm => "Are you sure?", :method => 'delete') %></li>
             </ul>
           </div>
 
