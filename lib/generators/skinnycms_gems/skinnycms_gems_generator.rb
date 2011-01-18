@@ -21,6 +21,7 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     run "gem install tiny_mce -v '0.1.4'"
     run "gem install acts_as_list -v '0.1.2'"
     run "gem install acts_as_tree -v '0.1.1'"
+    run "gem install will_paginate -v '2.3.15'"
     inject_into_file "Gemfile", :before => "gem 'skinnycms'" do
 "gem 'devise', '1.1.rc2'\n
 gem 'paperclip', '2.3.8'\n
@@ -31,7 +32,8 @@ gem 'fleakr', :path => 'vendor/forks/fleakr'\n
 gem 'vimeo', '1.3.0'\n
 gem 'tiny_mce', '0.1.4'\n
 gem 'acts_as_list', '0.1.2'\n
-gem 'acts_as_tree', '0.1.1'\n\n"
+gem 'acts_as_tree', '0.1.1'\n
+gem 'will_paginate', '2.3.15'\n\n"
     end
     run "bundle install"
     puts SkinnycmsGemsGenerator.end_description
@@ -62,6 +64,7 @@ gem 'acts_as_tree', '0.1.1'\n\n"
      tinymce '0.1.4'
      acts_as_list, '0.1.2'
      acts_as_tree, '0.1.1'
+     will_paginate, '2.3.15'
    successfully installed!
 
 *******************************************************************

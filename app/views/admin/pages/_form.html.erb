@@ -366,17 +366,32 @@ $(document).ready(function(){
    <ul class="add-nav">
      <li><a href="#" class="active"><span><strong id="wysiwyg">WYSIWYG</strong></span></a></li>
      <li class="divider">&nbsp;</li>
-     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
-     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
-     <li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
-     <li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
-     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
-     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
-     <li><a href="#"><span><strong>Why become a Donor</strong></span></a></li>
-     <li><a href="#"><span><strong>Featured holiday store feed</strong></span></a></li>
-     <li><a href="#"><span><strong>Recent Videos</strong></span></a></li>
-     <li><a href="#"><span><strong>Recent Tumblr Posts</strong></span></a></li>
+
+     <% @custom_modules.each do |custom_module| %>
+      <li>
+         <%= link_to do -%>
+           <span>
+             <strong>
+               <%= api_module.module_name %>
+             </strong>
+           </span>
+         <% end %>
+       </li>
+     <% end %>
+
+     <% @api_modules.each do |api_module| %>
+       <li>
+         <%= link_to do -%>
+           <span>
+             <strong>
+               <%= api_module.module_name %>
+             </strong>
+           </span>
+         <% end %>
+       </li>
+     <% end %>
    </ul>
+   <%= will_paginate @api_modules %>
 
   <!-- paging -->
   <ul class="paging">

@@ -30,6 +30,8 @@ class Admin::PagesController < ApplicationController
     @title = "Add Page"
     @page = Page.new
     @page_content = PageContent.new
+    @custom_modules = CustomModule.all
+    @api_modules = ApiModule.all.paginate :page => params[:page], :per_page => 2
 
     respond_to do |format|
       format.html
