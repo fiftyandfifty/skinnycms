@@ -1,12 +1,6 @@
 <%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
 <%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
 
-<style type="text/css">
-input.save_button {
-  margin: 0;
-  border: 1px dashed #97C3EB;
-}
-</style>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -173,9 +167,19 @@ $(document).ready(function(){
   <div class="heading">
 
     <ul class="buttons">
-      <li><a href="#" class="active"><span>Preview</span></a></li>
-      <li><a href="#"><span>save draft</span></a></li>
-      <li><input type="submit" name="submit" value="Publish" id="submit" class="save_button" /></li>
+      <li>
+        <%= link_to do -%>
+          <span>Preview</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to do -%>
+          <span>save draft</span>
+        <% end %>
+      </li>
+      <li>
+        <input type="submit" name="submit" value="Publish" id="submit" class="save_button" />
+      </li>
     </ul>
 
     <h2>

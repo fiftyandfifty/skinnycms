@@ -5,12 +5,8 @@
   <div class="heading">
 
     <ul class="buttons">
-      <li>
-        <% if @custom_module.id.present? %>
-          <input type="submit" name="submit" value="Update" id="submit" class="save_button" style="margin-top: 0;" />
-        <% else %>
-          <input type="submit" name="submit" value="Create" id="submit" class="save_button" style="margin-top: 0;" />
-        <% end %>
+      <li class="create_module">
+        <input type="submit" name="submit" value="Update Module" id="submit" class="save_button" style="border: 0;" />
       </li>
     </ul>
 

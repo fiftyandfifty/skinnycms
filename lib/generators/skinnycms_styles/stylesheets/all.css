@@ -1160,24 +1160,37 @@ form, fieldset {
 	border:none;
 }
 
-/* save_button for pages */
+/* save_buttons for pages and modules*/
 
 input.save_button {
-  margin-top: 20px;
   float: left;
+  margin: 0;
   border:0;
   background: 0;
   color:#000;
-  background:url(/images/skinnycms/admin/bg-button-lr.gif) no-repeat;
   font: bold 12px/16px Helvetica,arial,sans-serif;
   text-transform: uppercase;
   line-height: 41px;
-  width: 140px;
   height: 41px;
   cursor:pointer;
 }
 
+input.save_button {
+  background:url(/images/skinnycms/admin/publish_button.gif) no-repeat;
+  width: 94px;
+}
+
 input.save_button:hover {
+  background:url(/images/skinnycms/admin/publish_button.gif) no-repeat 0 -41px;
+}
+
+li.create_module input.save_button {
+  background:url(/images/skinnycms/admin/bg-button-lr.gif) no-repeat;
+  width: 140px;
+}
+
+li.create_module input.save_button:hover {
   background:url(/images/skinnycms/admin/bg-button-lr.gif) no-repeat 0 -41px;
 }
+
 
