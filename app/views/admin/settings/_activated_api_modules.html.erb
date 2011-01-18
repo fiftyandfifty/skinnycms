@@ -25,7 +25,7 @@
             </ul>
           </div>
 
-          <div class="edit_api_module" style="margin-top: 20px;">
+          <div class="edit_api_module" id="<%= api_module.module_name[0..4] %>" style="margin-top: 20px;">
 
            <%= form_tag(edit_module_path, :class => "admin-email") do -%>
              <fieldset>
