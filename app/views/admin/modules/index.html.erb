@@ -4,7 +4,7 @@
   <div id="content">
     <h2>Custome Modules</h2>
     <!-- custome modules list -->
-
+    <% if @api_modules.present? %>
     <ul class="list blue">
       <% @custom_modules.each do |custom_module| %>
         <li>
@@ -19,6 +19,18 @@
         </li>
       <% end %>
     </ul>
+        
+      <% else %>
+    <ul class="list black-text">
+        <li>
+        <div class="holder" style="margin-top: 20px;">
+          <span  style="margin-left: 20px;">
+            No custom modules yet!
+          </span>
+        </div>
+        </li>
+    </ul>
+      <% end %>
 
     <div class="heading-holder">
       <%= link_to(admin_settings_path, :class => "btn-view") do %>
@@ -28,10 +40,22 @@
     </div>
     <!-- API module list -->
     <ul class="list black-text">
+      <% if @api_modules.present? %>
+
       <% @api_modules.each do |api_module| %>
       <li>
         <div class="holder">
           <%= link_to(api_module.title, admin_api_module_path(api_module))%>
+        </div>
+      </li>
+      <% end %>
+      
+      <% else %>
+      <li>
+        <div class="holder" style="margin-top: 20px;">
+          <span  style="margin-left: 20px;">
+            No api modules yet! You can add it in a settings page!
+          </span>
         </div>
       </li>
       <% end %>

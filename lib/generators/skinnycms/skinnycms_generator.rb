@@ -23,6 +23,12 @@ class SkinnycmsGenerator < Rails::Generators::Base
 
   SKINNYCMS successfully installed!
 
+  Now you can run 'rails generate skinnycms_db_seeds',
+  it will add to your database all necessary content
+  for best testing your application!
+
+  Enjoy your SKINNYCMS!
+
 *******************************************************************
         DESCRIPTION
   end

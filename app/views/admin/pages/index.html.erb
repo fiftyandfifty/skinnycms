@@ -17,14 +17,38 @@
       <h2>Site Pages</h2>
     </div>
 
+    <% if @pages.present? %>
     <ol class="sortable" id="public" style="margin-left: 0; margin-bottom: 25px;">
-      <%= render 'page_list', :pages => @pages, :visibility => ['public', 'redirect'], :type => 'public' %>
+        <%= render 'page_list', :pages => @pages, :visibility => ['public', 'redirect'], :type => 'public' %>
     </ol>
+    <% else %>
+    <ul class="list black-text">
+        <li>
+          <div class="holder">
+            <span  style="margin-left: 20px;">
+              No public pages yet!
+            </span>
+          </div>
+        </li>
+    </ul>
+    <% end %>
                                 
     <h2>Private Pages</h2>
-    <ol class="sortable" id="private" style="margin-left: 0; margin-bottom: 25px; margin-top: 20px;">
-      <%= render 'page_list', :pages => @private_pages, :visibility => ['private'], :type => 'private' %>
-    </ol>
+    <% if @private_pages.present? %>
+      <ol class="sortable" id="private" style="margin-left: 0; margin-bottom: 25px; margin-top: 20px;">
+        <%= render 'page_list', :pages => @private_pages, :visibility => ['private'], :type => 'private' %>
+      </ol>
+    <% else %>
+      <ul class="list black-text">
+        <li>
+          <div class="holder" style="margin-top: 20px;">
+            <span  style="margin-left: 20px;">
+              No private pages yet!
+            </span>
+          </div>
+        </li>
+      </ul>
+    <% end %>
   </div>
 
   <!-- sidebar -->

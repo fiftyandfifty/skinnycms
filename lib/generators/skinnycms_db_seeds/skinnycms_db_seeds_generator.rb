@@ -74,6 +74,14 @@ end\n\n"
 
   Database seeds successfully configured!
 
+  Your test login:
+
+    fifty@mail.com
+
+  Your test password:
+
+    fiftyfifty
+
 *******************************************************************
         DESCRIPTION
   end
