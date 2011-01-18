@@ -5,7 +5,6 @@ class Admin::VideosController < ApplicationController
  
   def index
     @title = "Videos"
-    login_and_get_vimeo_user
     @videos = CacheVimeoVideo.find(:all, :conditions => "incomplete != 1")
   end
 
@@ -20,6 +19,7 @@ class Admin::VideosController < ApplicationController
   end
 
   def update_cached_videos
+
     max_cache_length_in_minutes = 300
     vimeo_cache_sample = CacheVimeoVideo.first(:conditions => "incomplete != 1")
 
@@ -33,8 +33,9 @@ class Admin::VideosController < ApplicationController
 
     if cache_age_minutes > max_cache_length_in_minutes || vimeo_cache_sample.blank?
 
-      videos = Vimeo::Simple::User.all_videos(self.login_and_get_vimeo_user) rescue {}
-      if videos.present?
+      videos = Vimeo::Simple::User.all_videos(define_new_controller.login_and_get_vimeo_user) rescue {}
+
+      if videos.present? && videos.code != 403 && videos.code != 500
          videos.each do |video|
              new_data = {:vimeo_video_id => video["id"],
                         :title => video["title"],
@@ -52,7 +53,13 @@ class Admin::VideosController < ApplicationController
     ApiModule.find_by_module_name('vimeo basic').update_attribute(:updated_at, Time.now)
   end
 
+  private
+
   def define_page
     @current_page = 'videos'
+  end
+
+  def define_new_controller
+    Admin::VideosController.new
   end
 end

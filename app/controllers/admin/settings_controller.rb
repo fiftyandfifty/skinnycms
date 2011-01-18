@@ -63,9 +63,13 @@ class Admin::SettingsController < ApplicationController
   end
 
   def clear_api_cashes
-    Admin::PostsController.update_cached_posts
-    Admin::VideosController.update_cached_videos
-    Admin::GalleriesController.update_cached_galleries
+    vimeo_module = ApiModule.find_by_module_name('vimeo basic')
+    fleakr_module = ApiModule.find_by_module_name('fleakr basic')
+    tumblr_module = ApiModule.find_by_module_name('tumblr basic')
+
+    Admin::VideosController.new.update_cached_videos if vimeo_module.present?
+    Admin::GalleriesController.new.update_cached_galleries if fleakr_module.present?
+    Admin::PostsController.new.update_cached_posts if tumblr_module.present?
 
     redirect_to(admin_settings_path)
   end

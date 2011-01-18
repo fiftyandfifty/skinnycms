@@ -5,7 +5,7 @@ class Admin::PostsController < ApplicationController
  
   def index
     @title = "Posts"
-    login_and_get_tumblr_user
+    define_new_controller.login_and_get_tumblr_user
     @posts = CacheTumblrPost.find(:all, :conditions => "incomplete != 1")
   end
 
@@ -21,12 +21,13 @@ class Admin::PostsController < ApplicationController
     api_key = tumblr_module.api_key
     user = Tumblr::User.new(api_token, api_key)
     info = HTTParty.get("http://www.tumblr.com/api/dashboard", :query => { :email => api_token, :password => api_key })
-    Tumblr.blog = info["tumblr"]["posts"]["post"].first["tumblelog"]
+    Tumblr.blog = info["tumblr"]["posts"]["post"].first["tumblelog"] if info.code != 403 && info.code != 500
     user
   end
 
   def update_cached_posts
-    login_and_get_tumblr_user
+
+    define_new_controller.login_and_get_tumblr_user
     
     max_cache_length_in_minutes = 300
     tumblr_cache_sample = CacheTumblrPost.first(:conditions => "incomplete != 1")
@@ -76,10 +77,16 @@ class Admin::PostsController < ApplicationController
       end
     end
 
-    ApiModule.find_by_module_name('tumblr basic')
+    ApiModule.find_by_module_name('tumblr basic').update_attribute(:updated_at, Time.now)
   end
+
+  private
 
   def define_page
     @current_page = 'modules'
+  end
+
+  def define_new_controller
+    Admin::PostsController.new
   end
 end

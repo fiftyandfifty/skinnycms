@@ -31,12 +31,12 @@
              <fieldset>
               <%= text_field "api_settings", "api_module", :value => api_module.id, :style => "display:none;" %>
               <div class="col">
-                <label>API KEY</label>
-                <span class="text"><%= text_field "api_settings", "api_key" %></span>
+                <label>API TOKEN</label>
+                <span class="text"><%= text_field "api_settings", "api_token" %></span>
               </div>
               <div class="col">
-                <label>API TOKEN</label>
-                <span class="password"><%= text_field "api_settings", "api_token", :type => "password" %></span>
+                <label>API KEY</label>
+                <span class="password"><%= text_field "api_settings", "api_key", :type => "password" %></span>
               </div>
               <div class="row high">
                 <%= submit_tag 'save Changes', :class => 'submit' %>
