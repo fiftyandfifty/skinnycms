@@ -44,6 +44,8 @@ class Admin::PagesController < ApplicationController
     @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
     @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
     @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
+    @custom_modules = CustomModule.all
+    @api_modules = ApiModule.all.paginate :page => params[:page], :per_page => 2
   end
 
   def create

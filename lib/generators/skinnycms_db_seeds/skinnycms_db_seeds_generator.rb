@@ -8,10 +8,10 @@ class SkinnycmsDbSeedsGenerator < Rails::Generators::Base
     puts SkinnycmsDbSeedsGenerator.start_description
     sleep(3)
     inject_into_file "db/seeds.rb", :before => "# This file should contain all the record creation" do
-"User.create!(:name => 'fifty',
-             :email => 'fifty@mail.com',
-             :password => 'fiftyfifty',
-             :password_confirmation => 'fiftyfifty',
+"User.create!(:name => 'fifty admin',
+             :email => 'admin@fiftyandfifty.org',
+             :password => 'fiftyand50',
+             :password_confirmation => 'fiftyand50',
              :confirmed_at => Time.now)
 
 [1, 2, 3, 4].each do |i|
@@ -76,11 +76,11 @@ end\n\n"
 
   Your test login:
 
-    fifty@mail.com
+    admin@fiftyandfifty.org
 
   Your test password:
 
-    fiftyfifty
+    fiftyand50
 
 *******************************************************************
         DESCRIPTION

@@ -11,6 +11,7 @@ group :development do
   gem 'cucumber-rails', '0.3.2'
   gem 'shoulda', '2.11.3'
   gem 'email_spec', '1.0.0'
+  gem 'friendly_id', '3.0.6'
   gem 'launchy', '0.3.7'
   gem 'capybara', '0.3.9'
   gem 'capybara-mechanize', '0.2.3'

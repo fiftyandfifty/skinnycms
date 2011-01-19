@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     resources :custom_modules
     resources :api_modules
   end
+  
+  match '/admin/pages/:id/edit', :to => 'pages#edit', :as => "friendly"
 
   match '/admin', :to => "admin/pages#index"
 
@@ -36,6 +38,7 @@ Rails.application.routes.draw do
 
   match 'force_reload_videos', :controller => 'admin/videos', :action => 'force_reload_videos'
 
-  root :to => "admin/pages#index"
+  match ':id', :to => 'pages#show', :as => "friendly"
+  root :to => "pages#index"
 end
 
