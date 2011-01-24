@@ -11,13 +11,25 @@ class SkinnycmsDeviseGenerator < Rails::Generators::Base
   def copy_devise_files
     puts SkinnycmsDeviseGenerator.start_description
     sleep(3)
-    inject_into_file "config/environments/development.rb", :after => "config.action_mailer.raise_delivery_errors = false\n" do
-"  config.action_mailer.default_url_options = { :host => 'localhost:3000' }\n"
+
+    config_env_file = IO.read('config/environments/development.rb')
+    config_routes_file = IO.read('config/routes.rb')
+    config_app_file = IO.read('app/controllers/application_controller.rb')
+
+    if config_env_file.scan("  config.action_mailer.default_url_options = { :host => 'localhost:3000' }").size < 1
+      insert_into_file "config/environments/development.rb",
+                       "  config.action_mailer.default_url_options = { :host => 'localhost:3000' }\n",
+                       :after => "config.action_mailer.raise_delivery_errors = false\n"
     end
-    inject_into_file "config/routes.rb", :after => "Application.routes.draw do\n" do
-"  devise_for :users\n"
+
+    if config_routes_file.scan("devise_for :users").size < 1
+      insert_into_file "config/routes.rb",
+                       "  devise_for :users\n",
+                       :after => "Application.routes.draw do\n"
     end
-    inject_into_file "app/controllers/application_controller.rb", :after => "class ApplicationController < ActionController::Base\n" do
+
+    if config_app_file.scan("def layout_by_resource").size < 1
+    insert_into_file "app/controllers/application_controller.rb",
 "  layout :layout_by_resource
 
   def layout_by_resource
@@ -26,10 +38,12 @@ class SkinnycmsDeviseGenerator < Rails::Generators::Base
     else
       'application'
     end
-  end\n\n"
+  end\n\n", :after => "class ApplicationController < ActionController::Base\n"
     end
-    copy_file "initializers/devise.rb", "config/initializers/devise.rb"
-    copy_file "locales/devise.en.yml", "config/locales/devise.en.yml"
+
+    copy_file "initializers/devise.rb", "config/initializers/devise.rb" if !File.exist?('config/initializers/devise.rb')
+    copy_file "locales/devise.en.yml", "config/locales/devise.en.yml" if !File.exist?('config/locales/devise.en.yml')
+
     puts SkinnycmsDeviseGenerator.end_description
   end
 
