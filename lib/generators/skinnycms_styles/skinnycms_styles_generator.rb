@@ -11,14 +11,14 @@ class SkinnycmsStylesGenerator < Rails::Generators::Base
   def copy_stylesheet_files
     puts SkinnycmsStylesGenerator.start_description
     sleep(3)
-    copy_file "reset.css", "public/stylesheets/skinnycms/reset.css"
-    copy_file "text.css", "public/stylesheets/skinnycms/text.css"
-    copy_file "960.css", "public/stylesheets/skinnycms/960.css"
-    copy_file "demo.css", "public/stylesheets/skinnycms/demo.css"
-    copy_file "all.css", "public/stylesheets/skinnycms/admin/all.css"
-    copy_file "ie.css", "public/stylesheets/skinnycms/admin/ie.css"
-    copy_file "devise.css", "public/stylesheets/skinnycms/admin/devise.css"
-    copy_file "nestedSortable.css", "public/stylesheets/skinnycms/nestedSortable.css"
+    copy_file "reset.css", "public/stylesheets/skinnycms/reset.css" if !File.exist?("public/stylesheets/skinnycms/reset.css")
+    copy_file "text.css", "public/stylesheets/skinnycms/text.css" if !File.exist?("public/stylesheets/skinnycms/text.css")
+    copy_file "960.css", "public/stylesheets/skinnycms/960.css" if !File.exist?("public/stylesheets/skinnycms/960.css")
+    copy_file "demo.css", "public/stylesheets/skinnycms/demo.css" if !File.exist?("public/stylesheets/skinnycms/demo.css")
+    copy_file "all.css", "public/stylesheets/skinnycms/admin/all.css" if !File.exist?("public/stylesheets/skinnycms/admin/all.css")
+    copy_file "ie.css", "public/stylesheets/skinnycms/admin/ie.css" if !File.exist?("public/stylesheets/skinnycms/admin/ie.css")
+    copy_file "devise.css", "public/stylesheets/skinnycms/admin/devise.css" if !File.exist?("public/stylesheets/skinnycms/admin/devise.css")
+    copy_file "nestedSortable.css", "public/stylesheets/skinnycms/nestedSortable.css" if !File.exist?("public/stylesheets/skinnycms/nestedSortable.css")
     puts SkinnycmsStylesGenerator.end_description
   end
 
