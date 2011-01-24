@@ -11,9 +11,11 @@ class SkinnycmsLayoutsGenerator < Rails::Generators::Base
   def copy_layout_files
     puts SkinnycmsLayoutsGenerator.start_description
     sleep(3)
-    copy_file "front_end.html.erb", "app/views/layouts/front_end.html.erb"
-    copy_file "admin.html.erb", "app/views/layouts/admin.html.erb"
-    copy_file "devise.html.erb", "app/views/layouts/devise.html.erb"
+
+    copy_file "front_end.html.erb", "app/views/layouts/front_end.html.erb" if !File.exist?('app/views/layouts/front_end.html.erb')
+    copy_file "admin.html.erb", "app/views/layouts/admin.html.erb" if !File.exist?('app/views/layouts/admin.html.erb')
+    copy_file "devise.html.erb", "app/views/layouts/devise.html.erb" if !File.exist?('app/views/layouts/devise.html.erb')
+
     puts SkinnycmsLayoutsGenerator.end_description
   end
 
