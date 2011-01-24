@@ -18,5 +18,7 @@ class CreateCacheTumblrPosts < ActiveRecord::Migration
 
   def self.down
     drop_table :cache_tumblr_posts
+
+    remove_index "index_tumblr_posts_on_complete_id"
   end
 end

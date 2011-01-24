@@ -14,5 +14,7 @@ class CreateCacheFleakrGalleries < ActiveRecord::Migration
 
   def self.down
     drop_table :cache_fleakr_galleries
+
+    remove_index "index_fleakr_galleries_on_complete_id"
   end
 end

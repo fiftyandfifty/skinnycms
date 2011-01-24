@@ -16,5 +16,7 @@ class CreateCacheVimeoVideos < ActiveRecord::Migration
 
   def self.down
     drop_table :cache_vimeo_videos
+
+    remove_index "index_vimeo_videos_on_complete_id"
   end
 end
