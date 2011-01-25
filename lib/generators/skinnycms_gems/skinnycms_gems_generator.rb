@@ -11,7 +11,7 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     Dir.chdir("#{RAILS_ROOT}/")
     gemfile = IO.read('Gemfile')
 
-    run "gem install devise -v '1.1.rc2'" if gemfile.scan("devise").size < 1
+    run "gem install devise -v '1.2.rc'" if gemfile.scan("devise").size < 1
     run "gem install paperclip -v '2.3.8'" if gemfile.scan("paperclip").size < 1
     run "gem install cloudfiles -v '1.4.10'" if gemfile.scan("cloudfiles").size < 1
     run "gem install paperclip-cloudfiles -v '2.3.8'" if gemfile.scan("paperclip-cloudfiles").size < 1
@@ -32,7 +32,7 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     run "gem install will_paginate -v '2.3.15'" if gemfile.scan("will_paginate").size < 1
     run "gem install friendly_id -v '3.0.6'" if gemfile.scan("friendly_id").size < 1
 
-    insert_into_file "Gemfile", "gem 'devise', '1.1.rc2'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("devise").size < 1
+    insert_into_file "Gemfile", "gem 'devise', '1.2.rc'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("devise").size < 1
     insert_into_file "Gemfile", "gem 'paperclip', '2.3.8'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("paperclip").size < 1
     insert_into_file "Gemfile", "gem 'cloudfiles', '1.4.10'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("cloudfiles").size < 1
     insert_into_file "Gemfile", "gem 'paperclip-cloudfiles', '2.3.8', :require => 'paperclip'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("paperclip-cloudfiles").size < 1
@@ -64,7 +64,7 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
 *******************************************************************
 
    Gems:
-     devise '1.1.rc2'
+     devise '1.2.rc'
      paperclip '2.3.8'
      cloudfiles, '1.4.10'
      paperclip-cloudfiles, '2.3.8'

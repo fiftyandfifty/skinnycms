@@ -1100,7 +1100,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["= 1.0.7"])
       s.add_development_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_development_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
-      s.add_development_dependency(%q<warden>, ["= 1.0.3"])
       s.add_development_dependency(%q<devise>, ["= 1.2.rc"])
       s.add_development_dependency(%q<paperclip>, ["= 2.3.8"])
       s.add_runtime_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1123,7 +1122,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["= 1.0.7"])
       s.add_development_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_development_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
-      s.add_development_dependency(%q<warden>, ["= 1.0.3"])
       s.add_development_dependency(%q<devise>, ["= 1.2.rc"])
       s.add_development_dependency(%q<paperclip>, ["= 2.3.8"])
     else
@@ -1146,7 +1144,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["= 1.0.7"])
       s.add_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
-      s.add_dependency(%q<warden>, ["= 1.0.3"])
       s.add_dependency(%q<devise>, ["= 1.2.rc"])
       s.add_dependency(%q<paperclip>, ["= 2.3.8"])
       s.add_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1169,7 +1166,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["= 1.0.7"])
       s.add_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
-      s.add_dependency(%q<warden>, ["= 1.0.3"])
       s.add_dependency(%q<devise>, ["= 1.2.rc"])
       s.add_dependency(%q<paperclip>, ["= 2.3.8"])
     end
@@ -1193,7 +1189,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["= 1.0.7"])
     s.add_dependency(%q<jeweler>, ["= 1.5.1"])
     s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
-    s.add_dependency(%q<warden>, ["= 1.0.3"])
     s.add_dependency(%q<devise>, ["= 1.2.rc"])
     s.add_dependency(%q<paperclip>, ["= 2.3.8"])
     s.add_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1216,7 +1211,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["= 1.0.7"])
     s.add_dependency(%q<jeweler>, ["= 1.5.1"])
     s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
-    s.add_dependency(%q<warden>, ["= 1.0.3"])
     s.add_dependency(%q<devise>, ["= 1.2.rc"])
     s.add_dependency(%q<paperclip>, ["= 2.3.8"])
   end
