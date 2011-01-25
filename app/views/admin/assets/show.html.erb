@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @asset.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @asset.description %>
+</p>
+
+<p>
+  <b>File:</b>
+  <%= image_tag @asset.asset.url(:thumbnail) %>
+</p>
+
+<%= link_to 'Edit', edit_admin_asset_path(@asset) %> |
+<%= link_to 'Back', admin_assets_path %>

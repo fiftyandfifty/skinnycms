@@ -5,11 +5,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users
     resources :pages
-    resources :categories
     resources :posts
-    resources :images
     resources :custom_modules
     resources :api_modules
+    resources :assets
   end
   
   match '/admin/pages/:id/edit', :to => 'pages#edit', :as => "friendly"
@@ -17,8 +16,6 @@ Rails.application.routes.draw do
   match '/admin', :to => "admin/pages#index"
 
   match 'admin/modules', :controller => 'admin/modules', :action => 'index'
-
-  match 'admin/assets', :controller => 'admin/assets', :action => 'index'
 
   match 'admin/settings', :controller => 'admin/settings', :action => 'index'
 
@@ -39,6 +36,7 @@ Rails.application.routes.draw do
   match 'force_reload_videos', :controller => 'admin/videos', :action => 'force_reload_videos'
 
   match ':id', :to => 'pages#show', :as => "friendly"
+  
   root :to => "pages#index"
 end
 
