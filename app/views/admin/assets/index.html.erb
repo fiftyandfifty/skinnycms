@@ -1,10 +1,15 @@
+
 <!-- main -->
 		<div id="main">
-			<!-- content -->
+
+            	     <!-- content -->
 			<div id="content">
 				<div class="container">
 					<h2>Assets</h2>
-					<a href="#" class="btn"><span>Add a new Asset</span></a>
+                                        <%= link_to(new_admin_asset_path, :class => "btn") do %>
+                                          <span>Add a new Asset</span>
+                                        <% end %>
+				
 					<!-- search form -->
 					<form action="#" class="search">
 						<fieldset>
@@ -32,233 +37,28 @@
 							<th class="data">Date</th>
 							<th class="actions">Actions</th>
 						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
 					</thead>
 					<tbody>
+                                          <% @assets.each do |asset| %>
+
 						<tr>
-							<td class="name">Recent Vimeo Videos</td>
-							<td>Image</td>
-							<td class="data">June 14th, 2011</tdclass>
+							<td class="name"><%= asset.title %></td>
+							<td><%= asset.asset_content_type %></td>
+							<td class="data"><%= asset.asset_updated_at %></tdclass>
 							<td class="actions">
 								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
+									<li><%= link_to 'Preview', admin_asset_path(asset) %></li>
+									<li><%= link_to 'Edit', edit_admin_asset_path(asset) %></li>
+									<li><%= link_to 'Destroy', admin_asset_path(asset), :confirm => 'Are you sure?', :method => :delete %></li>
 								</ul>
 							</td>
 						</tr>
 						<tr class="divider">
 							<td colspan="4">&nbsp;</td>
 						</tr>
-						<tr>
-							<td class="name">Bundle Up This Christmas</td>
-							<td>File</td>
-							<td class="data">December 14th, 2011</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Global Callouts &#35;1</td>
-							<td>File</td>
-							<td class="data">March 11th, 2009</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Global Callouts &#35;2</td>
-							<td>Image</td>
-							<td class="data">March 11th, 2009</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">2011 Financial Report</td>
-							<td>File</td>
-							<td class="data">January 28th, 2011</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Recent Vimeo Videos</td>
-							<td>Image</td>
-							<td class="data">June 14th, 2011</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Bundle Up This Christmas</td>
-							<td>Code</td>
-							<td class="data">December 14th, 2011</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Global Callouts &#35;1</td>
-							<td>Code</td>
-							<td class="data">March 11th, 2009</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Global Callouts &#35;2</td>
-							<td>Image</td>
-							<td class="data">March 11th, 2009</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">2011 Financial Report</td>
-							<td>Document</td>
-							<td class="data">January 28th, 2011</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Recent Vimeo Videos</td>
-							<td>Image</td>
-							<td class="data">June 14th, 2011</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Bundle Up This Christmas</td>
-							<td>Code</td>
-							<td class="data">December 14th, 2011</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Global Callouts &#35;1</td>
-							<td>Code</td>
-							<td class="data">March 11th, 2009</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name">Global Callouts &#35;2</td>
-							<td>Image</td>
-							<td class="data">March 11th, 2009</td>
-							<td class="actions">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="name last-row-l">2011 Financial Report</td>
-							<td>Document</td>
-							<td class="data">January 28th, 2011</td>
-							<td class="actions last-row-r">
-								<ul>
-									<li><a href="#">Preview</a></li>
-									<li><a href="#">Edit</a></li>
-									<li><a href="#">Delete</a></li>
-								</ul>
-							</td>
-						</tr>
+
+                                           <% end %>
+						
 					</tbody>
 				</table>
 				<!-- paging -->

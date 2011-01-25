@@ -98,6 +98,15 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     :incomplete => "boolean"
                     }
 
+    asset_columns = {
+                    :title => "string",
+                    :description => "text",
+                    :asset_file_name => "string",
+                    :asset_content_type => "string",
+                    :asset_file_size => "integer",
+                    :asset_updated_at => "datetime",
+                    }
+
     begin
       user_app_columns = ActiveRecord::Base::User.column_names
       self.class.define_migration("users", user_columns, user_app_columns)
@@ -159,6 +168,14 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
       self.class.define_migration("cache_tumblr_posts", cache_tumblr_post_columns, cache_tumblr_post_app_columns)
     rescue
       self.class.check_migration_file("*create_cache_tumblr_posts*", "create_cache_tumblr_posts.rb")
+    end
+    sleep(1)
+
+    begin
+      asset_app_columns = ActiveRecord::Base::Asset.column_names
+      self.class.define_migration("assets", asset_columns, asset_app_columns)
+    rescue
+      self.class.check_migration_file("*create_assets*", "create_assets.rb")
     end
     sleep(1)
     
