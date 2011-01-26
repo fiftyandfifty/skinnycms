@@ -1,5 +1,5 @@
 class Admin::PagesController < ApplicationController
-  before_filter :authenticate_user!
+ # before_filter :authenticate_user!
   before_filter :define_page
   layout "admin"
   uses_tiny_mce
@@ -52,9 +52,32 @@ class Admin::PagesController < ApplicationController
     @page = Page.new(params[:page])
 
     if @page.save
-      PageContent.create(:content => params[:header_content][:content], :page_id => @page.id, :location => "header") if params[:header_content][:content].present?
-      PageContent.create(:content => params[:page_content][:content], :page_id => @page.id, :location => "content") if params[:page_content][:content].present?
-      PageContent.create(:content => params[:sidebar_content][:content], :page_id => @page.id, :location => "sidebar") if params[:sidebar_content][:content].present?
+      if params[:header_content].present?
+        header_blocks = '';
+        header_params = params[:header_content]
+        header_params.each do |key, value|
+          header_blocks += header_blocks + value
+        end
+        PageContent.create(:content => header_blocks, :page_id => @page.id, :location => "header")
+      end
+
+      if params[:content_content].present?
+        content_blocks = '';
+        content_params = params[:content_content]
+        content_params.each do |key, value|
+          content_blocks += content_blocks + value
+        end
+        PageContent.create(:content => content_blocks, :page_id => @page.id, :location => "content")
+      end
+
+      if params[:sidebar_content].present?
+        sidebar_blocks = '';
+        sidebar_params = params[:sidebar_content]
+        sidebar_params.each do |key, value|
+          sidebar_blocks += sidebar_blocks + value
+        end
+        PageContent.create(:content => sidebar_blocks, :page_id => @page.id, :location => "sidebar")
+      end
 
       redirect_to(admin_pages_url, :notice => 'Page successfully created!')
     else
@@ -66,28 +89,52 @@ class Admin::PagesController < ApplicationController
     @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
 
-    @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
+    if params[:header_content].present?
+      header_blocks = '';
+      header_params = params[:header_content]
+      header_params.each do |key, value|
+        header_blocks += header_blocks + value
+      end
 
-    if @page_content
-      @page_content.update_attribute(:content, params[:page_content][:content])
-    else
-      PageContent.create(:content => params[:page_content][:content], :page_id => @page.id)
+      @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
+
+      if @header_content
+        @header_content.update_attribute(:content, header_blocks)
+      else
+        PageContent.create(:content => header_blocks, :page_id => @page.id, :location => "header")
+      end
     end
 
-    @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
+    if params[:content_content].present?
+      content_blocks = '';
+      content_params = params[:content_content]
+      content_params.each do |key, value|
+        content_blocks += content_blocks + value
+      end
 
-    if @sidebar_content
-      @sidebar_content.update_attribute(:content, params[:sidebar_content][:content])
-    else
-      PageContent.create(:content => params[:sidebar_content][:content], :page_id => @page.id, :location => "sidebar")
+      @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
+
+      if @page_content
+        @page_content.update_attribute(:content, content_blocks)
+      else
+        PageContent.create(:content => content_blocks, :page_id => @page.id)
+      end
     end
 
-    @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
+    if params[:sidebar_content].present?
+      sidebar_blocks = '';
+      sidebar_params = params[:sidebar_content]
+      sidebar_params.each do |key, value|
+        sidebar_blocks += sidebar_blocks + value
+      end
 
-    if @header_content
-      @header_content.update_attribute(:content, params[:header_content][:content])
-    else
-      PageContent.create(:content => params[:header_content][:content], :page_id => @page.id, :location => "header")
+      @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
+
+      if @sidebar_content
+        @sidebar_content.update_attribute(:content, sidebar_blocks)
+      else
+        PageContent.create(:content => sidebar_blocks, :page_id => @page.id, :location => "sidebar")
+      end
     end
 
     respond_to do |format|
