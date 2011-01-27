@@ -49,15 +49,19 @@ class Admin::PagesController < ApplicationController
   end
 
   def create
+    Rails.logger.info "++++++++++++ #{params.inspect}"
     @page = Page.new(params[:page])
 
     if @page.save
       if params[:header_content].present?
         header_blocks = '';
         header_params = params[:header_content]
+        Rails.logger.info "-------- #{header_params}"
         header_params.each do |key, value|
-          header_blocks += header_blocks + value
+          Rails.logger.info "++++++++++++ #{header_blocks}"
+          header_blocks += value
         end
+        Rails.logger.info ">>>>>>>> #{header_blocks}"
         PageContent.create(:content => header_blocks, :page_id => @page.id, :location => "header")
       end
 
@@ -65,7 +69,7 @@ class Admin::PagesController < ApplicationController
         content_blocks = '';
         content_params = params[:content_content]
         content_params.each do |key, value|
-          content_blocks += content_blocks + value
+          content_blocks += value
         end
         PageContent.create(:content => content_blocks, :page_id => @page.id, :location => "content")
       end
@@ -74,7 +78,7 @@ class Admin::PagesController < ApplicationController
         sidebar_blocks = '';
         sidebar_params = params[:sidebar_content]
         sidebar_params.each do |key, value|
-          sidebar_blocks += sidebar_blocks + value
+          sidebar_blocks += value
         end
         PageContent.create(:content => sidebar_blocks, :page_id => @page.id, :location => "sidebar")
       end
@@ -86,54 +90,76 @@ class Admin::PagesController < ApplicationController
   end
 
   def update
+
     @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
 
-    if params[:header_content].present?
-      header_blocks = '';
-      header_params = params[:header_content]
-      header_params.each do |key, value|
-        header_blocks += header_blocks + value
+    if params[:header_content].present? || !params[:header_new].present?
+      header_exist = []
+      header_exist = params[:header_content][:content] if params[:header_content][:content].present?
+
+      if params[:header_new].present?
+        header_blocks = []
+        header_params = params[:header_new]
+        header_params.each do |key, value|
+          header_blocks << value
+        end
       end
+
+      header_result = header_exist.to_s + header_blocks.to_s
 
       @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
 
       if @header_content
-        @header_content.update_attribute(:content, header_blocks)
+        @header_content.update_attribute(:content, header_result)
       else
-        PageContent.create(:content => header_blocks, :page_id => @page.id, :location => "header")
+        PageContent.create(:content => header_result, :page_id => @page.id, :location => "header")
       end
     end
 
-    if params[:content_content].present?
-      content_blocks = '';
-      content_params = params[:content_content]
-      content_params.each do |key, value|
-        content_blocks += content_blocks + value
+    if params[:page_content].present? || params[:content_new].present?
+      content_exist = []
+      content_exist = params[:page_content][:content] if params[:page_content][:content].present?
+
+      if params[:content_new].present?
+        content_blocks = []
+        content_params = params[:content_new]
+        content_params.each do |key, value|
+          content_blocks << value
+        end
       end
+
+      content_result = content_exist.to_s + content_blocks.to_s
 
       @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
 
       if @page_content
-        @page_content.update_attribute(:content, content_blocks)
+        @page_content.update_attribute(:content, content_result)
       else
-        PageContent.create(:content => content_blocks, :page_id => @page.id)
+        PageContent.create(:content => content_result, :page_id => @page.id)
       end
     end
 
-    if params[:sidebar_content].present?
-      sidebar_blocks = '';
-      sidebar_params = params[:sidebar_content]
-      sidebar_params.each do |key, value|
-        sidebar_blocks += sidebar_blocks + value
+    if params[:sidebar_content].present? || params[:sidebar_new].present?
+      sidebar_exist = []
+      sidebar_exist = params[:sidebar_content][:content] if params[:sidebar_content][:content].present?
+
+      if params[:sidebar_new].present?
+        sidebar_blocks = []
+        sidebar_params = params[:sidebar_new]
+        sidebar_params.each do |key, value|
+          sidebar_blocks << value
+        end
       end
+
+      sidebar_result = sidebar_exist.to_s + sidebar_blocks.to_s
 
       @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
 
       if @sidebar_content
-        @sidebar_content.update_attribute(:content, sidebar_blocks)
+        @sidebar_content.update_attribute(:content, sidebar_result)
       else
-        PageContent.create(:content => sidebar_blocks, :page_id => @page.id, :location => "sidebar")
+        PageContent.create(:content => sidebar_result, :page_id => @page.id, :location => "sidebar")
       end
     end
 

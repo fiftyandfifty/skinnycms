@@ -1,0 +1,393 @@
+<%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
+<%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  <!-- Useful comments -->
+  
+  // Basic drag and drop elements
+  //   $(ui.draggable) draggable element
+  //   $(this) droppable element
+  //
+  // To add tinymce control panel use:
+  //   tinymce.execCommand('mceAddControl',true,'#your id');
+  //
+  // For copying data then mono mode of page templates use:
+  //  var sidebar_content = $('#sidebar_content_content_ifr').contents().find('body.mceContentBody').html();
+  //  $('#page_content_content_ifr').contents().find('body.mceContentBody').append(sidebar_content);
+  //  $('#sidebar_content_content_ifr').contents().find('body.mceContentBody').empty();
+
+  <!-- Pages template logic -->
+
+  $('.multiple').click(function() {
+    
+    $('#right_content').slideDown(50);
+    $('#left_content a').css('background-repeat','no-repeat');
+    $('#left_content').css('width','335px');
+    $('#left_content a').css('width','335px');
+    $('#left_content a').attr('class','tabset-l active');
+    $('#right_content a').attr('class','tabset-r');
+    $('#sidebar_drag').slideUp(1000);
+    $('#content_drag').delay(1000).slideDown(1000);
+
+  });
+
+  $('.mono').click(function() {
+    
+    $('#right_content').slideUp(50);
+    $('#left_content a').css('background-repeat','repeat');
+    $('#left_content').css('width','100%');
+    $('#left_content a').css('width','100%');
+    $('#left_content a').attr('class','tabset-l active');
+    $('#right_content a').attr('class','tabset-r');
+    $('#sidebar_drag').slideUp(1000);
+    $('#content_drag').delay(1000).slideDown(1000);
+
+  });
+  
+  $('#left_content a').click(function() {
+
+    $('#left_content a').attr('class','tabset-l  active');
+    $('#right_content a').attr('class','tabset-r');
+    $('#sidebar_drag').slideUp(1000);
+    $('#content_drag').delay(1000).slideDown(1000);
+
+  });
+
+  $('#right_content a').click(function() {
+
+    $('#left_content a').attr('class','tabset-l');
+    $('#right_content a').attr('class','tabset-r  active');
+    $('#content_drag').slideUp(1000);
+    $('#sidebar_drag').delay(1000).slideDown(1000);
+
+  });
+
+  <!-- WYSIWYG drag and drop logic test -->
+
+  $('#sidebar_drag').delay(50).slideUp(50);
+
+  var header_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" id="remove_header_wysiwyg">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame" id="frame_header_drag">';
+  var header_part_2 = '<textarea class="field mceEditor" cols="40" id="header_content_';
+  var header_part_3 = '" name="header_content[';
+  var header_part_4 = ']" rows="20" style="width:100%;"></textarea>';
+  var header_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+  var header_id_begin = 'header_content_';
+  var header_id_end = 0;
+  var header_id_complex = '';
+
+  var content_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" id="remove_content_wysiwyg">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame" id="frame_content_drag">';
+  var content_part_2 = '<textarea class="field mceEditor" cols="40" id="content_content_';
+  var content_part_3 = '" name="content_content[';
+  var content_part_4 = ']" rows="20" style="width:100%;"></textarea>';
+  var content_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+  var content_id_begin = 'content_content_';
+  var content_id_end = 0;
+  var content_id_complex = '';
+
+  var sidebar_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" id="remove_sidebar_wysiwyg">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame" id="frame_sidebar_drag">';
+  var sidebar_part_2 = '<textarea class="field mceEditor" cols="40" id="sidebar_content_';
+  var sidebar_part_3 = '" name="sidebar_content[';
+  var sidebar_part_4 = ']" rows="20" style="width:100%;"></textarea>';
+  var sidebar_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+  var sidebar_id_begin = 'sidebar_content_';
+  var sidebar_id_end = 0;
+  var sidebar_id_complex = '';
+
+  $('#wysiwyg').draggable({
+    helper : 'clone',
+    opacity : 0.3
+  });
+
+  $('div.title').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event_1, ui) {
+
+      header_id_end = header_id_end + 1;
+      header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
+      header_id_complex = header_id_begin + header_id_end.toString();
+      $('#header_drag').append(header_result_html);
+      tinymce.execCommand('mceAddControl',true,header_id_complex);
+
+    }
+  });
+
+  $('li#left_content').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event_2, ui) {
+
+      $('#left_content a').attr('class','tabset-l  active');
+      $('#right_content a').attr('class','tabset-r');
+      $('#sidebar_drag').slideUp(1000);
+      $('#content_drag').slideDown(1000);
+
+      content_id_end = content_id_end + 1;
+      content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+      content_id_complex = content_id_begin + content_id_end.toString();
+      $('#content_drag').append(content_result_html);
+      tinymce.execCommand('mceAddControl',true,content_id_complex);
+
+    }
+  });
+
+  $('li#right_content').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event_2, ui) {
+
+      $('#left_content a').attr('class','tabset-l');
+      $('#right_content a').attr('class','tabset-r  active');
+      $('#content_drag').slideUp(1000);
+      $('#sidebar_drag').slideDown(1000);
+
+      sidebar_id_end = sidebar_id_end + 1;
+      sidebar_result_html = sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
+      sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
+      $('#sidebar_drag').append(sidebar_result_html);
+      tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
+
+    }
+  });
+
+  <!-- WYSIWYG remove -->
+
+  $('#remove_header_wysiwyg').click(function() {
+    $('div#header_drag').fadeOut('slow');
+  });
+
+  $('#remove_content_wysiwyg').click(function() {
+    $('div#content_drag').fadeOut('slow');
+  });
+
+  $('#remove_sidebar_wysiwyg').click(function() {
+    $('div#sidebar_drag').fadeOut('slow');
+  });
+
+  <!-- MODULES hide -->
+
+  $('#hide_header_module').click(function() {
+    $('div.module#header_module').fadeOut('slow');
+  });
+
+  $('#hide_seo_fields').click(function() {
+    $('div.seo-fields').fadeOut('slow');
+  });
+
+  $('#hide_scripts').click(function() {
+    $('div.module#scripts_module').fadeOut('slow');
+  });
+   
+});
+
+</script>
+
+<!-- form of adding pages -->
+<%= form_for([:admin, @page], :html => { :class => "add-pages" }) do |f| %>
+
+  <!-- heading -->
+  <div class="heading">
+
+    <ul class="buttons">
+      <li>
+        <%= link_to do -%>
+          <span>Preview</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to do -%>
+          <span>save draft</span>
+        <% end %>
+      </li>
+      <li>
+        <input type="submit" name="submit" value="Publish" id="submit" class="save_button" />
+      </li>
+    </ul>
+
+    <h2>
+      Add New Page
+    </h2>
+
+  </div>
+
+  <fieldset>
+
+    <!-- row -->
+    <div class="row">
+      <label for="page-title">Page Title</label>
+      <span class="text"><%= f.text_field :title, :html => { :id => "page-title" } %></span>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+	<label for="page-url">Page URL</label>
+	<span class="small-text"><%= f.text_field :permalink, :value => "http://www.clienturl.com/", :html => { :id => "page-url" } %></span>
+      </div>
+
+      <div class="section">
+	<label for="status">Status</label>
+        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
+      </div>
+
+      <div class="section">
+	<label for="visibility">Visibility</label>
+        <%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], {:selected => @page.visibility.to_s, :id => "visibility"} %>
+      </div>
+
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+	<label for="parent">Page Parent</label>
+        <%= f.collection_select(:parent_id, Page.all(:order => "title"), :id, :title, { :include_blank => "- No Parent - ", :id => "parent" } )%>
+      </div>
+
+      <div class="section t-holder">
+	<label for="template">Page Template</label>
+	<div class="template" id="template">
+	  <input type="button" value="" class="multiple"/>
+          <input type="button" value="" class="mono" />
+	</div>
+      </div>
+
+    </div>
+
+  </fieldset>
+
+  <!-- main -->
+  <div id="main" class="shadow">
+    <!-- content -->
+    <div id="content">
+      <h3>Page Content</h3>
+      <!-- module -->
+      <div class="module" id="header_module">
+	<div class="title">
+	  <h4 class="head">HEADER Modules</h4>
+          <a href="javascript:void(0);" id="hide_header_module">Hide</a>
+	</div>
+	<div class="inner" id="header_drag">
+        </div>
+     </div>
+
+     <div class="area">
+     </div>
+
+     <!-- module -->
+     <div class="module">
+       <ul class="tabset">
+         <li id="left_content"><a href="javascript:void(0);" class="tabset-l active"><span>Left Column Modules</span></a></li>
+         <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
+       </ul>
+       <div class="tab-content" id="tab-1">
+	 <div class="inner" id="content_drag">   
+	 </div>
+         <div class="inner" id="sidebar_drag">
+         </div>
+      </div>
+    </div>
+
+    <div class="area">
+    </div>
+
+    <!-- module -->
+   <div class="module"  id="scripts_module">
+     <div class="title1">
+       <h4>Script Includes</h4>
+       <a href="javascript:void(0);" id="hide_scripts">Hide</a>
+     </div>
+     <div class="text-area">
+       <div class="holder">
+         <div class="frame">
+           <em>There are currently no modules in this section</em>
+	 </div>
+       </div>
+     </div>
+   </div>
+
+   <!-- seo fields form -->
+   <div class="seo-fields">
+     <fieldset>
+       <div class="form-holder">
+         <div class="title">
+           <h4>SEO Fields</h4>
+	   <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
+	 </div>
+         <div class="row">
+	   <label for="site-name">Page URL (Optional)</label>
+	   <span class="text"><%= f.text_field :seo_title, :value => "Site Name - ", :html => { :id => "site-name" } %></span>
+         </div>
+	 <div class="row">
+           <label for="keywords">Keywords (Separate with commas)</label>
+	   <span class="long-text"  style="height: 25px;"><%= f.text_area :seo_keywords %></span>
+	 </div>
+         <div class="row">
+	   <label for="description">Description (Max - 150 characters)</label>
+	   <div class="textarea">
+	     <div class="holder">
+	       <div class="frame">
+                 <%= f.text_area :seo_description, :style => "height:44px;" %>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </fieldset>
+   </div>
+ </div>
+
+ <!-- sidebar -->
+ <div id="sidebar">
+   <h3>Available Modules</h3>
+   <ul class="add-nav">
+     <li><a href="#" class="active"><span><strong id="wysiwyg">WYSIWYG</strong></span></a></li>
+     <li class="divider">&nbsp;</li>
+
+     <% @custom_modules.each do |custom_module| %>
+      <li>
+         <%= link_to do -%>
+           <span>
+             <strong>
+               <%= api_module.module_name %>
+             </strong>
+           </span>
+         <% end %>
+       </li>
+     <% end %>
+
+     <% @api_modules.each do |api_module| %>
+       <li>
+         <%= link_to do -%>
+           <span>
+             <strong>
+               <%= api_module.module_name %>
+             </strong>
+           </span>
+         <% end %>
+       </li>
+     <% end %>
+   </ul>
+   <%= will_paginate @api_modules %>
+
+  <!-- paging -->
+  <ul class="paging">
+    <li class="next"><a href="#">next</a></li>
+    <li class="back"><a href="#">back</a></li>
+    <li><strong>1</strong></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+  </ul>
+</div>
+
+</div>
+
+<% end %>
+
