@@ -1,5 +1,5 @@
 class Admin::PagesController < ApplicationController
- # before_filter :authenticate_user!
+  before_filter :authenticate_user!
   before_filter :define_page
   layout "admin"
   uses_tiny_mce
@@ -48,35 +48,31 @@ class Admin::PagesController < ApplicationController
     @api_modules = ApiModule.all.paginate :page => params[:page], :per_page => 2
   end
 
-  def create
-    Rails.logger.info "++++++++++++ #{params.inspect}"
+  def create   
     @page = Page.new(params[:page])
 
     if @page.save
-      if params[:header_content].present?
+      if params[:header_new].present?
         header_blocks = '';
-        header_params = params[:header_content]
-        Rails.logger.info "-------- #{header_params}"
+        header_params = params[:header_new]
         header_params.each do |key, value|
-          Rails.logger.info "++++++++++++ #{header_blocks}"
           header_blocks += value
         end
-        Rails.logger.info ">>>>>>>> #{header_blocks}"
         PageContent.create(:content => header_blocks, :page_id => @page.id, :location => "header")
       end
 
-      if params[:content_content].present?
+      if params[:content_new].present?
         content_blocks = '';
-        content_params = params[:content_content]
+        content_params = params[:content_new]
         content_params.each do |key, value|
           content_blocks += value
         end
         PageContent.create(:content => content_blocks, :page_id => @page.id, :location => "content")
       end
 
-      if params[:sidebar_content].present?
+      if params[:sidebar_new].present?
         sidebar_blocks = '';
-        sidebar_params = params[:sidebar_content]
+        sidebar_params = params[:sidebar_new]
         sidebar_params.each do |key, value|
           sidebar_blocks += value
         end
@@ -90,7 +86,6 @@ class Admin::PagesController < ApplicationController
   end
 
   def update
-
     @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
 
