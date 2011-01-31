@@ -5,15 +5,13 @@ class Admin::AssetsController < ApplicationController
   layout "admin"
 
   def index
-    Rails.logger.info "++++++++++ #{params.inspect}"
     @title = "Assets"
 
-    if params[:assets]
-      @assets = Asset.find(params[:assets])
-      Rails.logger.info "++++++++++ YA"
+    if params[:assets] || params[:searched_assets]
+      @assets = Asset.find(params[:searched_assets]) if params[:searched_assets]
+      @assets = Asset.find(params[:assets]) if params[:assets]
     else
       @assets = Asset.all
-      Rails.logger.info "++++++++++ NO"
     end
 
     if params[:asset_type].present?
@@ -21,9 +19,7 @@ class Admin::AssetsController < ApplicationController
     else
       @asset_type = 'all'
     end
-    
-    Rails.logger.info "++++++++++ #{@assets}"
-    Rails.logger.info "++++++++++ #{@asset_type}"
+
     @videos = CacheVimeoVideo.find(:all, :conditions => "incomplete != 1")
     @galleries = CacheFleakrGallery.find(:all, :conditions => "incomplete != 1")
 
@@ -93,8 +89,8 @@ class Admin::AssetsController < ApplicationController
     end
   end
   
-  def search
-    @searched_assets = Asset.find( :all, :conditions => ['title LIKE ? OR description LIKE ? OR asset_file_name LIKE ?', '%' + params[:search_key] + '%'], :limit => 10 )
+  def search_asset
+    @searched_assets = Asset.find( :all, :conditions => ['title LIKE ? OR description LIKE ? OR asset_file_name LIKE ?', '%' + params[:search][:key] + '%', '%' + params[:search][:key] + '%', '%' + params[:search][:key] + '%'], :limit => 10 )
 
     respond_to do |format|
       format.html { redirect_to(admin_assets_path(:searched_assets => @searched_assets)) }
@@ -103,17 +99,12 @@ class Admin::AssetsController < ApplicationController
   end
 
   def get_asset_by_type
-    Rails.logger.info "++++++++++ #{params.inspect}"
-
     if params[:asset_type].present?
       @assets = Asset.find(:all, :conditions => ['asset_content_type LIKE ?', '%' + params[:asset_type] + '%'])
-      Rails.logger.info "++++++++++++ YA"
     else
       @assets = Asset.all
-      Rails.logger.info "++++++++++++ NO"
     end
 
-    Rails.logger.info "++++++++++ #{@assets}"
     respond_to do |format|
       format.html { redirect_to(admin_assets_path(:assets => @assets, :asset_type => params[:asset_type])) }
       format.xml  { head :ok }

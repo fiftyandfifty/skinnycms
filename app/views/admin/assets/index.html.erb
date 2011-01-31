@@ -16,14 +16,15 @@
                                         <% end %>
 				
 					<!-- search form -->
-					<form action="#" class="search">
+                                        <%= form_tag(search_asset_path, :class => 'search') do %>
 						<fieldset>
 							<div class="holder">
-								<span class="text"><input type="text" /></span>
+								<span class="text"><%= text_field "search", "key" %></span>
 								<input type="submit" value="SEARCH" class="submit" />
 							</div>
 						</fieldset>
-					</form>
+                                        <% end %>
+
 				</div>
 				<!-- buttons -->
 				<ul class="bar">

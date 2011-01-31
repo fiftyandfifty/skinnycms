@@ -37,6 +37,8 @@ Rails.application.routes.draw do
 
   match 'get_asset_by_type', :controller => 'admin/assets', :action => 'get_asset_by_type'
 
+  match 'search_asset', :controller => 'admin/assets', :action => 'search_asset'
+
   match ':id', :to => 'pages#show', :as => "friendly"
   
   root :to => "pages#index"
