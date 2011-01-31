@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
   match 'force_reload_videos', :controller => 'admin/videos', :action => 'force_reload_videos'
 
+  match 'get_asset_by_type', :controller => 'admin/assets', :action => 'get_asset_by_type'
+
   match ':id', :to => 'pages#show', :as => "friendly"
   
   root :to => "pages#index"

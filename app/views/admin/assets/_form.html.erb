@@ -1,4 +1,3 @@
-<%= form_for(['admin', @asset], :html => { :multipart => true }) do |f| %>
   <% if @asset.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@asset.errors.count, "error") %> prohibited this asset from being saved:</h2>
@@ -11,19 +10,24 @@
     </div>
   <% end %>
 
-  <div>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div>
-    <%= f.label :asset %><br />
-    <%= f.file_field :asset %>
-  </div>
-  <div>
-    <%= f.submit %>
-  </div>
-<% end %>
+
+  <fieldset>
+    <h3 class="asset_header">Module Title</h3>
+    <div class="add-assets">
+      <span class="text"><%= f.text_field :title %></span>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <h3 class="asset_header">Module Description</h3>
+    <div class="add-assets">
+      <span class="textarea-top"></span>
+      <span class="textarea-center"><%= f.text_area :description %></span>
+      <span class="textarea-bottom"></span>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <h3 class="asset_header">Attach Asset</h3>
+    <span class="text"><%= f.file_field :asset %></span>
+  </fieldset>

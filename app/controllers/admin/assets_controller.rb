@@ -1,11 +1,29 @@
 class Admin::AssetsController < ApplicationController
-  before_filter :authenticate_user!
+ # before_filter :authenticate_user!
   before_filter :define_page
+  uses_tiny_mce
   layout "admin"
 
   def index
+    Rails.logger.info "++++++++++ #{params.inspect}"
     @title = "Assets"
-    @assets = Asset.all
+
+    if params[:assets]
+      @assets = Asset.find(params[:assets])
+      Rails.logger.info "++++++++++ YA"
+    else
+      @assets = Asset.all
+      Rails.logger.info "++++++++++ NO"
+    end
+
+    if params[:asset_type].present?
+      @asset_type = params[:asset_type]
+    else
+      @asset_type = 'all'
+    end
+    
+    Rails.logger.info "++++++++++ #{@assets}"
+    Rails.logger.info "++++++++++ #{@asset_type}"
     @videos = CacheVimeoVideo.find(:all, :conditions => "incomplete != 1")
     @galleries = CacheFleakrGallery.find(:all, :conditions => "incomplete != 1")
 
@@ -81,6 +99,24 @@ class Admin::AssetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(admin_assets_path(:searched_assets => @searched_assets)) }
       format.xml  { render :xml => @searched_assets }
+    end
+  end
+
+  def get_asset_by_type
+    Rails.logger.info "++++++++++ #{params.inspect}"
+
+    if params[:asset_type].present?
+      @assets = Asset.find(:all, :conditions => ['asset_content_type LIKE ?', '%' + params[:asset_type] + '%'])
+      Rails.logger.info "++++++++++++ YA"
+    else
+      @assets = Asset.all
+      Rails.logger.info "++++++++++++ NO"
+    end
+
+    Rails.logger.info "++++++++++ #{@assets}"
+    respond_to do |format|
+      format.html { redirect_to(admin_assets_path(:assets => @assets, :asset_type => params[:asset_type])) }
+      format.xml  { head :ok }
     end
   end
 
