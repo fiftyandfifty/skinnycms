@@ -1193,4 +1193,47 @@ li.create_module input.save_button:hover {
   background:url(/images/skinnycms/admin/bg-button-lr.gif) no-repeat 0 -41px;
 }
 
+/** Advantage styles assets **/
+
+.add-assets {
+  margin-bottom: 15px;
+  margin-top: 0px;
+}
+
+.asset_header {
+  padding-bottom: 0px;
+}
+
+.add-assets .textarea-top {
+	background:url(/images/skinnycms/admin/bg-textarea.gif) no-repeat;
+	width: 637px;
+	display:block;
+	overflow:hidden;
+        height:6px;
+}
+
+.add-assets .textarea-bottom {
+	background:url(/images/skinnycms/admin/bg-textarea.gif) no-repeat -1274px 0px;
+	width: 637px;
+	display:block;
+	overflow:hidden;
+        height:8px;
+}
+
+.add-assets .textarea-center {
+	background:url(/images/skinnycms/admin/bg-textarea.gif) repeat-y -637px 0px;
+	width: 637px;
+	display:block;
+	overflow:hidden;
+}
+
+.add-assets textarea {
+	float:left;
+	background:none;
+	border:0;
+        height: 150px;
+	width:620px;
+        padding-right: 20px;
+	margin: 0px 10px;
+}
 

@@ -1,7 +1,12 @@
-
+<script type="text/javascript">
+  $(document).ready(function(){
+    var class_name = "<%= @asset_type %>";
+    var result = '#' + class_name;
+    $(result.toString()).attr("class","active");
+  })
+</script>
 <!-- main -->
 		<div id="main">
-
             	     <!-- content -->
 			<div id="content">
 				<div class="container">
@@ -22,11 +27,31 @@
 				</div>
 				<!-- buttons -->
 				<ul class="bar">
-					<li><a href="#" class="active"><span>all</span></a></li>
-					<li><a href="#"><span>images</span></a></li>
-					<li><a href="#"><span>Videos</span></a></li>
-					<li><a href="#"><span>Audio</span></a></li>
-					<li><a href="#"><span>Files</span></a></li>
+                                  <li>
+                                        <%= link_to(admin_assets_path(:asset_type => 'all'), :id => 'all') do %>
+                                          <span>all</span>
+                                        <% end %>
+                                  </li>
+                                  <li>
+                                        <%= link_to(get_asset_by_type_path(:asset_type => 'image'), :id => 'image') do %>
+                                          <span>Images</span>
+                                        <% end %>
+                                  </li>
+                                  <li>
+                                        <%= link_to(get_asset_by_type_path(:asset_type => 'video'), :id => 'video') do %>
+                                          <span>Videos</span>
+                                        <% end %>
+                                  </li>
+                                  <li>
+                                        <%= link_to(get_asset_by_type_path(:asset_type => 'audio'), :id => 'audio') do %>
+                                          <span>Audio</span>
+                                        <% end %>
+                                  </li>
+                                  <li>
+                                        <%= link_to(get_asset_by_type_path(:asset_type => 'text'), :id => 'text') do %>
+                                          <span>Files</span>
+                                        <% end %>
+                                  </li>
 				</ul>
 				<!-- items -->
 				<table class="items">
@@ -44,7 +69,7 @@
 						<tr>
 							<td class="name"><%= asset.title %></td>
 							<td><%= asset.asset_content_type %></td>
-							<td class="data"><%= asset.asset_updated_at %></tdclass>
+							<td class="data"><%= asset.asset_updated_at %></td>
 							<td class="actions">
 								<ul>
 									<li><%= link_to 'Preview', admin_asset_path(asset) %></li>
@@ -77,7 +102,7 @@
 				<h3>Quick Links</h3>
 				<ul class="btn-bar">
           <li>
-                              <%= link_to(new_admin_image_path) do %>
+                              <%= link_to(new_admin_asset_path) do %>
                                 <span>Upload a File</span>
                               <% end %>
                             </li>
