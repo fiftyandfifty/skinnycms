@@ -6,6 +6,7 @@ class AddSkinnycmsFieldsToUsers < ActiveRecord::Migration
     # add_column :users, :confirmation_token, :string
     # add_column :users, :remember_token, :string
     # add_column :users, :reset_password_token, :string
+    # add_column :users, :password_salt, :string
     # add_column :users, :current_sign_in_ip, :string
     # add_column :users, :last_sign_in_ip, :string
     # add_column :users, :sign_in_count, :integer
@@ -31,6 +32,7 @@ class AddSkinnycmsFieldsToUsers < ActiveRecord::Migration
     # remove_column :users, :confirmation_token
     # remove_column :users, :remember_token
     # remove_column :users, :reset_password_token
+    # remove_column :users, :password_salt
     # remove_column :users, :current_sign_in_ip
     # remove_column :users, :last_sign_in_ip
     # remove_column :users, :sign_in_count
