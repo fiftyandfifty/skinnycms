@@ -1,6 +1,29 @@
 <%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
 <%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
-<%= javascript_include_tag 'iframe.js' %>
+<%= javascript_include_tag 'jquery.livequery.js' %>
+
+<style type="text/css">
+
+.pagination_container {
+  width: 220px;
+  overflow: hidden;
+  padding-left: 15px;
+}
+
+div.pagination {
+  text-align: center;
+  width: 210px;
+}
+
+.prev_page {
+  float:left;
+}
+
+.next_page {
+  float:right;
+}
+
+   </style>
 
 <script type="text/javascript">
 
@@ -116,26 +139,26 @@ $(document).ready(function(){
 
   $('#sidebar_drag').delay(100).slideUp(100);
 
-  var header_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" id="remove_header_wysiwyg">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame" id="frame_header_drag">';
-  var header_part_2 = '<textarea class="field mceEditor" cols="40" id="header_new_';
+  var header_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+  var header_part_2 = '<textarea cols="40" id="header_new_';
   var header_part_3 = '" name="header_new[';
   var header_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var header_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+  var header_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
   var header_id_begin = 'header_new_';
   var header_id_end = 0;
   var header_id_complex = '';
 
-  var content_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" id="remove_content_wysiwyg">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame" id="frame_content_drag">';
-  var content_part_2 = '<textarea class="field mceEditor" cols="40" id="content_new_';
+  var content_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+  var content_part_2 = '<textarea cols="40" id="content_new_';
   var content_part_3 = '" name="content_new[';
   var content_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var content_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+  var content_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
   var content_id_begin = 'content_new_';
   var content_id_end = 0;
   var content_id_complex = '';
 
   var sidebar_part_0 = '<div class="inner turbo" id="'
-  var sidebar_part_1 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" id="remove_sidebar_wysiwyg">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame" id="frame_sidebar_drag">';
+  var sidebar_part_1 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var sidebar_part_2 = '<textarea class="test" cols="40" id="sidebar_new_';
   var sidebar_part_3 = '" name="sidebar_new[';
   var sidebar_part_4 = ']" rows="20" style="width:100%;"></textarea>';
@@ -208,16 +231,8 @@ $(document).ready(function(){
 
   <!-- WYSIWYG remove -->
 
-  $('#remove_header_wysiwyg').click(function() {
-    $('div#header_drag').fadeOut('slow');
-  });
-
-  $('#remove_content_wysiwyg').click(function() {
-    $('div#content_drag').fadeOut('slow');
-  });
-
-  $('#remove_sidebar_wysiwyg').click(function() {
-    $('div#sidebar_drag').fadeOut('slow');
+  $('.remove_unique').livequery('click', function(event) {
+    $(this).parent().parent().parent().remove();
   });
 
   <!-- MODULES hide -->
@@ -233,6 +248,13 @@ $(document).ready(function(){
   $('#hide_scripts').click(function() {
     $('div.module#scripts_module').fadeOut('slow');
   });
+
+  <!-- Add Styles for pagination -->
+
+  $('.pagination').find('a.prev_page').text("BACK");
+  $('.pagination').find('.disabled.prev_page').text("BACK");
+  $('.pagination').find('a.next_page').text("NEXT");
+  $('.pagination').find('.disabled.next_page').text("NEXT");
 
 });
 
@@ -326,19 +348,25 @@ $(document).ready(function(){
           <a href="javascript:void(0);" id="hide_header_module">Hide</a>
 	</div>
 	<div class="inner" id="header_drag">
+
+          <% for header_content in @header_contents %>
+          <div class="inner">
 	    <div class="holder">
 	      <div class="headline">
 	        <h4>WYSIWYG</h4>
-	        <a href="javascript:void(0);" id="remove_header_wysiwyg">Remove</a>
+	        <a href="javascript:void(0);" class="remove_unique">Remove</a>
 	      </div>
 	      <div class="edit-box">
 	        <div class="holder">
-		  <div class="frame" id="frame_header_drag">
-                    <%= text_area "header_content", "content", :style => "width:100%;", :class => "field mceEditor" %>
+		  <div class="frame">
+                    <%= text_area "header_contents", "[#{header_content.id}]", :value => header_content.content, :style => "width:100%;", :class => "field mceEditor" %>
 		  </div>
 	        </div>
 	      </div>
 	    </div><div style="height:10px; background-color: white; width: 100%;"></div>
+          </div>
+         <% end %>
+
         </div>
      </div>
 
@@ -353,34 +381,42 @@ $(document).ready(function(){
        </ul>
        <div class="tab-content" id="tab-1">
 	 <div class="inner" id="content_drag">
+           <% for page_content in @page_contents %>
+             <div class="inner">
 	     <div class="holder">
 	       <div class="headline">
 	         <h4>WYSIWYG</h4>
-	         <a href="javascript:void(0);" id="remove_content_wysiwyg">Remove</a>
+	         <a href="javascript:void(0);" class="remove_unique">Remove</a>
 	       </div>
 	       <div class="edit-box">
 	         <div class="holder">
-	           <div class="frame" id="frame_content_drag">
-	             <%= text_area "page_content", "content", :class => "field mceEditor", :style => "width:100%;" %>
+	           <div class="frame">
+                     <%= text_area "page_contents", "#{page_content.id}", :value => page_content.content, :style => "width:100%;", :class => "field mceEditor" %>
 	           </div>
 	         </div>
 	       </div>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
+             </div>
+          <% end %>
 	</div>
         <div class="inner" id="sidebar_drag">
+          <% for sidebar_content in @sidebar_contents %>
+           <div class="inner">
 	   <div class="holder">
 	     <div class="headline">
 	       <h4>WYSIWYG</h4>
-	       <a href="javascript:void(0);" id="remove_sidebar_wysiwyg">Remove</a>
+	       <a href="javascript:void(0);" class="remove_unique">Remove</a>
 	     </div>
 	     <div class="edit-box">
 	       <div class="holder">
-	         <div class="frame" id="frame_sidebar_drag">
-                   <%= text_area "sidebar_content", "content", :class => "field mceEditor", :style => "width:100%;" %>
+	         <div class="frame">
+                   <%= text_area "sidebar_contents", "#{sidebar_content.id}", :value => sidebar_content.content, :style => "width:100%;", :class => "field mceEditor" %>
 	         </div>
 	       </div>
 	     </div>
            </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -441,42 +477,23 @@ $(document).ready(function(){
      <li><a href="#" class="active"><span><strong id="wysiwyg">WYSIWYG</strong></span></a></li>
      <li class="divider">&nbsp;</li>
 
-     <% @custom_modules.each do |custom_module| %>
+     <% @available_modules.each do |available_module| %>
       <li>
          <%= link_to do -%>
            <span>
              <strong>
-               <%= custom_module.title %>
-             </strong>
-           </span>
-         <% end %>
-       </li>
-     <% end %>
-
-     <% @api_modules.each do |api_module| %>
-       <li>
-         <%= link_to do -%>
-           <span>
-             <strong>
-               <%= api_module.module_name %>
+               <%= available_module.title %>
              </strong>
            </span>
          <% end %>
        </li>
      <% end %>
    </ul>
-   <%= will_paginate @api_modules %>
 
-  <!-- paging -->
-  <ul class="paging">
-    <li class="next"><a href="#">next</a></li>
-    <li class="back"><a href="#">back</a></li>
-    <li><strong>1</strong></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-  </ul>
+  <div class="pagination_container">
+     <%= will_paginate @available_modules %>
+ </div>
+
 </div>
 
 </div>

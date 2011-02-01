@@ -30,6 +30,7 @@ class Admin::PagesController < ApplicationController
     @title = "Add Page"
     @page = Page.new
     @page_content = PageContent.new
+    
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
 
@@ -40,44 +41,40 @@ class Admin::PagesController < ApplicationController
   end
 
   def edit
+    @title = "Edit Page"
     @page = Page.find(params[:id])
-    @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
-    @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
-    @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
-    @custom_modules = CustomModule.all
-    @api_modules = ApiModule.all.paginate :page => params[:page], :per_page => 2
+
+    @header_contents = PageContent.where(:page_id => @page, :location => 'header')
+    @page_contents = PageContent.where(:page_id => @page, :location => 'content')
+    @sidebar_contents = PageContent.where(:page_id => @page, :location => 'sidebar')
+
+    available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
+    @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
   end
 
-  def create   
+  def create
     @page = Page.new(params[:page])
 
     if @page.save
-      if params[:header_new].present?
-        header_blocks = '';
-        header_params = params[:header_new]
-        header_params.each do |key, value|
-          header_blocks += value
-        end
-        PageContent.create(:content => header_blocks, :page_id => @page.id, :location => "header")
-      end
+      params[:header_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "header") } if params[:header_new].present?
 
       if params[:content_new].present?
-        content_blocks = '';
-        content_params = params[:content_new]
-        content_params.each do |key, value|
-          content_blocks += value
+        cleaned_values = []
+        uncleaned_values = params[:content_new]
+        keys = uncleaned_values.keys.sort{ |a,b| a.to_i <=> b.to_i }
+        keys.each do |key|
+          value = uncleaned_values["#{key.to_s}"]
+          if value.include?("<p>&nbsp;</p>\r\n")
+            cleaned_value = value.gsub!("<p>&nbsp;</p>\r\n","")
+          else
+            cleaned_value = value
+          end
+          cleaned_values << cleaned_value
         end
-        PageContent.create(:content => content_blocks, :page_id => @page.id, :location => "content")
+        cleaned_values.each { |value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") }
       end
 
-      if params[:sidebar_new].present?
-        sidebar_blocks = '';
-        sidebar_params = params[:sidebar_new]
-        sidebar_params.each do |key, value|
-          sidebar_blocks += value
-        end
-        PageContent.create(:content => sidebar_blocks, :page_id => @page.id, :location => "sidebar")
-      end
+      params[:sidebar_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "sidebar") } if params[:sidebar_new].present?
 
       redirect_to(admin_pages_url, :notice => 'Page successfully created!')
     else
@@ -89,75 +86,64 @@ class Admin::PagesController < ApplicationController
     @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
 
-    if params[:header_content].present? || !params[:header_new].present?
-      header_exist = []
-      header_exist = params[:header_content][:content] if params[:header_content][:content].present?
-
-      if params[:header_new].present?
-        header_blocks = []
-        header_params = params[:header_new]
-        header_params.each do |key, value|
-          header_blocks << value
+    if params[:header_contents].present?
+      header_contents_last = PageContent.where(:page_id => @page, :location => "header").map { |value| value.id }
+      header_contents_now = []
+      params[:header_contents].each do |key, value|
+        @header_content = PageContent.find(key.to_i)
+        if @header_content
+          @header_content.update_attribute(:content, value)
+        else
+          PageContent.create(:content => value, :page_id => @page.id, :location => "header")
         end
+        header_contents_now << key.to_i
       end
-
-      header_result = header_exist.to_s + header_blocks.to_s
-
-      @header_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'header'", @page.id])
-
-      if @header_content
-        @header_content.update_attribute(:content, header_result)
-      else
-        PageContent.create(:content => header_result, :page_id => @page.id, :location => "header")
-      end
+      unusable_header_contents = header_contents_last - header_contents_now
+      unusable_header_contents.each { |id| PageContent.find(id).destroy }
+    else
+      PageContent.where(:page_id => @page, :location => "header").delete_all
     end
 
-    if params[:page_content].present? || params[:content_new].present?
-      content_exist = []
-      content_exist = params[:page_content][:content] if params[:page_content][:content].present?
-
-      if params[:content_new].present?
-        content_blocks = []
-        content_params = params[:content_new]
-        content_params.each do |key, value|
-          content_blocks << value
+    if params[:page_contents].present?
+      page_contents_last = PageContent.where(:page_id => @page, :location => "content").map { |value| value.id }
+      page_contents_now = []
+      params[:page_contents].each do |key, value|
+        @page_content = PageContent.find(key.to_i)
+        if @page_content
+          @page_content.update_attribute(:content, value)
+        else
+          PageContent.create(:content => value, :page_id => @page.id, :location => "content")
         end
+        page_contents_now << key.to_i
       end
-
-      content_result = content_exist.to_s + content_blocks.to_s
-
-      @page_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'content'", @page.id])
-
-      if @page_content
-        @page_content.update_attribute(:content, content_result)
-      else
-        PageContent.create(:content => content_result, :page_id => @page.id)
-      end
+      unusable_page_contents = page_contents_last - page_contents_now
+      unusable_page_contents.each { |id| PageContent.find(id).destroy }
+    else
+      PageContent.where(:page_id => @page, :location => "content").delete_all
     end
 
-    if params[:sidebar_content].present? || params[:sidebar_new].present?
-      sidebar_exist = []
-      sidebar_exist = params[:sidebar_content][:content] if params[:sidebar_content][:content].present?
-
-      if params[:sidebar_new].present?
-        sidebar_blocks = []
-        sidebar_params = params[:sidebar_new]
-        sidebar_params.each do |key, value|
-          sidebar_blocks << value
+    if params[:sidebar_contents].present?
+      sidebar_contents_last = PageContent.where(:page_id => @page, :location => "sidebar").map { |value| value.id }
+      sidebar_contents_now = []
+      params[:sidebar_contents].each do |key, value|
+        @sidebar_content = PageContent.find(key.to_i)
+        if @sidebar_content
+          @sidebar_content.update_attribute(:content, value)
+        else
+          PageContent.create(:content => value, :page_id => @page.id, :location => "sidebar")
         end
+        sidebar_contents_now << key.to_i
       end
-
-      sidebar_result = sidebar_exist.to_s + sidebar_blocks.to_s
-
-      @sidebar_content = PageContent.find(:first, :conditions => ["page_id = ? AND location = 'sidebar'", @page.id])
-
-      if @sidebar_content
-        @sidebar_content.update_attribute(:content, sidebar_result)
-      else
-        PageContent.create(:content => sidebar_result, :page_id => @page.id, :location => "sidebar")
-      end
+      unusable_sidebar_contents = sidebar_contents_last - sidebar_contents_now
+      unusable_sidebar_contents.each { |id| PageContent.find(id).destroy }
+    else
+      PageContent.where(:page_id => @page, :location => "sidebar").delete_all
     end
 
+    params[:header_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "header") } if params[:header_new].present?
+    params[:content_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") } if params[:content_new].present?
+    params[:sidebar_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "sidebar") } if params[:sidebar_new].present?
+    
     respond_to do |format|
       format.html { redirect_to(admin_pages_url, :notice => 'Page successfully updated!') }
       format.xml { head :ok }

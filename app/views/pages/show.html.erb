@@ -1,6 +1,19 @@
-<% if @page %>
-  <%= raw(@page.header) %><br/>
-  <%= raw(@page_content.content) %>
-<% else %>
-  Hello world!
-<% end %>
+<div class="grid_12">
+  <% for header_content in @header_contents %>
+    <%= raw(header_content.content) %>
+  <% end %>
+</div>
+
+<div class="clear"></div>
+
+<div class="grid_8">
+  <% for page_content in @page_contents %>
+    <%= raw(page_content.content) %>
+  <% end %>
+</div>
+
+<div class="grid_4">
+  <% for sidebar_content in @sidebar_contents %>
+    <%= raw(sidebar_content.content) %>
+  <% end %>
+</div>

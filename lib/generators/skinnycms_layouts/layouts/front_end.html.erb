@@ -9,36 +9,14 @@
 <%= stylesheet_link_tag 'skinnycms/demo.css' %>
 </head>
 <body>
-<h1>
-	<a href="http://960.gs/">Skinny CMS Default Template</a>
-</h1>
 <div class="container_12">
-	<h2>
-		Site Layout
-	</h2>
-	<div class="grid_12">
-		<p>
-			Header Content
-		</p>
-	</div>
-	<div class="clear"></div>
-	<div class="grid_8">
-		<p>
-			<%= yield %>
-		</p>
-	</div>
-	<div class="grid_4">
-		<p>
-			Rigth Column Content
-		</p>
-	</div>
-	<div class="clear"></div>
-	<div class="grid_12">
-		<p>
-			Footer
-		</p>
-	</div>
-	<div class="clear"></div>
+  <div class="clear"></div>
+  <%= yield %>
+  <div class="clear"></div>
+  <div class="grid_12">
+    <p>Footer</p>
+  </div>
+<div class="clear"></div>
 </div>
 </body>
 </html>

@@ -3,19 +3,26 @@ class PagesController < ApplicationController
   layout 'front_end'
   
   def index    
-    @page = Page.first
-    @page_content = PageContent.find(:first, :conditions => ["page_id = ?", @page.id])
+    @page = Page.where(:title => 'home')
+    @header_contents = PageContent.where(:page_id => @page, :location => 'header')
+    @page_contents = PageContent.where(:page_id => @page, :location => 'content')
+    @sidebar_contents = PageContent.where(:page_id => @page, :location => 'sidebar')
+
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @page }
+    end
   end
   
   def show
     @page = Page.find(params[:id])
-    @page_content = PageContent.find(:first, :conditions => ["page_id = ?", @page.id])
+    @header_contents = PageContent.where(:page_id => @page, :location => 'header')
+    @page_contents = PageContent.where(:page_id => @page, :location => 'content')
+    @sidebar_contents = PageContent.where(:page_id => @page, :location => 'sidebar')
 
-    if @page.visibility == "redirect"
-      redirect_to @page.redirect_url
-      return
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @page }
     end
-    
   end
-  
 end
