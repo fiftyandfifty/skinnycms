@@ -104,6 +104,8 @@ class Admin::PagesController < ApplicationController
       PageContent.where(:page_id => @page, :location => "header").delete_all
     end
 
+    Rails.logger.info "++++++++++++++++++ #{params[:page_contents].inspect}"
+
     if params[:page_contents].present?
       page_contents_last = PageContent.where(:page_id => @page, :location => "content").map { |value| value.id }
       page_contents_now = []
@@ -141,7 +143,23 @@ class Admin::PagesController < ApplicationController
     end
 
     params[:header_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "header") } if params[:header_new].present?
-    params[:content_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") } if params[:content_new].present?
+
+    if params[:content_new].present?
+      cleaned_values = []
+      uncleaned_values = params[:content_new]
+      keys = uncleaned_values.keys.sort{ |a,b| a.to_i <=> b.to_i }
+      keys.each do |key|
+        value = uncleaned_values["#{key.to_s}"]
+        if value.include?("<p>&nbsp;</p>\r\n")
+          cleaned_value = value.gsub!("<p>&nbsp;</p>\r\n","")
+        else
+          cleaned_value = value
+        end
+        cleaned_values << cleaned_value
+      end
+      cleaned_values.each { |value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") }
+    end
+
     params[:sidebar_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "sidebar") } if params[:sidebar_new].present?
     
     respond_to do |format|
