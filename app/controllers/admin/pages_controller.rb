@@ -30,8 +30,8 @@ class Admin::PagesController < ApplicationController
     @title = "Add Page"
     @page = Page.new
     @page_content = PageContent.new
-    @custom_modules = CustomModule.all
-    @api_modules = ApiModule.all.paginate :page => params[:page], :per_page => 2
+    available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
+    @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
 
     respond_to do |format|
       format.html
