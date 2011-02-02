@@ -53,28 +53,188 @@ class Admin::PagesController < ApplicationController
   end
 
   def create
+    Rails.logger.info "++++++++++++++++++ #{params.inspect}"
     @page = Page.new(params[:page])
 
     if @page.save
-      params[:header_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "header") } if params[:header_new].present?
+      if params[:header_new].present?
 
-      if params[:content_new].present?
-        cleaned_values = []
-        uncleaned_values = params[:content_new]
-        keys = uncleaned_values.keys.sort{ |a,b| a.to_i <=> b.to_i }
-        keys.each do |key|
-          value = uncleaned_values["#{key.to_s}"]
-          if value.include?("<p>&nbsp;</p>\r\n")
-            cleaned_value = value.gsub!("<p>&nbsp;</p>\r\n","")
-          else
-            cleaned_value = value
+        all_headers_content = params[:header_new]
+        headers_custom_modules = params[:header_new]["CustomModule"] if params[:header_new]["CustomModule"].present?
+        headers_tumblr_posts = params[:header_new]["CacheTumblrPost"] if params[:header_new]["CacheTumblrPost"].present?
+        headers_vimeo_videos = params[:header_new]["CacheVimeoVideo"] if params[:header_new]["CacheVimeoVideo"].present?
+        headers_fleakr_galleries = params[:header_new]["CacheFleakrGallery"] if params[:header_new]["CacheFleakrGallery"].present?
+        headers_unique_modules = params[:header_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+
+        if headers_unique_modules
+          headers_unique_modules.each do |key, value|
+            PageContent.create(:content => value,
+                               :page_id => @page.id,
+                               :location => "header")
           end
-          cleaned_values << cleaned_value
         end
-        cleaned_values.each { |value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") }
+
+        if headers_custom_modules
+          headers_custom_modules.each do |key, value|
+            PageContent.create(:content => CustomModule.find(value).header,
+                               :module_type => 'CustomModule',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "header")
+          end
+        end
+
+        if headers_tumblr_posts
+          headers_tumblr_posts.each do |key, value|
+            PageContent.create(:content => CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => value }).desc,
+                               :module_type => 'CacheTumblrPost',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "header")
+          end
+        end
+
+        if headers_vimeo_videos
+          headers_vimeo_videos.each do |key, value|
+            PageContent.create(:content => CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => value }).url,
+                               :module_type => 'CacheVimeoVideo',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "header")
+          end
+        end
+
+        if headers_fleakr_galleries
+          headers_fleakr_galleries.each do |key, value|
+            PageContent.create(:content => CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => value }).title,
+                                                                   :module_type => 'CacheFleakrGallery',
+                                                                   :module_id => value,
+                                                                   :page_id => @page.id,
+                                                                   :location => "header")
+          end
+        end
       end
 
-      params[:sidebar_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "sidebar") } if params[:sidebar_new].present?
+      if params[:content_new].present?
+
+        all_pages_content = params[:content_new]
+        pages_custom_modules = params[:content_new]["CustomModule"] if params[:content_new]["CustomModule"].present?
+        pages_tumblr_posts = params[:content_new]["CacheTumblrPost"] if params[:content_new]["CacheTumblrPost"].present?
+        pages_vimeo_videos = params[:content_new]["CacheVimeoVideo"] if params[:content_new]["CacheVimeoVideo"].present?
+        pages_fleakr_galleries = params[:content_new]["CacheFleakrGallery"] if params[:content_new]["CacheFleakrGallery"].present?
+        pages_unique_modules = params[:content_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+
+        if headers_unique_modules
+          cleaned_values = []
+          headers_unique_modules.each do |key, value|
+            if value.include?("<p>&nbsp;</p>\r\n")
+              cleaned_value = value.gsub!("<p>&nbsp;</p>\r\n","")
+            else
+              cleaned_value = value
+            end
+            cleaned_values << cleaned_value
+          end
+          cleaned_values.each { |value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") }
+        end 
+
+        if pages_custom_modules
+          pages_custom_modules.each do |key, value|
+            PageContent.create(:content => CustomModule.find(value).content,
+                               :module_type => 'CustomModule',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "content")
+          end
+        end
+
+        if pages_tumblr_posts
+          pages_tumblr_posts.each do |key, value|
+            PageContent.create(:content => CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => value }).desc,
+                               :module_type => 'CacheTumblrPost',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "content")
+          end
+        end
+
+        if pages_vimeo_videos
+          pages_vimeo_videos.each do |key, value|
+            PageContent.create(:content => CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => value }).url,
+                               :module_type => 'CacheVimeoVideo',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "content")
+          end
+        end
+
+        if pages_fleakr_galleries
+          pages_fleakr_galleries.each do |key, value|
+            PageContent.create(:content => CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => value }).title,
+                                                                   :module_type => 'CacheFleakrGallery',
+                                                                   :module_id => value,
+                                                                   :page_id => @page.id,
+                                                                   :location => "content")
+          end
+        end
+      end
+
+      if params[:sidebar_new].present?
+
+        all_sidebars_content = params[:sidebar_new]
+        sidebars_custom_modules = params[:sidebar_new]["CustomModule"] if params[:sidebar_new]["CustomModule"].present?
+        sidebars_tumblr_posts = params[:sidebar_new]["CacheTumblrPost"] if params[:sidebar_new]["CacheTumblrPost"].present?
+        sidebars_vimeo_videos = params[:sidebar_new]["CacheVimeoVideo"] if params[:sidebar_new]["CacheVimeoVideo"].present?
+        sidebars_fleakr_galleries = params[:sidebar_new]["CacheFleakrGallery"] if params[:sidebar_new]["CacheFleakrGallery"].present?
+        sidebars_unique_modules = params[:sidebar_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+
+        if sidebars_unique_modules
+          sidebars_unique_modules.each do |key, value|
+            PageContent.create(:content => value,
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_custom_modules
+          sidebars_custom_modules.each do |key, value|
+            PageContent.create(:content => CustomModule.find(value).sidebar,
+                               :module_type => 'CustomModule',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_tumblr_posts
+          sidebars_tumblr_posts.each do |key, value|
+            PageContent.create(:content => CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => value }).desc,
+                               :module_type => 'CacheTumblrPost',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_vimeo_videos
+          sidebars_vimeo_videos.each do |key, value|
+            PageContent.create(:content => CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => value }).url,
+                               :module_type => 'CacheVimeoVideo',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_fleakr_galleries
+          sidebars_fleakr_galleries.each do |key, value|
+            PageContent.create(:content => CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => value }).title,
+                                                                   :module_type => 'CacheFleakrGallery',
+                                                                   :module_id => value,
+                                                                   :page_id => @page.id,
+                                                                   :location => "sidebar")
+          end
+        end
+      end
 
       redirect_to(admin_pages_url, :notice => 'Page successfully created!')
     else

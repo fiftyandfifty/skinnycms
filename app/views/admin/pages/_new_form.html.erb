@@ -74,23 +74,43 @@ $(document).ready(function(){
     $.each(mass, function(index, value) {
 
       var child = $(value).find(".test");
+      var child_tag_name = child.get(0).tagName;
 
-      sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
+      if(child_tag_name == 'INPUT'){
+        alert('input');
+      }
+      else {
 
-      var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
+       sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
 
-      content_id_end = content_id_end + 1;
-      content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-      content_id_complex = content_id_begin + content_id_end.toString();
-      $('#content_drag').append(content_result_html);
-      tinymce.execCommand('mceAddControl',true,content_id_complex);
+       var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
 
-      content_id_append = "#" + content_id_complex.toString() + '_ifr'
+       content_id_end = content_id_end + 1;
+       content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+       content_id_complex = content_id_begin + content_id_end.toString();
+       $('#content_drag').append(content_result_html);
+       tinymce.execCommand('mceAddControl',true,content_id_complex);
 
-      mass1.push(content_id_append);
-      mass2.push(sidebar_new_content);
+       content_id_append = "#" + content_id_complex.toString() + '_ifr'
+        
+      }
 
-      $(value).remove();
+   //   sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
+
+   //   var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
+
+   //   content_id_end = content_id_end + 1;
+   //   content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+   //   content_id_complex = content_id_begin + content_id_end.toString();
+   //   $('#content_drag').append(content_result_html);
+   //   tinymce.execCommand('mceAddControl',true,content_id_complex);
+
+   //   content_id_append = "#" + content_id_complex.toString() + '_ifr'
+
+       mass1.push(content_id_append);
+       mass2.push(sidebar_new_content);
+
+       $(value).remove();
 
     });
 
@@ -156,28 +176,64 @@ $(document).ready(function(){
   var sidebar_id_end_move = 0;
   var sidebar_id_complex_move = '';
 
-  $('#wysiwyg').draggable({
+  var available_part_1 = '<div class="area inner turbo" style="margin-bottom: 0;"><div class="holder"><h4>';
+
+  var available_h_part_2 = '<input id="header_new_';
+  var available_h_part_3 = '" name="header_new[';
+
+  var available_c_part_2 = '<input id="content_new_';
+  var available_c_part_3 = '" name="content_new[';
+
+  var available_s_part_2 = '<input class="test" id="sidebar_new_';
+  var available_s_part_3 = '" name="sidebar_new[';
+
+  var available_part_4 = '][';
+  var available_part_5 = ']" value="';
+  var available_part_6 = '" style="display:none;">';
+  var available_part_7 = '</h4><a href="javascript:void(0);"  class="remove_available">Remove</a></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var available_title = '';
+  var available_type = '';
+  var available_id = '';
+
+  $('.drag_to').draggable({
+    helper : 'clone',
+    opacity : 0.3
+  });
+
+  $('.frag_to').draggable({
     helper : 'clone',
     opacity : 0.3
   });
 
   $('div.title').droppable({
     tolerance : 'fit',
-    accept : '#wysiwyg',
+   // accept : '.drag_to',
     drop : function(event, ui) {
 
-      header_id_end = header_id_end + 1;
-      header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
-      header_id_complex = header_id_begin + header_id_end.toString();
-      $('#header_drag').append(header_result_html);
-      tinymce.execCommand('mceAddControl',true,header_id_complex);
+      var draggable_element = $(ui.draggable);
+
+      if(draggable_element.attr("class") == "drag_to ui-draggable"){
+        header_id_end = header_id_end + 1;
+        header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
+        header_id_complex = header_id_begin + header_id_end.toString();
+        $('#header_drag').append(header_result_html);
+        tinymce.execCommand('mceAddControl',true,header_id_complex);
+      }
+      else if (draggable_element.attr("class") == "frag_to ui-draggable"){
+        header_id_end = header_id_end + 1;
+        available_type = draggable_element.find('input').attr("class");
+        available_id = draggable_element.find('input').attr("value");
+        available_title = draggable_element.parent().find('.available_content').text();
+        available_result_html = available_part_1 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + available_id.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        $('#header_drag').append(available_result_html);
+      }
 
     }
   });
 
   $('li#left_content').droppable({
     tolerance : 'fit',
-    accept : '#wysiwyg',
+   // accept : '.drag_to',
     drop : function(event, ui) {
 
       $('#left_content a').attr('class','tabset-l  active');
@@ -185,18 +241,34 @@ $(document).ready(function(){
       $('#sidebar_drag').slideUp(1000);
       $('#content_drag').slideDown(1000);
 
-      content_id_end = content_id_end + 1;
-      content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-      content_id_complex = content_id_begin + content_id_end.toString();
-      $('#content_drag').append(content_result_html);
-      tinymce.execCommand('mceAddControl',true,content_id_complex);
+      var draggable_element = $(ui.draggable);
+
+      if(draggable_element.attr("class") == "drag_to ui-draggable"){
+
+        content_id_end = content_id_end + 1;
+        content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+        content_id_complex = content_id_begin + content_id_end.toString();
+        $('#content_drag').append(content_result_html);
+        tinymce.execCommand('mceAddControl',true,content_id_complex);
+        
+      }
+      else if (draggable_element.attr("class") == "frag_to ui-draggable"){
+
+        content_id_end = content_id_end + 1;
+        available_type = draggable_element.find('input').attr("class");
+        available_id = draggable_element.find('input').attr("value");
+        available_title = draggable_element.parent().find('.available_content').text();
+        available_result_html = available_part_1 + available_c_part_2 + header_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + available_id.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        $('#content_drag').append(available_result_html);
+
+      }
 
     }
   });
 
   $('li#right_content').droppable({
     tolerance : 'fit',
-    accept : '#wysiwyg',
+   // accept : '.drag_to',
     drop : function(event, ui) {
 
       $('#left_content a').attr('class','tabset-l');
@@ -204,13 +276,29 @@ $(document).ready(function(){
       $('#content_drag').slideUp(1000);
       $('#sidebar_drag').slideDown(1000);
 
-      sidebar_id_end_move = sidebar_id_end_move + 1;
-      sidebar_id_complex_move = sidebar_id_begin_move + sidebar_id_end_move.toString();
-      sidebar_id_end = sidebar_id_end + 1;
-      sidebar_result_html = sidebar_part_0 + sidebar_id_complex_move + sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
-      sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
-      $('#sidebar_drag').append(sidebar_result_html);
-      tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
+      var draggable_element = $(ui.draggable);
+
+      if(draggable_element.attr("class") == "drag_to ui-draggable"){
+        
+        sidebar_id_end_move = sidebar_id_end_move + 1;
+        sidebar_id_complex_move = sidebar_id_begin_move + sidebar_id_end_move.toString();
+        sidebar_id_end = sidebar_id_end + 1;
+        sidebar_result_html = sidebar_part_0 + sidebar_id_complex_move + sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
+        sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
+        $('#sidebar_drag').append(sidebar_result_html);
+        tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
+
+      }
+      else if (draggable_element.attr("class") == "frag_to ui-draggable"){
+
+        sidebar_id_end = sidebar_id_end + 1;
+        available_type = draggable_element.find('input').attr("class");
+        available_id = draggable_element.find('input').attr("value");
+        available_title = draggable_element.parent().find('.available_content').text();
+        available_result_html = available_part_1 + available_s_part_2 + header_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + available_id.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        $('#sidebar_drag').append(available_result_html);
+
+      }
 
     }
   });
@@ -219,6 +307,10 @@ $(document).ready(function(){
 
   $('.remove_unique').livequery('click', function(event) {
     $(this).parent().parent().parent().remove();
+  });
+  
+  $('.remove_available').livequery('click', function(event) {
+    $(this).parent().parent().remove();
   });
 
   <!-- MODULES hide -->
@@ -408,19 +500,46 @@ $(document).ready(function(){
  <div id="sidebar">
    <h3>Available Modules</h3>
    <ul class="add-nav">
-     <li><a href="#" class="active"><span><strong id="wysiwyg">WYSIWYG</strong></span></a></li>
+     <li><a href="#" class="active"><span><strong class="drag_to">WYSIWYG</strong></span></a></li>
      <li class="divider">&nbsp;</li>
 
-     <% @available_modules.each do |available_module| %>
+     <% for available_module in @available_modules %>
+
       <li>
-         <%= link_to do -%>
+        <%= link_to do -%>
+          <span>
+            <div>
+              <div class="frag_to" style="float:left; width: 25px; height: 100%; height: 11px;">
+                <%= image_tag("skinnycms/admin/ico-line.gif", :style => "float:left;") %>
+                <% if available_module.class.name == 'CustomModule' %>
+                  <%= text_field "CustomModule", "[#{available_module.id}]", :value => available_module.id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheTumblrPost' %>
+                  <%= text_field "CacheTumblrPost", "[#{available_module.id}]", :value => available_module.tumblr_post_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheFleakrGallery' %>
+                  <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheVimeoVideo' %>
+                  <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% end %>
+              </div>
+              <div class="available_content" style="float:left; width: 160px;">
+                <%= available_module.title %>
+              </div>
+            </div>
+          </span>
+        <% end %>
+      </li>
+
+
+     <!-- <li class="<= available_module.class.name %>" id="<= available_module.id %>">
+         <= link_to do -%>
            <span>
-             <strong>
-               <%= available_module.title %>
+             <strong class="frag_to">
+               <= available_module.title %>
              </strong>
            </span>
-         <% end %>
-       </li>
+         < end %>
+       </li> -->
+
      <% end %>
    </ul>
    
