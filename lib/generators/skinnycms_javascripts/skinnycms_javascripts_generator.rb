@@ -39,6 +39,10 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
     if !File.exist?("public/javascripts/skinnycms/jquery/jquery-ui-1.8.7.custom.min.js")
       copy_file "jquery/jquery-ui-1.8.7.custom.min.js", "public/javascripts/skinnycms/jquery/jquery-ui-1.8.7.custom.min.js"
     end
+
+    if !File.exist?("public/javascripts/skinnycms/jquery/jquery.livequery.js")
+      copy_file "jquery/jquery.livequery.js", "public/javascripts/skinnycms/jquery/jquery.livequery.js"
+    end
     
     puts SkinnycmsJavascriptsGenerator.end_description
   end

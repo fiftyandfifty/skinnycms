@@ -1,6 +1,6 @@
 <%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
 <%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
-<%= javascript_include_tag 'jquery.livequery.js' %>
+<%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
 
 <style type="text/css">
 
@@ -79,7 +79,7 @@ $(document).ready(function(){
       if(child_tag_name == 'INPUT'){
         alert('input');
       }
-      else {
+      else if(child_tag_name == 'textarea'){
 
        sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
 
@@ -91,21 +91,9 @@ $(document).ready(function(){
        $('#content_drag').append(content_result_html);
        tinymce.execCommand('mceAddControl',true,content_id_complex);
 
-       content_id_append = "#" + content_id_complex.toString() + '_ifr'
+       content_id_append = "#" + content_id_complex.toString() + '_ifr';
         
       }
-
-   //   sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
-
-   //   var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
-
-   //   content_id_end = content_id_end + 1;
-   //   content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-   //   content_id_complex = content_id_begin + content_id_end.toString();
-   //   $('#content_drag').append(content_result_html);
-   //   tinymce.execCommand('mceAddControl',true,content_id_complex);
-
-   //   content_id_append = "#" + content_id_complex.toString() + '_ifr'
 
        mass1.push(content_id_append);
        mass2.push(sidebar_new_content);
@@ -207,7 +195,6 @@ $(document).ready(function(){
 
   $('div.title').droppable({
     tolerance : 'fit',
-   // accept : '.drag_to',
     drop : function(event, ui) {
 
       var draggable_element = $(ui.draggable);
@@ -233,7 +220,6 @@ $(document).ready(function(){
 
   $('li#left_content').droppable({
     tolerance : 'fit',
-   // accept : '.drag_to',
     drop : function(event, ui) {
 
       $('#left_content a').attr('class','tabset-l  active');
@@ -268,7 +254,6 @@ $(document).ready(function(){
 
   $('li#right_content').droppable({
     tolerance : 'fit',
-   // accept : '.drag_to',
     drop : function(event, ui) {
 
       $('#left_content a').attr('class','tabset-l');
