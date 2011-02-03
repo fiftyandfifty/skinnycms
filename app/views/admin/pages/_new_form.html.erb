@@ -156,30 +156,34 @@ $(document).ready(function(){
 
   $('#sidebar_drag').delay(100).slideUp(100);
 
-  var header_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+  var header_part_1 = '<li class="inner" id="';
+  var header_part_1_2 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var header_part_2 = '<textarea cols="40" id="header_new_';
   var header_part_3 = '" name="header_new[';
   var header_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var header_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var header_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var header_id_begin = 'header_new_';
   var header_id_end = 0;
   var header_id_complex = '';
+  var header_id_complex_move = '';
 
-  var content_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+  var content_part_1 = '<li class="inner" id="';
+  var content_part_1_2 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var content_part_2 = '<textarea cols="40" id="content_new_';
   var content_part_3 = '" name="content_new[';
   var content_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var content_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var content_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var content_id_begin = 'content_new_';
   var content_id_end = 0;
   var content_id_complex = '';
+  var content_id_complex_move = '';
 
-  var sidebar_part_0 = '<div class="inner turbo" id="'
+  var sidebar_part_0 = '<li class="inner turbo" id="'
   var sidebar_part_1 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var sidebar_part_2 = '<textarea class="test" cols="40" id="sidebar_new_';
   var sidebar_part_3 = '" name="sidebar_new[';
   var sidebar_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var sidebar_id_begin = 'sidebar_new_';
   var sidebar_id_end = 0;
   var sidebar_id_complex = '';
@@ -187,7 +191,8 @@ $(document).ready(function(){
   var sidebar_id_end_move = 0;
   var sidebar_id_complex_move = '';
 
-  var available_part_1 = '<div class="area inner turbo" style="margin-bottom: 0;"><div class="holder"><h4>';
+  var available_part_1 = '<li class="area inner turbo" style="margin-bottom: 0;" id="';
+  var available_part_1_2 = '"><div class="holder"><h4>';
 
   var available_h_part_2 = '<input id="header_new_';
   var available_h_part_3 = '" name="header_new[';
@@ -201,7 +206,7 @@ $(document).ready(function(){
   var available_part_4 = '][';
   var available_part_5 = ']" value="';
   var available_part_6 = '" style="display:none;">';
-  var available_part_7 = '</h4><a href="javascript:void(0);"  class="remove_available">Remove</a></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var available_part_7 = '</h4><a href="javascript:void(0);"  class="remove_available">Remove</a></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var available_title = '';
   var available_type = '';
   var available_id = '';
@@ -229,8 +234,10 @@ $(document).ready(function(){
       var draggable_element = $(ui.draggable);
 
       if(draggable_element.attr("class") == "drag_to ui-draggable"){
+
+        header_id_complex_move = 'header_move_';
         header_id_end = header_id_end + 1;
-        header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
+        header_result_html = header_part_1 + header_id_complex_move + header_id_end.toString() + header_part_1_2 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
         header_id_complex = header_id_begin + header_id_end.toString();
         $('#header_drag').append(header_result_html);
         tinymce.execCommand('mceAddControl',true,header_id_complex);
@@ -240,7 +247,7 @@ $(document).ready(function(){
         available_type = draggable_element.find('input').attr("class");
         available_id = draggable_element.find('input').attr("value");
         available_title = draggable_element.parent().find('.available_content').text();
-        available_result_html = available_part_1 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + header_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + header_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#header_drag').append(available_result_html);
       }
 
@@ -260,8 +267,9 @@ $(document).ready(function(){
 
       if(draggable_element.attr("class") == "drag_to ui-draggable"){
 
+        content_id_complex_move = 'content_move_';
         content_id_end = content_id_end + 1;
-        content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+        content_result_html = content_part_1 + content_id_complex_move + content_id_end.toString() + content_part_1_2 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
         content_id_complex = content_id_begin + content_id_end.toString();
         $('#content_drag').append(content_result_html);
         tinymce.execCommand('mceAddControl',true,content_id_complex);
@@ -273,7 +281,7 @@ $(document).ready(function(){
         available_type = draggable_element.find('input').attr("class");
         available_id = draggable_element.find('input').attr("value");
         available_title = draggable_element.parent().find('.available_content').text();
-        available_result_html = available_part_1 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + content_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + content_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#content_drag').append(available_result_html);
 
       }
@@ -309,7 +317,7 @@ $(document).ready(function(){
         available_type = draggable_element.find('input').attr("class");
         available_id = draggable_element.find('input').attr("value");
         available_title = draggable_element.parent().find('.available_content').text();
-        available_result_html = available_part_1 + available_s_part_2 + sidebar_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + sidebar_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_s_part_2 + sidebar_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + sidebar_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#sidebar_drag').append(available_result_html);
 
       }
@@ -372,6 +380,65 @@ $(document).ready(function(){
   $('.pagination').find('.disabled.prev_page').text("BACK");
   $('.pagination').find('a.next_page').text("NEXT");
   $('.pagination').find('.disabled.next_page').text("NEXT");
+
+  <!-- Add Sortable to modules -->
+
+  $('#header_drag').livequery(function(){
+    $(this).sortable({
+      stop: function(event, ui) {
+
+        var sortable_class = $(ui.item).attr("class").substr(0,4);
+        var positions = $(this).sortable("toArray");
+
+        if(sortable_class == "area"){
+      //    alert("MODULE");
+        }
+        else {
+      //    alert("WISIWYG");
+        }
+        $('#header_positions').attr("value",positions.toString());
+      }
+
+    });
+  });
+
+  $('#content_drag').livequery(function(){
+    $(this).sortable({
+      stop: function(event, ui) {
+
+        var sortable_class = $(ui.item).attr("class").substr(0,4);
+        var positions = $(this).sortable("toArray");
+
+        if(sortable_class == "area"){
+      //    alert("MODULE");
+        }
+        else {
+      //    alert("WISIWYG");
+        }
+        $('#content_positions').attr("value",positions.toString());
+      }
+
+    });
+  });
+
+  $('#sidebar_drag').livequery(function(){
+    $(this).sortable({
+      stop: function(event, ui) {
+
+        var sortable_class = $(ui.item).attr("class").substr(0,4);
+        var positions = $(this).sortable("toArray");
+
+        if(sortable_class == "area"){
+      //    alert("MODULE");
+        }
+        else {
+      //    alert("WISIWYG");
+        }
+        $('#sidebar_positions').attr("value",positions.toString());
+      }
+
+    });
+  });
 
 });
 
@@ -464,8 +531,8 @@ $(document).ready(function(){
 	  <h4 class="head">HEADER Modules</h4>
           <a href="javascript:void(0);" id="hide_header_module">Hide</a>
 	</div>
-	<div class="inner" id="header_drag">
-        </div>
+	<ul class="inner" id="header_drag">
+        </ul>
      </div>
 
      <div class="area">
@@ -478,15 +545,19 @@ $(document).ready(function(){
          <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
        </ul>
        <div class="tab-content" id="tab-1">
-	 <div class="inner" id="content_drag">   
-	 </div>
-         <div class="inner" id="sidebar_drag">
-         </div>
+	 <ul class="inner" id="content_drag">
+	 </ul>
+         <ul class="inner" id="sidebar_drag">
+         </ul>
       </div>
     </div>
 
     <div class="area">
     </div>
+
+    <input id="header_positions" name="header_positions" style="display: none;"></input>
+    <input id="content_positions" name="content_positions" style="display: none;"></input>
+    <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
 
     <!-- module -->
    <div class="module"  id="scripts_module">
