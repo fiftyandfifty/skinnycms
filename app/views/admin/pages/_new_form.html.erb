@@ -395,6 +395,9 @@ $(document).ready(function(){
         }
         else {
       //    alert("WISIWYG");
+          var wis_textarea = $(ui.item).find('textarea').attr("id");
+          wis_id_append = "#" + wis_textarea.toString() + '_ifr';
+          tinymce.execCommand('mceAddControl',true,wis_id_append);
         }
         $('#header_positions').attr("value",positions.toString());
       }
