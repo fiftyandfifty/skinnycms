@@ -30,7 +30,7 @@ div.pagination {
 $(document).ready(function(){
 
   <!-- Useful comments -->
-  
+
   // Basic drag and drop elements
   //   $(ui.draggable) draggable element
   //   $(this) droppable element
@@ -46,7 +46,7 @@ $(document).ready(function(){
   <!-- Pages template logic -->
 
   $('.multiple').click(function() {
-    
+
     $('#right_content').slideDown(50);
     $('#left_content a').css('background-repeat','no-repeat');
     $('#left_content').css('width','335px');
@@ -69,53 +69,59 @@ $(document).ready(function(){
     var mass1 = [];
     var mass2 = [];
 
-    var ultra_mass = $('#sidebar_drag').find('.inner.ultra');
-
-    $.each(ultra_mass, function(index, value) {
-
-      var child = $(value).find(".mceEditor");
-
-      sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
-
-      var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
-
-      content_id_end = content_id_end + 1;
-      content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-      content_id_complex = content_id_begin + content_id_end.toString();
-      $('#content_drag').append(content_result_html);
-      tinymce.execCommand('mceAddControl',true,content_id_complex);
-
-      content_id_append = "#" + content_id_complex.toString() + '_ifr'
-
-      mass1.push(content_id_append);
-      mass2.push(sidebar_new_content);
-
-      $(value).remove();
-
-    });
-
     var mass = $('#sidebar_drag').find('.inner.turbo');
 
     $.each(mass, function(index, value) {
 
       var child = $(value).find(".test");
-
-      sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
-
-      var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
-
+      var child_tag_name = child.get(0).tagName;
       content_id_end = content_id_end + 1;
-      content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-      content_id_complex = content_id_begin + content_id_end.toString();
-      $('#content_drag').append(content_result_html);
-      tinymce.execCommand('mceAddControl',true,content_id_complex);
 
-      content_id_append = "#" + content_id_complex.toString() + '_ifr'
+      if(child_tag_name == 'INPUT'){
 
-      mass1.push(content_id_append);
-      mass2.push(sidebar_new_content);
+        var new_available_id = $(child).attr("value");
+        var new_available_title = $(child).parent().text();
+        var new_available_type = $(child).attr("name").substr(12,6);
+        var available_type_part = '';
 
-      $(value).remove();
+        if(new_available_type == 'CacheT'){
+          available_type_part = 'CacheTumblrPost';
+        }
+        else if (new_available_type == 'CacheF'){
+          available_type_part = 'CacheFleakrGallery';
+        }
+        else if (new_available_type == 'CacheV'){
+          available_type_part = 'CacheVimeoVideo';
+        }
+        else {
+          available_type_part = 'CustomModule';
+        }
+
+        new_available_result_html = available_part_1 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type_part + available_part_4 + content_id_end.toString() + available_part_5 + new_available_id.toString() + available_part_6 + new_available_title.toString() + available_part_7;
+        alert("available_result_html = " + new_available_result_html);
+        $('#content_drag').append(new_available_result_html);
+
+      }
+      else if(child_tag_name == 'TEXTAREA'){
+
+       sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
+
+       var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
+
+       content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+       content_id_complex = content_id_begin + content_id_end.toString();
+       $('#content_drag').append(content_result_html);
+       tinymce.execCommand('mceAddControl',true,content_id_complex);
+
+       alert("content_id_complex = " + content_id_complex);
+
+       content_id_append = "#" + content_id_complex.toString() + '_ifr';
+
+       mass1.push(content_id_append);
+       mass2.push(sidebar_new_content);
+      }
+
+       $(value).remove();
 
     });
 
@@ -127,7 +133,7 @@ $(document).ready(function(){
     }, 1000);
 
   });
-  
+
   $('#left_content a').click(function() {
 
     $('#left_content a').attr('class','tabset-l  active');
@@ -181,61 +187,132 @@ $(document).ready(function(){
   var sidebar_id_end_move = 0;
   var sidebar_id_complex_move = '';
 
-  $('#wysiwyg').draggable({
+  var available_part_1 = '<div class="area inner turbo" style="margin-bottom: 0;"><div class="holder"><h4>';
+
+  var available_h_part_2 = '<input id="header_new_';
+  var available_h_part_3 = '" name="header_new[';
+
+  var available_c_part_2 = '<input id="content_new_';
+  var available_c_part_3 = '" name="content_new[';
+
+  var available_s_part_2 = '<input class="test" id="sidebar_new_';
+  var available_s_part_3 = '" name="sidebar_new[';
+
+  var available_part_4 = '][';
+  var available_part_5 = ']" value="';
+  var available_part_6 = '" style="display:none;">';
+  var available_part_7 = '</h4><a href="javascript:void(0);"  class="remove_available">Remove</a></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var available_title = '';
+  var available_type = '';
+  var available_id = '';
+
+  $('.drag_to').draggable({
+    helper : 'clone',
+    opacity : 0.3
+  });
+
+  $('.frag_to').draggable({
     helper : 'clone',
     opacity : 0.3
   });
 
   $('div.title').droppable({
     tolerance : 'fit',
-    accept : '#wysiwyg',
-    drop : function(event_1, ui) {
+    drop : function(event, ui) {
 
-      header_id_end = header_id_end + 1;
-      header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
-      header_id_complex = header_id_begin + header_id_end.toString();
-      $('#header_drag').append(header_result_html);
-      tinymce.execCommand('mceAddControl',true,header_id_complex);
+      if(header_state == true){
+        $('#hide_header_module').text('hide');
+        $('#header_drag').slideDown(1000);
+        header_state = false;
+      }
+
+      var draggable_element = $(ui.draggable);
+
+      if(draggable_element.attr("class") == "drag_to ui-draggable"){
+        header_id_end = header_id_end + 1;
+        header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
+        header_id_complex = header_id_begin + header_id_end.toString();
+        $('#header_drag').append(header_result_html);
+        tinymce.execCommand('mceAddControl',true,header_id_complex);
+      }
+      else if (draggable_element.attr("class") == "frag_to ui-draggable"){
+        header_id_end = header_id_end + 1;
+        available_type = draggable_element.find('input').attr("class");
+        available_id = draggable_element.find('input').attr("value");
+        available_title = draggable_element.parent().find('.available_content').text();
+        available_result_html = available_part_1 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + header_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        $('#header_drag').append(available_result_html);
+      }
 
     }
   });
 
   $('li#left_content').droppable({
     tolerance : 'fit',
-    accept : '#wysiwyg',
-    drop : function(event_2, ui) {
+    drop : function(event, ui) {
 
       $('#left_content a').attr('class','tabset-l  active');
       $('#right_content a').attr('class','tabset-r');
       $('#sidebar_drag').slideUp(1000);
       $('#content_drag').slideDown(1000);
 
-      content_id_end = content_id_end + 1;
-      content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-      content_id_complex = content_id_begin + content_id_end.toString();
-      $('#content_drag').append(content_result_html);
-      tinymce.execCommand('mceAddControl',true,content_id_complex);
+      var draggable_element = $(ui.draggable);
+
+      if(draggable_element.attr("class") == "drag_to ui-draggable"){
+
+        content_id_end = content_id_end + 1;
+        content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+        content_id_complex = content_id_begin + content_id_end.toString();
+        $('#content_drag').append(content_result_html);
+        tinymce.execCommand('mceAddControl',true,content_id_complex);
+
+      }
+      else if (draggable_element.attr("class") == "frag_to ui-draggable"){
+
+        content_id_end = content_id_end + 1;
+        available_type = draggable_element.find('input').attr("class");
+        available_id = draggable_element.find('input').attr("value");
+        available_title = draggable_element.parent().find('.available_content').text();
+        available_result_html = available_part_1 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + content_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        $('#content_drag').append(available_result_html);
+
+      }
 
     }
   });
 
   $('li#right_content').droppable({
     tolerance : 'fit',
-    accept : '#wysiwyg',
-    drop : function(event_2, ui) {
+    drop : function(event, ui) {
 
       $('#left_content a').attr('class','tabset-l');
       $('#right_content a').attr('class','tabset-r  active');
       $('#content_drag').slideUp(1000);
       $('#sidebar_drag').slideDown(1000);
 
-      sidebar_id_end_move = sidebar_id_end_move + 1;
-      sidebar_id_complex_move = sidebar_id_begin_move + sidebar_id_end_move.toString();
-      sidebar_id_end = sidebar_id_end + 1;
-      sidebar_result_html = sidebar_part_0 + sidebar_id_complex_move + sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
-      sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
-      $('#sidebar_drag').append(sidebar_result_html);
-      tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
+      var draggable_element = $(ui.draggable);
+
+      if(draggable_element.attr("class") == "drag_to ui-draggable"){
+
+        sidebar_id_end_move = sidebar_id_end_move + 1;
+        sidebar_id_complex_move = sidebar_id_begin_move + sidebar_id_end_move.toString();
+        sidebar_id_end = sidebar_id_end + 1;
+        sidebar_result_html = sidebar_part_0 + sidebar_id_complex_move + sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
+        sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
+        $('#sidebar_drag').append(sidebar_result_html);
+        tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
+
+      }
+      else if (draggable_element.attr("class") == "frag_to ui-draggable"){
+
+        sidebar_id_end = sidebar_id_end + 1;
+        available_type = draggable_element.find('input').attr("class");
+        available_id = draggable_element.find('input').attr("value");
+        available_title = draggable_element.parent().find('.available_content').text();
+        available_result_html = available_part_1 + available_s_part_2 + sidebar_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + sidebar_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        $('#sidebar_drag').append(available_result_html);
+
+      }
 
     }
   });
@@ -246,18 +323,47 @@ $(document).ready(function(){
     $(this).parent().parent().parent().remove();
   });
 
+  $('.remove_available').livequery('click', function(event) {
+    $(this).parent().parent().remove();
+  });
+
   <!-- MODULES hide -->
 
+  var header_state = false;
+  var seo_fields_state = false;
+  var scripts_state = false;
+
   $('#hide_header_module').click(function() {
-    $('div.module#header_module').fadeOut('slow');
+    $('#header_drag').slideToggle(1000);
+    if(header_state == false){
+      $(this).text("show");
+    }
+    else{
+      $(this).text("hide");
+    }
+    header_state = !header_state;
   });
 
   $('#hide_seo_fields').click(function() {
-    $('div.seo-fields').fadeOut('slow');
+    $('div.seo_fields').slideToggle(1000);
+    if(seo_fields_state == false){
+      $(this).text("show");
+    }
+    else{
+      $(this).text("hide");
+    }
+    seo_fields_state = !seo_fields_state;
   });
 
   $('#hide_scripts').click(function() {
-    $('div.module#scripts_module').fadeOut('slow');
+    $('div.text-area').slideToggle(1000);
+    if(scripts_state == false){
+      $(this).text("show");
+    }
+    else{
+      $(this).text("hide");
+    }
+    scripts_state = !scripts_state;
   });
 
   <!-- Add Styles for pagination -->
@@ -268,7 +374,6 @@ $(document).ready(function(){
   $('.pagination').find('.disabled.next_page').text("NEXT");
 
 });
-
 
 </script>
 
@@ -361,7 +466,10 @@ $(document).ready(function(){
 	<div class="inner" id="header_drag">
 
           <% for header_content in @header_contents %>
-          <div class="inner">
+
+          <% if header_content.module_type == 'UniqueContentModule' %>
+
+            <div class="inner">
 	    <div class="holder">
 	      <div class="headline">
 	        <h4>WYSIWYG</h4>
@@ -375,7 +483,54 @@ $(document).ready(function(){
 	        </div>
 	      </div>
 	    </div><div style="height:10px; background-color: white; width: 100%;"></div>
-          </div>
+           </div>
+
+          <% elsif header_content.module_type == 'CustomModule'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif header_content.module_type == 'CacheTumblrPost'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif header_content.module_type == 'CacheVimeoVideo'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif header_content.module_type == 'CacheFleakrGallery'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% end %>
+
          <% end %>
 
         </div>
@@ -392,8 +547,12 @@ $(document).ready(function(){
        </ul>
        <div class="tab-content" id="tab-1">
 	 <div class="inner" id="content_drag">
+
            <% for page_content in @page_contents %>
-             <div class="inner">
+
+          <% if page_content.module_type == 'UniqueContentModule' %>
+
+            <div class="inner">
 	     <div class="holder">
 	       <div class="headline">
 	         <h4>WYSIWYG</h4>
@@ -408,11 +567,64 @@ $(document).ready(function(){
 	       </div>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
              </div>
+
+          <% elsif page_content.module_type == 'CustomModule'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif page_content.module_type == 'CacheTumblrPost'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif page_content.module_type == 'CacheVimeoVideo'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif page_content.module_type == 'CacheFleakrGallery'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
           <% end %>
+
+         <% end %>
+
 	</div>
         <div class="inner" id="sidebar_drag">
+
+
           <% for sidebar_content in @sidebar_contents %>
-           <div class="inner ultra">
+
+            <% if sidebar_content.module_type == 'UniqueContentModule' %>
+
+              <div class="inner ultra">
 	   <div class="holder">
 	     <div class="headline">
 	       <h4>WYSIWYG</h4>
@@ -427,7 +639,55 @@ $(document).ready(function(){
 	     </div>
            </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </div>
+
+          <% elsif sidebar_content.module_type == 'CustomModule'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif sidebar_content.module_type == 'CacheTumblrPost'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif sidebar_content.module_type == 'CacheVimeoVideo'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
+          <% elsif sidebar_content.module_type == 'CacheFleakrGallery'  %>
+
+           <div class="area inner turbo" style="margin-bottom: 0;">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </div>
+
           <% end %>
+
+          <% end %>
+
         </div>
       </div>
     </div>
@@ -458,6 +718,7 @@ $(document).ready(function(){
            <h4>SEO Fields</h4>
 	   <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
 	 </div>
+         <div class="seo_fields">
          <div class="row">
 	   <label for="site-name">Page URL (Optional)</label>
 	   <span class="text"><%= f.text_field :seo_title, :value => "Site Name - ", :html => { :id => "site-name" } %></span>
@@ -476,6 +737,7 @@ $(document).ready(function(){
              </div>
            </div>
          </div>
+         </div>
        </div>
      </fieldset>
    </div>
@@ -485,19 +747,35 @@ $(document).ready(function(){
  <div id="sidebar">
    <h3>Available Modules</h3>
    <ul class="add-nav">
-     <li><a href="#" class="active"><span><strong id="wysiwyg">WYSIWYG</strong></span></a></li>
+     <li><a href="#" class="active"><span><strong class="drag_to">WYSIWYG</strong></span></a></li>
      <li class="divider">&nbsp;</li>
 
-     <% @available_modules.each do |available_module| %>
+     <% for available_module in @available_modules %>
+
       <li>
-         <%= link_to do -%>
-           <span>
-             <strong>
-               <%= available_module.title %>
-             </strong>
-           </span>
-         <% end %>
-       </li>
+        <%= link_to do -%>
+          <span>
+            <div>
+              <div class="frag_to" style="float:left; width: 25px; height: 100%; height: 11px;">
+                <%= image_tag("skinnycms/admin/ico-line.gif", :style => "float:left;") %>
+                <% if available_module.class.name == 'CustomModule' %>
+                  <%= text_field "CustomModule", "[#{available_module.id}]", :value => available_module.id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheTumblrPost' %>
+                  <%= text_field "CacheTumblrPost", "[#{available_module.id}]", :value => available_module.tumblr_post_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheFleakrGallery' %>
+                  <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheVimeoVideo' %>
+                  <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% end %>
+              </div>
+              <div class="available_content" style="float:left; width: 160px;">
+                <%= available_module.title %>
+              </div>
+            </div>
+          </span>
+        <% end %>
+      </li>
+
      <% end %>
    </ul>
 
@@ -510,4 +788,3 @@ $(document).ready(function(){
 </div>
 
 <% end %>
-

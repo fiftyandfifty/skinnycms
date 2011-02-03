@@ -59,16 +59,36 @@ class Admin::PagesController < ApplicationController
     if @page.save
       if params[:header_new].present?
 
+        Rails.logger.info "++ params[:header_new] ++++++++++++++++ #{params[:header_new].inspect}"
+
         all_headers_content = params[:header_new]
+
+        Rails.logger.info "++ all_headers_content >>>>>>>>>>>>>>>> #{all_headers_content.inspect}"
+
         headers_custom_modules = params[:header_new]["CustomModule"] if params[:header_new]["CustomModule"].present?
+        
+        Rails.logger.info "++ headers_custom_modules >>>>>>>>>>>>>>>> #{headers_custom_modules.inspect}"
+
         headers_tumblr_posts = params[:header_new]["CacheTumblrPost"] if params[:header_new]["CacheTumblrPost"].present?
+        
+        Rails.logger.info "++ headers_tumblr_posts >>>>>>>>>>>>>>>> #{headers_tumblr_posts.inspect}"
+
         headers_vimeo_videos = params[:header_new]["CacheVimeoVideo"] if params[:header_new]["CacheVimeoVideo"].present?
+        
+        Rails.logger.info "++ headers_vimeo_videos >>>>>>>>>>>>>>>> #{headers_vimeo_videos.inspect}"
+
         headers_fleakr_galleries = params[:header_new]["CacheFleakrGallery"] if params[:header_new]["CacheFleakrGallery"].present?
+        
+        Rails.logger.info "++ headers_fleakr_galleries >>>>>>>>>>>>>>>> #{headers_fleakr_galleries.inspect}"
+
         headers_unique_modules = params[:header_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+
+        Rails.logger.info "++ headers_unique_modules >>>>>>>>>>>>>>>> #{headers_unique_modules.inspect}"
 
         if headers_unique_modules
           headers_unique_modules.each do |key, value|
             PageContent.create(:content => value,
+                               :module_type => 'UniqueContentModule',
                                :page_id => @page.id,
                                :location => "header")
           end
@@ -116,17 +136,35 @@ class Admin::PagesController < ApplicationController
       end
 
       if params[:content_new].present?
+        Rails.logger.info "++++++++++++++++++ #{params[:content_new].inspect}"
 
         all_pages_content = params[:content_new]
+
+        Rails.logger.info "++ all_pages_content ++++++++++++++++ #{all_pages_content.inspect}"
+
         pages_custom_modules = params[:content_new]["CustomModule"] if params[:content_new]["CustomModule"].present?
+
+        Rails.logger.info "++ pages_custom_modules ++++++++++++++++ #{pages_custom_modules.inspect}"
+
         pages_tumblr_posts = params[:content_new]["CacheTumblrPost"] if params[:content_new]["CacheTumblrPost"].present?
+
+        Rails.logger.info "++ pages_tumblr_posts ++++++++++++++++ #{pages_tumblr_posts.inspect}"
+
         pages_vimeo_videos = params[:content_new]["CacheVimeoVideo"] if params[:content_new]["CacheVimeoVideo"].present?
+
+        Rails.logger.info "++ pages_vimeo_videos ++++++++++++++++ #{pages_vimeo_videos.inspect}"
+
         pages_fleakr_galleries = params[:content_new]["CacheFleakrGallery"] if params[:content_new]["CacheFleakrGallery"].present?
+
+        Rails.logger.info "++ pages_fleakr_galleries ++++++++++++++++ #{pages_fleakr_galleries.inspect}"
+
         pages_unique_modules = params[:content_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
 
-        if headers_unique_modules
+        Rails.logger.info "++ pages_unique_modules ++++++++++++++++ #{pages_unique_modules.inspect}"
+
+        if pages_unique_modules
           cleaned_values = []
-          headers_unique_modules.each do |key, value|
+          pages_unique_modules.each do |key, value|
             if value.include?("<p>&nbsp;</p>\r\n")
               cleaned_value = value.gsub!("<p>&nbsp;</p>\r\n","")
             else
@@ -134,7 +172,10 @@ class Admin::PagesController < ApplicationController
             end
             cleaned_values << cleaned_value
           end
-          cleaned_values.each { |value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") }
+          cleaned_values.each { |value| PageContent.create(:content => value,
+                                                           :module_type => 'UniqueContentModule',
+                                                           :page_id => @page.id,
+                                                           :location => "content") }
         end 
 
         if pages_custom_modules
@@ -179,6 +220,7 @@ class Admin::PagesController < ApplicationController
       end
 
       if params[:sidebar_new].present?
+        Rails.logger.info "++++++++++++++++++ #{params[:sidebar_new].inspect}"
 
         all_sidebars_content = params[:sidebar_new]
         sidebars_custom_modules = params[:sidebar_new]["CustomModule"] if params[:sidebar_new]["CustomModule"].present?
@@ -190,6 +232,7 @@ class Admin::PagesController < ApplicationController
         if sidebars_unique_modules
           sidebars_unique_modules.each do |key, value|
             PageContent.create(:content => value,
+                               :module_type => 'UniqueContentModule',
                                :page_id => @page.id,
                                :location => "sidebar")
           end
@@ -243,22 +286,40 @@ class Admin::PagesController < ApplicationController
   end
 
   def update
+    Rails.logger.info "++++++++++++++++++ #{params.inspect}"
+
     @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
 
     if params[:header_contents].present?
+
+      Rails.logger.info "!!!!!  params[:header_contents]  ++++++++++++ #{params[:header_contents].inspect}"
+
       header_contents_last = PageContent.where(:page_id => @page, :location => "header").map { |value| value.id }
+
+      Rails.logger.info "!!!!!  header_contents_last  >>>>>>>>>>> #{header_contents_last.inspect}"
+
       header_contents_now = []
       params[:header_contents].each do |key, value|
-        @header_content = PageContent.find(key.to_i)
-        if @header_content
-          @header_content.update_attribute(:content, value)
+        header_content = PageContent.find(key.to_i)
+
+        Rails.logger.info "!!!!!  header_content  >>>>>>>>>>> #{header_content.inspect} >>>>>> key = #{key} value = #{value}"
+
+        if header_content
+          header_content.update_attribute(:content, value)
         else
-          PageContent.create(:content => value, :page_id => @page.id, :location => "header")
+          PageContent.create(:content => value, :page_id => @page, :location => "header")
         end
         header_contents_now << key.to_i
       end
+
+      Rails.logger.info "!!!!!  header_contents_last >>>>>>>>>>> #{header_contents_last.inspect}"
+      Rails.logger.info "!!!!!  header_contents_now >>>>>>>>>>> #{header_contents_now.inspect}"
+
       unusable_header_contents = header_contents_last - header_contents_now
+
+      Rails.logger.info "!!!!!  header_contents_now >>>>>>>>>>> #{unusable_header_contents.inspect}"
+
       unusable_header_contents.each { |id| PageContent.find(id).destroy }
     else
       PageContent.where(:page_id => @page, :location => "header").delete_all
@@ -270,11 +331,11 @@ class Admin::PagesController < ApplicationController
       page_contents_last = PageContent.where(:page_id => @page, :location => "content").map { |value| value.id }
       page_contents_now = []
       params[:page_contents].each do |key, value|
-        @page_content = PageContent.find(key.to_i)
-        if @page_content
-          @page_content.update_attribute(:content, value)
+        page_content = PageContent.find(key.to_i)
+        if page_content
+          page_content.update_attribute(:content, value)
         else
-          PageContent.create(:content => value, :page_id => @page.id, :location => "content")
+          PageContent.create(:content => value, :page_id => @page, :location => "content")
         end
         page_contents_now << key.to_i
       end
@@ -288,11 +349,11 @@ class Admin::PagesController < ApplicationController
       sidebar_contents_last = PageContent.where(:page_id => @page, :location => "sidebar").map { |value| value.id }
       sidebar_contents_now = []
       params[:sidebar_contents].each do |key, value|
-        @sidebar_content = PageContent.find(key.to_i)
-        if @sidebar_content
-          @sidebar_content.update_attribute(:content, value)
+        sidebar_content = PageContent.find(key.to_i)
+        if sidebar_content
+          sidebar_content.update_attribute(:content, value)
         else
-          PageContent.create(:content => value, :page_id => @page.id, :location => "sidebar")
+          PageContent.create(:content => value, :page_id => @page, :location => "sidebar")
         end
         sidebar_contents_now << key.to_i
       end
@@ -302,25 +363,231 @@ class Admin::PagesController < ApplicationController
       PageContent.where(:page_id => @page, :location => "sidebar").delete_all
     end
 
-    params[:header_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "header") } if params[:header_new].present?
+
+    if params[:header_new].present?
+
+        Rails.logger.info "++ params[:header_new] ++++++++++++++++ #{params[:header_new].inspect}"
+
+        all_headers_content = params[:header_new]
+
+        Rails.logger.info "++ all_headers_content >>>>>>>>>>>>>>>> #{all_headers_content.inspect}"
+
+        headers_custom_modules = params[:header_new]["CustomModule"] if params[:header_new]["CustomModule"].present?
+
+        Rails.logger.info "++ headers_custom_modules >>>>>>>>>>>>>>>> #{headers_custom_modules.inspect}"
+
+        headers_tumblr_posts = params[:header_new]["CacheTumblrPost"] if params[:header_new]["CacheTumblrPost"].present?
+
+        Rails.logger.info "++ headers_tumblr_posts >>>>>>>>>>>>>>>> #{headers_tumblr_posts.inspect}"
+
+        headers_vimeo_videos = params[:header_new]["CacheVimeoVideo"] if params[:header_new]["CacheVimeoVideo"].present?
+
+        Rails.logger.info "++ headers_vimeo_videos >>>>>>>>>>>>>>>> #{headers_vimeo_videos.inspect}"
+
+        headers_fleakr_galleries = params[:header_new]["CacheFleakrGallery"] if params[:header_new]["CacheFleakrGallery"].present?
+
+        Rails.logger.info "++ headers_fleakr_galleries >>>>>>>>>>>>>>>> #{headers_fleakr_galleries.inspect}"
+
+        headers_unique_modules = params[:header_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+
+        Rails.logger.info "++ headers_unique_modules >>>>>>>>>>>>>>>> #{headers_unique_modules.inspect}"
+
+        if headers_unique_modules
+          headers_unique_modules.each do |key, value|
+            PageContent.create(:content => value,
+                               :module_type => 'UniqueContentModule',
+                               :page_id => @page.id,
+                               :location => "header")
+          end
+        end
+
+        if headers_custom_modules
+          headers_custom_modules.each do |key, value|
+            PageContent.create(:content => CustomModule.find(value).header,
+                               :module_type => 'CustomModule',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "header")
+          end
+        end
+
+        if headers_tumblr_posts
+          headers_tumblr_posts.each do |key, value|
+            PageContent.create(:content => CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => value }).desc,
+                               :module_type => 'CacheTumblrPost',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "header")
+          end
+        end
+
+        if headers_vimeo_videos
+          headers_vimeo_videos.each do |key, value|
+            PageContent.create(:content => CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => value }).url,
+                               :module_type => 'CacheVimeoVideo',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "header")
+          end
+        end
+
+        if headers_fleakr_galleries
+          headers_fleakr_galleries.each do |key, value|
+            PageContent.create(:content => CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => value }).title,
+                                                                   :module_type => 'CacheFleakrGallery',
+                                                                   :module_id => value,
+                                                                   :page_id => @page.id,
+                                                                   :location => "header")
+          end
+        end
+      end
+
+
 
     if params[:content_new].present?
-      cleaned_values = []
-      uncleaned_values = params[:content_new]
-      keys = uncleaned_values.keys.sort{ |a,b| a.to_i <=> b.to_i }
-      keys.each do |key|
-        value = uncleaned_values["#{key.to_s}"]
-        if value.include?("<p>&nbsp;</p>\r\n")
-          cleaned_value = value.gsub!("<p>&nbsp;</p>\r\n","")
-        else
-          cleaned_value = value
-        end
-        cleaned_values << cleaned_value
-      end
-      cleaned_values.each { |value| PageContent.create(:content => value, :page_id => @page.id, :location => "content") }
-    end
+        Rails.logger.info "++++++++++++++++++ #{params[:content_new].inspect}"
 
-    params[:sidebar_new].each { |key, value| PageContent.create(:content => value, :page_id => @page.id, :location => "sidebar") } if params[:sidebar_new].present?
+        all_pages_content = params[:content_new]
+
+        Rails.logger.info "++ all_pages_content ++++++++++++++++ #{all_pages_content.inspect}"
+
+        pages_custom_modules = params[:content_new]["CustomModule"] if params[:content_new]["CustomModule"].present?
+
+        Rails.logger.info "++ pages_custom_modules ++++++++++++++++ #{pages_custom_modules.inspect}"
+
+        pages_tumblr_posts = params[:content_new]["CacheTumblrPost"] if params[:content_new]["CacheTumblrPost"].present?
+
+        Rails.logger.info "++ pages_tumblr_posts ++++++++++++++++ #{pages_tumblr_posts.inspect}"
+
+        pages_vimeo_videos = params[:content_new]["CacheVimeoVideo"] if params[:content_new]["CacheVimeoVideo"].present?
+
+        Rails.logger.info "++ pages_vimeo_videos ++++++++++++++++ #{pages_vimeo_videos.inspect}"
+
+        pages_fleakr_galleries = params[:content_new]["CacheFleakrGallery"] if params[:content_new]["CacheFleakrGallery"].present?
+
+        Rails.logger.info "++ pages_fleakr_galleries ++++++++++++++++ #{pages_fleakr_galleries.inspect}"
+
+        pages_unique_modules = params[:content_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+
+        Rails.logger.info "++ pages_unique_modules ++++++++++++++++ #{pages_unique_modules.inspect}"
+
+        if pages_unique_modules
+          cleaned_values = []
+          pages_unique_modules.each do |key, value|
+            if value.include?("<p>&nbsp;</p>\r\n")
+              cleaned_value = value.gsub!("<p>&nbsp;</p>\r\n","")
+            else
+              cleaned_value = value
+            end
+            cleaned_values << cleaned_value
+          end
+          cleaned_values.each { |value| PageContent.create(:content => value,
+                                                           :module_type => 'UniqueContentModule',
+                                                           :page_id => @page.id,
+                                                           :location => "content") }
+        end
+
+        if pages_custom_modules
+          pages_custom_modules.each do |key, value|
+            PageContent.create(:content => CustomModule.find(value).content,
+                               :module_type => 'CustomModule',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "content")
+          end
+        end
+
+        if pages_tumblr_posts
+          pages_tumblr_posts.each do |key, value|
+            PageContent.create(:content => CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => value }).desc,
+                               :module_type => 'CacheTumblrPost',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "content")
+          end
+        end
+
+        if pages_vimeo_videos
+          pages_vimeo_videos.each do |key, value|
+            PageContent.create(:content => CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => value }).url,
+                               :module_type => 'CacheVimeoVideo',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "content")
+          end
+        end
+
+        if pages_fleakr_galleries
+          pages_fleakr_galleries.each do |key, value|
+            PageContent.create(:content => CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => value }).title,
+                                                                   :module_type => 'CacheFleakrGallery',
+                                                                   :module_id => value,
+                                                                   :page_id => @page.id,
+                                                                   :location => "content")
+          end
+        end
+      end
+
+
+    if params[:sidebar_new].present?
+        Rails.logger.info "++++++++++++++++++ #{params[:sidebar_new].inspect}"
+
+        all_sidebars_content = params[:sidebar_new]
+        sidebars_custom_modules = params[:sidebar_new]["CustomModule"] if params[:sidebar_new]["CustomModule"].present?
+        sidebars_tumblr_posts = params[:sidebar_new]["CacheTumblrPost"] if params[:sidebar_new]["CacheTumblrPost"].present?
+        sidebars_vimeo_videos = params[:sidebar_new]["CacheVimeoVideo"] if params[:sidebar_new]["CacheVimeoVideo"].present?
+        sidebars_fleakr_galleries = params[:sidebar_new]["CacheFleakrGallery"] if params[:sidebar_new]["CacheFleakrGallery"].present?
+        sidebars_unique_modules = params[:sidebar_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+
+        if sidebars_unique_modules
+          sidebars_unique_modules.each do |key, value|
+            PageContent.create(:content => value,
+                               :module_type => 'UniqueContentModule',
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_custom_modules
+          sidebars_custom_modules.each do |key, value|
+            PageContent.create(:content => CustomModule.find(value).sidebar,
+                               :module_type => 'CustomModule',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_tumblr_posts
+          sidebars_tumblr_posts.each do |key, value|
+            PageContent.create(:content => CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => value }).desc,
+                               :module_type => 'CacheTumblrPost',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_vimeo_videos
+          sidebars_vimeo_videos.each do |key, value|
+            PageContent.create(:content => CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => value }).url,
+                               :module_type => 'CacheVimeoVideo',
+                               :module_id => value,
+                               :page_id => @page.id,
+                               :location => "sidebar")
+          end
+        end
+
+        if sidebars_fleakr_galleries
+          sidebars_fleakr_galleries.each do |key, value|
+            PageContent.create(:content => CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => value }).title,
+                                                                   :module_type => 'CacheFleakrGallery',
+                                                                   :module_id => value,
+                                                                   :page_id => @page.id,
+                                                                   :location => "sidebar")
+          end
+        end
+      end
     
     respond_to do |format|
       format.html { redirect_to(admin_pages_url, :notice => 'Page successfully updated!') }
