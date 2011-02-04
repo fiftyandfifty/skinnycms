@@ -416,6 +416,8 @@ $(document).ready(function(){
           header_result_html = wis_header_part_1_2 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + wis_header_part_5;
           header_id_complex = header_id_begin + header_id_end.toString();
           $($(ui.item)).append(header_result_html);
+          $(ui.item).attr("id",("header_move_" + header_id_end));
+
           tinymce.execCommand('mceAddControl',true,header_id_complex);
         
           wisiwyg_header_id_append = "#" + header_id_complex.toString() + '_ifr';
@@ -461,6 +463,7 @@ $(document).ready(function(){
           content_result_html = wis_content_part_1_2 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + wis_content_part_5;
           content_id_complex = content_id_begin + content_id_end.toString();
           $($(ui.item)).append(content_result_html);
+          $(ui.item).attr("id",("content_move_" + content_id_end));
           tinymce.execCommand('mceAddControl',true,content_id_complex);
 
           wisiwyg_content_id_append = "#" + content_id_complex.toString() + '_ifr';
@@ -507,6 +510,7 @@ $(document).ready(function(){
           sidebar_result_html = wis_sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + wis_sidebar_part_5;
           sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
           $($(ui.item)).append(sidebar_result_html);
+          $(ui.item).attr("id",("sidebar_move_" + sidebar_id_end));
           tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
 
           wisiwyg_sidebar_id_append = "#" + sidebar_id_complex.toString() + '_ifr';

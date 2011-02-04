@@ -56,6 +56,78 @@ class Admin::PagesController < ApplicationController
     Rails.logger.info "++++++++++++++++++ #{params.inspect}"
     @page = Page.new(params[:page])
 
+    Rails.logger.info "+++++  :header_positions   +++++++++++ #{params[:header_positions]}"
+
+    header_positions = params[:header_positions]
+
+    header_positions = header_positions.split(',')
+
+    Rails.logger.info "+++++ parsed header_positions   +++++++++++ #{header_positions.inspect}"
+
+    all_positions = {};
+
+    unique_positions = {};
+    custom_positions = {};
+    tumblr_positions = {};
+    fleakr_positions = {};
+    vimeo_positions = {};
+
+    cleaned_unique_positions = {};
+    cleaned_custom_positions = {};
+    cleaned_tumblr_positions = {};
+    cleaned_fleakr_positions = {};
+    cleaned_vimeo_positions = {};
+
+    i = 0
+
+    header_positions.each do |header_position|
+      all_positions[header_position] = i
+      i += 1
+    end
+
+    Rails.logger.info "+++++ all_positions >>>>>>>>>>>>> #{all_positions.inspect}"
+
+    all_positions.each do |key, value|
+      unique_positions[key] = value if key.include?("header")
+      custom_positions[key] = value if key.include?("CustomModule")
+      tumblr_positions[key] = value if key.include?("CacheTumblrPost")
+      fleakr_positions[key] = value if key.include?("CacheFleakrGallery")
+      vimeo_positions[key] = value if key.include?("CacheVimeoVideo")
+    end
+
+    Rails.logger.info "unique_positions = #{unique_positions.inspect}"
+    Rails.logger.info "custom_positions = #{custom_positions.inspect}"
+    Rails.logger.info "tumblr_positions = #{tumblr_positions.inspect}"
+    Rails.logger.info "fleakr_positions = #{fleakr_positions.inspect}"
+    Rails.logger.info "vimeo_positions = #{vimeo_positions.inspect}"
+
+    unique_positions.each do |key, value|
+      cleaned_unique_positions[key.sub("header_move_","").to_i] = value if key.include?("header_move_")
+      cleaned_unique_positions[key.sub("header_old_","").to_i] = value if key.include?("header_old_")
+    end
+
+    custom_positions.each do |key, value|
+      cleaned_custom_positions[key.sub("CustomModule","").to_i] = value if key.include?("CustomModule")
+    end
+
+    tumblr_positions.each do |key, value|
+      cleaned_tumblr_positions[key.sub("CacheTumblrPost","").to_i] = value if key.include?("CacheTumblrPost")
+    end
+
+    fleakr_positions.each do |key, value|
+      cleaned_fleakr_positions[key.sub("CacheFleakrGallery","").to_i] = value if key.include?("CacheFleakrGallery")
+    end
+
+    vimeo_positions.each do |key, value|
+      cleaned_vimeo_positions[key.sub("CacheVimeoVideo","").to_i] = value if key.include?("CacheVimeoVideo")
+    end
+
+    Rails.logger.info "cleaned_unique_positions = #{cleaned_unique_positions.inspect}"
+    Rails.logger.info "cleaned_custom_positions = #{cleaned_custom_positions.inspect}"
+    Rails.logger.info "cleaned_tumblr_positions = #{cleaned_tumblr_positions.inspect}"
+    Rails.logger.info "cleaned_fleakr_positions = #{cleaned_fleakr_positions.inspect}"
+    Rails.logger.info "cleaned_vimeo_positions = #{cleaned_vimeo_positions.inspect}"
+
     if @page.save
       if params[:header_new].present?
 

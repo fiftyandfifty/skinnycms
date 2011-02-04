@@ -415,6 +415,8 @@ $(document).ready(function(){
           header_result_html = wis_header_part_1_2 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + wis_header_part_5;
           header_id_complex = header_id_begin + header_id_end.toString();
           $($(ui.item)).append(header_result_html);
+          $(ui.item).attr("id",("header_move_" + header_id_end));
+
           tinymce.execCommand('mceAddControl',true,header_id_complex);
 
           wisiwyg_header_id_append = "#" + header_id_complex.toString() + '_ifr';
@@ -460,6 +462,7 @@ $(document).ready(function(){
           content_result_html = wis_content_part_1_2 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + wis_content_part_5;
           content_id_complex = content_id_begin + content_id_end.toString();
           $($(ui.item)).append(content_result_html);
+          $(ui.item).attr("id",("content_move_" + content_id_end));
           tinymce.execCommand('mceAddControl',true,content_id_complex);
 
           wisiwyg_content_id_append = "#" + content_id_complex.toString() + '_ifr';
@@ -506,6 +509,7 @@ $(document).ready(function(){
           sidebar_result_html = wis_sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + wis_sidebar_part_5;
           sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
           $($(ui.item)).append(sidebar_result_html);
+          $(ui.item).attr("id",("sidebar_move_" + sidebar_id_end));
           tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
 
           wisiwyg_sidebar_id_append = "#" + sidebar_id_complex.toString() + '_ifr';
@@ -620,7 +624,7 @@ $(document).ready(function(){
 
           <% if header_content.module_type == 'UniqueContentModule' %>
 
-            <li class="inner">
+            <li class="inner" id="header_old_<%= header_content.id %>">
 	    <div class="holder">
 	      <div class="headline">
 	        <h4>WYSIWYG</h4>
@@ -636,9 +640,9 @@ $(document).ready(function(){
 	    </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif header_content.module_type == 'CustomModule'  %>
+          <% elsif header_content.module_type == 'CustomModule' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%=  header_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
@@ -647,9 +651,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif header_content.module_type == 'CacheTumblrPost'  %>
+          <% elsif header_content.module_type == 'CacheTumblrPost' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%=  header_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
@@ -658,9 +662,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif header_content.module_type == 'CacheVimeoVideo'  %>
+          <% elsif header_content.module_type == 'CacheVimeoVideo' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%=  header_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
@@ -669,9 +673,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif header_content.module_type == 'CacheFleakrGallery'  %>
+          <% elsif header_content.module_type == 'CacheFleakrGallery' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%=  header_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
@@ -703,7 +707,7 @@ $(document).ready(function(){
 
           <% if page_content.module_type == 'UniqueContentModule' %>
 
-            <li class="inner">
+            <li class="inner" id="page_old_<%= page_content.id %>">
 	     <div class="holder">
 	       <div class="headline">
 	         <h4>WYSIWYG</h4>
@@ -719,9 +723,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
              </li>
 
-          <% elsif page_content.module_type == 'CustomModule'  %>
+          <% elsif page_content.module_type == 'CustomModule' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= page_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
@@ -730,9 +734,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif page_content.module_type == 'CacheTumblrPost'  %>
+          <% elsif page_content.module_type == 'CacheTumblrPost' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= page_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
@@ -741,9 +745,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif page_content.module_type == 'CacheVimeoVideo'  %>
+          <% elsif page_content.module_type == 'CacheVimeoVideo' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= page_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
@@ -752,9 +756,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif page_content.module_type == 'CacheFleakrGallery'  %>
+          <% elsif page_content.module_type == 'CacheFleakrGallery' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= page_content.id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
@@ -775,7 +779,7 @@ $(document).ready(function(){
 
             <% if sidebar_content.module_type == 'UniqueContentModule' %>
 
-              <li class="inner ultra">
+              <li class="inner ultra" id="sidebar_old_<%= sidebar_content.id %>">
 	   <div class="holder">
 	     <div class="headline">
 	       <h4>WYSIWYG</h4>
@@ -791,9 +795,9 @@ $(document).ready(function(){
            </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif sidebar_content.module_type == 'CustomModule'  %>
+          <% elsif sidebar_content.module_type == 'CustomModule' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
                  <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
@@ -802,9 +806,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif sidebar_content.module_type == 'CacheTumblrPost'  %>
+          <% elsif sidebar_content.module_type == 'CacheTumblrPost' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
                  <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
@@ -813,9 +817,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif sidebar_content.module_type == 'CacheVimeoVideo'  %>
+          <% elsif sidebar_content.module_type == 'CacheVimeoVideo' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
                  <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
@@ -824,9 +828,9 @@ $(document).ready(function(){
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
            </li>
 
-          <% elsif sidebar_content.module_type == 'CacheFleakrGallery'  %>
+          <% elsif sidebar_content.module_type == 'CacheFleakrGallery' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
                  <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
