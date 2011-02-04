@@ -51,7 +51,8 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     :order => "integer",
                     :location => "string",
                     :module_type => "string",
-                    :module_id => "integer"
+                    :module_id => "integer",
+                    :position => "integer"
                     }
 
     api_module_columns = {
