@@ -69,11 +69,11 @@ $(document).ready(function(){
     var mass1 = [];
     var mass2 = [];
 
-    var mass = $('#sidebar_drag').find('.inner.turbo');
+    var mass = $('#sidebar_drag').find('li');
 
     $.each(mass, function(index, value) {
 
-      var child = $(value).find(".test");
+      var child = $(value).find(".field");
       var child_tag_name = child.get(0).tagName;
       content_id_end = content_id_end + 1;
 
@@ -97,23 +97,20 @@ $(document).ready(function(){
           available_type_part = 'CustomModule';
         }
 
-        new_available_result_html = available_part_1 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type_part + available_part_4 + content_id_end.toString() + available_part_5 + new_available_id.toString() + available_part_6 + new_available_title.toString() + available_part_7;
-        alert("available_result_html = " + new_available_result_html);
+        new_available_result_html = available_part_1 + available_type_part.toString() + new_available_id.toString() + available_part_1_2 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type_part + available_part_4 + content_id_end.toString() + available_part_5 + new_available_id.toString() + available_part_6 + new_available_title.toString() + available_part_7;
         $('#content_drag').append(new_available_result_html);
 
       }
       else if(child_tag_name == 'TEXTAREA'){
 
        sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
-
        var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
 
-       content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+       content_id_complex_move = 'content_move_';
+       content_result_html = content_part_1 + content_id_complex_move + content_id_end.toString() + content_part_1_2 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
        content_id_complex = content_id_begin + content_id_end.toString();
        $('#content_drag').append(content_result_html);
        tinymce.execCommand('mceAddControl',true,content_id_complex);
-
-       alert("content_id_complex = " + content_id_complex);
 
        content_id_append = "#" + content_id_complex.toString() + '_ifr';
 
@@ -156,30 +153,34 @@ $(document).ready(function(){
 
   $('#sidebar_drag').delay(100).slideUp(100);
 
-  var header_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+  var header_part_1 = '<li class="inner" id="';
+  var header_part_1_2 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var header_part_2 = '<textarea cols="40" id="header_new_';
   var header_part_3 = '" name="header_new[';
   var header_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var header_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var header_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var header_id_begin = 'header_new_';
   var header_id_end = 0;
   var header_id_complex = '';
+  var header_id_complex_move = '';
 
-  var content_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+  var content_part_1 = '<li class="inner" id="';
+  var content_part_1_2 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var content_part_2 = '<textarea cols="40" id="content_new_';
   var content_part_3 = '" name="content_new[';
   var content_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var content_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var content_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var content_id_begin = 'content_new_';
   var content_id_end = 0;
   var content_id_complex = '';
+  var content_id_complex_move = '';
 
-  var sidebar_part_0 = '<div class="inner turbo" id="'
+  var sidebar_part_0 = '<li class="inner turbo" id="'
   var sidebar_part_1 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
-  var sidebar_part_2 = '<textarea class="test" cols="40" id="sidebar_new_';
+  var sidebar_part_2 = '<textarea class="field mceEditor" cols="40" id="sidebar_new_';
   var sidebar_part_3 = '" name="sidebar_new[';
   var sidebar_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var sidebar_id_begin = 'sidebar_new_';
   var sidebar_id_end = 0;
   var sidebar_id_complex = '';
@@ -187,7 +188,8 @@ $(document).ready(function(){
   var sidebar_id_end_move = 0;
   var sidebar_id_complex_move = '';
 
-  var available_part_1 = '<div class="area inner turbo" style="margin-bottom: 0;"><div class="holder"><h4>';
+  var available_part_1 = '<li class="area inner turbo" style="margin-bottom: 0;" id="';
+  var available_part_1_2 = '"><div class="holder"><h4>';
 
   var available_h_part_2 = '<input id="header_new_';
   var available_h_part_3 = '" name="header_new[';
@@ -195,13 +197,13 @@ $(document).ready(function(){
   var available_c_part_2 = '<input id="content_new_';
   var available_c_part_3 = '" name="content_new[';
 
-  var available_s_part_2 = '<input class="test" id="sidebar_new_';
+  var available_s_part_2 = '<input class="field" id="sidebar_new_';
   var available_s_part_3 = '" name="sidebar_new[';
 
   var available_part_4 = '][';
   var available_part_5 = ']" value="';
   var available_part_6 = '" style="display:none;">';
-  var available_part_7 = '</h4><a href="javascript:void(0);"  class="remove_available">Remove</a></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var available_part_7 = '</h4><a href="javascript:void(0);"  class="remove_available">Remove</a></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
   var available_title = '';
   var available_type = '';
   var available_id = '';
@@ -229,8 +231,10 @@ $(document).ready(function(){
       var draggable_element = $(ui.draggable);
 
       if(draggable_element.attr("class") == "drag_to ui-draggable"){
+
+        header_id_complex_move = 'header_move_';
         header_id_end = header_id_end + 1;
-        header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
+        header_result_html = header_part_1 + header_id_complex_move + header_id_end.toString() + header_part_1_2 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
         header_id_complex = header_id_begin + header_id_end.toString();
         $('#header_drag').append(header_result_html);
         tinymce.execCommand('mceAddControl',true,header_id_complex);
@@ -240,7 +244,7 @@ $(document).ready(function(){
         available_type = draggable_element.find('input').attr("class");
         available_id = draggable_element.find('input').attr("value");
         available_title = draggable_element.parent().find('.available_content').text();
-        available_result_html = available_part_1 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + header_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + header_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#header_drag').append(available_result_html);
       }
 
@@ -260,8 +264,9 @@ $(document).ready(function(){
 
       if(draggable_element.attr("class") == "drag_to ui-draggable"){
 
+        content_id_complex_move = 'content_move_';
         content_id_end = content_id_end + 1;
-        content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+        content_result_html = content_part_1 + content_id_complex_move + content_id_end.toString() + content_part_1_2 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
         content_id_complex = content_id_begin + content_id_end.toString();
         $('#content_drag').append(content_result_html);
         tinymce.execCommand('mceAddControl',true,content_id_complex);
@@ -273,7 +278,7 @@ $(document).ready(function(){
         available_type = draggable_element.find('input').attr("class");
         available_id = draggable_element.find('input').attr("value");
         available_title = draggable_element.parent().find('.available_content').text();
-        available_result_html = available_part_1 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + content_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + content_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#content_drag').append(available_result_html);
 
       }
@@ -309,7 +314,7 @@ $(document).ready(function(){
         available_type = draggable_element.find('input').attr("class");
         available_id = draggable_element.find('input').attr("value");
         available_title = draggable_element.parent().find('.available_content').text();
-        available_result_html = available_part_1 + available_s_part_2 + sidebar_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + sidebar_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
+        available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_s_part_2 + sidebar_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + sidebar_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#sidebar_drag').append(available_result_html);
 
       }
@@ -372,6 +377,152 @@ $(document).ready(function(){
   $('.pagination').find('.disabled.prev_page').text("BACK");
   $('.pagination').find('a.next_page').text("NEXT");
   $('.pagination').find('.disabled.next_page').text("NEXT");
+
+  <!-- Add Sortable to modules -->
+
+  var new_body = '';
+  var sortable_class = '';
+  var wis_textarea = '';
+  var wisiwyg_header_id_append = '';
+  var wisiwyg_content_id_append = '';
+  var wisiwyg_sidebar_id_append = '';
+  var positions = '';
+
+  $('#header_drag').livequery(function(){
+
+    $(this).sortable({
+      start: function(event, ui) {
+
+        sortable_class = $(ui.item).attr("class").substr(0,4);
+
+        if(sortable_class != "area"){
+
+          wis_textarea = $(ui.item).find('iframe');
+          new_body = wis_textarea.contents().find('body').html();
+
+        }
+      },
+      stop: function(event, ui) {
+
+        if(sortable_class != "area"){
+
+          $(ui.item).find('div').remove();
+
+          var wis_header_part_1_2 = '<div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+          var wis_header_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+          header_id_complex_move = 'header_move_';
+          header_id_end = header_id_end + 1;
+          header_result_html = wis_header_part_1_2 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + wis_header_part_5;
+          header_id_complex = header_id_begin + header_id_end.toString();
+          $($(ui.item)).append(header_result_html);
+          tinymce.execCommand('mceAddControl',true,header_id_complex);
+
+          wisiwyg_header_id_append = "#" + header_id_complex.toString() + '_ifr';
+
+          window.setTimeout(function(){
+            $(wisiwyg_header_id_append).contents().find('body.mceContentBody').find('br').remove();
+            $(wisiwyg_header_id_append).contents().find('body.mceContentBody').append(new_body);
+          }, 100);
+
+        }
+
+        positions = $(this).sortable("toArray");
+        $('#header_positions').attr("value",positions.toString());
+      }
+
+    });
+  });
+
+  $('#content_drag').livequery(function(){
+
+    $(this).sortable({
+      start: function(event, ui) {
+
+        sortable_class = $(ui.item).attr("class").substr(0,4);
+
+        if(sortable_class != "area"){
+
+          wis_textarea = $(ui.item).find('iframe');
+          new_body = wis_textarea.contents().find('body').html();
+
+        }
+      },
+      stop: function(event, ui) {
+
+        if(sortable_class != "area"){
+
+          $(ui.item).find('div').remove();
+
+          var wis_content_part_1_2 = '<div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+          var wis_content_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+          content_id_complex_move = 'content_move_';
+          content_id_end = content_id_end + 1;
+          content_result_html = wis_content_part_1_2 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + wis_content_part_5;
+          content_id_complex = content_id_begin + content_id_end.toString();
+          $($(ui.item)).append(content_result_html);
+          tinymce.execCommand('mceAddControl',true,content_id_complex);
+
+          wisiwyg_content_id_append = "#" + content_id_complex.toString() + '_ifr';
+
+          window.setTimeout(function(){
+            $(wisiwyg_content_id_append).contents().find('body.mceContentBody').find('br').remove();
+            $(wisiwyg_content_id_append).contents().find('body.mceContentBody').append(new_body);
+          }, 100);
+
+        }
+
+        positions = $(this).sortable("toArray");
+        $('#content_positions').attr("value",positions.toString());
+      }
+
+    });
+  });
+
+  $('#sidebar_drag').livequery(function(){
+
+    $(this).sortable({
+      start: function(event, ui) {
+
+        sortable_class = $(ui.item).attr("class").substr(0,4);
+
+        if(sortable_class != "area"){
+
+          wis_textarea = $(ui.item).find('iframe');
+          new_body = wis_textarea.contents().find('body').html();
+
+        }
+      },
+      stop: function(event, ui) {
+
+        if(sortable_class != "area"){
+
+          $(ui.item).find('div').remove();
+
+          var wis_sidebar_part_1 = '<div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+          var wis_sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+          sidebar_id_end_move = sidebar_id_end_move + 1;
+          sidebar_id_complex_move = sidebar_id_begin_move + sidebar_id_end_move.toString();
+          sidebar_id_end = sidebar_id_end + 1;
+          sidebar_result_html = wis_sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + wis_sidebar_part_5;
+          sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
+          $($(ui.item)).append(sidebar_result_html);
+          tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
+
+          wisiwyg_sidebar_id_append = "#" + sidebar_id_complex.toString() + '_ifr';
+
+          window.setTimeout(function(){
+            $(wisiwyg_sidebar_id_append).contents().find('body.mceContentBody').find('br').remove();
+            $(wisiwyg_sidebar_id_append).contents().find('body.mceContentBody').append(new_body);
+          }, 100);
+
+        }
+
+        positions = $(this).sortable("toArray");
+        $('#sidebar_positions').attr("value",positions.toString());
+      }
+
+    });
+  });
 
 });
 
@@ -463,13 +614,13 @@ $(document).ready(function(){
 	  <h4 class="head">HEADER Modules</h4>
           <a href="javascript:void(0);" id="hide_header_module">Hide</a>
 	</div>
-	<div class="inner" id="header_drag">
+	<ul class="inner" id="header_drag">
 
           <% for header_content in @header_contents %>
 
           <% if header_content.module_type == 'UniqueContentModule' %>
 
-            <div class="inner">
+            <li class="inner">
 	    <div class="holder">
 	      <div class="headline">
 	        <h4>WYSIWYG</h4>
@@ -483,57 +634,57 @@ $(document).ready(function(){
 	        </div>
 	      </div>
 	    </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif header_content.module_type == 'CustomModule'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif header_content.module_type == 'CacheTumblrPost'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif header_content.module_type == 'CacheVimeoVideo'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif header_content.module_type == 'CacheFleakrGallery'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% end %>
 
          <% end %>
 
-        </div>
+        </ul>
      </div>
 
      <div class="area">
@@ -546,13 +697,13 @@ $(document).ready(function(){
          <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
        </ul>
        <div class="tab-content" id="tab-1">
-	 <div class="inner" id="content_drag">
+	 <ul class="inner" id="content_drag">
 
            <% for page_content in @page_contents %>
 
           <% if page_content.module_type == 'UniqueContentModule' %>
 
-            <div class="inner">
+            <li class="inner">
 	     <div class="holder">
 	       <div class="headline">
 	         <h4>WYSIWYG</h4>
@@ -566,65 +717,65 @@ $(document).ready(function(){
 	         </div>
 	       </div>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-             </div>
+             </li>
 
           <% elsif page_content.module_type == 'CustomModule'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif page_content.module_type == 'CacheTumblrPost'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif page_content.module_type == 'CacheVimeoVideo'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif page_content.module_type == 'CacheFleakrGallery'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
                  <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% end %>
 
          <% end %>
 
-	</div>
-        <div class="inner" id="sidebar_drag">
+	</ul>
+        <ul class="inner" id="sidebar_drag">
 
 
           <% for sidebar_content in @sidebar_contents %>
 
             <% if sidebar_content.module_type == 'UniqueContentModule' %>
 
-              <div class="inner ultra">
+              <li class="inner ultra">
 	   <div class="holder">
 	     <div class="headline">
 	       <h4>WYSIWYG</h4>
@@ -638,62 +789,66 @@ $(document).ready(function(){
 	       </div>
 	     </div>
            </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif sidebar_content.module_type == 'CustomModule'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
-                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
+                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif sidebar_content.module_type == 'CacheTumblrPost'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
-                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
+                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif sidebar_content.module_type == 'CacheVimeoVideo'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
-                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
+                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% elsif sidebar_content.module_type == 'CacheFleakrGallery'  %>
 
-           <div class="area inner turbo" style="margin-bottom: 0;">
+           <li class="area inner turbo" style="margin-bottom: 0;">
              <div class="holder">
                <h4>
-                 <input class="test" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
+                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </div>
+           </li>
 
           <% end %>
 
           <% end %>
 
-        </div>
+        </ul>
       </div>
     </div>
 
     <div class="area">
     </div>
+
+    <input id="header_positions" name="header_positions" style="display: none;"></input>
+    <input id="content_positions" name="content_positions" style="display: none;"></input>
+    <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
 
     <!-- module -->
    <div class="module"  id="scripts_module">
