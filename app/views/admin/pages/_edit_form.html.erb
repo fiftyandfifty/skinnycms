@@ -56,6 +56,12 @@ $(document).ready(function(){
     $('#sidebar_drag').slideUp(1000);
     $('#content_drag').delay(1000).slideDown(1000);
 
+    $('#content_drag').sortable("refresh");
+    $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
+
+    $('#sidebar_drag').sortable("refresh");
+    $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
+
   });
 
   $('.mono').click(function() {
@@ -69,11 +75,11 @@ $(document).ready(function(){
     var mass1 = [];
     var mass2 = [];
 
-    var mass = $('#sidebar_drag').find('li');
+    var mass = $('#sidebar_drag').find('.inner.turbo');
 
     $.each(mass, function(index, value) {
 
-      var child = $(value).find(".field");
+      var child = $(value).find(".test");
       var child_tag_name = child.get(0).tagName;
       content_id_end = content_id_end + 1;
 
@@ -104,6 +110,7 @@ $(document).ready(function(){
       else if(child_tag_name == 'TEXTAREA'){
 
        sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
+
        var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
 
        content_id_complex_move = 'content_move_';
@@ -128,6 +135,12 @@ $(document).ready(function(){
           $(mass1[i]).contents().find('body.mceContentBody').append(mass2[i]);
       }
     }, 1000);
+
+    $('#content_drag').sortable("refresh");
+    $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
+
+    $('#sidebar_drag').sortable("refresh");
+    $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
 
   });
 
@@ -177,7 +190,7 @@ $(document).ready(function(){
 
   var sidebar_part_0 = '<li class="inner turbo" id="'
   var sidebar_part_1 = '"><div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);" class="remove_unique">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">';
-  var sidebar_part_2 = '<textarea class="field mceEditor" cols="40" id="sidebar_new_';
+  var sidebar_part_2 = '<textarea class="test" cols="40" id="sidebar_new_';
   var sidebar_part_3 = '" name="sidebar_new[';
   var sidebar_part_4 = ']" rows="20" style="width:100%;"></textarea>';
   var sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></li>';
@@ -197,7 +210,7 @@ $(document).ready(function(){
   var available_c_part_2 = '<input id="content_new_';
   var available_c_part_3 = '" name="content_new[';
 
-  var available_s_part_2 = '<input class="field" id="sidebar_new_';
+  var available_s_part_2 = '<input class="test" id="sidebar_new_';
   var available_s_part_3 = '" name="sidebar_new[';
 
   var available_part_4 = '][';
@@ -248,6 +261,8 @@ $(document).ready(function(){
         $('#header_drag').append(available_result_html);
       }
 
+      $('#header_drag').sortable("refresh");
+      $('#header_positions').attr("value",$('#header_drag').sortable("toArray").toString());
     }
   });
 
@@ -283,6 +298,8 @@ $(document).ready(function(){
 
       }
 
+      $('#content_drag').sortable("refresh");
+      $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
     }
   });
 
@@ -300,8 +317,8 @@ $(document).ready(function(){
       if(draggable_element.attr("class") == "drag_to ui-draggable"){
 
         sidebar_id_end_move = sidebar_id_end_move + 1;
-        sidebar_id_complex_move = sidebar_id_begin_move + sidebar_id_end_move.toString();
         sidebar_id_end = sidebar_id_end + 1;
+        sidebar_id_complex_move = sidebar_id_begin_move + sidebar_id_end.toString();
         sidebar_result_html = sidebar_part_0 + sidebar_id_complex_move + sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
         sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
         $('#sidebar_drag').append(sidebar_result_html);
@@ -319,6 +336,8 @@ $(document).ready(function(){
 
       }
 
+      $('#sidebar_drag').sortable("refresh");
+      $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
     }
   });
 
@@ -326,10 +345,28 @@ $(document).ready(function(){
 
   $('.remove_unique').livequery('click', function(event) {
     $(this).parent().parent().parent().remove();
+
+    $('#header_drag').sortable("refresh");
+    $('#header_positions').attr("value",$('#header_drag').sortable("toArray").toString());
+
+    $('#content_drag').sortable("refresh");
+    $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
+
+    $('#sidebar_drag').sortable("refresh");
+    $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
   });
 
   $('.remove_available').livequery('click', function(event) {
     $(this).parent().parent().remove();
+
+    $('#header_drag').sortable("refresh");
+    $('#header_positions').attr("value",$('#header_drag').sortable("toArray").toString());
+
+    $('#content_drag').sortable("refresh");
+    $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
+
+    $('#sidebar_drag').sortable("refresh");
+    $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
   });
 
   <!-- MODULES hide -->
@@ -528,6 +565,15 @@ $(document).ready(function(){
     });
   });
 
+  $('#header_drag').sortable("refresh");
+  $('#header_positions').attr("value",$('#header_drag').sortable("toArray").toString());
+
+  $('#content_drag').sortable("refresh");
+  $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
+
+  $('#sidebar_drag').sortable("refresh");
+  $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
+
 });
 
 </script>
@@ -645,7 +691,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%=  header_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -656,7 +702,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%=  header_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -667,7 +713,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%=  header_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -678,7 +724,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%=  header_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="header_new_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -728,7 +774,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= page_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -739,7 +785,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= page_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -750,7 +796,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= page_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -761,7 +807,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= page_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="test" id="content_new_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -800,7 +846,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -811,7 +857,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -822,7 +868,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -833,7 +879,7 @@ $(document).ready(function(){
            <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= sidebar_content.id %>">
              <div class="holder">
                <h4>
-                 <input class="field" id="sidebar_new_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
