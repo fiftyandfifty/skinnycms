@@ -40,29 +40,23 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     :seo_title => "string",
                     :seo_description => "text",
                     :seo_keywords => "string",
-                    :position => "integer",
-                    :parent_id => "integer",
                     :template_id => "integer"
                     }
 
     page_content_columns = {
                     :page_id => "integer",
                     :content => "text",
-                    :order => "integer",
+                    :position => "integer",
                     :location => "string",
                     :module_type => "string",
-                    :module_id => "integer",
-                    :position => "integer"
+                    :module_id => "integer"
                     }
 
     api_module_columns = {
                     :title => "string",
                     :module_name => "string",
                     :module_version => "string",
-                    :api_user => "string",
-                    :api_password => "string",
-                    :api_token => "string",
-                    :api_key => "string"
+                    :configurations => "text"
                     }
 
     custom_module_columns = {
@@ -106,6 +100,21 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     :asset_content_type => "string",
                     :asset_file_size => "integer",
                     :asset_updated_at => "datetime",
+                    }
+
+    navigations_columns = {
+                    :title => "string"
+                    }
+
+    pages_to_navigations_columns = {
+                    :nav_id => "integer",
+                    :page_id => "integer",
+                    :parent_id => "integer",
+                    :position => "integer"
+                    }
+
+    templates_columns = {
+                    :title => "string"
                     }
 
     begin
@@ -177,6 +186,30 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
       self.class.define_migration("assets", asset_columns, asset_app_columns)
     rescue
       self.class.check_migration_file("*create_assets*", "create_assets.rb")
+    end
+    sleep(1)
+
+    begin
+      navigations_app_columns = ActiveRecord::Base::Navigation.column_names
+      self.class.define_migration("navigations", navigations_columns, navigations_app_columns)
+    rescue
+      self.class.check_migration_file("*create_navigations*", "create_navigations.rb")
+    end
+    sleep(1)
+
+    begin
+      pages_to_navigations_app_columns = ActiveRecord::Base::PagesToNavigation.column_names
+      self.class.define_migration("pages_to_navigations", pages_to_navigations_columns, pages_to_navigations_app_columns)
+    rescue
+      self.class.check_migration_file("*create_pages_to_navigations*", "create_pages_to_navigations.rb")
+    end
+    sleep(1)
+
+    begin
+      templates_app_columns = ActiveRecord::Base::Template.column_names
+      self.class.define_migration("templates", templates_columns, templates_app_columns)
+    rescue
+      self.class.check_migration_file("*create_templates*", "create_templates.rb")
     end
     sleep(1)
     

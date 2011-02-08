@@ -4,10 +4,8 @@ class CreateApiModules < ActiveRecord::Migration
       t.string   :title
       t.string   :module_name
       t.string   :module_version
-      t.string   :api_user
-      t.string   :api_password
-      t.string   :api_token
-      t.string   :api_key
+      t.text     :configurations
+  
       t.timestamps
     end
   end

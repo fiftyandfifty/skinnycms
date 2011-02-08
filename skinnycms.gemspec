@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-04}
+  s.date = %q{2011-02-07}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -31,12 +31,12 @@ Gem::Specification.new do |s|
     "app/controllers/admin/custom_modules_controller.rb",
     "app/controllers/admin/galleries_controller.rb",
     "app/controllers/admin/modules_controller.rb",
-    "app/controllers/admin/pages_controller.rb",
+    "app/controllers/admin/pages_table_controller.rb",
     "app/controllers/admin/posts_controller.rb",
     "app/controllers/admin/settings_controller.rb",
     "app/controllers/admin/users_controller.rb",
     "app/controllers/admin/videos_controller.rb",
-    "app/controllers/pages_controller.rb",
+    "app/controllers/pages_table_controller.rb",
     "app/models/api_module.rb",
     "app/models/asset.rb",
     "app/models/audio_file.rb",
@@ -45,8 +45,8 @@ Gem::Specification.new do |s|
     "app/models/cache_vimeo_video.rb",
     "app/models/custom_module.rb",
     "app/models/image_file.rb",
-    "app/models/page.rb",
     "app/models/page_content.rb",
+    "app/models/pages_table.rb",
     "app/models/text_file.rb",
     "app/models/user.rb",
     "app/models/video_file.rb",
@@ -59,13 +59,13 @@ Gem::Specification.new do |s|
     "app/views/admin/custom_modules/edit.html.erb",
     "app/views/admin/custom_modules/new.html.erb",
     "app/views/admin/modules/index.html.erb",
-    "app/views/admin/pages/_edit_form.html.erb",
-    "app/views/admin/pages/_new_form.html.erb",
-    "app/views/admin/pages/_page_list.html.erb",
-    "app/views/admin/pages/edit.html.erb",
-    "app/views/admin/pages/index.html.erb",
-    "app/views/admin/pages/new.html.erb",
-    "app/views/admin/pages/show.html.erb",
+    "app/views/admin/pages_table/_edit_form.html.erb",
+    "app/views/admin/pages_table/_new_form.html.erb",
+    "app/views/admin/pages_table/_page_list.html.erb",
+    "app/views/admin/pages_table/edit.html.erb",
+    "app/views/admin/pages_table/index.html.erb",
+    "app/views/admin/pages_table/new.html.erb",
+    "app/views/admin/pages_table/show.html.erb",
     "app/views/admin/posts/edit.html.erb",
     "app/views/admin/posts/index.html.erb",
     "app/views/admin/posts/new.html.erb",
@@ -78,8 +78,8 @@ Gem::Specification.new do |s|
     "app/views/admin/users/index.html.erb",
     "app/views/admin/users/new.html.erb",
     "app/views/admin/users/show.html.erb",
-    "app/views/pages/index.html.erb",
-    "app/views/pages/show.html.erb",
+    "app/views/pages_table/index.html.erb",
+    "app/views/pages_table/show.html.erb",
     "app/views/shared/_error_messages.html.erb",
     "config/routes.rb",
     "init.rb",
@@ -206,8 +206,11 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_cache_tumblr_posts.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_cache_vimeo_videos.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_custom_modules.rb",
+    "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_navigations.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_page_contents.rb",
-    "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_pages.rb",
+    "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_pages_table.rb",
+    "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_pages_to_navigations.rb",
+    "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_templates.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_users.rb",
     "lib/generators/skinnycms_migrations/templates/create_api_modules.rb",
     "lib/generators/skinnycms_migrations/templates/create_assets.rb",
@@ -215,8 +218,11 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/create_cache_tumblr_posts.rb",
     "lib/generators/skinnycms_migrations/templates/create_cache_vimeo_videos.rb",
     "lib/generators/skinnycms_migrations/templates/create_custom_modules.rb",
+    "lib/generators/skinnycms_migrations/templates/create_navigations.rb",
     "lib/generators/skinnycms_migrations/templates/create_page_contents.rb",
-    "lib/generators/skinnycms_migrations/templates/create_pages.rb",
+    "lib/generators/skinnycms_migrations/templates/create_pages_table.rb",
+    "lib/generators/skinnycms_migrations/templates/create_pages_to_navigations.rb",
+    "lib/generators/skinnycms_migrations/templates/create_templates.rb",
     "lib/generators/skinnycms_migrations/templates/create_users.rb",
     "lib/generators/skinnycms_styles/USAGE",
     "lib/generators/skinnycms_styles/skinnycms_styles_generator.rb",

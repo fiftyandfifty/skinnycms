@@ -3,6 +3,8 @@ class Page < ActiveRecord::Base
   acts_as_list :scope => :parent_id
 
   has_many :page_contents, :dependent => :destroy
+  has_many :pages_to_navigations, :dependent => :destroy
+  belongs_to :template
 
   validates :title, :permalink, :presence => true
   

@@ -9,8 +9,6 @@ class CreatePages < ActiveRecord::Migration
       t.string :seo_title
       t.text :seo_description
       t.string :seo_keywords
-      t.integer :position
-      t.integer :parent_id
       t.integer :template_id
             
       t.timestamps

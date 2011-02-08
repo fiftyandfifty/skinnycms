@@ -3,7 +3,7 @@ class CreatePageContents < ActiveRecord::Migration
     create_table :page_contents do |t|
       t.integer  :page_id
       t.text     :content
-      t.integer  :order
+      t.integer  :position
       t.string   :location
       t.string   :module_type
       t.integer  :module_id
