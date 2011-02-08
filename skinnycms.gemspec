@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-08}
+  s.date = %q{2011-02-09}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -182,17 +182,12 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_images/images/admin/tbody-divider.gif",
     "lib/generators/skinnycms_images/images/admin/text-icons.gif",
     "lib/generators/skinnycms_images/images/admin/thead-divider.gif",
-    "lib/generators/skinnycms_images/images/sortable_icons/minus.jpg",
-    "lib/generators/skinnycms_images/images/sortable_icons/plus.jpg",
-    "lib/generators/skinnycms_images/images/sortable_icons/skrepka.jpg",
     "lib/generators/skinnycms_images/skinnycms_images_generator.rb",
     "lib/generators/skinnycms_javascripts/USAGE",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-1.4.4.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-ui-1.8.7.custom.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.livequery.js",
     "lib/generators/skinnycms_javascripts/javasripts/main.js",
-    "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery-1.4.2.min.js",
-    "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
     "lib/generators/skinnycms_javascripts/javasripts/rails.js",
     "lib/generators/skinnycms_javascripts/skinnycms_javascripts_generator.rb",

@@ -9,7 +9,7 @@ class AddSkinnycmsFieldsToCacheTumblrPosts < ActiveRecord::Migration
     # add_column :cache_tumblr_posts, :post_date, :datetime
     # add_column :cache_tumblr_posts, :incomplete, :boolean
 
-    add_index :cache_tumblr_posts, [:tumblr_post_id, :incomplete], :name => "index_tumblr_posts_on_complete_id", :unique => true
+    # add_index :cache_tumblr_posts, [:tumblr_post_id, :incomplete], :name => "index_tumblr_posts_on_complete_id", :unique => true
   end
 
   def self.down
@@ -22,6 +22,6 @@ class AddSkinnycmsFieldsToCacheTumblrPosts < ActiveRecord::Migration
     # remove_column :cache_tumblr_posts, :post_date
     # remove_column :cache_tumblr_posts, :incomplete
 
-    remove_index "index_tumblr_posts_on_complete_id"
+    # remove_index "index_tumblr_posts_on_complete_id"
   end
 end

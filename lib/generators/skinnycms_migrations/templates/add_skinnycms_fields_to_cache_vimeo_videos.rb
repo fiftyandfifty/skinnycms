@@ -7,7 +7,7 @@ class AddSkinnycmsFieldsToCacheVimeoVideos < ActiveRecord::Migration
     # add_column :cache_vimeo_videos, :upload_date, :datetime
     # add_column :cache_vimeo_videos, :incomplete, :boolean
 
-    add_index :cache_vimeo_videos, [:vimeo_video_id, :incomplete], :name => "index_vimeo_videos_on_complete_id", :unique => true
+    # add_index :cache_vimeo_videos, [:vimeo_video_id, :incomplete], :name => "index_vimeo_videos_on_complete_id", :unique => true
   end
 
   def self.down
@@ -18,6 +18,6 @@ class AddSkinnycmsFieldsToCacheVimeoVideos < ActiveRecord::Migration
     # remove_column :cache_vimeo_videos, :upload_date
     # remove_column :cache_vimeo_videos, :incomplete
 
-    remove_index "index_vimeo_videos_on_complete_id"
+    # remove_index "index_vimeo_videos_on_complete_id"
   end
 end

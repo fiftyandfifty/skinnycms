@@ -41,8 +41,23 @@ class SkinnycmsDeviseGenerator < Rails::Generators::Base
   end\n\n", :after => "class ApplicationController < ActionController::Base\n"
     end
 
-    copy_file "initializers/devise.rb", "config/initializers/devise.rb" if !File.exist?('config/initializers/devise.rb')
-    copy_file "locales/devise.en.yml", "config/locales/devise.en.yml" if !File.exist?('config/locales/devise.en.yml')
+    if !File.exist?('config/initializers/devise.rb')
+      copy_file "initializers/devise.rb", "config/initializers/devise.rb"
+    else
+      if yes? "You already have 'config/initializers/devise.rb' file. Do you want to update it?", :green
+        remove_file "config/initializers/devise.rb"
+        copy_file "initializers/devise.rb", "config/initializers/devise.rb"
+      end
+    end
+
+    if !File.exist?('config/locales/devise.en.yml')
+      copy_file "locales/devise.en.yml", "config/locales/devise.en.yml"
+    else
+      if yes? "You already have 'config/locales/devise.en.yml' file. Do you want to update it?", :green
+        remove_file "config/locales/devise.en.yml"
+        copy_file "locales/devise.en.yml", "config/locales/devise.en.yml"
+      end
+    end
 
     puts SkinnycmsDeviseGenerator.end_description
   end

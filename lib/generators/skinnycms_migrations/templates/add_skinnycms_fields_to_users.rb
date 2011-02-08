@@ -16,15 +16,15 @@ class AddSkinnycmsFieldsToUsers < ActiveRecord::Migration
     # add_column :users, :confirmed_at, :datetime
     # add_column :users, :confirmation_sent_at, :datetime
     
-    add_index :users, :email,                :unique => true
-    add_index :users, :confirmation_token,   :unique => true
-    add_index :users, :reset_password_token, :unique => true
+    # add_index :users, :email, :name => "index_users_on_email", :unique => true
+    # add_index :users, :confirmation_token, :name => "index_users_on_confirmation_token", :unique => true
+    # add_index :users, :reset_password_token, :name => "index_users_on_reset_password_token", :unique => true
   end
 
   def self.down
-    remove_index :users, :email
-    remove_index :users, :confirmation_token
-    remove_index :users, :reset_password_token
+    # remove_index "index_users_on_email"
+    # remove_index "index_users_on_confirmation_token"
+    # remove_index "index_users_on_reset_password_token"
 
     # remove_column :users, :email
     # remove_column :users, :encrypted_password

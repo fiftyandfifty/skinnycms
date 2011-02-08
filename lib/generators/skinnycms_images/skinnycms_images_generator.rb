@@ -11,8 +11,14 @@ class SkinnycmsImagesGenerator < Rails::Generators::Base
   def copy_images
     puts SkinnycmsImagesGenerator.start_description
     sleep(3)
-    directory "admin", "public/images/skinnycms/admin" if Dir["public/images/skinnycms/admin"].blank?
-    directory "sortable_icons", "public/images/skinnycms/sortable_icons" if Dir["public/images/skinnycms/sortable_icons"].blank?
+    if Dir["public/images/skinnycms/admin"].blank?
+      directory "admin", "public/images/skinnycms/admin"
+    else
+      if yes? "You already have skinnycms images in 'public/images/skinnycms/admin'directory. Do you want to update it?", :green
+        remove_dir "public/images/skinnycms/admin"
+        directory "admin", "public/images/skinnycms/admin"
+      end
+    end
     puts SkinnycmsImagesGenerator.end_description
   end
 

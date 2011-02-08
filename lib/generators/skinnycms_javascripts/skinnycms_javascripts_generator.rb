@@ -20,18 +20,6 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
       copy_file "rails.js", "public/javascripts/skinnycms/rails.js"
     end
 
-    if !File.exist?("public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-1.4.2.min.js")
-      copy_file "nestedSortable.1.2.1/jquery-1.4.2.min.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-1.4.2.min.js"
-    end
-
-    if !File.exist?("public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js")
-      copy_file "nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery-ui-1.8.2.custom.min.js"
-    end
-
-    if !File.exist?("public/javascripts/skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js")
-      copy_file "nestedSortable.1.2.1/jquery.ui.nestedSortable.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js"
-    end
-
     if !File.exist?("public/javascripts/skinnycms/jquery/jquery-1.4.4.min.js")
       copy_file "jquery/jquery-1.4.4.min.js", "public/javascripts/skinnycms/jquery/jquery-1.4.4.min.js"
     end
@@ -42,6 +30,10 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
 
     if !File.exist?("public/javascripts/skinnycms/jquery/jquery.livequery.js")
       copy_file "jquery/jquery.livequery.js", "public/javascripts/skinnycms/jquery/jquery.livequery.js"
+    end
+
+    if !File.exist?("public/javascripts/skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js")
+      copy_file "nestedSortable.1.2.1/jquery.ui.nestedSortable.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js"
     end
     
     puts SkinnycmsJavascriptsGenerator.end_description
