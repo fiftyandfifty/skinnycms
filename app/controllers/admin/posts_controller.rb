@@ -17,8 +17,8 @@ class Admin::PostsController < ApplicationController
 
   def login_and_get_tumblr_user
     tumblr_module = ApiModule.find_by_module_name('tumblr basic')
-    api_token = tumblr_module.api_token
-    api_key = tumblr_module.api_key
+    api_token = JSON.parse(tumblr_module.configuration)["api_token"]
+    api_key = JSON.parse(tumblr_module.configuration)["api_key"]
     user = Tumblr::User.new(api_token, api_key)
     info = HTTParty.get("http://www.tumblr.com/api/dashboard", :query => { :email => api_token, :password => api_key })
     Tumblr.blog = info["tumblr"]["posts"]["post"].first["tumblelog"] if info.code != 403 && info.code != 500

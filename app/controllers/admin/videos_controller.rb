@@ -15,7 +15,8 @@ class Admin::VideosController < ApplicationController
   end
 
   def login_and_get_vimeo_user
-    ApiModule.find_by_module_name('vimeo basic').api_token
+    vimeo_module = ApiModule.find_by_module_name('vimeo basic')
+    JSON.parse(vimeo_module.configuration)["api_token"]
   end
 
   def update_cached_videos

@@ -4,7 +4,7 @@ class CreateApiModules < ActiveRecord::Migration
       t.string   :title
       t.string   :module_name
       t.string   :module_version
-      t.text     :configurations
+      t.text     :configuration
   
       t.timestamps
     end

@@ -1,7 +1,4 @@
 class ApiModule < ActiveRecord::Base
-
-  validates :module_name,
-            :api_token,
-            :api_key,
-            :presence => true
+  cattr_accessor :api_key, :api_token
+  validates :module_name, :presence => true
 end

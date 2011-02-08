@@ -42,12 +42,13 @@ class Admin::SettingsController < ApplicationController
   end
 
   def add_module
+    Rails.logger.info "$$ #{params.inspect}"
     if params[:api_settings][:api_module] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
+      api_configurations = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }.to_json
       ApiModule.create!(:module_name => params[:api_settings][:api_module],
                         :module_version => 1,
                         :title => params[:api_settings][:api_module],
-                        :api_token => params[:api_settings][:api_token],
-                        :api_key => params[:api_settings][:api_key])
+                        :configuration => api_configurations)
     end
     
     redirect_to(admin_settings_path)
@@ -56,7 +57,8 @@ class Admin::SettingsController < ApplicationController
   def edit_module
     if params[:api_settings][:api_module] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
       api_module = ApiModule.find(params[:api_settings][:api_module])
-      api_module.update_attributes(:api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key]) if api_module
+      api_configurations = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }.to_json
+      api_module.update_attribute(:configuration, api_configurations) if api_module
     end
 
     redirect_to(admin_settings_path)

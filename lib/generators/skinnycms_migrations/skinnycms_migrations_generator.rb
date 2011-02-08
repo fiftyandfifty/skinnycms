@@ -56,7 +56,7 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     :title => "string",
                     :module_name => "string",
                     :module_version => "string",
-                    :configurations => "text"
+                    :configuration => "text"
                     }
 
     custom_module_columns = {
