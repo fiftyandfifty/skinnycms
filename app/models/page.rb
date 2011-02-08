@@ -1,15 +1,31 @@
 class Page < ActiveRecord::Base
-  acts_as_tree :order => :position
-  acts_as_list :scope => :parent_id
+  cattr_accessor :parent_id
 
   has_many :page_contents, :dependent => :destroy
   has_many :pages_to_navigations, :dependent => :destroy
+  has_many :navigations, :through  => :pages_to_navigations
   belongs_to :template
 
   validates :title, :permalink, :presence => true
   
   has_friendly_id :title, :use_slug => true, :approximate_ascii => true
 
-  scope :public_and_redirect_in_root, :conditions => { :visibility => ['public', 'redirect'], :parent_id => nil }, :order => :position
-  scope :private_in_root, :conditions => { :visibility => 'private', :parent_id => nil }, :order => :position
+  scope :public_and_redirect_pages, :conditions => { :visibility => ['public', 'redirect'] }
+  scope :private_pages, :conditions => { :visibility => 'private' }
+  
+  def parent_in_navigation(navigation_name)
+    parent = pages_to_navigations.find(:first, :conditions => { :nav_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id }).parent_id
+    return "- No Parent - " if parent.blank? || parent == 0
+    PagesToNavigation.find(parent).page.title
+  end
+
+  class << self
+    def public_and_redirect_in_root
+
+    end
+
+    def private_in_root
+
+    end
+  end
 end

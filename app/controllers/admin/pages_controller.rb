@@ -30,6 +30,7 @@ class Admin::PagesController < ApplicationController
     @title = "Add Page"
     @page = Page.new
     @page_content = PageContent.new
+    @templates = Template.all(:order => :title)
     
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
@@ -43,6 +44,7 @@ class Admin::PagesController < ApplicationController
   def edit
     @title = "Edit Page"
     @page = Page.find(params[:id])
+    @templates = Template.all(:order => :title)
 
     @header_contents = PageContent.where(:page_id => @page, :location => 'header').order(:position)
     @page_contents = PageContent.where(:page_id => @page, :location => 'content').order(:position)
@@ -218,6 +220,8 @@ class Admin::PagesController < ApplicationController
     end
 
     if @page.save
+      selected_navigation = Navigation.find(:first, :conditions => {:title => "main_navigation"})
+      PagesToNavigation.create(:nav_id => selected_navigation.id, :page_id => @page.id, :parent_id => params[:page][:parent_id].to_i)
 
       # Create logic for header content
 
@@ -444,6 +448,11 @@ class Admin::PagesController < ApplicationController
   def update
     @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
+    if params[:page][:parent_id].present?
+      selected_navigation = Navigation.find(:first, :conditions => {:title => "main_navigation"})
+      pages_to_navigation = PagesToNavigation.find(:first, :conditions => { :nav_id => selected_navigation.id, :page_id => @page.id })
+      pages_to_navigation.update_attribute(:parent_id, params[:page][:parent_id].to_i)
+    end
 
     # Reordering logic for header content
 

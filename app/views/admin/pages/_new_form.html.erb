@@ -630,15 +630,20 @@ $(document).ready(function(){
 
       <div class="section">
 	<label for="parent">Page Parent</label>
-        <%= f.collection_select(:parent_id, Page.all(:order => "title"), :id, :title, { :include_blank => "- No Parent - ", :id => "parent" } )%>
+        <%= f.collection_select("parent_id", PagesToNavigation.all, :id, :associated_page, { :include_blank => "- No Parent - ", :id => "parent" } )%>
       </div>
 
       <div class="section t-holder">
-	<label for="template">Page Template</label>
+	<label for="template">Page Type</label>
 	<div class="template" id="template">
 	  <input type="button" value="" class="multiple"/>
           <input type="button" value="" class="mono" />
 	</div>
+      </div>
+      
+      <div class="section t-holder">
+        <label for="parent">Page Template</label>
+        <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
       </div>
 
     </div>
