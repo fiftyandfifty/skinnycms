@@ -18,6 +18,12 @@ class Page < ActiveRecord::Base
     return "- No Parent - " if parent.blank? || parent == 0
     PagesToNavigation.find(parent).page.title
   end
+  
+  def this_navigation(navigation_name)
+    this_nav = pages_to_navigations.first(:conditions => { :nav_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id })
+    this_nav = PagesToNavigation.new if this_nav.blank?
+    return this_nav
+  end
 
   class << self
     def public_and_redirect_in_root
