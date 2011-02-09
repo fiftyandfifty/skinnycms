@@ -4,7 +4,6 @@ class CreatePages < ActiveRecord::Migration
       t.string :title
       t.string :permalink
       t.string :status
-      t.string :visibility
       t.string :redirect_url
       t.string :seo_title
       t.text :seo_description

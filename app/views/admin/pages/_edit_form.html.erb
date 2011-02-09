@@ -618,7 +618,7 @@ $(document).ready(function(){
 
       <div class="section">
 	<label for="page-url">Page URL</label>
-	<span class="small-text"><%= f.text_field :permalink, :value => "http://www.clienturl.com/", :html => { :id => "page-url" } %></span>
+	<span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" } %></span>
       </div>
 
       <div class="section">
@@ -628,7 +628,7 @@ $(document).ready(function(){
 
       <div class="section">
 	<label for="visibility">Visibility</label>
-        <%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], {:selected => @page.visibility.to_s, :id => "visibility"} %>
+        <%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], {:selected => @page.visibility_in_navigation('main_navigation').to_s, :id => "visibility"} %>
       </div>
 
     </div>
@@ -638,7 +638,7 @@ $(document).ready(function(){
 
       <div class="section">
 	<label for="parent">Page Parent</label>
-        <%= f.collection_select("parent_id", PagesToNavigation.all, :id, :associated_page, { :include_blank => "- No Parent - ", :id => "parent" } )%>
+        <%= f.collection_select(:parent_id, @pages_to_navigations, :id, :associated_page, :prompt => @page.parent_title_in_navigation('main_navigation') )%>
       </div>
 
       <div class="section t-holder">

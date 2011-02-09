@@ -7,6 +7,11 @@ class PagesToNavigation < ActiveRecord::Base
   
   validates_uniqueness_of :page_id, :scope => :nav_id
 
+  scope :public_and_redirect, { :conditions => { :visibility => ['public', 'redirect'] } }
+  scope :privates, { :conditions => { :visibility => 'private' } }
+  scope :public_and_redirect_in_root, lambda { |navigation| { :conditions => { :visibility => ['public', 'redirect'], :parent_id => 0, :nav_id => navigation }, :order => :position } }
+  scope :private_in_root, lambda { |navigation| { :conditions => { :visibility => 'private', :parent_id => 0, :nav_id => navigation }, :order => :position } }
+
   def associated_page
     page.title
   end
@@ -16,6 +21,14 @@ class PagesToNavigation < ActiveRecord::Base
       select("pages_to_navigations.*").
       joins("join navigations on pages_to_navigations.nav_id = navigations.id").
       where("navigations.title = '#{navigation_name}'")
+    end
+
+    def public_and_redirect_in_root_in(navigation_name)
+      public_and_redirect_in_root(Navigation.where(:title => navigation_name))
+    end
+
+    def private_in_root_in(navigation_name)
+      private_in_root(Navigation.where(:title => navigation_name))
     end
   end  
 end

@@ -3,7 +3,6 @@ class AddSkinnycmsFieldsToPages < ActiveRecord::Migration
     # add_column :pages, :title, :string
     # add_column :pages, :permalink, :string
     # add_column :pages, :status, :string
-    # add_column :pages, :visibility, :string
     # add_column :pages, :redirect_url, :string
     # add_column :pages, :seo_title, :string
     # add_column :pages, :seo_description, :text
@@ -15,7 +14,6 @@ class AddSkinnycmsFieldsToPages < ActiveRecord::Migration
     # remove_column :pages, :title
     # remove_column :pages, :permalink
     # remove_column :pages, :status
-    # remove_column :pages, :visibility
     # remove_column :pages, :redirect_url
     # remove_column :pages, :seo_title
     # remove_column :pages, :seo_description

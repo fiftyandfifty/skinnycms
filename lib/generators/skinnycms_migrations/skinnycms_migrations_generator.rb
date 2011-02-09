@@ -41,7 +41,6 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     :title => "string",
                     :permalink => "string",
                     :status => "string",
-                    :visibility => "string",
                     :redirect_url => "string",
                     :seo_title => "string",
                     :seo_description => "text",
@@ -140,7 +139,8 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     :nav_id => "integer",
                     :page_id => "integer",
                     :parent_id => "integer",
-                    :position => "integer"
+                    :position => "integer",
+                    :visibility => "string"
                     }
 
     pages_to_navigations_indexes = []

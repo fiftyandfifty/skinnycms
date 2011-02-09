@@ -4,16 +4,16 @@
     <div style="height: 41px; overflow: hidden; background-color: #D7EEF8; margin-bottom: 5px; padding-left: 10px;">
       <div style="width: 149px; height: 41px; overflow: hidden;float: right; font-size: 11px; padding-top: 12px;">
         <%= link_to 'Preview',
-          page_path(child),
+          page_path(child.page),
           :class => "preview",
           :target => "_blank", :style => "margin-left:12px;" %>
         <span class="sep">|</span>
         <%= link_to 'Edit',
-          edit_admin_page_path(child),
+          edit_admin_page_path(child.page),
           :class => "edit" %>
         <span class="sep">|</span>
         <%= link_to 'Delete',
-          admin_page_path(child),
+          admin_page_path(child.page),
           :class => "delete",
           :method => :delete,
           :confirm => "Are you sure?" %>
@@ -30,7 +30,7 @@
         <% else %>
           <div class="plus" style="display: none;"></div>
         <% end %>
-        <p style="width: 250px; height: 20px;"><%= link_to child.title, edit_admin_page_path(child) %></p>
+        <p style="width: 250px; height: 20px;"><%= link_to child.page.title, edit_admin_page_path(child.page) %></p>
       </span>
 
     </div>

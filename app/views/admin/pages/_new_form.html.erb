@@ -620,7 +620,7 @@ $(document).ready(function(){
 
       <div class="section">
 	<label for="visibility">Visibility</label>
-        <%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], {:selected => @page.visibility.to_s, :id => "visibility"} %>
+        <%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], { :id => "visibility" } %>
       </div>
 
     </div>
