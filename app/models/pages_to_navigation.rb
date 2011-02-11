@@ -22,6 +22,14 @@ class PagesToNavigation < ActiveRecord::Base
       return pages_to_navigations if pages_to_navigations.present?
       []
     end
+    
+    def for_navigation_roots(navigation_name)
+      pages_to_navigations = select("pages_to_navigations.*").
+      joins("join navigations on pages_to_navigations.navigation_id = navigations.id").
+      where("navigations.title = '#{navigation_name}' AND (pages_to_navigations.parent_id IS NULL OR pages_to_navigations.parent_id < 1)")
+      return pages_to_navigations if pages_to_navigations.present?
+      []
+    end
 
     def public_and_redirect_in_root_for(navigation_name)
       public_and_redirect_in_root(Navigation.where(:title => navigation_name))
