@@ -2,7 +2,8 @@ class Admin::PagesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :define_page
   layout "admin"
-  uses_tiny_mce
+  uses_tiny_mce :options => {:theme_advanced_buttons1_add => %w{assets}},
+                :raw_options => "setup : function(ed) { ed.addButton('assets', { title : 'Assets', image : '/images/skinnycms/admin/ico-l.gif', onclick : function() { $('#assets_popup').dialog('open'); }});}"
   respond_to :html, :xml
 
 
@@ -39,6 +40,7 @@ class Admin::PagesController < ApplicationController
     
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
+    @assets = Asset.all.paginate :page => params[:page], :per_page => 3
 
     respond_to do |format|
       format.html

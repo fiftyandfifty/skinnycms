@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.1.7"
+  s.version = "0.1.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
@@ -185,6 +185,20 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_images/images/admin/tbody-divider.gif",
     "lib/generators/skinnycms_images/images/admin/text-icons.gif",
     "lib/generators/skinnycms_images/images/admin/thead-divider.gif",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_diagonals-thick_18_b81900_40x40.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_diagonals-thick_20_666666_40x40.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_flat_10_000000_40x100.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_glass_100_f6f6f6_1x400.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_glass_100_fdf5ce_1x400.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_glass_65_ffffff_1x400.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_gloss-wave_35_f6a828_500x100.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_highlight-soft_100_eeeeee_1x100.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-bg_highlight-soft_75_ffe45c_1x100.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-icons_222222_256x240.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-icons_228ef1_256x240.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-icons_ef8c08_256x240.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-icons_ffd27a_256x240.png",
+    "lib/generators/skinnycms_images/images/jquery_ui_images/ui-icons_ffffff_256x240.png",
     "lib/generators/skinnycms_images/skinnycms_images_generator.rb",
     "lib/generators/skinnycms_javascripts/USAGE",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-1.4.4.min.js",
@@ -232,6 +246,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_styles/stylesheets/demo.css",
     "lib/generators/skinnycms_styles/stylesheets/devise.css",
     "lib/generators/skinnycms_styles/stylesheets/ie.css",
+    "lib/generators/skinnycms_styles/stylesheets/jquery-ui-1.8.9.custom.css",
     "lib/generators/skinnycms_styles/stylesheets/nestedSortable.css",
     "lib/generators/skinnycms_styles/stylesheets/reset.css",
     "lib/generators/skinnycms_styles/stylesheets/text.css",

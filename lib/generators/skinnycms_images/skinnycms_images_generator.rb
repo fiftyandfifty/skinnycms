@@ -11,6 +11,7 @@ class SkinnycmsImagesGenerator < Rails::Generators::Base
   def copy_images
     puts SkinnycmsImagesGenerator.start_description
     sleep(3)
+
     if Dir["public/images/skinnycms/admin"].blank?
       directory "admin", "public/images/skinnycms/admin"
     else
@@ -19,6 +20,16 @@ class SkinnycmsImagesGenerator < Rails::Generators::Base
         directory "admin", "public/images/skinnycms/admin"
       end
     end
+
+    if Dir["public/images/skinnycms/jquery_ui_images"].blank?
+      directory "jquery_ui_images", "public/images/skinnycms/jquery_ui_images"
+    else
+      if yes? "You already have skinnycms images in 'public/images/skinnycms/jquery_ui_images'directory. Do you want to update it?", :green
+        remove_dir "public/images/skinnycms/jquery_ui_images"
+        directory "jquery_ui_images", "public/images/skinnycms/jquery_ui_images"
+      end
+    end
+
     puts SkinnycmsImagesGenerator.end_description
   end
 

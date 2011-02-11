@@ -1,6 +1,7 @@
 <%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
 <%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
 <%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
+<%= stylesheet_link_tag 'skinnycms/jquery-ui-1.8.9.custom' %>
 
 <style type="text/css">
 
@@ -594,6 +595,27 @@ $(document).ready(function(){
 
   });
 
+  <!-- Select logic for navigations -->
+
+  $( "#assets_popup" ).dialog({
+                              autoOpen: false,
+			      height: 300,
+			      width: 430,
+			      modal: true,
+			      buttons: {
+                                "Add asset": function() {
+			          // we will send data to the wysiwyg editor
+				},
+				Cancel: function() {
+				  $( this ).dialog( "close" );
+				}
+			      }
+		});
+
+   $( "#assets_popup" ).bind( "dialogopen", function(event, ui) {
+     $('.ui-dialog-buttonset button').removeClass( "ui-state-focus" );
+   });
+
 });
 
 </script>
@@ -729,6 +751,86 @@ $(document).ready(function(){
     <input id="content_positions" name="content_positions" style="display: none;"></input>
     <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
     <input id="selected_navigations" name="selected_navigations" style="display: none;"></input>
+
+<style type="text/css">
+#assets_popup {
+
+}
+
+#assets_popup .assets_list {
+  overflow: hidden;
+  width: 405px;
+  height: 20px;
+}
+
+#assets_popup .assets_list li {
+  float: left;
+  width: 80px;
+  text-align: center;
+}
+
+.assets_headers td {
+  height: 20px;
+  text-align: center;
+  border: 1px solid gray;
+  padding: 2px;
+}
+
+.assets_data td {
+  height: 20px;
+  text-align: center;
+  border: 1px solid gray;
+  padding: 2px;
+}
+
+.assets_title {
+  width: 80px;
+}
+
+.assets_icon {
+  width: 240px;
+}
+
+.assets_type {
+  width: 80px;
+}
+
+#assets_popup .pagination {
+  width: 375px;
+}
+
+</style>
+
+    <div id="assets_popup" title="Add Asset">
+
+      <ul class="assets_list" style="margin-bottom: 20px; margin-top: 10px; font-weight: bold; font-size: 14px;">
+        <li style="border-right: 1px solid gray;">All</li>
+        <li style="border-right: 1px solid gray;">Images</li>
+        <li style="border-right: 1px solid gray;">Videos</li>
+        <li style="border-right: 1px solid gray;">Audio</li>
+        <li>Files</li>
+      </ul>
+
+      <table class="assets"  style="margin-bottom: 20px;">
+        <tr class="assets_headers"  style="font-weight: bold;font-size: 14px;">
+          <td class="assets_title">Name</td>
+          <td class="assets_icon">Icon</td>
+          <td class="assets_type">Type</td>
+        </tr>
+        <% @assets.each do |asset| %>
+          <tr class="assets_data"  style="">
+            <td class="assets_title"><%= asset.title %></td>
+            <td class="assets_icon">no icon yet!</td>
+            <td class="assets_type"><%= asset.asset_content_type %></td>
+          </tr>
+        <% end %>
+      </table>
+
+      <div class="pagination_container" style="width: 390px;">
+        <%= will_paginate @assets %>
+      </div>
+       
+    </div>
 
     <!-- module -->
    <div class="module"  id="scripts_module">

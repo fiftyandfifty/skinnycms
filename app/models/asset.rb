@@ -1,7 +1,5 @@
 class Asset < ActiveRecord::Base
-  has_attached_file :asset,
-                    :storage => :cloud_files,
-                    :cloudfiles_credentials => "#{Rails.root}/config/rackspace_cloudfiles.yml"
+  has_attached_file :asset
 
   BASIC_TYPES = ['text', 'image', 'audio', 'video']
 
