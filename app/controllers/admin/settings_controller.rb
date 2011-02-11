@@ -8,7 +8,7 @@ class Admin::SettingsController < ApplicationController
     @admin_users = User.all
     @api_modules = ApiModule.all
 
-    basic_api_modules = ["vimeo basic", "fleakr basic", "tumblr basic"]
+    basic_api_modules = ["vimeo basic", "fleakr basic", "tumblr basic", "cloudfiles storage"]
     undefined_modules = []
 
     if ApiModule.present?
@@ -42,13 +42,16 @@ class Admin::SettingsController < ApplicationController
   end
 
   def add_module
-    Rails.logger.info "$$ #{params.inspect}"
     if params[:api_settings][:api_module] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
-      api_configurations = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }.to_json
-      ApiModule.create!(:module_name => params[:api_settings][:api_module],
+      api_hash = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }
+      api_hash[:container] = params[:api_settings][:container] if params[:api_settings][:container].present?
+      api_configurations = api_hash.to_json
+      api_module = ApiModule.create!(:module_name => params[:api_settings][:api_module],
                         :module_version => 1,
                         :title => params[:api_settings][:api_module],
                         :configuration => api_configurations)
+                      
+      api_module.define_cloudfiles_configuration if params[:api_settings][:container].present?
     end
     
     redirect_to(admin_settings_path)
@@ -57,8 +60,12 @@ class Admin::SettingsController < ApplicationController
   def edit_module
     if params[:api_settings][:api_module] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
       api_module = ApiModule.find(params[:api_settings][:api_module])
-      api_configurations = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }.to_json
+      api_hash = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }
+      api_hash[:container] = params[:api_settings][:container] if params[:api_settings][:container].present?
+      api_configurations = api_hash.to_json
       api_module.update_attribute(:configuration, api_configurations) if api_module
+
+      api_module.define_cloudfiles_configuration if params[:api_settings][:container].present?
     end
 
     redirect_to(admin_settings_path)

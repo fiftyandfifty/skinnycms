@@ -20,7 +20,7 @@
       </div>
 
       <span class="item" style="height: 41px; float: left; margin-top:13px;">
-        <% if child.visibility == 'private' %>
+        <% if type == 'private' %>
           <div class="clip_in_private"></div>
         <% else %>
           <div class="clip_in_public"></div>
@@ -37,7 +37,7 @@
 
     <% unless child.children.blank? %>
       <ol class="sortable" id="<%= type %>" style="margin: 5px 0 0 20px; padding:0; list-style-type:none; display: none;">
-        <%= render 'page_list', :pages => child.children, :visibility => visibility %>
+        <%= render 'page_list', :pages => child.children, :type => type %>
       </ol>
     <% end %>
   </li>

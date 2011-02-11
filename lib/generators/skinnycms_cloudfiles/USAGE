@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_cloudfiles generator.
+ 
+Example:
+  rails generate skinnycms_cloudfiles
+
+  This install cloudfiles as assets storage to your application.
+  See the README for more details.

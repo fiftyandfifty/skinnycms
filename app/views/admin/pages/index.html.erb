@@ -17,32 +17,67 @@
       <h2>Site Pages</h2>
     </div>
 
-    <% if @pages.present? %>
-    <ol class="sortable" id="public" style="margin-left: 0; margin-bottom: 25px;">
-        <%= render 'page_list', :pages => @pages, :visibility => ['public', 'redirect'], :type => 'public' %>
-    </ol>
+    <h2 style="margin-left: 15px;">Main Navigation</h2><br />
+    <% if @main_pages.present? %>
+      <ol class="sortable" id="main_pages" style="margin-left: 0; margin-bottom: 25px;">
+        <%= render 'page_list', :pages => @main_pages, :type => 'main_pages' %>
+      </ol>
     <% else %>
-    <ul class="list black-text">
+      <ul class="list black-text">
         <li>
           <div class="holder">
-            <span  style="margin-left: 20px;">
-              No public pages yet!
+            <span style="margin-left: 20px;">
+              No pages in main navigation yet!
             </span>
           </div>
         </li>
-    </ul>
+      </ul>
+    <% end %>
+
+    <h2 style="margin-left: 15px;">Secondary Navigation</h2><br />
+    <% if @secondary_pages.present? %>
+      <ol class="sortable" id="secondary_pages" style="margin-left: 0; margin-bottom: 25px;">
+        <%= render 'page_list', :pages => @secondary_pages, :type => 'secondary_pages' %>
+      </ol>
+    <% else %>
+      <ul class="list black-text">
+        <li>
+          <div class="holder">
+            <span style="margin-left: 20px;">
+              No pages in secondary navigation yet!
+            </span>
+          </div>
+        </li>
+      </ul>
+    <% end %>
+
+    <h2 style="margin-left: 15px;">Footer Navigation</h2><br />
+    <% if @footer_pages.present? %>
+      <ol class="sortable" id="footer_pages" style="margin-left: 0; margin-bottom: 25px;">
+        <%= render 'page_list', :pages => @footer_pages, :type => 'footer_pages' %>
+      </ol>
+    <% else %>
+      <ul class="list black-text">
+        <li>
+          <div class="holder">
+            <span style="margin-left: 20px;">
+              No pages in footer navigation yet!
+            </span>
+          </div>
+        </li>
+      </ul>
     <% end %>
                                 
     <h2>Private Pages</h2>
     <% if @private_pages.present? %>
       <ol class="sortable" id="private" style="margin-left: 0; margin-bottom: 25px; margin-top: 20px;">
-        <%= render 'page_list', :pages => @private_pages, :visibility => ['private'], :type => 'private' %>
+        <%= render 'page_list', :pages => @private_pages, :type => 'private' %>
       </ol>
     <% else %>
       <ul class="list black-text">
         <li>
           <div class="holder" style="margin-top: 20px;">
-            <span  style="margin-left: 20px;">
+            <span style="margin-left: 20px;">
               No private pages yet!
             </span>
           </div>
@@ -86,6 +121,57 @@
                         }
 		});
 
+        <!-- create main navigation sortable array -->
+
+		$('ol.sortable#main_pages').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placeholder',
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+                        update: function(){
+                          updateTree();
+                        }
+		});
+
+        <!-- create secondary navigation sortable array -->
+
+		$('ol.sortable#secondary_pages').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placeholder',
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+                        update: function(){
+                          updateTree();
+                        }
+		});
+
+        <!-- create footer navigation sortable array -->
+
+		$('ol.sortable#footer_pages').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			items: 'li',
+			opacity: .6,
+			placeholder: 'placeholder',
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+                        update: function(){
+                          updateTree();
+                        }
+		});
+
         <!-- create private sortable array -->
 
                 $('ol.sortable#private').nestedSortable({
@@ -105,6 +191,12 @@
 
         <!-- disable both sortable arrays -->
 
+                $('ol.sortable#main_pages').nestedSortable('disable');
+
+                $('ol.sortable#secondary_pages').nestedSortable('disable');
+
+                $('ol.sortable#footer_pages').nestedSortable('disable');
+
                 $('ol.sortable#public').nestedSortable('disable');
 
                 $('ol.sortable#private').nestedSortable('disable');
@@ -117,6 +209,9 @@
                //   var text_value = $('#reorder_public a').text();
                   if(status == false) {
                    // var next_text = "Save Page Order";
+                    $('ol.sortable#main_pages').nestedSortable('enable');
+                    $('ol.sortable#secondary_pages').nestedSortable('enable');
+                    $('ol.sortable#footer_pages').nestedSortable('enable');
                     $('ol.sortable#public').nestedSortable('enable');
                     $('ol.sortable#private').nestedSortable('enable');
                     status = !status;
@@ -125,11 +220,20 @@
                   }
                   else {
                //     var next_text = "Enable Page Order";
+                    main_pages = $('ol.sortable#main_pages').nestedSortable('toArray', {startDepthCount: 1});
+                    updateOrderPages(main_pages);
+                    main_pages = $('ol.sortable#secondary_pages').nestedSortable('toArray', {startDepthCount: 1});
+                    updateOrderPages(main_pages);
+                    main_pages = $('ol.sortable#footer_pages').nestedSortable('toArray', {startDepthCount: 1});
+                    updateOrderPages(main_pages);
                     public_pages = $('ol.sortable#public').nestedSortable('toArray', {startDepthCount: 1});
                     updateOrderPages(public_pages);
                     private_pages = $('ol.sortable#private').nestedSortable('toArray', {startDepthCount: 1});
                     updateOrderPages(private_pages);
                 //    alert(public_pages);
+                    $('ol.sortable#main_pages').nestedSortable('disable');
+                    $('ol.sortable#secondary_pagess').nestedSortable('disable');
+                    $('ol.sortable#footer_pages').nestedSortable('disable');
                     $('ol.sortable#public').nestedSortable('disable');
                     $('ol.sortable#private').nestedSortable('disable');
                     status = !status;

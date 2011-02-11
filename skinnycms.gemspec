@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.1.6"
+  s.version = "0.1.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-09}
+  s.date = %q{2011-02-11}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -88,6 +88,9 @@ Gem::Specification.new do |s|
     "init.rb",
     "lib/generators/skinnycms/USAGE",
     "lib/generators/skinnycms/skinnycms_generator.rb",
+    "lib/generators/skinnycms_cloudfiles/USAGE",
+    "lib/generators/skinnycms_cloudfiles/files/rackspace_cloudfiles.yml",
+    "lib/generators/skinnycms_cloudfiles/skinnycms_cloudfiles_generator.rb",
     "lib/generators/skinnycms_cucumber_features/USAGE",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/factories.rb",
     "lib/generators/skinnycms_cucumber_features/features_templates/features/skinnycms/CRUD_methods_for_categories_in_admin_panel.feature",

@@ -14,6 +14,14 @@
            <%= form_tag(add_module_path, :class => "admin-email") do -%>
              <fieldset>
               <%= text_field "api_settings", "api_module", :value => api_module.module_name, :style => "display:none;" %>
+
+              <% if api_module.module_name == 'cloudfiles storage' %>
+                <div class="col" style="width:500px;">
+                  <label>CONTAINER</label>
+                  <span class="text"><%= text_field "api_settings", "container" %></span>
+                </div>
+              <% end %>
+
               <div class="col">
                 <label>API TOKEN</label>
                 <span class="text"><%= text_field "api_settings", "api_token" %></span>

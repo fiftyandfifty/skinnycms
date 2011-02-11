@@ -136,11 +136,10 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     navigations_indexes = []
 
     pages_to_navigations_columns = {
-                    :nav_id => "integer",
+                    :navigation_id => "integer",
                     :page_id => "integer",
                     :parent_id => "integer",
-                    :position => "integer",
-                    :visibility => "string"
+                    :position => "integer"
                     }
 
     pages_to_navigations_indexes = []

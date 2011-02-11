@@ -565,6 +565,35 @@ $(document).ready(function(){
     });
   });
 
+  <!-- Select logic for navigations -->
+
+  var massive = [];
+
+  $("select.navigation").change(function () {
+    var str = "";
+
+    $("select.navigation option:selected").each(function () {
+      str = $(this).text();
+
+      if(str == '- No navigation - '){
+        $('#nav_header').css("display","block");
+        $("#nav_message").css("display","block");
+        $('.navigations').css("display","none");
+      }
+      else {
+        str_id = '#' + str;
+        $('#nav_header').css("display","none");
+        $("#nav_message").css("display","none");
+        $('.navigations').css("display","none");
+        $(str_id).css("display","block");
+        massive.push(str);
+      }
+    });
+
+    $('#selected_navigations').attr("value",jQuery.unique(massive));
+
+  });
+
 });
 
 </script>
@@ -610,7 +639,7 @@ $(document).ready(function(){
 
       <div class="section">
 	<label for="page-url">Page URL</label>
-	<span class="small-text"><%= f.text_field :permalink, :value => "http://www.clienturl.com/", :html => { :id => "page-url" } %></span>
+	<span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" } %></span>
       </div>
 
       <div class="section">
@@ -619,8 +648,8 @@ $(document).ready(function(){
       </div>
 
       <div class="section">
-	<label for="visibility">Visibility</label>
-        <%= f.select :visibility, [['Public', 'public'], ['Private', 'private'], ['Redirect', 'redirect']], { :id => "visibility" } %>
+	<label for="visibility">Redirect URL</label>
+        <%= f.text_field :redirect_url, :size => "24px" %>
       </div>
 
     </div>
@@ -629,11 +658,22 @@ $(document).ready(function(){
     <div class="row">
 
       <div class="section">
-	<label for="parent">Page Parent</label>
-        <%= f.collection_select("parent_id", PagesToNavigation.all, :id, :associated_page, { :include_blank => "- No Parent - ", :id => "parent" } )%>
+        <label for="parent" id="nav_header">Page Parent</label>
+        <label for="parent" id="nav_message">Select navigation to define Page Parent</label>
+        <% @navigations.each do |navigation| %>
+          <div id="<%= navigation.title %>" class="navigations" style="display:none;">
+	    <label for="parent">Page Parent in <%= navigation.title %></label>
+            <%= collection_select("page_parents", navigation.id, PagesToNavigation.for_navigation(navigation.title), :id, :associated_page, { :include_blank => "- No Parent - " } )%>
+          </div>
+        <% end %>
       </div>
 
-      <div class="section t-holder">
+      <div class="section">
+	<label for="parent">Navigation</label>
+        <%= f.collection_select("navigation", @navigations, :id, :title, { :include_blank => "- No navigation - " }, :class => "navigation" )%>
+      </div>
+
+      <div class="section" style="padding-right: 7px;">
 	<label for="template">Page Type</label>
 	<div class="template" id="template">
 	  <input type="button" value="" class="multiple"/>
@@ -641,7 +681,7 @@ $(document).ready(function(){
 	</div>
       </div>
       
-      <div class="section t-holder">
+      <div class="section">
         <label for="parent">Page Template</label>
         <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
       </div>
@@ -688,6 +728,7 @@ $(document).ready(function(){
     <input id="header_positions" name="header_positions" style="display: none;"></input>
     <input id="content_positions" name="content_positions" style="display: none;"></input>
     <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
+    <input id="selected_navigations" name="selected_navigations" style="display: none;"></input>
 
     <!-- module -->
    <div class="module"  id="scripts_module">
@@ -715,7 +756,7 @@ $(document).ready(function(){
          <div class="seo_fields">
          <div class="row">
 	   <label for="site-name">Page URL (Optional)</label>
-	   <span class="text"><%= f.text_field :seo_title, :value => "Site Name - ", :html => { :id => "site-name" } %></span>
+	   <span class="text"><%= f.text_field :seo_title, :html => { :id => "site-name" } %></span>
          </div>
 	 <div class="row">
            <label for="keywords">Keywords (Separate with commas)</label>
