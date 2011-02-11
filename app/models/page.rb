@@ -12,7 +12,8 @@ class Page < ActiveRecord::Base
   has_friendly_id :title, :use_slug => true, :approximate_ascii => true
 
   def parent_in_navigation(navigation_name)
-    pages_to_navigations.find(:first, :conditions => { :navigation_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id }).parent_id
+    pages_to_navigations.find(:first, :conditions => { :navigation_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id }).parent_id rescue 0
+    # TODO: fix the rescue above
   end
   
   def parent_id_in_navigation(navigation_name)
