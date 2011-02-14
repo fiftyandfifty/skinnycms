@@ -1,9 +1,16 @@
 <%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
 <%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
+<%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
 
 <style type="text/css">
 .parent_container {
   margin-bottom:10px;
+}
+
+.custom divider {
+  width: 100%;
+  height: 15px;
+  background-color: #D7EEF8;
 }
 </style>
 <script type="text/javascript">
@@ -16,29 +23,29 @@ $(document).ready(function(){
   //$(ui.draggable) draggable element
   //$(this) droppable element
 
-  var header_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4 class="head">Large Module Content</h4><a href="javascript:void(0);" id="hide_large_wysiwyg">Hide</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+ // var header_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4 class="head">Large Module Content</h4><a href="javascript:void(0);" class="hide_large_wysiwyg">Hide</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var header_part_2 = '<textarea class="field mceEditor" cols="40" id="header_new_';
   var header_part_3 = '" name="header_new[';
-  var header_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var header_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+  var header_part_4 = ']" rows="20" style="width:100%;"></textarea><div class="custom divider" style="width: 100%;height: 10px;background-color: #D7EEF8;"></div>';
+//  var header_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
   var header_id_begin = 'header_new_';
   var header_id_end = 0;
   var header_id_complex = '';
 
-  var content_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4 class="medium">Medium Module Content</h4><a href="javascript:void(0);" id="hide_medium_wysiwyg">Hide</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+ // var content_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4 class="medium">Medium Module Content</h4><a href="javascript:void(0);" class="hide_medium_wysiwyg">Hide</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var content_part_2 = '<textarea class="field mceEditor" cols="40" id="content_new_';
   var content_part_3 = '" name="content_new[';
-  var content_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var content_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
+  var content_part_4 = ']" rows="20" style="width:100%;"></textarea><div class="custom divider" style="width: 100%;height: 10px;background-color: #D7EEF8;"></div>';
+ // var content_part_5 = '</div></div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div>';
   var content_id_begin = 'content_new_';
   var content_id_end = 0;
   var content_id_complex = '';
 
-  var sidebar_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4 class="small-content">Small Module Content</h4><a href="javascript:void(0);" id="hide_small_wysiwyg">Hide</a></div><div class="edit-box"><div class="holder"><div class="frame">';
+ // var sidebar_part_1 = '<div class="inner"><div class="holder"><div class="headline"><h4 class="small-content">Small Module Content</h4><a href="javascript:void(0);" class="hide_small_wysiwyg">Hide</a></div><div class="edit-box"><div class="holder"><div class="frame">';
   var sidebar_part_2 = '<textarea class="field mceEditor" cols="40" id="sidebar_new_';
   var sidebar_part_3 = '" name="sidebar_new[';
-  var sidebar_part_4 = ']" rows="20" style="width:100%;"></textarea>';
-  var sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
+  var sidebar_part_4 = ']" rows="20" style="width:100%;"></textarea><div class="custom divider" style="width: 100%;height: 10px;background-color: #D7EEF8;"></div>';
+//  var sidebar_part_5 = '</div></div></div></div><div style="height:10px; background-color: white; width: 100%;"></div></div>';
   var sidebar_id_begin = 'sidebar_new_';
   var sidebar_id_end = 0;
   var sidebar_id_complex = '';
@@ -54,12 +61,34 @@ $(document).ready(function(){
     accept : '#wysiwyg',
     drop : function(event, ui) {
 
-      header_id_end = header_id_end + 1;
-      header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
-      header_id_complex = header_id_begin + header_id_end.toString();
-      $('#large_content').append(header_result_html);
-      tinymce.execCommand('mceAddControl',true,header_id_complex);
+      $('#large_title').fadeOut('slow');
+      $('#show_large_wysiwyg').text('Show');
+      $('#large_content').show();
 
+      header_id_end = header_id_end + 1;
+   //   header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
+      header_result_html = header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4;
+      header_id_complex = header_id_begin + header_id_end.toString();
+      $('#large_content .frame').append(header_result_html);
+      tinymce.execCommand('mceAddControl',true,header_id_complex);
+    }
+  });
+
+  $('#large_content').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event, ui) {
+
+      $('#large_title').fadeOut('slow');
+      $('#show_large_wysiwyg').text('Show');
+      $('#large_content').show();
+
+      header_id_end = header_id_end + 1;
+   //   header_result_html = header_part_1 + header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4 + header_part_5;
+      header_result_html = header_part_2 + header_id_end.toString() + header_part_3 + header_id_end.toString() + header_part_4;
+      header_id_complex = header_id_begin + header_id_end.toString();
+      $('#large_content .frame').append(header_result_html);
+      tinymce.execCommand('mceAddControl',true,header_id_complex);
     }
   });
 
@@ -68,12 +97,34 @@ $(document).ready(function(){
     accept : '#wysiwyg',
     drop : function(event, ui) {
 
-      content_id_end = content_id_end + 1;
-      content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-      content_id_complex = content_id_begin + content_id_end.toString();
-      $('#medium_content').append(content_result_html);
-      tinymce.execCommand('mceAddControl',true,content_id_complex);
+      $('#medium_title').fadeOut('slow');
+      $('#show_medium_wysiwyg').text('Show');
+      $('#medium_content').show();
 
+      content_id_end = content_id_end + 1;
+     // content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+      content_result_html = content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4;
+      content_id_complex = content_id_begin + content_id_end.toString();
+      $('#medium_content .frame').append(content_result_html);
+      tinymce.execCommand('mceAddControl',true,content_id_complex);
+    }
+  });
+
+  $('#medium_content').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event, ui) {
+
+      $('#medium_title').fadeOut('slow');
+      $('#show_medium_wysiwyg').text('Show');
+      $('#medium_content').show();
+
+      content_id_end = content_id_end + 1;
+     // content_result_html = content_part_1 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
+      content_result_html = content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4;
+      content_id_complex = content_id_begin + content_id_end.toString();
+      $('#medium_content .frame').append(content_result_html);
+      tinymce.execCommand('mceAddControl',true,content_id_complex);
     }
   });
 
@@ -82,65 +133,80 @@ $(document).ready(function(){
     accept : '#wysiwyg',
     drop : function(event, ui) {
 
+      $('#small_title').fadeOut('slow');
+      $('#show_small_wysiwyg').text('Show');
+      $('#small_content').show();
+
       sidebar_id_end = sidebar_id_end + 1;
-      sidebar_result_html = sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
+    //  sidebar_result_html = sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
+      sidebar_result_html = sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4;
       sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
-      $('#small_content').append(sidebar_result_html);
+      $('#small_content .frame').append(sidebar_result_html);
       tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
-        
     }
   });
 
-  <!-- MODULES hide -->
+  $('#small_content').droppable({
+    tolerance : 'fit',
+    accept : '#wysiwyg',
+    drop : function(event, ui) {
 
-  $('#hide_large_wysiwyg').click(function() {
+      $('#small_title').fadeOut('slow');
+      $('#show_small_wysiwyg').text('Show');
+      $('#small_content').show();
+
+      sidebar_id_end = sidebar_id_end + 1;
+    //  sidebar_result_html = sidebar_part_1 + sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4 + sidebar_part_5;
+      sidebar_result_html = sidebar_part_2 + sidebar_id_end.toString() + sidebar_part_3 + sidebar_id_end.toString() + sidebar_part_4;
+      sidebar_id_complex = sidebar_id_begin + sidebar_id_end.toString();
+      $('#small_content .frame').append(sidebar_result_html);
+      tinymce.execCommand('mceAddControl',true,sidebar_id_complex);
+    }
+  });
+
+
+  <!-- MODULES show/hide logic -->
+
+  //$('#large_content').hide();
+
+  $('.hide_large_wysiwyg').livequery('click', function(event) {
     $('#large_content').fadeOut('slow');
     $('#large_title').fadeIn('slow');
   });
 
-  $('#hide_medium_wysiwyg').click(function() {
+  $('#show_large_wysiwyg').click(function() {
+    if($(this).text() != 'Empty'){
+      $('#large_title').fadeOut('slow');
+      $('#large_content').fadeIn('slow');
+    }
+  });
+
+ // $('#medium_content').hide();
+
+  $('.hide_medium_wysiwyg').livequery('click', function(event) {
     $('#medium_content').fadeOut('slow');
     $('#medium_title').fadeIn('slow');
   });
 
-  $('#hide_small_wysiwyg').click(function() {
+  $('#show_medium_wysiwyg').click(function() {
+    if($(this).text() != 'Empty'){
+      $('#medium_title').fadeOut('slow');
+      $('#medium_content').fadeIn('slow');
+    }
+  });
+
+  //$('#small_content').hide();
+
+  $('.hide_small_wysiwyg').livequery('click', function(event) {
     $('#small_content').fadeOut('slow');
     $('#small_title').fadeIn('slow');
   });
 
-  <!-- MODULES show -->
-
-  $('#show_large_wysiwyg').click(function() {
-
-    $('div#large_content').css('height','335px');
-    $('div#large_content > .holder').css('height','310px');
-    $('#frame_large_content').css('height','285px');
-    $('#custom_module_content_ifr').css('height','247px');
-
-    $('#large_content').fadeIn('slow');
-    $('#large_title').fadeOut('slow');
-  });
-
-  $('#show_medium_wysiwyg').click(function() {
-
-    $('div#medium_content').css('height','335px');
-    $('div#medium_content > .holder').css('height','310px');
-    $('#frame_medium_content').css('height','285px');
-    $('#custom_module_header_ifr').css('height','247px');
-
-    $('#medium_content').fadeIn('slow');
-    $('#medium_title').fadeOut('slow');
-  });
-
   $('#show_small_wysiwyg').click(function() {
-
-    $('div#small_content').css('height','335px');
-    $('div#small_content > .holder').css('height','310px');
-    $('#frame_small_content').css('height','285px');
-    $('#custom_module_sidebar_ifr').css('height','247px');
-
-    $('#small_content').fadeIn('slow');
-    $('#small_title').fadeOut('slow');
+    if($(this).text() != 'Empty'){
+      $('#small_title').fadeOut('slow');
+      $('#small_content').fadeIn('slow');
+    }
   });
 
 });
@@ -158,83 +224,86 @@ $(document).ready(function(){
 	<h3>Module Content</h3>
 
         <div class="parent_container">
-        <div class="gray-area" id="large_title">
+        <div class="gray-area" id="large_title"<% if @custom_module.id.present? %> style="display:none;"<% end %>>
           <div class="holder">
 	    <h4 class="head">Large Module Content</h4>
-	    <a href="javascript:void(0);" id="show_large_wysiwyg">Show</a>
+	    <a href="javascript:void(0);" id="show_large_wysiwyg"><% if @custom_module.header.present? %>Show<% else %>Empty<% end %></a>
 	  </div>
         </div>
 
-	  <div class="inner" id="large_content">
-            <% if @custom_module.id.present? %>
+	  <div class="inner" id="large_content"<% if @custom_module.id.blank? %> style="display:none;"<% end %>>
 	      <div class="holder">
 	        <div class="headline">
                   <h4 class="head">Large Module Content</h4>
-	          <a href="javascript:void(0);" id="hide_large_wysiwyg">Hide</a>
+	          <a href="javascript:void(0);" class="hide_large_wysiwyg">Hide</a>
 	        </div>
 	        <div class="edit-box">
     	          <div class="holder">
 		    <div class="frame">
-		      <%= f.text_area "header", :style => "width:100%;", :class => "field mceEditor" %>
-		    </div>
+                      <% if @custom_module.id.present? %>
+		        <%= f.text_area "header", :style => "width:100%;", :class => "field mceEditor" %>
+                        <div class="custom divider" style="width: 100%;height: 10px;background-color: #D7EEF8;"></div>
+                      <% end %>
+                    </div>
 	          </div>
 	        </div>
 	      </div>
-            <% end %>
 	  </div>
         </div>
 
         <div class="parent_container">
-        <div class="gray-area" id="medium_title">
+        <div class="gray-area" id="medium_title"<% if @custom_module.id.present? %> style="display:none;"<% end %>>
           <div class="holder">
 	    <h4 class="medium">Medium Module Content</h4>
-	    <a href="javascript:void(0);" id="show_medium_wysiwyg">Show</a>
+	    <a href="javascript:void(0);" id="show_medium_wysiwyg"><% if @custom_module.content.present? %>Show<% else %>Empty<% end %></a>
 	  </div>
         </div>
 
-	<div class="inner" id="medium_content">
-          <% if @custom_module.id.present? %>
+	<div class="inner" id="medium_content"<% if @custom_module.id.blank? %> style="display:none;"<% end %>>
             <div class="holder">
 	      <div class="headline">
                 <h4 class="medium">Medium Module Content</h4>
-	        <a href="javascript:void(0);" id="hide_medium_wysiwyg">Hide</a>
+	        <a href="javascript:void(0);" class="hide_medium_wysiwyg">Hide</a>
 	      </div>
 	      <div class="edit-box">
     	        <div class="holder">
 		  <div class="frame">
-		    <%= f.text_area "content", :class => "field mceEditor", :style => "width:100%;" %>
+                    <% if @custom_module.id.present? %>
+		      <%= f.text_area "content", :class => "field mceEditor", :style => "width:100%;" %>
+                      <div class="custom divider" style="width: 100%;height: 10px;background-color: #D7EEF8;"></div>
+                    <% end %>
 		  </div>
 	        </div>
 	      </div>
 	    </div>
-          <% end %>
 	</div>
         </div>
 
         <div class="parent_container">
-        <div class="gray-area" id="small_title">
+        <div class="gray-area" id="small_title"<% if @custom_module.id.present? %> style="display:none;"<% end %>>
           <div class="holder">
 	    <h4 class="small-content">Small Module Content</h4>
-	    <a href="javascript:void(0);" id="show_small_wysiwyg">Show</a>
+	    <a href="javascript:void(0);" id="show_small_wysiwyg"><% if @custom_module.sidebar.present? %>Show<% else %>Empty<% end %></a>
 	  </div>
         </div>
 
-        <div class="inner" id="small_content">
-          <% if @custom_module.id.present? %>
+        <div class="inner" id="small_content"<% if @custom_module.id.blank? %> style="display:none;"<% end %>>
 	    <div class="holder">
 	      <div class="headline">
                 <h4 class="small-content">Small Module Content</h4>
-	        <a href="javascript:void(0);" id="hide_small_wysiwyg">Hide</a>
+	        <a href="javascript:void(0);" class="hide_small_wysiwyg">Hide</a>
 	      </div>
 	      <div class="edit-box">
     	        <div class="holder">
 		  <div class="frame">
-		    <%= f.text_area "sidebar", :class => "field mceEditor", :style => "width:100%;" %>
+                    <% if @custom_module.id.present? %>
+		      <%= f.text_area "sidebar", :class => "field mceEditor", :style => "width:100%;" %>
+                      <div class="custom divider" style="width: 100%;height: 10px;background-color: #D7EEF8;"></div>
+                    <% end %>
 		  </div>
 	        </div>
 	      </div>
 	    </div>
-          <% end %>
 	</div>
        </div>
       </div>
