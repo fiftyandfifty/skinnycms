@@ -10,7 +10,7 @@ class Admin::PagesController < ApplicationController
   def index
     @title = "Pages"
 
-    @homepage = Page.find(:first, :conditions => { :title => 'home' } )
+    @homepage = Page.find(:first, :conditions => { :title => 'Home' } )
     @main_pages = PagesToNavigation.public_and_redirect_in_root_for('main_navigation')
     @secondary_pages = PagesToNavigation.public_and_redirect_in_root_for('secondary_navigation')
     @footer_pages = PagesToNavigation.public_and_redirect_in_root_for('footer_navigation')

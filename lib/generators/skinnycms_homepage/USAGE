@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_homepage generator.
+ 
+Example:
+  rails generate skinnycms_homepage
+
+  This install default homepage to your application.
+  See the README for more details.

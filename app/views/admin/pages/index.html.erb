@@ -19,9 +19,11 @@
 
     <% if @homepage.present? %>
       <%= render 'homepage', :homepage => @homepage %>
-      <div class="pages_divider">
-        <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
-      </div>
+        <div class="pages_divider">
+          <% if @main_pages.present? %>
+            <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
+          <% end %>
+        </div>
     <% end %>
 
     <% if @main_pages.present? %>
@@ -29,6 +31,7 @@
         <%= render 'page_list', :pages => @main_pages, :type => 'main_pages' %>
       </ol>
     <% else %>
+      <% if @homepage.blank? %>
       <ul class="list black-text">
         <li>
           <div class="holder">
@@ -38,19 +41,12 @@
           </div>
         </li>
       </ul>
+      <% end %>
     <% end %>
 
     <h2>Secondary Navigation</h2><br />
-
-    <% if @homepage.present? %>
-      <%= render 'homepage', :homepage => @homepage %>
-      <div class="pages_divider">
-        <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
-      </div>
-    <% end %>
-
     <% if @secondary_pages.present? %>
-      <ol class="sortable" id="secondary_pages" style="margin-left: 20px; margin-bottom: 25px;">
+      <ol class="sortable" id="secondary_pages" style="margin-left: 0; margin-bottom: 25px;">
         <%= render 'page_list', :pages => @secondary_pages, :type => 'secondary_pages' %>
       </ol>
     <% else %>
@@ -66,16 +62,8 @@
     <% end %>
 
     <h2>Footer Navigation</h2><br />
-
-    <% if @homepage.present? %>
-      <%= render 'homepage', :homepage => @homepage %>
-      <div class="pages_divider">
-        <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
-      </div>
-    <% end %>
-
     <% if @footer_pages.present? %>
-      <ol class="sortable" id="footer_pages" style="margin-left: 20px; margin-bottom: 25px;">
+      <ol class="sortable" id="footer_pages" style="margin-left: 0; margin-bottom: 25px;">
         <%= render 'page_list', :pages => @footer_pages, :type => 'footer_pages' %>
       </ol>
     <% else %>
