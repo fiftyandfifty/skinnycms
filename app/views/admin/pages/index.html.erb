@@ -14,12 +14,18 @@
       <%= link_to("javascript:void(0);", :class => "btn-pages") do %>
         <span>reorder pages</span>
       <% end %>
-      <h2>Site Pages</h2>
+      <h2>Main Navigation</h2>
     </div>
 
-    <h2 style="margin-left: 15px;">Main Navigation</h2><br />
+    <% if @homepage.present? %>
+      <%= render 'homepage', :homepage => @homepage %>
+      <div class="pages_divider">
+        <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
+      </div>
+    <% end %>
+
     <% if @main_pages.present? %>
-      <ol class="sortable" id="main_pages" style="margin-left: 0; margin-bottom: 25px;">
+      <ol class="sortable" id="main_pages" style="margin-left: 20px; margin-bottom: 25px;">
         <%= render 'page_list', :pages => @main_pages, :type => 'main_pages' %>
       </ol>
     <% else %>
@@ -34,9 +40,17 @@
       </ul>
     <% end %>
 
-    <h2 style="margin-left: 15px;">Secondary Navigation</h2><br />
+    <h2>Secondary Navigation</h2><br />
+
+    <% if @homepage.present? %>
+      <%= render 'homepage', :homepage => @homepage %>
+      <div class="pages_divider">
+        <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
+      </div>
+    <% end %>
+
     <% if @secondary_pages.present? %>
-      <ol class="sortable" id="secondary_pages" style="margin-left: 0; margin-bottom: 25px;">
+      <ol class="sortable" id="secondary_pages" style="margin-left: 20px; margin-bottom: 25px;">
         <%= render 'page_list', :pages => @secondary_pages, :type => 'secondary_pages' %>
       </ol>
     <% else %>
@@ -51,9 +65,17 @@
       </ul>
     <% end %>
 
-    <h2 style="margin-left: 15px;">Footer Navigation</h2><br />
+    <h2>Footer Navigation</h2><br />
+
+    <% if @homepage.present? %>
+      <%= render 'homepage', :homepage => @homepage %>
+      <div class="pages_divider">
+        <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
+      </div>
+    <% end %>
+
     <% if @footer_pages.present? %>
-      <ol class="sortable" id="footer_pages" style="margin-left: 0; margin-bottom: 25px;">
+      <ol class="sortable" id="footer_pages" style="margin-left: 20px; margin-bottom: 25px;">
         <%= render 'page_list', :pages => @footer_pages, :type => 'footer_pages' %>
       </ol>
     <% else %>
@@ -93,6 +115,34 @@
       <li>
         <%= link_to(new_admin_page_path) do %>
           <span>Add a New Page</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(new_admin_asset_path) do %>
+          <span>Upload a File</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(new_admin_custom_module_path) do %>
+          <span>Create a Module</span>
+        <% end %>
+      </li>
+    </ul>
+    <h3>API Links</h3>
+    <ul class="btn-bar gray-btn">
+      <li>
+        <%= link_to(admin_settings_path(:module_type => "vimeo"), :class => "login_vimeo") do -%>
+          <span><strong>Log-in</strong><em class="vimeo">vimeo</em></span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(admin_settings_path(:module_type => "fleakr"), :class => "login_fleakr") do -%>
+          <span><strong>Log-in</strong><em class="flickr">fleakr</em></span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(admin_settings_path(:module_type => "tumblr"), :class => "login_tumblr") do -%>
+          <span><strong>Log-in</strong><em class="tumblr">tumblr.</em></span>
         <% end %>
       </li>
     </ul>
@@ -216,7 +266,8 @@
                     $('ol.sortable#private').nestedSortable('enable');
                     status = !status;
                     $('a.btn-pages span').html("Save reordering");
-                 //   $('.clip_in_public').css("display", "block");
+                    $('.clip_in_public').css("display", "block");
+                    $('.clip_in_private').css("display", "block");
                   }
                   else {
                //     var next_text = "Enable Page Order";
@@ -238,6 +289,8 @@
                     $('ol.sortable#private').nestedSortable('disable');
                     status = !status;
                     $('a.btn-pages span').html("Reorder pages");
+                    $('.clip_in_public').css("display", "none");
+                    $('.clip_in_private').css("display", "none");
                //     $('.clip_in_public').css('display', 'none');
                   }
                //   $('div#reorder_public a').html(next_text);

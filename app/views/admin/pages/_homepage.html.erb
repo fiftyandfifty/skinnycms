@@ -1,0 +1,24 @@
+<div style="height: 41px; overflow: hidden; background-color: #E7E7E7; margin-bottom: 5px;">
+  <div style="float:left; height: 41px; width: 6px; background-color: white; background-repeat: no-repeat; background-image: url('/images/skinnycms/admin/bg_gray_left.gif');"></div>
+  <div style="float: right; height: 41px; width: 6px; background-color: white; background-repeat: no-repeat; background-image: url('/images/skinnycms/admin/bg_gray_right.gif');"></div>
+  <div style="width: 149px; height: 41px; overflow: hidden;float: right; font-size: 11px; padding-top: 12px;">
+    <%= link_to 'Preview',
+        page_path(homepage),
+        :class => "preview",
+        :target => "_blank", :style => "margin-left:12px;" %>
+    <span class="sep" style="margin-left:2px; margin-right: 5px; color: #999999">|</span>
+    <%= link_to 'Edit',
+        edit_admin_page_path(homepage),
+        :class => "edit" %>
+    <span class="sep" style="margin-left:2px; margin-right: 5px; color: #999999">|</span>
+    <%= link_to 'Delete',
+        admin_page_path(homepage),
+        :class => "delete",
+        :method => :delete,
+        :confirm => "Are you sure?" %>
+  </div>
+
+  <span class="item" style="height: 41px; float: left; margin-top:13px; margin-left: 13px;">
+    <p style="width: 250px; height: 20px;"><%= link_to homepage.title.upcase, edit_admin_page_path(homepage) %></p>
+  </span>
+</div>

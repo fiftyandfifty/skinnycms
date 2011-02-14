@@ -138,16 +138,21 @@
    <div id="sidebar">
      <h3>Quick Links</h3>
      <ul class="btn-bar">
-       <li>
-         <%= link_to(new_admin_custom_module_path) do %>
-           <span>Add a Module</span>
-         <% end %>
-       </li>
-       <li>
-         <%= link_to(admin_assets_path) do %>
-           <span>Upload a File</span>
-         <% end %>
-       </li>
+      <li>
+        <%= link_to(new_admin_page_path) do %>
+          <span>Add a New Page</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(new_admin_asset_path) do %>
+          <span>Upload a File</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(new_admin_custom_module_path) do %>
+          <span>Create a Module</span>
+        <% end %>
+      </li>
      </ul>
      <h3>API Links</h3>
      <ul class="btn-bar gray-btn">

@@ -1,8 +1,22 @@
 <% pages.each do |child| %>
 
   <li id="list_<%= child.id %>">
-    <div style="height: 41px; overflow: hidden; background-color: #D7EEF8; margin-bottom: 5px; padding-left: 10px;">
-      <div style="width: 149px; height: 41px; overflow: hidden;float: right; font-size: 11px; padding-top: 12px;">
+
+    <% if type == 'private' %>
+
+      <div class="private_page_sortable_container">
+      <div class="left_private_rounded_part"></div>
+      <div class="right_private_rounded_part"></div>
+
+    <% else %>
+
+      <div class="public_page_sortable_container">
+      <div class="left_public_rounded_part"></div>
+      <div class="right_public_rounded_part"></div>
+      
+    <% end %>
+      
+      <div class="page_actions">
         <%= link_to 'Preview',
           page_path(child.page),
           :class => "preview",
@@ -19,18 +33,14 @@
           :confirm => "Are you sure?" %>
       </div>
 
-      <span class="item" style="height: 41px; float: left; margin-top:13px;">
-        <% if type == 'private' %>
-          <div class="clip_in_private"></div>
-        <% else %>
-          <div class="clip_in_public"></div>
-        <% end %>
+      <span class="item" style="padding-left: 0;">
+        <div class="clip_in_public"></div>
         <% if child.children.present? %>
           <div class="plus"></div>
         <% else %>
           <div class="plus" style="display: none;"></div>
         <% end %>
-        <p style="width: 250px; height: 20px;"><%= link_to child.page.title, edit_admin_page_path(child.page) %></p>
+        <p class="sortable_page_title"><%= link_to child.page.title.upcase, edit_admin_page_path(child.page) %></p>
       </span>
 
     </div>

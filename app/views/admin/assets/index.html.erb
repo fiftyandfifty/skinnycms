@@ -98,22 +98,44 @@
 					<li><a href="#">5</a></li>
 				</ul>
 			</div>
-			<!-- sidebar -->
-			<div id="sidebar">
-				<h3>Quick Links</h3>
-				<ul class="btn-bar">
-          <li>
-                              <%= link_to(new_admin_asset_path) do %>
-                                <span>Upload a File</span>
-                              <% end %>
-                            </li>
-				</ul>
-				<h3>API Links</h3>
-				<ul class="btn-bar gray-btn">
-					<li><a href="#"><span><strong>Log-in</strong><em class="vimeo">vimeo</em></span></a></li>
-					<li><a href="#"><span><strong>Log-in</strong><em class="flickr">flickr</em></span></a></li>
-					<li><a href="#"><span><strong>Log-in</strong><em class="tumblr">tumblr.</em></span></a></li>
-				</ul>
-			</div>
-		</div>
+  <!-- sidebar -->
+  <div id="sidebar">
+    <h3>Quick Links</h3>
+    <ul class="btn-bar">
+      <li>
+        <%= link_to(new_admin_page_path) do %>
+          <span>Add a New Page</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(new_admin_asset_path) do %>
+          <span>Upload a File</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(new_admin_custom_module_path) do %>
+          <span>Create a Module</span>
+        <% end %>
+      </li>
+    </ul>
+    <h3>API Links</h3>
+    <ul class="btn-bar gray-btn">
+      <li>
+        <%= link_to(admin_settings_path(:module_type => "vimeo"), :class => "login_vimeo") do -%>
+          <span><strong>Log-in</strong><em class="vimeo">vimeo</em></span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(admin_settings_path(:module_type => "fleakr"), :class => "login_fleakr") do -%>
+          <span><strong>Log-in</strong><em class="flickr">fleakr</em></span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to(admin_settings_path(:module_type => "tumblr"), :class => "login_tumblr") do -%>
+          <span><strong>Log-in</strong><em class="tumblr">tumblr.</em></span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>
 
