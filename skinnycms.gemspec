@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.1.9"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-11}
+  s.date = %q{2011-02-14}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -63,6 +63,7 @@ Gem::Specification.new do |s|
     "app/views/admin/custom_modules/new.html.erb",
     "app/views/admin/modules/index.html.erb",
     "app/views/admin/pages/_edit_form.html.erb",
+    "app/views/admin/pages/_homepage.html.erb",
     "app/views/admin/pages/_new_form.html.erb",
     "app/views/admin/pages/_page_list.html.erb",
     "app/views/admin/pages/edit.html.erb",
@@ -114,6 +115,8 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_devise/skinnycms_devise_generator.rb",
     "lib/generators/skinnycms_gems/USAGE",
     "lib/generators/skinnycms_gems/skinnycms_gems_generator.rb",
+    "lib/generators/skinnycms_homepage/USAGE",
+    "lib/generators/skinnycms_homepage/skinnycms_homepage_generator.rb",
     "lib/generators/skinnycms_images/USAGE",
     "lib/generators/skinnycms_images/images/admin/arrow.gif",
     "lib/generators/skinnycms_images/images/admin/arrow1.gif",
@@ -126,6 +129,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_images/images/admin/bg-bar-l.gif",
     "lib/generators/skinnycms_images/images/admin/bg-bar-r.gif",
     "lib/generators/skinnycms_images/images/admin/bg-blue-l.gif",
+    "lib/generators/skinnycms_images/images/admin/bg-blue-left.gif",
     "lib/generators/skinnycms_images/images/admin/bg-blue-r.gif",
     "lib/generators/skinnycms_images/images/admin/bg-body.gif",
     "lib/generators/skinnycms_images/images/admin/bg-button-l.gif",
@@ -157,6 +161,10 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_images/images/admin/bg-thead-l.gif",
     "lib/generators/skinnycms_images/images/admin/bg-thead-r.gif",
     "lib/generators/skinnycms_images/images/admin/bg-title.gif",
+    "lib/generators/skinnycms_images/images/admin/bg_gray_left.gif",
+    "lib/generators/skinnycms_images/images/admin/bg_gray_right.gif",
+    "lib/generators/skinnycms_images/images/admin/bg_private_left.gif",
+    "lib/generators/skinnycms_images/images/admin/bg_private_right.gif",
     "lib/generators/skinnycms_images/images/admin/btn-draft-l.gif",
     "lib/generators/skinnycms_images/images/admin/btn-draft-r.gif",
     "lib/generators/skinnycms_images/images/admin/btn-gray-l.gif",
@@ -171,7 +179,9 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_images/images/admin/ico3.gif",
     "lib/generators/skinnycms_images/images/admin/ico4.gif",
     "lib/generators/skinnycms_images/images/admin/ico5.gif",
+    "lib/generators/skinnycms_images/images/admin/ico5_2.gif",
     "lib/generators/skinnycms_images/images/admin/ico6.gif",
+    "lib/generators/skinnycms_images/images/admin/ico6_2.gif",
     "lib/generators/skinnycms_images/images/admin/logo-flickr.gif",
     "lib/generators/skinnycms_images/images/admin/logo-tumblr.gif",
     "lib/generators/skinnycms_images/images/admin/logo-vimeo.gif",
@@ -1060,7 +1070,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/fiftyandfifty/skinnycms}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.5.0}
   s.summary = %q{skinnycms gem}
   s.test_files = [
     "spec/models/category_item_spec.rb",
@@ -1096,7 +1106,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
