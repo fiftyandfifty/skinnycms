@@ -1,23 +1,27 @@
-<% if @page.blank? %>
-  <p style="text-align: center; color:red; font-weight: bold; font-size: 16px;">Home page doesn't exist!</p>
+<% content_for :header do %>
+  <% if @page.blank? %>
+    <p style="text-align: center; color:red; font-weight: bold; font-size: 16px;">Home page doesn't exist!</p>
+  <% end %>
+
+  <% if @header_contents.present? %>
+    <% for header_content in @header_contents %>
+      <%= raw(header_content.content) %>
+    <% end %>
+  <% end %>
 <% end %>
 
-<div class="grid_12">
-  <% for header_content in @header_contents %>
-    <%= raw(header_content.content) %>
+<% content_for :content do %>
+  <% if @page_contents.present? %>
+    <% for page_content in @page_contents %>
+      <%= raw(page_content.content) %>
+    <% end %>
   <% end %>
-</div>
+<% end %>
 
-<div class="clear"></div>
-
-<div class="grid_8">
-  <% for page_content in @page_contents %>
-    <%= raw(page_content.content) %>
+<% content_for :sidebar do %>
+  <% if @sidebar_contents.present? %>
+    <% for sidebar_content in @sidebar_contents %>
+      <%= raw(sidebar_content.content) %>
+    <% end %>
   <% end %>
-</div>
-
-<div class="grid_4">
-  <% for sidebar_content in @sidebar_contents %>
-    <%= raw(sidebar_content.content) %>
-  <% end %>
-</div>
+<% end %>

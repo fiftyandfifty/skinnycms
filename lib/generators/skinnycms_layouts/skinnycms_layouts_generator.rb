@@ -12,14 +12,33 @@ class SkinnycmsLayoutsGenerator < Rails::Generators::Base
     puts SkinnycmsLayoutsGenerator.start_description
     sleep(3)
 
-    if !File.exist?('app/views/layouts/front_end.html.erb')
-      copy_file "front_end.html.erb", "app/views/layouts/front_end.html.erb"
+    if !File.exist?('app/views/layouts/home_page.html.erb')
+      copy_file "home_page.html.erb", "app/views/layouts/home_page.html.erb"
     else
-      if yes? "You already have 'app/views/layouts/front_end.html.erb' layout. Do you want to update it?", :green
-        remove_file "app/views/layouts/front_end.html.erb"
-        copy_file "front_end.html.erb", "app/views/layouts/front_end.html.erb"
+      if yes? "You already have 'app/views/layouts/home_page.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/layouts/home_page.html.erb"
+        copy_file "home_page.html.erb", "app/views/layouts/home_page.html.erb"
       end
     end
+    
+    if !File.exist?('app/views/layouts/landing_page.html.erb')
+      copy_file "landing_page.html.erb", "app/views/layouts/landing_page.html.erb"
+    else
+      if yes? "You already have 'app/views/layouts/landing_page.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/layouts/landing_page.html.erb"
+        copy_file "landing_page.html.erb", "app/views/layouts/landing_page.html.erb"
+      end
+    end
+    
+    if !File.exist?('app/views/layouts/detail_page.html.erb')
+      copy_file "detail_page.html.erb", "app/views/layouts/detail_page.html.erb"
+    else
+      if yes? "You already have 'app/views/layouts/detail_page.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/layouts/detail_page.html.erb"
+        copy_file "detail_page.html.erb", "app/views/layouts/detail_page.html.erb"
+      end
+    end
+
     if !File.exist?('app/views/layouts/admin.html.erb')
       copy_file "admin.html.erb", "app/views/layouts/admin.html.erb"
     else
@@ -28,6 +47,7 @@ class SkinnycmsLayoutsGenerator < Rails::Generators::Base
         copy_file "admin.html.erb", "app/views/layouts/admin.html.erb"
       end
     end
+
     if !File.exist?('app/views/layouts/devise.html.erb')
       copy_file "devise.html.erb", "app/views/layouts/devise.html.erb"
     else

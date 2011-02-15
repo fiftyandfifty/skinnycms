@@ -244,6 +244,7 @@ class Admin::PagesController < ApplicationController
           PagesToNavigation.create(:navigation_id => nav_id.to_i, :page_id => @page.id, :parent_id => parent_id)
         end
       end
+      @page.update_attribute(:template_id, Template.find(:first, :conditions => { :title => 'Home Page' }).id) if params[:page][:template_id].blank?
 
       # Create logic for header content
 
