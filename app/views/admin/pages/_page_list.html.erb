@@ -1,5 +1,7 @@
 <% pages.each do |child| %>
 
+  <%- unless nav_id == 1 && child.page.id == 1 -%>
+
   <li id="list_<%= child.id %>">
 
     <% if type == 'private' %>
@@ -47,9 +49,11 @@
 
     <% unless child.children.blank? %>
       <ol class="sortable" id="<%= type %>" style="margin: 5px 0 0 20px; padding:0; list-style-type:none; display: none;">
-        <%= render 'page_list', :pages => child.children, :type => type %>
+        <%= render 'page_list', :pages => child.children, :type => type, :nav_id => nav_id %>
       </ol>
     <% end %>
   </li>
+  
+  <% end %>
   
 <% end %>

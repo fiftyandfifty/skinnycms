@@ -17,7 +17,7 @@ class SkinnycmsHomepageGenerator < Rails::Generators::Base
                    :seo_keywords => 'home, page, default',
                    :template_id => Template.find(:first, :conditions => { :title => 'Home Page' }))
 
-      PagesToNavigation.create!(:navigation_id => Navigation.find(:first, :conditions => { :title => 'main_navigation' }),
+      PagesToNavigation.create!(:navigation_id => Navigation.find(:first, :conditions => { :title => 'Main Navigation' }),
                                 :page_id => Page.find(:first, :conditions => { :title => 'Home' }).id)
 
       PageContent.create!(:page_id => Page.find(:first, :conditions => { :title => 'Home' }).id,

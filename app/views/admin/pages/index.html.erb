@@ -1,7 +1,6 @@
-<%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
-<%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
-<%= javascript_include_tag 'skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js' %>
-<%= stylesheet_link_tag 'skinnycms/nestedSortable' %>
+<% content_for :javascript_includes do %>
+  <%= stylesheet_link_tag 'skinnycms/nestedSortable' %>
+<% end %>
 
 <!-- main -->
 <div id="main">
@@ -14,74 +13,39 @@
       <%= link_to("javascript:void(0);", :class => "btn-pages") do %>
         <span>reorder pages</span>
       <% end %>
-      <h2>Main Navigation</h2>
     </div>
 
-    <% if @homepage.present? %>
-      <%= render 'homepage', :homepage => @homepage %>
-        <div class="pages_divider">
-          <% if @main_pages.present? %>
-            <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
-          <% end %>
-        </div>
-    <% end %>
-
-    <% if @main_pages.present? %>
-      <ol class="sortable" id="main_pages" style="margin-left: 20px; margin-bottom: 25px;">
-        <%= render 'page_list', :pages => @main_pages, :type => 'main_pages' %>
-      </ol>
-    <% else %>
-      <% if @homepage.blank? %>
-      <ul class="list black-text">
-        <li>
-          <div class="holder">
-            <span style="margin-left: 20px;">
-              No pages in main navigation yet!
-            </span>
+    <%- @navigations.sort.each do |nav_id, page| -%>
+      <h2><%= @nav_names[nav_id] %></h2><br />
+      <% if page.present? %>
+        <%- if page[0].page_id == 1 && nav_id == 1 -%>
+          <%= render 'homepage', :homepage => page[0].page %>
+          <div class="pages_divider">
+            <% if page.present? %>
+              <%= image_tag("/images/skinnycms/admin/divider.gif", :style => "margin-top:5px;") %>
+            <% end %>
           </div>
-        </li>
-      </ul>
+        <%- end -%>
+          <ol class="sortable" id="nav_<%= nav_id %>" style="margin-left: 0; margin-bottom: 25px;">
+          <%= render 'page_list', :pages => page, :type => ('nav_' + nav_id.to_s), :nav_id => nav_id %>
+          </ol>
+      <% else %>
+        <ul class="list black-text">
+          <li>
+            <div class="holder">
+              <span style="margin-left: 20px;">
+                No pages in <%= @nav_names[nav_id].capitalize %> yet!
+              </span>
+            </div>
+          </li>
+        </ul>
       <% end %>
-    <% end %>
-
-    <h2>Secondary Navigation</h2><br />
-    <% if @secondary_pages.present? %>
-      <ol class="sortable" id="secondary_pages" style="margin-left: 0; margin-bottom: 25px;">
-        <%= render 'page_list', :pages => @secondary_pages, :type => 'secondary_pages' %>
-      </ol>
-    <% else %>
-      <ul class="list black-text">
-        <li>
-          <div class="holder">
-            <span style="margin-left: 20px;">
-              No pages in secondary navigation yet!
-            </span>
-          </div>
-        </li>
-      </ul>
-    <% end %>
-
-    <h2>Footer Navigation</h2><br />
-    <% if @footer_pages.present? %>
-      <ol class="sortable" id="footer_pages" style="margin-left: 0; margin-bottom: 25px;">
-        <%= render 'page_list', :pages => @footer_pages, :type => 'footer_pages' %>
-      </ol>
-    <% else %>
-      <ul class="list black-text">
-        <li>
-          <div class="holder">
-            <span style="margin-left: 20px;">
-              No pages in footer navigation yet!
-            </span>
-          </div>
-        </li>
-      </ul>
-    <% end %>
+    <%- end -%>
                                 
     <h2>Private Pages</h2>
     <% if @private_pages.present? %>
       <ol class="sortable" id="private" style="margin-left: 0; margin-bottom: 25px; margin-top: 20px;">
-        <%= render 'page_list', :pages => @private_pages, :type => 'private' %>
+        <%= render 'page_list', :pages => @private_pages, :type => 'private', :nav_id => 0 %>
       </ol>
     <% else %>
       <ul class="list black-text">
@@ -138,199 +102,139 @@
   
 </div>
 
+<% content_for :javascript_includes do %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var status = false;
+      
+      <%- @navs.each do |nav| -%>
+        <!-- create <%= nav.title %> sortable array -->
+    		$('ol.sortable#nav_<%= nav.id %>').nestedSortable({
+    			disableNesting: 'no-nest',
+    			forcePlaceholderSize: true,
+    			handle: 'div',
+    			items: 'li',
+    			opacity: .6,
+    			placeholder: 'placeholder',
+    			tabSize: 25,
+    			tolerance: 'pointer',
+    			toleranceElement: '> div',
+          update: function(){
+            updateTree();
+          }
+    		});
+    		$('ol.sortable#nav_<%= nav.id %>').nestedSortable('disable');
+      <%- end -%>
+      <!-- create private sortable array -->
+      $('ol.sortable#private').nestedSortable({
+  			disableNesting: 'no-nest',
+  			forcePlaceholderSize: true,
+  			handle: 'div',
+  			items: 'li',
+  			opacity: .6,
+  			placeholder: 'placeholder',
+  			tabSize: 25,
+  			tolerance: 'pointer',
+  			toleranceElement: '> div',
+        update: function(){
+          updateTree();
+        }
+  		});
+  		$('ol.sortable#private').nestedSortable('disable');
+  		
+      $('a.btn-pages').click(function() {
+        if(status == false) {
+          <%- @navs.each do |nav| -%>
+            $('ol.sortable#nav_<%= nav.id %>').nestedSortable('enable');
+          <%- end -%>
+          $('ol.sortable#private').nestedSortable('enable');
+          status = !status;
+          $('a.btn-pages span').html("Save reordering");
+          $('.clip_in_public').css("display", "block");
+          $('.clip_in_private').css("display", "block");
+        }
+        else {
+          <%- @navs.each do |nav| -%>
+            $('ol.sortable#nav_<%= nav.id %>').nestedSortable('disable');
+          <%- end -%>
+          $('ol.sortable#private').nestedSortable('disable');
+          status = !status;
+          $('a.btn-pages span').html("Reorder pages");
+          $('.clip_in_public').css("display", "none");
+          $('.clip_in_private').css("display", "none");
+          <%- @navs.each do |nav| -%>
+            nav_<%= nav.id %>_pages = $('ol.sortable#nav_<%= nav.id %>').nestedSortable('toArray', {startDepthCount: 1});
+            updateOrderPages(nav_<%= nav.id %>_pages);
+          <%- end -%>
+          private_pages = $('ol.sortable#private').nestedSortable('toArray', {startDepthCount: 1});
+          updateOrderPages(private_pages);
+        }
+      });
+
+      <!-- define parents and childs after click on (+/-) picker -->
+       $('.plus').click(function() {
+         var li_parent = $(this).parent().parent().parent();
+         var child_ol_block = li_parent.children("ol");
+         var childs_css_display = child_ol_block.css('display');
+         if (childs_css_display == "none") {
+           child_ol_block.css("display", "block");
+           $(this).css("width", "15px");
+           $(this).css("height", "8px");
+           $(this).css("margin-top", "5px");
+           $(this).css("margin-left", "0px");
+           $(this).css("margin-right", "15px");
+           $(this).css("background-image", "url('/images/skinnycms/admin/arrow1.gif')");
+         }
+         else {
+           child_ol_block.css("display", "none");
+           $(this).css("width", "7px");
+           $(this).css("height", "13px");
+           $(this).css("margin-top", "1px");
+           $(this).css("margin-left", "0px");
+           $(this).css("margin-right", "15px");
+           $(this).css("background-image", "url('/images/skinnycms/admin/arrow2.gif')");
+         }
+       });
+  		
+    });
+
+  <!-- Update pages ordering -->
+  function updateOrderPages(pages) {
+    $.post('<%= update_sort_path -%>', { 'pages': pages })
+  }
+
+  <!-- Update (+/-) pickers in a pages tree -->
+  function updateTree() {
+      $('li').find('.plus').css("display","none");
+      var li_array = $('li:has(ol > li) > div > .item > .plus');
+      $.each(li_array, function(index, value) {
+        var li_parent = $(value).parent().parent().parent();
+        var ol_child = li_parent.find('ol').css("display");
+        if (ol_child == 'none') {
+          $(value).css("width", "7px");
+          $(value).css("height", "13px");
+          $(value).css("margin-top", "1px");
+          $(value).css("margin-left", "0px");
+          $(value).css("margin-right", "15px");
+          $(value).css("background-image", "url('/images/skinnycms/admin/arrow2.gif')");
+        }
+        else {
+          $(value).css("width", "15px");
+          $(value).css("height", "8px");
+          $(value).css("margin-top", "5px");
+          $(value).css("margin-left", "0px");
+          $(value).css("margin-right", "15px");
+          $(value).css("background-image", "url('/images/skinnycms/admin/arrow1.gif')");  
+        }
+        $(value).css("display","block");
+      });
+    }    
+  </script>
+<% end %>
+
+
+<% content_for :javascript_includes do %>
 <script type="text/javascript">
-
-	$(document).ready(function(){
-
-        <!-- create public sortable array -->
-
-		$('ol.sortable#public').nestedSortable({
-			disableNesting: 'no-nest',
-			forcePlaceholderSize: true,
-			handle: 'div',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placeholder',
-			tabSize: 25,
-			tolerance: 'pointer',
-			toleranceElement: '> div',
-                        update: function(){
-                          updateTree();
-                        }
-		});
-
-        <!-- create main navigation sortable array -->
-
-		$('ol.sortable#main_pages').nestedSortable({
-			disableNesting: 'no-nest',
-			forcePlaceholderSize: true,
-			handle: 'div',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placeholder',
-			tabSize: 25,
-			tolerance: 'pointer',
-			toleranceElement: '> div',
-                        update: function(){
-                          updateTree();
-                        }
-		});
-
-        <!-- create secondary navigation sortable array -->
-
-		$('ol.sortable#secondary_pages').nestedSortable({
-			disableNesting: 'no-nest',
-			forcePlaceholderSize: true,
-			handle: 'div',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placeholder',
-			tabSize: 25,
-			tolerance: 'pointer',
-			toleranceElement: '> div',
-                        update: function(){
-                          updateTree();
-                        }
-		});
-
-        <!-- create footer navigation sortable array -->
-
-		$('ol.sortable#footer_pages').nestedSortable({
-			disableNesting: 'no-nest',
-			forcePlaceholderSize: true,
-			handle: 'div',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placeholder',
-			tabSize: 25,
-			tolerance: 'pointer',
-			toleranceElement: '> div',
-                        update: function(){
-                          updateTree();
-                        }
-		});
-
-        <!-- create private sortable array -->
-
-                $('ol.sortable#private').nestedSortable({
-			disableNesting: 'no-nest',
-			forcePlaceholderSize: true,
-			handle: 'div',
-			items: 'li',
-			opacity: .6,
-			placeholder: 'placeholder',
-			tabSize: 25,
-			tolerance: 'pointer',
-			toleranceElement: '> div',
-                        update: function(){
-                          updateTree();
-                        }
-		});
-
-        <!-- disable both sortable arrays -->
-
-                $('ol.sortable#main_pages').nestedSortable('disable');
-
-                $('ol.sortable#secondary_pages').nestedSortable('disable');
-
-                $('ol.sortable#footer_pages').nestedSortable('disable');
-
-                $('ol.sortable#public').nestedSortable('disable');
-
-                $('ol.sortable#private').nestedSortable('disable');
-
-        <!-- click handlers for enable or disable sortable arrays -->
-
-                var status = false;
-
-                $('a.btn-pages').click(function() {
-               //   var text_value = $('#reorder_public a').text();
-                  if(status == false) {
-                   // var next_text = "Save Page Order";
-                    $('ol.sortable#main_pages').nestedSortable('enable');
-                    $('ol.sortable#secondary_pages').nestedSortable('enable');
-                    $('ol.sortable#footer_pages').nestedSortable('enable');
-                    $('ol.sortable#public').nestedSortable('enable');
-                    $('ol.sortable#private').nestedSortable('enable');
-                    status = !status;
-                    $('a.btn-pages span').html("Save reordering");
-                    $('.clip_in_public').css("display", "block");
-                    $('.clip_in_private').css("display", "block");
-                  }
-                  else {
-               //     var next_text = "Enable Page Order";
-                    main_pages = $('ol.sortable#main_pages').nestedSortable('toArray', {startDepthCount: 1});
-                    updateOrderPages(main_pages);
-                    main_pages = $('ol.sortable#secondary_pages').nestedSortable('toArray', {startDepthCount: 1});
-                    updateOrderPages(main_pages);
-                    main_pages = $('ol.sortable#footer_pages').nestedSortable('toArray', {startDepthCount: 1});
-                    updateOrderPages(main_pages);
-                    public_pages = $('ol.sortable#public').nestedSortable('toArray', {startDepthCount: 1});
-                    updateOrderPages(public_pages);
-                    private_pages = $('ol.sortable#private').nestedSortable('toArray', {startDepthCount: 1});
-                    updateOrderPages(private_pages);
-                //    alert(public_pages);
-                    $('ol.sortable#main_pages').nestedSortable('disable');
-                    $('ol.sortable#secondary_pagess').nestedSortable('disable');
-                    $('ol.sortable#footer_pages').nestedSortable('disable');
-                    $('ol.sortable#public').nestedSortable('disable');
-                    $('ol.sortable#private').nestedSortable('disable');
-                    status = !status;
-                    $('a.btn-pages span').html("Reorder pages");
-                    $('.clip_in_public').css("display", "none");
-                    $('.clip_in_private').css("display", "none");
-               //     $('.clip_in_public').css('display', 'none');
-                  }
-               //   $('div#reorder_public a').html(next_text);
-                });
-
-                $('#reorder_private a').click(function() {
-                  var text_value = $('#reorder_private a').text();
-                  if(text_value == "Enable Page Order") {
-                    var next_text = "Save Page Order";
-                    $('ol.sortable#private').nestedSortable('enable');
-                    $('.clip_in_private').css("display", "block");
-                  }
-                  else {
-                    var next_text = "Enable Page Order";
-                    private_pages = $('ol.sortable#private').nestedSortable('toArray', {startDepthCount: 1});
-                    updateOrderPages(private_pages);
-                    $('ol.sortable#private').nestedSortable('disable');
-                    $('.clip_in_private').css('display', 'none');
-                  }
-                  $('div#reorder_private a').html(next_text);
-                });
-
-        <!-- define parents and childs after click on (+/-) picker -->
-
-               $('.plus').click(function() {
-                 var li_parent = $(this).parent().parent().parent();
-                 var child_ol_block = li_parent.children("ol");
-                 var childs_css_display = child_ol_block.css('display');
-                 if (childs_css_display == "none") {
-                   child_ol_block.css("display", "block");
-                   $(this).css("width", "7px");
-                   $(this).css("height", "13px");
-                   $(this).css("margin-top", "1px");
-                   $(this).css("margin-left", "0px");
-                   $(this).css("margin-right", "15px");
-                   $(this).css("background-image", "url('/images/skinnycms/admin/arrow2.gif')");
-                 }
-                 else {
-                   child_ol_block.css("display", "none");
-                   $(this).css("width", "15px");
-                   $(this).css("height", "8px");
-                   $(this).css("margin-top", "5px");
-                   $(this).css("margin-left", "0px");
-                   $(this).css("margin-right", "15px");
-                   $(this).css("background-image", "url('/images/skinnycms/admin/arrow1.gif')");
-                 }
-               });
-
-	});
-
-        <!-- Common block -->
-
 	function dump(arr,level) {
 		var dumped_text = "";
 		if(!level) level = 0;
@@ -355,42 +259,5 @@
 		}
 		return dumped_text;
 	}
-
-        <!-- Update pages ordering -->
-
-        function updateOrderPages(pages)
-          {
-            $.post('<%= update_sort_path -%>', { 'pages': pages })
-          }
-
-        <!-- Update (+/-) pickers in a pages tree -->
-
-        function updateTree()
-          {
-            $('li').find('.plus').css("display","none");
-            var li_array = $('li:has(ol > li) > div > .item > .plus');
-            $.each(li_array, function(index, value) {
-              var li_parent = $(value).parent().parent().parent();
-              var ol_child = li_parent.find('ol').css("display");
-              if (ol_child == 'none') {
-                $(value).css("width", "15px");
-                $(value).css("height", "8px");
-                $(value).css("margin-top", "5px");
-                $(value).css("margin-left", "0px");
-                $(value).css("margin-right", "15px");
-                $(value).css("background-image", "url('/images/skinnycms/admin/arrow1.gif')");
-              }
-              else {
-                $(value).css("width", "7px");
-                $(value).css("height", "13px");
-                $(value).css("margin-top", "1px");
-                $(value).css("margin-left", "0px");
-                $(value).css("margin-right", "15px");
-                $(value).css("background-image", "url('/images/skinnycms/admin/arrow2.gif')");
-              }
-              $(value).css("display","block");
-            });
-          }
-
 </script>
-
+<% end %>

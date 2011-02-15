@@ -9,12 +9,20 @@ class Admin::PagesController < ApplicationController
 
   def index
     @title = "Pages"
-
-    @homepage = Page.find(:first, :conditions => { :title => 'Home' } )
-    @main_pages = PagesToNavigation.public_and_redirect_in_root_for('main_navigation')
-    @secondary_pages = PagesToNavigation.public_and_redirect_in_root_for('secondary_navigation')
-    @footer_pages = PagesToNavigation.public_and_redirect_in_root_for('footer_navigation')
-    @private_pages = PagesToNavigation.private_in_root
+    
+    @nav_names = {}
+    @navigations = {}
+    @navs = Navigation.all(:order => :id)
+    @navs.each do |nav|
+      @nav_names[nav.id] = nav.title
+      @navigations[nav.id] = PagesToNavigation.public_and_redirect_in_root_for(nav.title)
+    end
+    
+    @private_pages = []
+    not_on_nav = Page.not_on_nav
+    not_on_nav.each do |p|
+      @private_pages << PagesToNavigation.new(:page_id => p.id)
+    end
 
     respond_to do |format|
       format.html
@@ -53,7 +61,7 @@ class Admin::PagesController < ApplicationController
     @title = "Edit Page"
     @page = Page.find(params[:id])
     @templates = Template.all(:order => :title)
-    @navigations = Navigation.all(:order => :title)
+    @navigations = Navigation.all(:order => :id)
     @pages_to_navigations = PagesToNavigation.all
 
     @header_contents = PageContent.where(:page_id => @page, :location => 'header').order(:position)
