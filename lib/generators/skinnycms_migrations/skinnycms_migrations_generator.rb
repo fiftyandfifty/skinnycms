@@ -145,7 +145,8 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     pages_to_navigations_indexes = []
 
     templates_columns = {
-                    :title => "string"
+                    :title => "string",
+                    :content_locations => "string"
                     }
 
     templates_indexes = []
