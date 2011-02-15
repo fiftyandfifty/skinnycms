@@ -547,7 +547,7 @@ $(document).ready(function(){
 
   </div>
 
-  <fieldset>
+   <fieldset>
 
     <!-- row -->
     <div class="row">
@@ -559,18 +559,13 @@ $(document).ready(function(){
     <div class="row">
 
       <div class="section">
-	<label for="page-url">Page URL</label>
-	<span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" } %></span>
+	      <label for="page-url">Permalink</label>
+	      <span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" } %></span>
       </div>
 
       <div class="section">
-	<label for="status">Status</label>
-        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
-      </div>
-
-      <div class="section">
-	<label for="visibility">Redirect URL</label>
-        <%= f.text_field :redirect_url, :size => "24px" %>
+	      <label for="visibility">Redirect URL</label>
+        <span class="small-text"><%= f.text_field :redirect_url, :size => "48px" %></span>
       </div>
 
     </div>
@@ -579,27 +574,31 @@ $(document).ready(function(){
     <div class="row">
 
       <div class="section">
-        <label for="parent" id="nav_header">Page Parent</label>
-        <label for="parent" id="nav_message">Select navigation to define Page Parent</label>
-        <% @navigations.each do |navigation| %>
-          <div id="<%= navigation.title %>" class="navigations" style="display:none;">
-	    <label for="parent">Page Parent in <%= navigation.title %></label>
-            <%= collection_select("page_parents", navigation.id, PagesToNavigation.for_navigation(navigation.title), :id, :associated_page, { :include_blank => "- No Parent - " } )%>
-          </div>
-        <% end %>
-      </div>
-
-      <div class="section">
-	<label for="parent">Navigation</label>
-        <%= f.collection_select("navigation", @navigations, :id, :title, { :include_blank => "- No navigation - " }, :class => "navigation" )%>
-      </div>
-      
-      <div class="section">
         <label for="parent">Page Template</label>
         <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
       </div>
 
+      <div class="section">
+        <label for="status">Status</label>
+        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
+      </div>
+
     </div>
+
+    <% @navigations.each do |navigation| %>
+      <div class="row">
+        <div class="section">
+          <label for="parent" id="nav_header"><%= navigation.title %></label>
+          <select name="navigation[<%= navigation.id %>]">
+            <option value="">Not on <%= navigation.title %></option>
+            <option value="root">Top level of <%= navigation.title %></option>
+            <%- PagesToNavigation.for_navigation_without_dublicates(navigation.title, @page).each do |n| -%>
+              <option value="<%= n.id %>">- Under <%= n.page.title %></option>
+            <%- end -%>
+          </select>
+        </div>
+      </div>
+    <% end %>
 
   </fieldset>
 

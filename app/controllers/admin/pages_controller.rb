@@ -238,16 +238,11 @@ class Admin::PagesController < ApplicationController
     end
 
     if @page.save
-      selected_navigations = params[:selected_navigations].split(',')
-      if selected_navigations.present?
-        selected_navigations.each do |selected_navigation|
-          navigation = Navigation.find(:first, :conditions => { :title => selected_navigation.to_s })
-          parent_value = params[:page_parents][navigation.id.to_s]
-          parent_id = parent_value.present? ? parent_value.to_i : 0
-          PagesToNavigation.create(:navigation_id => navigation.id, :page_id => @page.id, :parent_id => parent_id)
+      params[:navigation].each do |nav_id, value|
+        if value.present?
+          parent_id = value == 'root' ? 0 : value.to_i
+          PagesToNavigation.create(:navigation_id => nav_id.to_i, :page_id => @page.id, :parent_id => parent_id)
         end
-      else
-        PagesToNavigation.create(:page_id => @page.id, :parent_id => 0)
       end
 
       # Create logic for header content
@@ -476,23 +471,18 @@ class Admin::PagesController < ApplicationController
     @page = Page.find(params[:id])
     @page.update_attributes(params[:page])
 
-    selected_navigations = params[:selected_navigations].split(',')
-    if selected_navigations.present?
-      selected_navigations.each do |selected_navigation|
-        navigation = Navigation.find(:first, :conditions => { :title => selected_navigation.to_s })
-        parent_id = params[:page_parents][navigation.id.to_s]
-        pages_to_navigation = PagesToNavigation.find(:first, :conditions => { :navigation_id => navigation.id, :page_id => @page.id })
+    params[:navigation].each do |nav_id, value|
+      pages_to_navigation = PagesToNavigation.find(:first, :conditions => { :navigation_id => nav_id, :page_id => @page.id })
+      if value.present?
+        parent_id = value == 'root' ? 0 : value.to_i
         if pages_to_navigation.present?
-          pages_to_navigation.update_attribute(:parent_id, parent_id.to_i) if parent_id.present?
+          pages_to_navigation.update_attribute(:parent_id, parent_id)
         else
-          new_pages_to_navigation = PagesToNavigation.create(:navigation_id => navigation.id, :page_id => @page.id)
-          parent_id = parent_id.present? ? parent_id.to_i : 0
-          new_pages_to_navigation.update_attribute(:parent_id, parent_id)
+          PagesToNavigation.create(:navigation_id => nav_id.to_i, :page_id => @page.id, :parent_id => parent_id)
         end
+      else
+        pages_to_navigation.delete if pages_to_navigation.present?
       end
-    else
-      exist_pages_to_navigation = PagesToNavigation.find(:first, :conditions => { :page_id => @page.id })
-      PagesToNavigation.create(:page_id => @page.id, :parent_id => 0) if exist_pages_to_navigation.blank?
     end
 
     # Reordering logic for header content

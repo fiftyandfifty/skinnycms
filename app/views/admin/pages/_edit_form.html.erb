@@ -576,10 +576,15 @@ $(document).ready(function(){
         <div class="section">
           <label for="parent" id="nav_header"><%= navigation.title %></label>
           <select name="navigation[<%= navigation.id %>]">
+            <% if @page.parent_in_navigation(navigation.title) == 0 && @page.exist_in_navigation?(navigation.title) %>
+               <option value="root" SELECTED>Top level of <%= navigation.title %></option>
+            <% elsif @page.exist_in_navigation?(navigation.title) %>
+              <option value="<%= @page.parent_in_navigation(navigation.title) %>" SELECTED><%= @page.parent_title_in_navigation(navigation.title) %></option>
+            <% end %>
             <option value="">Not on <%= navigation.title %></option>
             <option value="root">Top level of <%= navigation.title %></option>
-            <%- PagesToNavigation.for_navigation_without_dublicates("Main Navigation", @page).each do |n| -%>
-              <option value="<%= n.page.id %>">- Under <%= n.page.title %></option>
+            <%- PagesToNavigation.for_navigation_without_dublicates(navigation.title, @page).each do |n| -%>
+              <option value="<%= n.id %>">- Under <%= n.page.title %></option>
             <%- end -%>
           </select>
         </div>

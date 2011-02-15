@@ -26,7 +26,7 @@ class Page < ActiveRecord::Base
 
   def parent_title_in_navigation(navigation_name)
     parent = parent_in_navigation(navigation_name)
-    return "- No Parent - " if parent.blank? || parent == 0
+    return "Not on #{navigation_name}" if parent.blank? || parent == 0
     PagesToNavigation.find(parent).page.title
   end
   
@@ -34,5 +34,9 @@ class Page < ActiveRecord::Base
     this_nav = pages_to_navigations.first(:conditions => { :navigation_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id })
     this_nav = PagesToNavigation.new if this_nav.blank?
     return this_nav
+  end
+
+  def exist_in_navigation?(navigation_name)
+    navigations.where(:title => navigation_name).present?
   end
 end
