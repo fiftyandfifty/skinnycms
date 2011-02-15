@@ -44,107 +44,6 @@ $(document).ready(function(){
   //  $('#page_content_content_ifr').contents().find('body.mceContentBody').append(sidebar_content);
   //  $('#sidebar_content_content_ifr').contents().find('body.mceContentBody').empty();
 
-  <!-- Pages template logic -->
-
-  $('.multiple').click(function() {
-
-    $('#right_content').slideDown(50);
-    $('#left_content a').css('background-repeat','no-repeat');
-    $('#left_content').css('width','335px');
-    $('#left_content a').css('width','335px');
-    $('#left_content a').attr('class','tabset-l active');
-    $('#right_content a').attr('class','tabset-r');
-    $('#sidebar_drag').slideUp(1000);
-    $('#content_drag').delay(1000).slideDown(1000);
-
-    $('#content_drag').sortable("refresh");
-    $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
-
-    $('#sidebar_drag').sortable("refresh");
-    $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
-
-  });
-
-  $('.mono').click(function() {
-
-    $('#left_content a').attr('class','tabset-l  active');
-    $('#right_content a').attr('class','tabset-r');
-    $('#sidebar_drag').slideUp(1000);
-    $('#right_content').slideUp(50);
-    $('#content_drag').slideDown(1000);
-
-    var mass1 = [];
-    var mass2 = [];
-
-    var mass = $('#sidebar_drag').find('.inner.turbo');
-
-    $.each(mass, function(index, value) {
-
-      var child = $(value).find(".test");
-      var child_tag_name = child.get(0).tagName;
-      content_id_end = content_id_end + 1;
-
-      if(child_tag_name == 'INPUT'){
-
-        var new_available_id = $(child).attr("value");
-        var new_available_title = $(child).parent().text();
-        var new_available_type = $(child).attr("name").substr(12,6);
-        var available_type_part = '';
-
-        if(new_available_type == 'CacheT'){
-          available_type_part = 'CacheTumblrPost';
-        }
-        else if (new_available_type == 'CacheF'){
-          available_type_part = 'CacheFleakrGallery';
-        }
-        else if (new_available_type == 'CacheV'){
-          available_type_part = 'CacheVimeoVideo';
-        }
-        else {
-          available_type_part = 'CustomModule';
-        }
-
-        new_available_result_html = available_part_1 + available_type_part.toString() + new_available_id.toString() + available_part_1_2 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type_part + available_part_4 + content_id_end.toString() + available_part_5 + new_available_id.toString() + available_part_6 + new_available_title.toString() + available_part_7;
-        $('#content_drag').append(new_available_result_html);
-
-      }
-      else if(child_tag_name == 'TEXTAREA'){
-
-       sidebar_new_id = "#" + $(child).attr('id').toString() + '_ifr';
-
-       var sidebar_new_content = $(sidebar_new_id.toString()).contents().find('body.mceContentBody').html();
-
-       content_id_complex_move = 'content_move_';
-       content_result_html = content_part_1 + content_id_complex_move + content_id_end.toString() + content_part_1_2 + content_part_2 + content_id_end.toString() + content_part_3 + content_id_end.toString() + content_part_4 + content_part_5;
-       content_id_complex = content_id_begin + content_id_end.toString();
-       $('#content_drag').append(content_result_html);
-       tinymce.execCommand('mceAddControl',true,content_id_complex);
-
-       content_id_append = "#" + content_id_complex.toString() + '_ifr';
-
-       mass1.push(content_id_append);
-       mass2.push(sidebar_new_content);
-      }
-
-       $(value).remove();
-
-    });
-
-    window.setTimeout(function(){
-      for(var i=0; i<mass1.length; i++) {
-          $(mass1[i]).contents().find('body.mceContentBody').find('br').remove();
-          $(mass1[i]).contents().find('body.mceContentBody').append(mass2[i]);
-      }
-    }, 1000);
-
-    $('#content_drag').sortable("refresh");
-    $('#content_positions').attr("value",$('#content_drag').sortable("toArray").toString());
-
-    $('#sidebar_drag').sortable("refresh");
-    $('#sidebar_positions').attr("value",$('#sidebar_drag').sortable("toArray").toString());
-
-  });
-
   $('#left_content a').click(function() {
 
     $('#left_content a').attr('class','tabset-l  active');
@@ -693,14 +592,6 @@ $(document).ready(function(){
       <div class="section">
 	<label for="parent">Navigation</label>
         <%= f.collection_select("navigation", @navigations, :id, :title, { :include_blank => "- No navigation - " }, :class => "navigation" )%>
-      </div>
-
-      <div class="section" style="padding-right: 7px;">
-	<label for="template">Page Type</label>
-	<div class="template" id="template">
-	  <input type="button" value="" class="multiple"/>
-          <input type="button" value="" class="mono" />
-	</div>
       </div>
       
       <div class="section">
