@@ -2,7 +2,7 @@ body {
 	background: #dedede;
 	color: #333;
 	font-size: 11px;
-	padding: 20px 0 40px;
+/*	padding: 20px 0 40px;*/
 }
 
 a {
@@ -25,12 +25,12 @@ h2 {
 	text-align: center;
 }
 
-p {
+p, .block {
 	border: 1px solid #cecece;
 	background-color:#dedede;
 	overflow: hidden;
 	padding: 10px 0;
-	text-align: center;
+	text-align: left;
 }
 
 .container_12 {
@@ -44,4 +44,27 @@ p {
 
 .container_24 {
 	background-color: #fff;
+}
+
+#header_logo {
+	float:left;
+}
+
+.navigations ul li {
+	float:left;
+	padding: 6px;
+	margin: 0;
+	display:inline-block;
+}
+
+#secondary_navigation {
+	float:right;
+}
+
+#footer_navigation {
+	text-align: center;
+}
+
+#footer_navigation .navigations ul li {
+	float:none;
 }

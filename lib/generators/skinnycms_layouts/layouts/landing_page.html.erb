@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="Generator" content="SkinnyCMS by fiftyandfifty.org">
 <title><%= @title %></title>
 <%= stylesheet_link_tag 'skinnycms/reset.css' %>
 <%= stylesheet_link_tag 'skinnycms/text.css' %>
@@ -9,31 +10,39 @@
 <%= stylesheet_link_tag 'skinnycms/demo.css' %>
 </head>
 <body>
-<div class="container_12">
-
-  <div class="clear"></div>
-
-  <div class="grid_12">
-    <%= yield :header %>
+  <div class="container_12">
+    <div id="header_logo"><a href="/"><img src="/images/skinnycms/admin/fiftyandfifty.gif"></a></div>
+    <%= render :partial => "shared/secondary_navigation" %>
   </div>
 
   <div class="clear"></div>
 
-  <div class="grid_8">
-    <%= yield :content %>
+  <div class="container_12" style="border: 1px solid">
+    <div class="grid_12">
+      <%= render :partial => "shared/main_navigation" %>
+    </div>
+
+    <div class="grid_12">
+      <%= yield :header %>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="grid_8">
+      <%= yield :content %>
+    </div>
+
+    <div class="grid_4">
+      <%= yield :sidebar %>
+    </div>
+ 
+    <div class="clear"></div>
+
+    <div class="grid_12">
+      <%= render :partial => "shared/footer_navigation" %>
+    </div>
+
+    <div class="clear"></div>
   </div>
-
-  <div class="grid_4">
-    <%= yield :sidebar %>
-  </div>
-
-  <div class="clear"></div>
-
-  <div class="grid_12">
-    <p>Footer</p>
-  </div>
-
-  <div class="clear"></div>
-</div>
 </body>
 </html>

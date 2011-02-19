@@ -56,6 +56,35 @@ class SkinnycmsLayoutsGenerator < Rails::Generators::Base
         copy_file "devise.html.erb", "app/views/layouts/devise.html.erb"
       end
     end
+    
+    Dir.mkdir("app/views/shared") if Dir["app/views/shared"].blank?
+    
+    if !File.exist?('app/views/shared/_main_navigation.html.erb')
+      copy_file "_main_navigation.html.erb", "app/views/shared/_main_navigation.html.erb"
+    else
+      if yes? "You already have 'app/views/shared/_main_navigation.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/shared/_main_navigation.html.erb"
+        copy_file "_main_navigation.html.erb", "app/views/shared/_main_navigation.html.erb"
+      end
+    end
+    
+    if !File.exist?('app/views/shared/_secondary_navigation.html.erb')
+      copy_file "_secondary_navigation.html.erb", "app/views/shared/_secondary_navigation.html.erb"
+    else
+      if yes? "You already have 'app/views/shared/_secondary_navigation.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/shared/_secondary_navigation.html.erb"
+        copy_file "_secondary_navigation.html.erb", "app/views/shared/_secondary_navigation.html.erb"
+      end
+    end
+    
+    if !File.exist?('app/views/shared/_footer_navigation.html.erb')
+      copy_file "_footer_navigation.html.erb", "app/views/shared/_footer_navigation.html.erb"
+    else
+      if yes? "You already have 'app/views/shared/_footer_navigation.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/shared/_footer_navigation.html.erb"
+        copy_file "_footer_navigation.html.erb", "app/views/shared/_footer_navigation.html.erb"
+      end
+    end
 
     puts SkinnycmsLayoutsGenerator.end_description
   end

@@ -1,8 +1,7 @@
 <% content_for :header do %>
   <% if @page.blank? %>
-    <p style="text-align: center; color:red; font-weight: bold; font-size: 16px;">Home page doesn't exist!</p>
+    <p style="text-align: center; color:red; font-weight: bold; font-size: 16px;">page doesn't exist!</p>
   <% end %>
-
   <% if @header_contents.present? %>
     <% for header_content in @header_contents %>
       <%= raw(header_content.content) %>
