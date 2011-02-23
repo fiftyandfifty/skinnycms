@@ -26,7 +26,8 @@ class PagesToNavigation < ActiveRecord::Base
     def for_navigation_roots(navigation_name)
       pages_to_navigations = select("pages_to_navigations.*").
       joins("join navigations on pages_to_navigations.navigation_id = navigations.id").
-      where("navigations.title = '#{navigation_name}' AND (pages_to_navigations.parent_id IS NULL OR pages_to_navigations.parent_id < 1)")
+      where("navigations.title = '#{navigation_name}' AND (pages_to_navigations.parent_id IS NULL OR pages_to_navigations.parent_id < 1)").
+      order("pages_to_navigations.position")
       return pages_to_navigations if pages_to_navigations.present?
       []
     end
