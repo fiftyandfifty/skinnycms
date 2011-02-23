@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.2.3"
+  s.version = "0.2.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-18}
+  s.date = %q{2011-02-22}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
