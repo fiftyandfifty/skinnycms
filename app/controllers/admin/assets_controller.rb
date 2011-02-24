@@ -20,6 +20,7 @@ class Admin::AssetsController < ApplicationController
       @asset_type = 'all'
     end
 
+    @assets = @assets.paginate :page => params[:page], :per_page => 10
     @videos = CacheVimeoVideo.find(:all, :conditions => "incomplete != 1")
     @galleries = CacheFleakrGallery.find(:all, :conditions => "incomplete != 1")
 

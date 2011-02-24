@@ -3,8 +3,38 @@
     var class_name = "<%= @asset_type %>";
     var result = '#' + class_name;
     $(result.toString()).attr("class","active");
+
+    <!-- Add Styles for pagination -->
+
+    $('.pagination').find('a.prev_page').text("BACK");
+    $('.pagination').find('.disabled.prev_page').text("BACK");
+    $('.pagination').find('a.next_page').text("NEXT");
+    $('.pagination').find('.disabled.next_page').text("NEXT");
   })
 </script>
+
+<style type="text/css">
+
+.pagination_container {
+  width: 670px;
+  overflow: hidden;
+  padding-left: 10px;
+}
+
+div.pagination {
+  text-align: center;
+  width: 660px;
+}
+
+.prev_page {
+  float:left;
+}
+
+.next_page {
+  float:right;
+}
+
+   </style>
 <!-- main -->
 		<div id="main">
             	     <!-- content -->
@@ -88,15 +118,9 @@
 					</tbody>
 				</table>
 				<!-- paging -->
-				<ul class="paging">
-					<li class="next"><a href="#">next</a></li>
-					<li class="back"><a href="#">back</a></li>
-					<li><strong>1</strong></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-				</ul>
+				<div class="pagination_container">
+                                  <%= will_paginate @assets %>
+                                </div>
 			</div>
   <!-- sidebar -->
   <div id="sidebar">
