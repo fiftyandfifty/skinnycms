@@ -151,6 +151,14 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
 
     templates_indexes = []
 
+    settings_columns = {
+                    :title => "string",
+                    :setting_type => "string",
+                    :configuration => "text"
+                    }
+
+    settings_indexes = []
+
     begin
       user_app_columns = ActiveRecord::Base::User.column_names
       user_app_indexes = ActiveRecord::Base.connection.indexes("users")
@@ -258,6 +266,16 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
       self.class.check_migration_file("*create_templates*", "create_templates.rb")
     end
     sleep(1)
+
+    begin
+      settings_app_columns = ActiveRecord::Base::Setting.column_names
+      settings_app_indexes = ActiveRecord::Base.connection.indexes("settings")
+      self.class.define_migration("settings", settings_columns, settings_app_columns, settings_indexes, settings_app_indexes)
+    rescue
+      self.class.check_migration_file("*create_settings*", "create_settings.rb")
+    end
+    sleep(1)
+
     
     rake("db:migrate")
     puts self.class.end_description
