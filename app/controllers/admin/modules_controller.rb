@@ -26,8 +26,7 @@ class Admin::ModulesController < ApplicationController
                         :title => params[:api_settings][:api_module],
                         :configuration => api_configurations)
     end
-
-    redirect_to(admin_modules_path)
+    clear_api_cashes
   end
 
   def edit_module
@@ -39,8 +38,7 @@ class Admin::ModulesController < ApplicationController
       api_configurations = api_hash.to_json
       api_module.update_attribute(:configuration, api_configurations) if api_module
     end
-
-    redirect_to(admin_modules_path)
+    clear_api_cashes
   end
 
   def clear_api_cashes

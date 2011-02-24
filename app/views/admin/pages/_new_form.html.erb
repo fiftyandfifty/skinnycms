@@ -793,10 +793,16 @@ $(document).ready(function(){
                   <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
                 <% elsif available_module.class.name == 'CacheVimeoVideo' %>
                   <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module == 'Tumblr Basic' %>
+                  <%= text_field "Tumblr Basic", "", :value => available_module, :class => "tumblr_basic", :style => "display: none;" %>
                 <% end %>
               </div>
               <div class="available_content" style="float:left; width: 160px;">
-                <%= available_module.title %>
+                <% if available_module == 'Tumblr Basic' %>
+                  Tumblr Basic
+                <% else %>
+                  <%= available_module.title %>
+                <% end %>
               </div>
             </div>
           </span>

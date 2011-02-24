@@ -27,6 +27,14 @@ class PagesController < ApplicationController
     @page_contents = PageContent.where(:page_id => @page, :location => 'content').order(:position) if locations.include?('content')
     @sidebar_contents = PageContent.where(:page_id => @page, :location => 'sidebar').order(:position) if locations.include?('sidebar')
 
+    if @page.page_contents.where(:module_type => 'Tumblr Basic').present?
+      tumblr_basic_module = ApiModule.where(:module_name => 'tumblr basic').first
+      recent_posts_number = JSON.parse(tumblr_basic_module.configuration)["recent_posts_number"].to_i
+      @detail_page_path = JSON.parse(tumblr_basic_module.configuration)["detail_page_path"]
+      @all_tumblr_posts = CacheTumblrPost.all.paginate :page => params[:page], :per_page => recent_posts_number
+      @recent_tumblr_posts = CacheTumblrPost.order('post_date asc').limit(recent_posts_number)
+    end
+
     respond_to do |format|
       format.html { render :layout => page_template }
       format.xml  { render :xml => @page }

@@ -4,7 +4,15 @@
   <% end %>
   <% if @header_contents.present? %>
     <% for header_content in @header_contents %>
-      <%= raw(header_content.content) %>
+      <% if header_content.module_type == 'Tumblr Basic' %>
+        <% for post in @all_tumblr_posts %>
+          <%= post.title %><br />
+        <% end %>
+        <%= will_paginate @all_tumblr_posts %>
+        <%= link_to("Details", @detail_page_path) %>
+      <% else %>
+        <%= raw(header_content.content) %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -12,7 +20,15 @@
 <% content_for :content do %>
   <% if @page_contents.present? %>
     <% for page_content in @page_contents %>
-      <%= raw(page_content.content) %>
+      <% if page_content.module_type == 'Tumblr Basic' %>
+        <% for post in @all_tumblr_posts %>
+          <%= post.title %><br />
+        <% end %>
+        <%= will_paginate @all_tumblr_posts %>
+        <%= link_to("Details", @detail_page_path) %>
+      <% else %>
+        <%= raw(page_content.content) %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
@@ -20,7 +36,14 @@
 <% content_for :sidebar do %>
   <% if @sidebar_contents.present? %>
     <% for sidebar_content in @sidebar_contents %>
-      <%= raw(sidebar_content.content) %>
+      <% if sidebar_content.module_type == 'Tumblr Basic' %>
+        <% for post in @recent_tumblr_posts %>
+          <%= post.title %><br />
+        <% end %>
+        <%= link_to("Details", @detail_page_path) %>
+      <% else %>
+        <%= raw(sidebar_content.content) %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

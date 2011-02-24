@@ -48,6 +48,7 @@ class Admin::PagesController < ApplicationController
     @pages_to_navigations = PagesToNavigation.all
     
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
+    available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
     @assets = Asset.all.paginate :page => params[:page], :per_page => 3
 
@@ -69,10 +70,12 @@ class Admin::PagesController < ApplicationController
     @sidebar_contents = PageContent.where(:page_id => @page, :location => 'sidebar').order(:position)
 
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
+    available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
   end
 
   def create
+    Rails.logger.info "++++++++++++++++ #{params.inspect}"
     @page = Page.new(params[:page])
 
     # Reordering logic for header content
@@ -251,10 +254,11 @@ class Admin::PagesController < ApplicationController
       if params[:header_new].present?
 
         headers_custom_modules = params[:header_new]["CustomModule"] if params[:header_new]["CustomModule"].present?
+        headers_tumblr_basic = params[:header_new]["tumblr_basic"] if params[:header_new]["tumblr_basic"].present?
         headers_tumblr_posts = params[:header_new]["CacheTumblrPost"] if params[:header_new]["CacheTumblrPost"].present?
         headers_vimeo_videos = params[:header_new]["CacheVimeoVideo"] if params[:header_new]["CacheVimeoVideo"].present?
         headers_fleakr_galleries = params[:header_new]["CacheFleakrGallery"] if params[:header_new]["CacheFleakrGallery"].present?
-        headers_unique_modules = params[:header_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+        headers_unique_modules = params[:header_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" || key=="tumblr_basic"}
 
         if headers_unique_modules
           cleaned_values = {}
@@ -283,6 +287,8 @@ class Admin::PagesController < ApplicationController
                                :position => headers_cleaned_custom_positions[value.to_i])
           end
         end
+
+        PageContent.create(:module_type => 'Tumblr Basic', :page_id => @page.id, :location => "header", :position => headers_tumblr_basic.keys[0].to_i) if headers_tumblr_basic
 
         if headers_tumblr_posts
           headers_tumblr_posts.each do |key, value|
@@ -323,10 +329,11 @@ class Admin::PagesController < ApplicationController
       if params[:content_new].present?
 
         pages_custom_modules = params[:content_new]["CustomModule"] if params[:content_new]["CustomModule"].present?
+        pages_tumblr_basic = params[:content_new]["tumblr_basic"] if params[:content_new]["tumblr_basic"].present?
         pages_tumblr_posts = params[:content_new]["CacheTumblrPost"] if params[:content_new]["CacheTumblrPost"].present?
         pages_vimeo_videos = params[:content_new]["CacheVimeoVideo"] if params[:content_new]["CacheVimeoVideo"].present?
         pages_fleakr_galleries = params[:content_new]["CacheFleakrGallery"] if params[:content_new]["CacheFleakrGallery"].present?
-        pages_unique_modules = params[:content_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+        pages_unique_modules = params[:content_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" || key=="tumblr_basic" }
 
         if pages_unique_modules
           cleaned_values = {}
@@ -355,6 +362,8 @@ class Admin::PagesController < ApplicationController
                                :position => contents_cleaned_custom_positions[value.to_i])
           end
         end
+
+        PageContent.create(:module_type => 'Tumblr Basic', :page_id => @page.id, :location => "content", :position => pages_tumblr_basic.keys[0].to_i) if pages_tumblr_basic
 
         if pages_tumblr_posts
           pages_tumblr_posts.each do |key, value|
@@ -395,10 +404,11 @@ class Admin::PagesController < ApplicationController
       if params[:sidebar_new].present?
 
         sidebars_custom_modules = params[:sidebar_new]["CustomModule"] if params[:sidebar_new]["CustomModule"].present?
+        sidebars_tumblr_basic = params[:sidebar_new]["tumblr_basic"] if params[:sidebar_new]["tumblr_basic"].present?
         sidebars_tumblr_posts = params[:sidebar_new]["CacheTumblrPost"] if params[:sidebar_new]["CacheTumblrPost"].present?
         sidebars_vimeo_videos = params[:sidebar_new]["CacheVimeoVideo"] if params[:sidebar_new]["CacheVimeoVideo"].present?
         sidebars_fleakr_galleries = params[:sidebar_new]["CacheFleakrGallery"] if params[:sidebar_new]["CacheFleakrGallery"].present?
-        sidebars_unique_modules = params[:sidebar_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" }
+        sidebars_unique_modules = params[:sidebar_new].delete_if { |key,value| key=="CustomModule" || key=="CacheTumblrPost" || key=="CacheVimeoVideo" || key=="CacheFleakrGallery" || key=="tumblr_basic" }
 
         if sidebars_unique_modules
           cleaned_values = {}
@@ -427,6 +437,8 @@ class Admin::PagesController < ApplicationController
                                :position => sidebars_cleaned_custom_positions[value.to_i])
           end
         end
+
+        PageContent.create(:module_type => 'Tumblr Basic', :page_id => @page.id, :location => "sidebar", :position => sidebars_tumblr_basic.keys[0].to_i) if sidebars_tumblr_basic
 
         if sidebars_tumblr_posts
           sidebars_tumblr_posts.each do |key, value|
