@@ -1,29 +1,457 @@
-<%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
-<%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
+
+<!-- form of adding pages -->
+<%= form_for([:admin, @page], :html => { :class => "add-pages edit_page_form" }) do |f| %>
+
+  <!-- heading -->
+  <div class="heading">
+    <ul class="buttons">
+      <li>
+        <%= link_to do -%>
+          <span>Preview</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to do -%>
+          <span>save draft</span>
+        <% end %>
+      </li>
+      <li>
+        <input type="submit" name="submit" value="Publish" id="submit" class="save_button" />
+      </li>
+    </ul>
+
+    <h2>
+      Edit Page
+    </h2>
+
+  </div>
+
+  <fieldset>
+
+    <!-- row -->
+    <div class="row">
+      <label for="page-title">Page Title</label>
+      <span class="text"><%= f.text_field :title, :html => { :id => "page-title" }, :class => "validate[required]" %></span>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+	      <label for="page-url">Permalink</label>
+	      <span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" }, :class => "validate[required]" %></span>
+      </div>
+
+      <div class="section">
+	      <label for="visibility">Redirect URL</label>
+        <span class="small-text"><%= f.text_field :redirect_url, :size => "48px" %></span>
+      </div>
+
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+        <label for="parent">Page Template</label>
+        <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
+      </div>
+      
+      <div class="section">
+        <label for="status">Status</label>
+        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
+      </div>
+    
+    </div>
+    
+    <% @navigations.each do |navigation| %>   
+      <div class="row">
+        <div class="section">
+          <label for="parent" id="nav_header"><%= navigation.title %></label>
+          <select name="navigation[<%= navigation.id %>]">
+            <% if @page.parent_in_navigation(navigation.title) == 0 && @page.exist_in_navigation?(navigation.title) %>
+               <option value="root" SELECTED>Top level of <%= navigation.title %></option>
+            <% elsif @page.exist_in_navigation?(navigation.title) %>
+              <option value="<%= @page.parent_in_navigation(navigation.title) %>" SELECTED><%= @page.parent_title_in_navigation(navigation.title) %></option>
+            <% end %>
+            <option value="">Not on <%= navigation.title %></option>
+            <option value="root">Top level of <%= navigation.title %></option>
+            <%- PagesToNavigation.for_navigation_without_dublicates(navigation.title, @page).each do |n| -%>
+              <option value="<%= n.id %>">- Under <%= n.page.title %></option>
+            <%- end -%>
+          </select>
+        </div>
+      </div>
+    <% end %>  
+    
+  </fieldset>
+
+  <!-- main -->
+  <div id="main" class="shadow">
+    <!-- content -->
+    <div id="content">
+      <h3>Page Content</h3>
+      <!-- module -->
+      <div class="module" id="header_module">
+	<div class="title">
+	  <h4 class="head">HEADER Modules</h4>
+          <a href="javascript:void(0);" id="hide_header_module">Hide</a>
+	</div>
+	<ul class="inner" id="header_drag">
+
+          <% for header_content in @header_contents %>
+
+          <% if header_content.module_type == 'UniqueContentModule' %>
+
+            <li class="inner" id="header_old_<%= header_content.id %>">
+	    <div class="holder">
+	      <div class="headline">
+	        <h4>WYSIWYG</h4>
+	        <a href="javascript:void(0);" class="remove_unique">Remove</a>
+	      </div>
+	      <div class="edit-box">
+	        <div class="holder">
+		  <div class="frame">
+                    <%= text_area "header_contents", "[#{header_content.id}]", :value => header_content.content, :style => "width:100%;", :class => "field mceEditor" %>
+		  </div>
+	        </div>
+	      </div>
+	    </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif header_content.module_type == 'CustomModule' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%=  header_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif header_content.module_type == 'CacheTumblrPost' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%=  header_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif header_content.module_type == 'CacheVimeoVideo' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%=  header_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif header_content.module_type == 'CacheFleakrGallery' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%=  header_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% end %>
+
+         <% end %>
+
+        </ul>
+     </div>
+
+     <div class="area">
+     </div>
+
+     <!-- module -->
+     <div class="module">
+       <ul class="tabset">
+         <li id="left_content"><a href="javascript:void(0);" class="tabset-l active"><span>Left Column Modules</span></a></li>
+         <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
+       </ul>
+       <div class="tab-content" id="tab-1">
+	 <ul class="inner" id="content_drag">
+
+           <% for page_content in @page_contents %>
+
+          <% if page_content.module_type == 'UniqueContentModule' %>
+
+            <li class="inner" id="page_old_<%= page_content.id %>">
+	     <div class="holder">
+	       <div class="headline">
+	         <h4>WYSIWYG</h4>
+	         <a href="javascript:void(0);" class="remove_unique">Remove</a>
+	       </div>
+	       <div class="edit-box">
+	         <div class="holder">
+	           <div class="frame">
+                     <%= text_area "page_contents", "#{page_content.id}", :value => page_content.content, :style => "width:100%;", :class => "field mceEditor" %>
+	           </div>
+	         </div>
+	       </div>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+             </li>
+
+          <% elsif page_content.module_type == 'CustomModule' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= page_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif page_content.module_type == 'CacheTumblrPost' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= page_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif page_content.module_type == 'CacheVimeoVideo' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= page_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif page_content.module_type == 'CacheFleakrGallery' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= page_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% end %>
+
+         <% end %>
+
+	</ul>
+        <ul class="inner" id="sidebar_drag">
+
+
+          <% for sidebar_content in @sidebar_contents %>
+
+            <% if sidebar_content.module_type == 'UniqueContentModule' %>
+
+              <li class="inner ultra" id="sidebar_old_<%= sidebar_content.id %>">
+	   <div class="holder">
+	     <div class="headline">
+	       <h4>WYSIWYG</h4>
+	       <a href="javascript:void(0);" class="remove_unique">Remove</a>
+	     </div>
+	     <div class="edit-box">
+	       <div class="holder">
+	         <div class="frame">
+                   <%= text_area "sidebar_contents", "#{sidebar_content.id}", :value => sidebar_content.content, :style => "width:100%;", :class => "field mceEditor" %>
+	         </div>
+	       </div>
+	     </div>
+           </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif sidebar_content.module_type == 'CustomModule' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= sidebar_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif sidebar_content.module_type == 'CacheTumblrPost' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= sidebar_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif sidebar_content.module_type == 'CacheVimeoVideo' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= sidebar_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif sidebar_content.module_type == 'CacheFleakrGallery' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= sidebar_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% end %>
+
+          <% end %>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="area">
+    </div>
+
+    <input id="header_positions" name="header_positions" style="display: none;"></input>
+    <input id="content_positions" name="content_positions" style="display: none;"></input>
+    <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
+    <input id="selected_navigations" name="selected_navigations" style="display: none;"></input>
+
+    <!-- module -->
+   <div class="module"  id="scripts_module">
+     <div class="title1">
+       <h4>Script Includes</h4>
+       <a href="javascript:void(0);" id="hide_scripts">Hide</a>
+     </div>
+     <div class="text-area">
+       <div class="holder">
+         <div class="frame">
+           <em>There are currently no modules in this section</em>
+	 </div>
+       </div>
+     </div>
+   </div>
+
+   <!-- seo fields form -->
+   <div class="seo-fields">
+     <fieldset>
+       <div class="form-holder">
+         <div class="title">
+           <h4>SEO Fields</h4>
+	   <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
+	 </div>
+         <div class="seo_fields">
+         <div class="row">
+	   <label for="site-name">Page URL (Optional)</label>
+	   <span class="text"><%= f.text_field :seo_title, :value => "Site Name - ", :html => { :id => "site-name" } %></span>
+         </div>
+	 <div class="row">
+           <label for="keywords">Keywords (Separate with commas)</label>
+	   <span class="long-text"  style="height: 25px;"><%= f.text_area :seo_keywords %></span>
+	 </div>
+         <div class="row">
+	   <label for="description">Description (Max - 150 characters)</label>
+	   <div class="textarea">
+	     <div class="holder">
+	       <div class="frame">
+                 <%= f.text_area :seo_description, :style => "height:44px;" %>
+               </div>
+             </div>
+           </div>
+         </div>
+         </div>
+       </div>
+     </fieldset>
+   </div>
+ </div>
+
+ <!-- sidebar -->
+ <div id="sidebar">
+   <h3>Available Modules</h3>
+   <ul class="add-nav">
+     <li><a href="#" class="active"><span><strong class="drag_to">WYSIWYG</strong></span></a></li>
+     <li class="divider">&nbsp;</li>
+
+     <% for available_module in @available_modules %>
+
+      <li>
+        <%= link_to do -%>
+          <span>
+            <div>
+              <div class="frag_to" style="float:left; width: 25px; height: 100%; height: 11px;">
+                <%= image_tag("skinnycms/admin/ico-line.gif", :style => "float:left;") %>
+                <% if available_module.class.name == 'CustomModule' %>
+                  <%= text_field "CustomModule", "[#{available_module.id}]", :value => available_module.id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheTumblrPost' %>
+                  <%= text_field "CacheTumblrPost", "[#{available_module.id}]", :value => available_module.tumblr_post_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheFleakrGallery' %>
+                  <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheVimeoVideo' %>
+                  <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% end %>
+              </div>
+              <div class="available_content" style="float:left; width: 160px;">
+                <%= available_module.title rescue available_module %>
+              </div>
+            </div>
+          </span>
+        <% end %>
+      </li>
+
+     <% end %>
+   </ul>
+
+  <div class="pagination_container">
+     <%= will_paginate @available_modules %>
+ </div>
+
+</div>
+
+</div>
+
+<% end %>
+
+<% content_for :html_header_includes do %>
+
 <%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
 
 <style type="text/css">
+  .pagination_container {
+    width: 220px;
+    overflow: hidden;
+    padding-left: 15px;
+  }
 
-.pagination_container {
-  width: 220px;
-  overflow: hidden;
-  padding-left: 15px;
-}
+  div.pagination {
+    text-align: center;
+    width: 210px;
+  }
 
-div.pagination {
-  text-align: center;
-  width: 210px;
-}
+  .prev_page {
+    float:left;
+  }
 
-.prev_page {
-  float:left;
-}
-
-.next_page {
-  float:right;
-}
-
-   </style>
+  .next_page {
+    float:right;
+  }
+</style>
 
 <script type="text/javascript">
 
@@ -502,435 +930,10 @@ $(document).ready(function(){
 
   });
 
+  $(".edit_page_form").validationEngine();
+
 });
 
 </script>
-
-<!-- form of adding pages -->
-<%= form_for([:admin, @page], :html => { :class => "add-pages" }) do |f| %>
-
-  <!-- heading -->
-  <div class="heading">
-    <ul class="buttons">
-      <li>
-        <%= link_to do -%>
-          <span>Preview</span>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to do -%>
-          <span>save draft</span>
-        <% end %>
-      </li>
-      <li>
-        <input type="submit" name="submit" value="Publish" id="submit" class="save_button" />
-      </li>
-    </ul>
-
-    <h2>
-      Edit Page
-    </h2>
-
-  </div>
-
-  <fieldset>
-
-    <!-- row -->
-    <div class="row">
-      <label for="page-title">Page Title</label>
-      <span class="text"><%= f.text_field :title, :html => { :id => "page-title" } %></span>
-    </div>
-
-    <!-- row -->
-    <div class="row">
-
-      <div class="section">
-	      <label for="page-url">Permalink</label>
-	      <span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" } %></span>
-      </div>
-
-      <div class="section">
-	      <label for="visibility">Redirect URL</label>
-        <span class="small-text"><%= f.text_field :redirect_url, :size => "48px" %></span>
-      </div>
-
-    </div>
-
-    <!-- row -->
-    <div class="row">
-
-      <div class="section">
-        <label for="parent">Page Template</label>
-        <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
-      </div>
-      
-      <div class="section">
-        <label for="status">Status</label>
-        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
-      </div>
-    
-    </div>
-    
-    <% @navigations.each do |navigation| %>   
-      <div class="row">
-        <div class="section">
-          <label for="parent" id="nav_header"><%= navigation.title %></label>
-          <select name="navigation[<%= navigation.id %>]">
-            <% if @page.parent_in_navigation(navigation.title) == 0 && @page.exist_in_navigation?(navigation.title) %>
-               <option value="root" SELECTED>Top level of <%= navigation.title %></option>
-            <% elsif @page.exist_in_navigation?(navigation.title) %>
-              <option value="<%= @page.parent_in_navigation(navigation.title) %>" SELECTED><%= @page.parent_title_in_navigation(navigation.title) %></option>
-            <% end %>
-            <option value="">Not on <%= navigation.title %></option>
-            <option value="root">Top level of <%= navigation.title %></option>
-            <%- PagesToNavigation.for_navigation_without_dublicates(navigation.title, @page).each do |n| -%>
-              <option value="<%= n.id %>">- Under <%= n.page.title %></option>
-            <%- end -%>
-          </select>
-        </div>
-      </div>
-    <% end %>  
-    
-  </fieldset>
-
-  <!-- main -->
-  <div id="main" class="shadow">
-    <!-- content -->
-    <div id="content">
-      <h3>Page Content</h3>
-      <!-- module -->
-      <div class="module" id="header_module">
-	<div class="title">
-	  <h4 class="head">HEADER Modules</h4>
-          <a href="javascript:void(0);" id="hide_header_module">Hide</a>
-	</div>
-	<ul class="inner" id="header_drag">
-
-          <% for header_content in @header_contents %>
-
-          <% if header_content.module_type == 'UniqueContentModule' %>
-
-            <li class="inner" id="header_old_<%= header_content.id %>">
-	    <div class="holder">
-	      <div class="headline">
-	        <h4>WYSIWYG</h4>
-	        <a href="javascript:void(0);" class="remove_unique">Remove</a>
-	      </div>
-	      <div class="edit-box">
-	        <div class="holder">
-		  <div class="frame">
-                    <%= text_area "header_contents", "[#{header_content.id}]", :value => header_content.content, :style => "width:100%;", :class => "field mceEditor" %>
-		  </div>
-	        </div>
-	      </div>
-	    </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif header_content.module_type == 'CustomModule' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%=  header_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif header_content.module_type == 'CacheTumblrPost' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%=  header_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif header_content.module_type == 'CacheVimeoVideo' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%=  header_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif header_content.module_type == 'CacheFleakrGallery' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%=  header_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% end %>
-
-         <% end %>
-
-        </ul>
-     </div>
-
-     <div class="area">
-     </div>
-
-     <!-- module -->
-     <div class="module">
-       <ul class="tabset">
-         <li id="left_content"><a href="javascript:void(0);" class="tabset-l active"><span>Left Column Modules</span></a></li>
-         <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
-       </ul>
-       <div class="tab-content" id="tab-1">
-	 <ul class="inner" id="content_drag">
-
-           <% for page_content in @page_contents %>
-
-          <% if page_content.module_type == 'UniqueContentModule' %>
-
-            <li class="inner" id="page_old_<%= page_content.id %>">
-	     <div class="holder">
-	       <div class="headline">
-	         <h4>WYSIWYG</h4>
-	         <a href="javascript:void(0);" class="remove_unique">Remove</a>
-	       </div>
-	       <div class="edit-box">
-	         <div class="holder">
-	           <div class="frame">
-                     <%= text_area "page_contents", "#{page_content.id}", :value => page_content.content, :style => "width:100%;", :class => "field mceEditor" %>
-	           </div>
-	         </div>
-	       </div>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-             </li>
-
-          <% elsif page_content.module_type == 'CustomModule' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= page_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif page_content.module_type == 'CacheTumblrPost' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= page_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif page_content.module_type == 'CacheVimeoVideo' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= page_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif page_content.module_type == 'CacheFleakrGallery' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= page_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% end %>
-
-         <% end %>
-
-	</ul>
-        <ul class="inner" id="sidebar_drag">
-
-
-          <% for sidebar_content in @sidebar_contents %>
-
-            <% if sidebar_content.module_type == 'UniqueContentModule' %>
-
-              <li class="inner ultra" id="sidebar_old_<%= sidebar_content.id %>">
-	   <div class="holder">
-	     <div class="headline">
-	       <h4>WYSIWYG</h4>
-	       <a href="javascript:void(0);" class="remove_unique">Remove</a>
-	     </div>
-	     <div class="edit-box">
-	       <div class="holder">
-	         <div class="frame">
-                   <%= text_area "sidebar_contents", "#{sidebar_content.id}", :value => sidebar_content.content, :style => "width:100%;", :class => "field mceEditor" %>
-	         </div>
-	       </div>
-	     </div>
-           </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif sidebar_content.module_type == 'CustomModule' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= sidebar_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif sidebar_content.module_type == 'CacheTumblrPost' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= sidebar_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif sidebar_content.module_type == 'CacheVimeoVideo' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= sidebar_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% elsif sidebar_content.module_type == 'CacheFleakrGallery' %>
-
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= sidebar_content.id %>">
-             <div class="holder">
-               <h4>
-                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
-               </h4>
-               <a href="javascript:void(0);"  class="remove_available">Remove</a>
-             </div><div style="height:10px; background-color: white; width: 100%;"></div>
-           </li>
-
-          <% end %>
-
-          <% end %>
-
-        </ul>
-      </div>
-    </div>
-
-    <div class="area">
-    </div>
-
-    <input id="header_positions" name="header_positions" style="display: none;"></input>
-    <input id="content_positions" name="content_positions" style="display: none;"></input>
-    <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
-    <input id="selected_navigations" name="selected_navigations" style="display: none;"></input>
-
-    <!-- module -->
-   <div class="module"  id="scripts_module">
-     <div class="title1">
-       <h4>Script Includes</h4>
-       <a href="javascript:void(0);" id="hide_scripts">Hide</a>
-     </div>
-     <div class="text-area">
-       <div class="holder">
-         <div class="frame">
-           <em>There are currently no modules in this section</em>
-	 </div>
-       </div>
-     </div>
-   </div>
-
-   <!-- seo fields form -->
-   <div class="seo-fields">
-     <fieldset>
-       <div class="form-holder">
-         <div class="title">
-           <h4>SEO Fields</h4>
-	   <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
-	 </div>
-         <div class="seo_fields">
-         <div class="row">
-	   <label for="site-name">Page URL (Optional)</label>
-	   <span class="text"><%= f.text_field :seo_title, :value => "Site Name - ", :html => { :id => "site-name" } %></span>
-         </div>
-	 <div class="row">
-           <label for="keywords">Keywords (Separate with commas)</label>
-	   <span class="long-text"  style="height: 25px;"><%= f.text_area :seo_keywords %></span>
-	 </div>
-         <div class="row">
-	   <label for="description">Description (Max - 150 characters)</label>
-	   <div class="textarea">
-	     <div class="holder">
-	       <div class="frame">
-                 <%= f.text_area :seo_description, :style => "height:44px;" %>
-               </div>
-             </div>
-           </div>
-         </div>
-         </div>
-       </div>
-     </fieldset>
-   </div>
- </div>
-
- <!-- sidebar -->
- <div id="sidebar">
-   <h3>Available Modules</h3>
-   <ul class="add-nav">
-     <li><a href="#" class="active"><span><strong class="drag_to">WYSIWYG</strong></span></a></li>
-     <li class="divider">&nbsp;</li>
-
-     <% for available_module in @available_modules %>
-
-      <li>
-        <%= link_to do -%>
-          <span>
-            <div>
-              <div class="frag_to" style="float:left; width: 25px; height: 100%; height: 11px;">
-                <%= image_tag("skinnycms/admin/ico-line.gif", :style => "float:left;") %>
-                <% if available_module.class.name == 'CustomModule' %>
-                  <%= text_field "CustomModule", "[#{available_module.id}]", :value => available_module.id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% elsif available_module.class.name == 'CacheTumblrPost' %>
-                  <%= text_field "CacheTumblrPost", "[#{available_module.id}]", :value => available_module.tumblr_post_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% elsif available_module.class.name == 'CacheFleakrGallery' %>
-                  <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% elsif available_module.class.name == 'CacheVimeoVideo' %>
-                  <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% end %>
-              </div>
-              <div class="available_content" style="float:left; width: 160px;">
-                <%= available_module.title %>
-              </div>
-            </div>
-          </span>
-        <% end %>
-      </li>
-
-     <% end %>
-   </ul>
-
-  <div class="pagination_container">
-     <%= will_paginate @available_modules %>
- </div>
-
-</div>
-
-</div>
 
 <% end %>

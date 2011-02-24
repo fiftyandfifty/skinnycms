@@ -1,4 +1,4 @@
-<% content_for :javascript_includes do %>
+<% content_for :html_header_includes do %>
   <%= stylesheet_link_tag 'skinnycms/nestedSortable' %>
 <% end %>
 
@@ -102,7 +102,7 @@
   
 </div>
 
-<% content_for :javascript_includes do %>
+<% content_for :html_header_includes do %>
   <script type="text/javascript">
     $(document).ready(function(){
       var status = false;
@@ -233,7 +233,7 @@
 <% end %>
 
 
-<% content_for :javascript_includes do %>
+<% content_for :html_header_includes do %>
 <script type="text/javascript">
 	function dump(arr,level) {
 		var dumped_text = "";

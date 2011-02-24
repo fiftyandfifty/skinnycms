@@ -1,9 +1,312 @@
-<%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
-<%= javascript_include_tag 'skinnycms/jquery/jquery-ui-1.8.7.custom.min.js' %>
-<%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
-<%= stylesheet_link_tag 'skinnycms/jquery-ui-1.8.9.custom' %>
+
+<!-- form of adding pages -->
+<%= form_for([:admin, @page], :html => { :class => "add-pages" }) do |f| %>
+
+  <!-- heading -->
+  <div class="heading">
+
+    <ul class="buttons">
+      <li>
+        <%= link_to do -%>
+          <span>Preview</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to do -%>
+          <span>save draft</span>
+        <% end %>
+      </li>
+      <li>
+        <input type="submit" name="submit" value="Publish" id="submit" class="save_button" />
+      </li>
+    </ul>
+
+    <h2>
+      Add New Page
+    </h2>
+
+  </div>
+
+   <fieldset>
+
+    <!-- row -->
+    <div class="row">
+      <label for="page-title">Page Title</label>
+      <span class="text"><%= f.text_field :title, :html => { :id => "page-title" }, :class => "validate[required]" %></span>
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+	      <label for="page-url">Permalink</label>
+	      <span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" }, :class => "validate[required]" %></span>
+      </div>
+
+      <div class="section">
+	      <label for="visibility">Redirect URL</label>
+        <span class="small-text"><%= f.text_field :redirect_url, :size => "48px" %></span>
+      </div>
+
+    </div>
+
+    <!-- row -->
+    <div class="row">
+
+      <div class="section">
+        <label for="parent">Page Template</label>
+        <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
+      </div>
+
+      <div class="section">
+        <label for="status">Status</label>
+        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
+      </div>
+
+    </div>
+
+    <% @navigations.each do |navigation| %>
+      <div class="row">
+        <div class="section">
+          <label for="parent" id="nav_header"><%= navigation.title %></label>
+          <select name="navigation[<%= navigation.id %>]">
+            <option value="">Not on <%= navigation.title %></option>
+            <option value="root">Top level of <%= navigation.title %></option>
+            <%- PagesToNavigation.for_navigation_without_dublicates(navigation.title, @page).each do |n| -%>
+              <option value="<%= n.id %>">- Under <%= n.page.title %></option>
+            <%- end -%>
+          </select>
+        </div>
+      </div>
+    <% end %>
+
+  </fieldset>
+
+  <!-- main -->
+  <div id="main" class="shadow">
+    <!-- content -->
+    <div id="content">
+      <h3>Page Content</h3>
+      <!-- module -->
+      <div class="module" id="header_module">
+	<div class="title">
+	  <h4 class="head">HEADER Modules</h4>
+          <a href="javascript:void(0);" id="hide_header_module">Hide</a>
+	</div>
+	<ul class="inner" id="header_drag">
+        </ul>
+     </div>
+
+     <div class="area">
+     </div>
+
+     <!-- module -->
+     <div class="module">
+       <ul class="tabset">
+         <li id="left_content"><a href="javascript:void(0);" class="tabset-l active"><span>Left Column Modules</span></a></li>
+         <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
+       </ul>
+       <div class="tab-content" id="tab-1">
+	 <ul class="inner" id="content_drag">
+	 </ul>
+         <ul class="inner" id="sidebar_drag">
+         </ul>
+      </div>
+    </div>
+
+    <div class="area">
+    </div>
+
+    <input id="header_positions" name="header_positions" style="display: none;"></input>
+    <input id="content_positions" name="content_positions" style="display: none;"></input>
+    <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
+    <input id="selected_navigations" name="selected_navigations" style="display: none;"></input>
+
+    <div id="assets_popup" title="Add Asset">
+
+      <ul class="assets_list" style="margin-bottom: 20px; margin-top: 10px; font-weight: bold; font-size: 14px;">
+        <li style="border-right: 1px solid gray;">All</li>
+        <li style="border-right: 1px solid gray;">Images</li>
+        <li style="border-right: 1px solid gray;">Videos</li>
+        <li style="border-right: 1px solid gray;">Audio</li>
+        <li>Files</li>
+      </ul>
+
+      <table class="assets"  style="margin-bottom: 20px;">
+        <tr class="assets_headers"  style="font-weight: bold;font-size: 14px;">
+          <td class="assets_title">Name</td>
+          <td class="assets_icon">Icon</td>
+          <td class="assets_type">Type</td>
+        </tr>
+        <% @assets.each do |asset| %>
+          <tr class="assets_data"  style="">
+            <td class="assets_title"><%= asset.title %></td>
+            <td class="assets_icon">no icon yet!</td>
+            <td class="assets_type"><%= asset.asset_content_type %></td>
+          </tr>
+        <% end %>
+      </table>
+
+      <div class="pagination_container" style="width: 390px;">
+        <%= will_paginate @assets %>
+      </div>
+       
+    </div>
+
+    <!-- module -->
+   <div class="module"  id="scripts_module">
+     <div class="title1">
+       <h4>Script Includes</h4>
+       <a href="javascript:void(0);" id="hide_scripts">Hide</a>
+     </div>
+     <div class="text-area">
+       <div class="holder">
+         <div class="frame">
+           <em>There are currently no modules in this section</em>
+	 </div>
+       </div>
+     </div>
+   </div>
+
+   <!-- seo fields form -->
+   <div class="seo-fields">
+     <fieldset>
+       <div class="form-holder">
+         <div class="title">
+           <h4>SEO Fields</h4>
+	   <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
+	 </div>
+         <div class="seo_fields">
+         <div class="row">
+	   <label for="site-name">Page URL (Optional)</label>
+	   <span class="text"><%= f.text_field :seo_title, :html => { :id => "site-name" } %></span>
+         </div>
+	 <div class="row">
+           <label for="keywords">Keywords (Separate with commas)</label>
+	   <span class="long-text"  style="height: 25px;"><%= f.text_area :seo_keywords %></span>
+	 </div>
+         <div class="row">
+	   <label for="description">Description (Max - 150 characters)</label>
+	   <div class="textarea">
+	     <div class="holder">
+	       <div class="frame">
+                 <%= f.text_area :seo_description, :style => "height:44px;" %>
+               </div>
+             </div>
+           </div>
+         </div>
+         </div>
+       </div>
+     </fieldset>
+   </div>
+ </div>
+
+ <!-- sidebar -->
+ <div id="sidebar">
+   <h3>Available Modules</h3>
+   <ul class="add-nav">
+     <li><a href="#" class="active"><span><strong class="drag_to">WYSIWYG</strong></span></a></li>
+     <li class="divider">&nbsp;</li>
+
+     <% for available_module in @available_modules %>
+
+      <li>
+        <%= link_to do -%>
+          <span>
+            <div>
+              <div class="frag_to" style="float:left; width: 25px; height: 100%; height: 11px;">
+                <%= image_tag("skinnycms/admin/ico-line.gif", :style => "float:left;") %>
+                <% if available_module.class.name == 'CustomModule' %>
+                  <%= text_field "CustomModule", "[#{available_module.id}]", :value => available_module.id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheTumblrPost' %>
+                  <%= text_field "CacheTumblrPost", "[#{available_module.id}]", :value => available_module.tumblr_post_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheFleakrGallery' %>
+                  <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module.class.name == 'CacheVimeoVideo' %>
+                  <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module == 'Tumblr Basic' %>
+                  <%= text_field "Tumblr Basic", "", :value => available_module, :class => "tumblr_basic", :style => "display: none;" %>
+                <% end %>
+              </div>
+              <div class="available_content" style="float:left; width: 160px;">
+                <% if available_module == 'Tumblr Basic' %>
+                  Tumblr Basic
+                <% else %>
+                  <%= available_module.title %>
+                <% end %>
+              </div>
+            </div>
+          </span>
+        <% end %>
+      </li>
+
+     <% end %>
+   </ul>
+   
+  <div class="pagination_container">
+     <%= will_paginate @available_modules %>
+ </div>
+   
+</div>
+
+</div>
+
+<% end %>
+
+<% content_for :html_header_includes do %>
+  <%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
+  <%= javascript_include_tag 'skinnycms/jquery/jquery.validationEngine.js' %>
+  <%= javascript_include_tag 'skinnycms/jquery/jquery.validationEngine-en.js' %>
+  <%= stylesheet_link_tag 'skinnycms/jquery-ui-1.8.9.custom' %>
+  <%= stylesheet_link_tag 'skinnycms/validationEngine.jquery.css' %>
 
 <style type="text/css">
+
+#assets_popup {
+
+}
+
+#assets_popup .assets_list {
+  overflow: hidden;
+  width: 405px;
+  height: 20px;
+}
+
+#assets_popup .assets_list li {
+  float: left;
+  width: 80px;
+  text-align: center;
+}
+
+.assets_headers td {
+  height: 20px;
+  text-align: center;
+  border: 1px solid gray;
+  padding: 2px;
+}
+
+.assets_data td {
+  height: 20px;
+  text-align: center;
+  border: 1px solid gray;
+  padding: 2px;
+}
+
+.assets_title {
+  width: 80px;
+}
+
+.assets_icon {
+  width: 240px;
+}
+
+.assets_type {
+  width: 80px;
+}
+
+#assets_popup .pagination {
+  width: 375px;
+}
 
 .pagination_container {
   width: 220px;
@@ -514,311 +817,11 @@ $(document).ready(function(){
    $( "#assets_popup" ).bind( "dialogopen", function(event, ui) {
      $('.ui-dialog-buttonset button').removeClass( "ui-state-focus" );
    });
+     
+   $("#new_page").validationEngine();
 
 });
 
 </script>
 
-<!-- form of adding pages -->
-<%= form_for([:admin, @page], :html => { :class => "add-pages" }) do |f| %>
-
-  <!-- heading -->
-  <div class="heading">
-
-    <ul class="buttons">
-      <li>
-        <%= link_to do -%>
-          <span>Preview</span>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to do -%>
-          <span>save draft</span>
-        <% end %>
-      </li>
-      <li>
-        <input type="submit" name="submit" value="Publish" id="submit" class="save_button" />
-      </li>
-    </ul>
-
-    <h2>
-      Add New Page
-    </h2>
-
-  </div>
-
-   <fieldset>
-
-    <!-- row -->
-    <div class="row">
-      <label for="page-title">Page Title</label>
-      <span class="text"><%= f.text_field :title, :html => { :id => "page-title" } %></span>
-    </div>
-
-    <!-- row -->
-    <div class="row">
-
-      <div class="section">
-	      <label for="page-url">Permalink</label>
-	      <span class="small-text"><%= f.text_field :permalink, :html => { :id => "page-url" } %></span>
-      </div>
-
-      <div class="section">
-	      <label for="visibility">Redirect URL</label>
-        <span class="small-text"><%= f.text_field :redirect_url, :size => "48px" %></span>
-      </div>
-
-    </div>
-
-    <!-- row -->
-    <div class="row">
-
-      <div class="section">
-        <label for="parent">Page Template</label>
-        <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
-      </div>
-
-      <div class="section">
-        <label for="status">Status</label>
-        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
-      </div>
-
-    </div>
-
-    <% @navigations.each do |navigation| %>
-      <div class="row">
-        <div class="section">
-          <label for="parent" id="nav_header"><%= navigation.title %></label>
-          <select name="navigation[<%= navigation.id %>]">
-            <option value="">Not on <%= navigation.title %></option>
-            <option value="root">Top level of <%= navigation.title %></option>
-            <%- PagesToNavigation.for_navigation_without_dublicates(navigation.title, @page).each do |n| -%>
-              <option value="<%= n.id %>">- Under <%= n.page.title %></option>
-            <%- end -%>
-          </select>
-        </div>
-      </div>
-    <% end %>
-
-  </fieldset>
-
-  <!-- main -->
-  <div id="main" class="shadow">
-    <!-- content -->
-    <div id="content">
-      <h3>Page Content</h3>
-      <!-- module -->
-      <div class="module" id="header_module">
-	<div class="title">
-	  <h4 class="head">HEADER Modules</h4>
-          <a href="javascript:void(0);" id="hide_header_module">Hide</a>
-	</div>
-	<ul class="inner" id="header_drag">
-        </ul>
-     </div>
-
-     <div class="area">
-     </div>
-
-     <!-- module -->
-     <div class="module">
-       <ul class="tabset">
-         <li id="left_content"><a href="javascript:void(0);" class="tabset-l active"><span>Left Column Modules</span></a></li>
-         <li id="right_content"><a href="javascript:void(0);" class="tabset-r"><span>Right Column Modules</span></a></li>
-       </ul>
-       <div class="tab-content" id="tab-1">
-	 <ul class="inner" id="content_drag">
-	 </ul>
-         <ul class="inner" id="sidebar_drag">
-         </ul>
-      </div>
-    </div>
-
-    <div class="area">
-    </div>
-
-    <input id="header_positions" name="header_positions" style="display: none;"></input>
-    <input id="content_positions" name="content_positions" style="display: none;"></input>
-    <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
-    <input id="selected_navigations" name="selected_navigations" style="display: none;"></input>
-
-<style type="text/css">
-#assets_popup {
-
-}
-
-#assets_popup .assets_list {
-  overflow: hidden;
-  width: 405px;
-  height: 20px;
-}
-
-#assets_popup .assets_list li {
-  float: left;
-  width: 80px;
-  text-align: center;
-}
-
-.assets_headers td {
-  height: 20px;
-  text-align: center;
-  border: 1px solid gray;
-  padding: 2px;
-}
-
-.assets_data td {
-  height: 20px;
-  text-align: center;
-  border: 1px solid gray;
-  padding: 2px;
-}
-
-.assets_title {
-  width: 80px;
-}
-
-.assets_icon {
-  width: 240px;
-}
-
-.assets_type {
-  width: 80px;
-}
-
-#assets_popup .pagination {
-  width: 375px;
-}
-
-</style>
-
-    <div id="assets_popup" title="Add Asset">
-
-      <ul class="assets_list" style="margin-bottom: 20px; margin-top: 10px; font-weight: bold; font-size: 14px;">
-        <li style="border-right: 1px solid gray;">All</li>
-        <li style="border-right: 1px solid gray;">Images</li>
-        <li style="border-right: 1px solid gray;">Videos</li>
-        <li style="border-right: 1px solid gray;">Audio</li>
-        <li>Files</li>
-      </ul>
-
-      <table class="assets"  style="margin-bottom: 20px;">
-        <tr class="assets_headers"  style="font-weight: bold;font-size: 14px;">
-          <td class="assets_title">Name</td>
-          <td class="assets_icon">Icon</td>
-          <td class="assets_type">Type</td>
-        </tr>
-        <% @assets.each do |asset| %>
-          <tr class="assets_data"  style="">
-            <td class="assets_title"><%= asset.title %></td>
-            <td class="assets_icon">no icon yet!</td>
-            <td class="assets_type"><%= asset.asset_content_type %></td>
-          </tr>
-        <% end %>
-      </table>
-
-      <div class="pagination_container" style="width: 390px;">
-        <%= will_paginate @assets %>
-      </div>
-       
-    </div>
-
-    <!-- module -->
-   <div class="module"  id="scripts_module">
-     <div class="title1">
-       <h4>Script Includes</h4>
-       <a href="javascript:void(0);" id="hide_scripts">Hide</a>
-     </div>
-     <div class="text-area">
-       <div class="holder">
-         <div class="frame">
-           <em>There are currently no modules in this section</em>
-	 </div>
-       </div>
-     </div>
-   </div>
-
-   <!-- seo fields form -->
-   <div class="seo-fields">
-     <fieldset>
-       <div class="form-holder">
-         <div class="title">
-           <h4>SEO Fields</h4>
-	   <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
-	 </div>
-         <div class="seo_fields">
-         <div class="row">
-	   <label for="site-name">Page URL (Optional)</label>
-	   <span class="text"><%= f.text_field :seo_title, :html => { :id => "site-name" } %></span>
-         </div>
-	 <div class="row">
-           <label for="keywords">Keywords (Separate with commas)</label>
-	   <span class="long-text"  style="height: 25px;"><%= f.text_area :seo_keywords %></span>
-	 </div>
-         <div class="row">
-	   <label for="description">Description (Max - 150 characters)</label>
-	   <div class="textarea">
-	     <div class="holder">
-	       <div class="frame">
-                 <%= f.text_area :seo_description, :style => "height:44px;" %>
-               </div>
-             </div>
-           </div>
-         </div>
-         </div>
-       </div>
-     </fieldset>
-   </div>
- </div>
-
- <!-- sidebar -->
- <div id="sidebar">
-   <h3>Available Modules</h3>
-   <ul class="add-nav">
-     <li><a href="#" class="active"><span><strong class="drag_to">WYSIWYG</strong></span></a></li>
-     <li class="divider">&nbsp;</li>
-
-     <% for available_module in @available_modules %>
-
-      <li>
-        <%= link_to do -%>
-          <span>
-            <div>
-              <div class="frag_to" style="float:left; width: 25px; height: 100%; height: 11px;">
-                <%= image_tag("skinnycms/admin/ico-line.gif", :style => "float:left;") %>
-                <% if available_module.class.name == 'CustomModule' %>
-                  <%= text_field "CustomModule", "[#{available_module.id}]", :value => available_module.id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% elsif available_module.class.name == 'CacheTumblrPost' %>
-                  <%= text_field "CacheTumblrPost", "[#{available_module.id}]", :value => available_module.tumblr_post_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% elsif available_module.class.name == 'CacheFleakrGallery' %>
-                  <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% elsif available_module.class.name == 'CacheVimeoVideo' %>
-                  <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
-                <% elsif available_module == 'Tumblr Basic' %>
-                  <%= text_field "Tumblr Basic", "", :value => available_module, :class => "tumblr_basic", :style => "display: none;" %>
-                <% end %>
-              </div>
-              <div class="available_content" style="float:left; width: 160px;">
-                <% if available_module == 'Tumblr Basic' %>
-                  Tumblr Basic
-                <% else %>
-                  <%= available_module.title %>
-                <% end %>
-              </div>
-            </div>
-          </span>
-        <% end %>
-      </li>
-
-     <% end %>
-   </ul>
-   
-  <div class="pagination_container">
-     <%= will_paginate @available_modules %>
- </div>
-   
-</div>
-
-</div>
-
 <% end %>
-

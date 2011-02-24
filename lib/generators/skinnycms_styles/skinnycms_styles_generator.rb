@@ -92,6 +92,15 @@ class SkinnycmsStylesGenerator < Rails::Generators::Base
         copy_file "jquery-ui-1.8.9.custom.css", "public/stylesheets/skinnycms/jquery-ui-1.8.9.custom.css"
       end
     end
+    
+     if !File.exist?("public/stylesheets/skinnycms/validationEngine.jquery.css")
+      copy_file "validationEngine.jquery.css", "public/stylesheets/skinnycms/validationEngine.jquery.css"
+    else
+      if yes? "You already have 'public/stylesheets/skinnycms/validationEngine.jquery.css' file. Do you want to update it?", :green
+        remove_file "public/stylesheets/skinnycms/validationEngine.jquery.css"
+        copy_file "validationEngine.jquery.css", "public/stylesheets/skinnycms/validationEngine.jquery.css"
+      end
+    end
 
     puts SkinnycmsStylesGenerator.end_description
   end

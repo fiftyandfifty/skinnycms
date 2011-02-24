@@ -11,8 +11,8 @@
 	<!--[if lt IE 8]><%= stylesheet_link_tag 'skinnycms/admin/ie.css' %><![endif]-->
         <%= include_tiny_mce_if_needed %>
         <%= javascript_include_tag "skinnycms/rails" %>
-        <%= yield(:javascript_includes) %>
         <%= csrf_meta_tag %>
+        <%= yield(:html_header_includes) %>
 </head>
 <body>
 	<!-- wrapper -->
@@ -33,5 +33,5 @@
 	        <%= yield %>
 	</div>
 </body>
+<%= yield(:html_footer_includes) %>
 </html>
-

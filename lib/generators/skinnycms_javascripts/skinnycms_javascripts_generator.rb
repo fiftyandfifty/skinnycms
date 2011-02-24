@@ -36,6 +36,14 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
       copy_file "nestedSortable.1.2.1/jquery.ui.nestedSortable.js", "public/javascripts/skinnycms/nestedSortable.1.2.1/jquery.ui.nestedSortable.js"
     end
     
+    if !File.exist?("public/javascripts/skinnycms/jquery/jquery.validationEngine.js")
+      copy_file "jquery/jquery.validationEngine.js", "public/javascripts/skinnycms/jquery/jquery.validationEngine.js"
+    end
+    
+    if !File.exist?("public/javascripts/skinnycms/jquery/jquery.validationEngine-en.js")
+      copy_file "jquery/jquery.validationEngine-en.js", "public/javascripts/skinnycms/jquery/jquery.validationEngine-en.js"
+    end
+    
     puts SkinnycmsJavascriptsGenerator.end_description
   end
 

@@ -113,6 +113,62 @@ class SkinnycmsHomepageGenerator < Rails::Generators::Base
           copy_file "page_helper.rb", "app/helpers/page_helper.rb"
         end
       end
+      
+      if !File.exist?('app/views/layouts/home_page.html.erb')
+        copy_file "home_page.html.erb", "app/views/layouts/home_page.html.erb"
+      else
+        if yes? "You already have 'app/views/layouts/home_page.html.erb' layout. Do you want to update it?", :green
+          remove_file "app/views/layouts/home_page.html.erb"
+          copy_file "home_page.html.erb", "app/views/layouts/home_page.html.erb"
+        end
+      end
+    
+      if !File.exist?('app/views/layouts/landing_page.html.erb')
+        copy_file "landing_page.html.erb", "app/views/layouts/landing_page.html.erb"
+      else
+        if yes? "You already have 'app/views/layouts/landing_page.html.erb' layout. Do you want to update it?", :green
+          remove_file "app/views/layouts/landing_page.html.erb"
+          copy_file "landing_page.html.erb", "app/views/layouts/landing_page.html.erb"
+        end
+      end
+    
+      if !File.exist?('app/views/layouts/detail_page.html.erb')
+        copy_file "detail_page.html.erb", "app/views/layouts/detail_page.html.erb"
+      else
+        if yes? "You already have 'app/views/layouts/detail_page.html.erb' layout. Do you want to update it?", :green
+          remove_file "app/views/layouts/detail_page.html.erb"
+          copy_file "detail_page.html.erb", "app/views/layouts/detail_page.html.erb"
+        end
+      end
+      
+      Dir.mkdir("app/views/shared") if Dir["app/views/shared"].blank?
+    
+      if !File.exist?('app/views/shared/_main_navigation.html.erb')
+        copy_file "_main_navigation.html.erb", "app/views/shared/_main_navigation.html.erb"
+      else
+        if yes? "You already have 'app/views/shared/_main_navigation.html.erb' layout. Do you want to update it?", :green
+          remove_file "app/views/shared/_main_navigation.html.erb"
+          copy_file "_main_navigation.html.erb", "app/views/shared/_main_navigation.html.erb"
+        end
+      end
+    
+      if !File.exist?('app/views/shared/_secondary_navigation.html.erb')
+        copy_file "_secondary_navigation.html.erb", "app/views/shared/_secondary_navigation.html.erb"
+      else
+        if yes? "You already have 'app/views/shared/_secondary_navigation.html.erb' layout. Do you want to update it?", :green
+          remove_file "app/views/shared/_secondary_navigation.html.erb"
+          copy_file "_secondary_navigation.html.erb", "app/views/shared/_secondary_navigation.html.erb"
+        end
+      end
+    
+      if !File.exist?('app/views/shared/_footer_navigation.html.erb')
+        copy_file "_footer_navigation.html.erb", "app/views/shared/_footer_navigation.html.erb"
+      else
+        if yes? "You already have 'app/views/shared/_footer_navigation.html.erb' layout. Do you want to update it?", :green
+          remove_file "app/views/shared/_footer_navigation.html.erb"
+          copy_file "_footer_navigation.html.erb", "app/views/shared/_footer_navigation.html.erb"
+        end
+      end
 
     end
 
