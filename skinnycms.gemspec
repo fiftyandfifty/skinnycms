@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.2.4"
+  s.version = "0.2.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-22}
+  s.date = %q{2011-02-24}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
     "app/models/page.rb",
     "app/models/page_content.rb",
     "app/models/pages_to_navigation.rb",
+    "app/models/setting.rb",
     "app/models/template.rb",
     "app/models/text_file.rb",
     "app/models/user.rb",
@@ -61,6 +62,8 @@ Gem::Specification.new do |s|
     "app/views/admin/custom_modules/_form.html.erb",
     "app/views/admin/custom_modules/edit.html.erb",
     "app/views/admin/custom_modules/new.html.erb",
+    "app/views/admin/modules/_activated_api_modules.html.erb",
+    "app/views/admin/modules/_undefined_api_modules.html.erb",
     "app/views/admin/modules/index.html.erb",
     "app/views/admin/pages/_edit_form.html.erb",
     "app/views/admin/pages/_homepage.html.erb",
@@ -74,9 +77,9 @@ Gem::Specification.new do |s|
     "app/views/admin/posts/index.html.erb",
     "app/views/admin/posts/new.html.erb",
     "app/views/admin/posts/show.html.erb",
-    "app/views/admin/settings/_activated_api_modules.html.erb",
+    "app/views/admin/settings/_activated_settings.html.erb",
     "app/views/admin/settings/_admin_users.html.erb",
-    "app/views/admin/settings/_undefined_api_modules.html.erb",
+    "app/views/admin/settings/_undefined_settings.html.erb",
     "app/views/admin/settings/index.html.erb",
     "app/views/admin/users/edit.html.erb",
     "app/views/admin/users/index.html.erb",
@@ -241,6 +244,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_page_contents.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_pages.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_pages_to_navigations.rb",
+    "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_settings.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_templates.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_users.rb",
     "lib/generators/skinnycms_migrations/templates/create_api_modules.rb",
@@ -253,6 +257,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/create_page_contents.rb",
     "lib/generators/skinnycms_migrations/templates/create_pages.rb",
     "lib/generators/skinnycms_migrations/templates/create_pages_to_navigations.rb",
+    "lib/generators/skinnycms_migrations/templates/create_settings.rb",
     "lib/generators/skinnycms_migrations/templates/create_templates.rb",
     "lib/generators/skinnycms_migrations/templates/create_users.rb",
     "lib/generators/skinnycms_styles/USAGE",
@@ -1076,7 +1081,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/fiftyandfifty/skinnycms}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.5.0}
   s.summary = %q{Lightweight CMS which leverages the lastest external social networking APIs}
   s.test_files = [
     "spec/models/category_item_spec.rb",
@@ -1112,7 +1117,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
