@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.2.5"
+  s.version = "0.2.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
@@ -218,6 +218,8 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-1.4.4.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-ui-1.8.7.custom.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.livequery.js",
+    "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine-en.js",
+    "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine.js",
     "lib/generators/skinnycms_javascripts/javasripts/main.js",
     "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
     "lib/generators/skinnycms_javascripts/javasripts/rails.js",
@@ -271,6 +273,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_styles/stylesheets/nestedSortable.css",
     "lib/generators/skinnycms_styles/stylesheets/reset.css",
     "lib/generators/skinnycms_styles/stylesheets/text.css",
+    "lib/generators/skinnycms_styles/stylesheets/validationEngine.jquery.css",
     "lib/generators/skinnycms_tinymce/USAGE",
     "lib/generators/skinnycms_tinymce/skinnycms_tinymce_generator.rb",
     "lib/generators/skinnycms_tinymce/templates/kete-tiny_mce-a8dc663/.gitignore",
@@ -1081,7 +1084,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/fiftyandfifty/skinnycms}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.0}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Lightweight CMS which leverages the lastest external social networking APIs}
   s.test_files = [
     "spec/models/category_item_spec.rb",
@@ -1117,6 +1120,7 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
