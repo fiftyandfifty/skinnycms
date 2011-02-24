@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :posts
     resources :custom_modules
     resources :api_modules
+    resources :settings
     resources :assets
   end
   
@@ -23,11 +24,15 @@ Rails.application.routes.draw do
 
   match 'edit_admin_settings', :controller => 'admin/settings', :action => 'edit_admin_settings'
 
-  match 'add_module', :controller => 'admin/settings', :action => 'add_module'
+  match 'add_setting', :controller => 'admin/settings', :action => 'add_setting'
 
-  match 'edit_module', :controller => 'admin/settings', :action => 'edit_module'
+  match 'edit_setting', :controller => 'admin/settings', :action => 'edit_setting'
 
-  match 'clear_api_cashes', :controller => 'admin/settings', :action => 'clear_api_cashes'
+  match 'add_module', :controller => 'admin/modules', :action => 'add_module'
+
+  match 'edit_module', :controller => 'admin/modules', :action => 'edit_module'
+
+  match 'clear_api_cashes', :controller => 'admin/modules', :action => 'clear_api_cashes'
 
   match 'force_reload_posts', :controller => 'admin/posts', :action => 'force_reload_posts'
 

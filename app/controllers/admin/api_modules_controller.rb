@@ -20,7 +20,7 @@ class Admin::ApiModulesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to(admin_settings_url, :notice => 'Api module successfully deleted!') }
+      format.html { redirect_to(admin_modules_url, :notice => 'Api module successfully deleted!') }
       format.xml  { head :ok }
     end
   end

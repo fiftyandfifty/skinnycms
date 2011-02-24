@@ -11,7 +11,7 @@ class Admin::VideosController < ApplicationController
   def force_reload_videos
     update_cached_videos
 
-    redirect_to(admin_settings_path)
+    redirect_to(admin_modules_path)
   end
 
   def login_and_get_vimeo_user

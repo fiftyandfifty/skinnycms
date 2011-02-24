@@ -39,33 +39,7 @@
       var seetings_block = father_div.find('.edit_api_module');
       seetings_block.toggleFade({ speedIn : 1000, speedOut : 1000 });
     });
-
-    <!-- Login links for API MODULES -->
-
-    $('.login_vimeo').click(function() {
-      $('#vimeo').fadeIn(1000);
-    });
-
-    $('.login_fleakr').click(function() {
-      $('#fleak').fadeIn(1000);
-    });
-
-    $('.login_tumblr').click(function() {
-      $('#tumbl').fadeIn(1000);
-    });
-
-    var module_type = "<%= params[:module_type] %>";
-    
-    if(module_type == "vimeo"){
-      $('#vimeo').fadeIn(1000);
-    }
-    else if (module_type == "fleakr") {
-      $('#fleak').fadeIn(1000);
-    }
-    else if (module_type == "tumblr") {
-      $('#tumbl').fadeIn(1000);
-    }
-    
+ 
   });
 
   <!-- ToogelFade jquery extension -->
@@ -105,37 +79,21 @@
 
       <!-- info-block content -->
       <%= render 'admin_users' %>
+
+      <% if @settings.present? %>
+        <%= render 'activated_settings' %>
+      <% end %>
+
+      <% if @undefined_settings.present? %>
+        <%= render 'undefined_settings' %>
+      <% end %>
       
     </div>
-
-    <!-- info-block -->
-    
-    <div class="info-block">
-
-      <!-- info-block heading -->
-
-      <div class="title-holder">
-        <%= link_to(clear_api_cashes_path) do -%>
-          <span>clear api caches</span>
-        <% end %>
-        <h2>API Settings</h2>
-      </div>
-
-      <!-- info-block's content -->
-
-      <% if @api_modules.present? %>
-        <%= render 'activated_api_modules' %>
-      <% end %>
-
-      <% if @undefined_modules.present? %>
-        <%= render 'undefined_api_modules' %>
-      <% end %>
-
-     </div><!-- info-block -->
    </div><!-- content -->
   
    <!-- sidebar -->
    <div id="sidebar">
+     
      <h3>Quick Links</h3>
      <ul class="btn-bar">
       <li>
@@ -154,24 +112,41 @@
         <% end %>
       </li>
      </ul>
-     <h3>API Links</h3>
-     <ul class="btn-bar gray-btn">
-      <li>
-        <%= link_to("javascript:void(0);", :class => "login_vimeo") do -%>
-          <span><strong>Log-in</strong><em class="vimeo">vimeo</em></span>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to("javascript:void(0);", :class => "login_fleakr") do -%>
-          <span><strong>Log-in</strong><em class="flickr">fleakr</em></span>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to("javascript:void(0);", :class => "login_tumblr") do -%>
-          <span><strong>Log-in</strong><em class="tumblr">tumblr.</em></span>
-        <% end %>
-      </li>
-     </ul>
+
+     <% if @undefined_modules_names.present? %>
+
+       <h3>API Links</h3>
+
+       <ul class="btn-bar gray-btn">
+
+         <% if @undefined_modules_names.include?('vimeo basic') %>
+           <li>
+             <%= link_to(admin_modules_path(:module_type => "vimeo"), :class => "login_vimeo") do -%>
+               <span><strong>Log-in</strong><em class="vimeo">vimeo</em></span>
+             <% end %>
+           </li>
+         <% end %>
+
+         <% if @undefined_modules_names.include?('fleakr basic') %>
+           <li>
+             <%= link_to(admin_modules_path(:module_type => "fleakr"), :class => "login_fleakr") do -%>
+               <span><strong>Log-in</strong><em class="flickr">fleakr</em></span>
+             <% end %>
+           </li>
+         <% end %>
+
+         <% if @undefined_modules_names.include?('tumblr basic') %>
+           <li>
+             <%= link_to(admin_modules_path(:module_type => "tumblr"), :class => "login_tumblr") do -%>
+               <span><strong>Log-in</strong><em class="tumblr">tumblr.</em></span>
+             <% end %>
+           </li>
+         <% end %>
+           
+       </ul>
+       
+     <% end %>
+
   </div>
 </div><!-- main -->
 

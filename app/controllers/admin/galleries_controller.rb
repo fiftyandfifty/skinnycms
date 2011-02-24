@@ -11,7 +11,7 @@ class Admin::GalleriesController < ApplicationController
   def force_reload_galleries
     update_cached_galleries
 
-    redirect_to(admin_settings_path)
+    redirect_to(admin_modules_path)
   end
 
   def login_and_get_fleakr_user

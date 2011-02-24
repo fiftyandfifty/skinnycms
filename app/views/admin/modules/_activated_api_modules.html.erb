@@ -31,21 +31,27 @@
              <fieldset>
               <%= text_field "api_settings", "api_module", :value => api_module.id, :style => "display:none;" %>
 
-              <% if api_module.module_name == 'cloudfiles storage' %>
-                <div class="col" style="width:500px;">
-                  <label>CONTAINER</label>
-                  <span class="text"><%= text_field "api_settings", "container" %></span>
-                </div>
-              <% end %>
-
               <div class="col">
                 <label>API TOKEN</label>
                 <span class="text"><%= text_field "api_settings", "api_token" %></span>
               </div>
+
               <div class="col">
                 <label>API KEY</label>
                 <span class="password"><%= text_field "api_settings", "api_key", :type => "password" %></span>
               </div>
+               
+              <% if api_module.module_name == 'tumblr basic' %>
+                <div class="col" style="width: 500px;">
+                  <label>RECENT POSTS NUMBER</label>
+                  <span class="text"><%= text_field "api_settings", "recent_posts_number" %></span>
+                </div>
+                <div class="col">
+                  <label>DETAIL PAGE PATH</label>
+                  <span class="text"><%= text_field "api_settings", "detail_page_path" %></span>
+                </div>
+              <% end %>
+
               <div class="row high">
                 <%= submit_tag 'save Changes', :class => 'submit' %>
                 <a href="javascript:void(0);" class="cancel_api_module">Cancel</a>

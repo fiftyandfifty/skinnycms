@@ -1,0 +1,46 @@
+<% @undefined_settings.each do |setting| %>
+
+      <div class="gray-area api_modules">
+        <div class="holder api_modules">
+          <div class="block">
+            <strong class="name light"><%= setting.title %></strong>
+            <ul class="actions">
+              <li><a href="javascript:void(0);" class="activate_api_module">Activate</a></li>
+            </ul>
+          </div>
+
+          <div class="edit_api_module" style="margin-top: 20px;">
+
+           <%= form_tag(add_setting_path, :class => "admin-email") do -%>
+             <fieldset>
+              <%= text_field "api_settings", "setting", :value => setting.title, :style => "display:none;" %>
+
+              <% if setting.title == 'Rackspace Cloudfiles' %>
+                <div class="col" style="width:500px;">
+                  <label>CONTAINER</label>
+                  <span class="text"><%= text_field "api_settings", "container" %></span>
+                </div>
+              <% end %>
+
+              <div class="col">
+                <label>API TOKEN</label>
+                <span class="text"><%= text_field "api_settings", "api_token" %></span>
+              </div>
+               
+              <div class="col">
+                <label>API KEY</label>
+                <span class="password"><%= text_field "api_settings", "api_key", :type => "password" %></span>
+              </div>
+
+              <div class="row high">
+                <%= submit_tag 'save Changes', :class => 'submit' %>
+                <a href="javascript:void(0);" class="cancel_api_module">Cancel</a>
+              </div>
+             </fieldset>
+           <% end %>
+
+          </div>
+        </div>
+      </div>
+
+<% end %>

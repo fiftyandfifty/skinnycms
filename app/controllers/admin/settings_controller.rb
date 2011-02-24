@@ -6,25 +6,26 @@ class Admin::SettingsController < ApplicationController
   def index
     @title = "Settings"
     @admin_users = User.all
-    @api_modules = ApiModule.all
+    @settings = Setting.all
+    @undefined_modules_names = ApiModule.undefined_modules_names
 
-    basic_api_modules = ["vimeo basic", "fleakr basic", "tumblr basic", "cloudfiles storage"]
-    undefined_modules = []
+    basic_settings = ['Rackspace Cloudfiles']
+    undefined_settings = []
+    @undefined_settings = []
 
-    if ApiModule.present?
-      basic_api_modules.each do |api_module|
-        current_module = ApiModule.where(:module_name => api_module)
-        undefined_modules << api_module if current_module.blank?
+    if Setting.present?
+      basic_settings.each do |setting|
+        current_setting = Setting.where(:title => setting)
+        undefined_settings << setting if current_setting.blank?
       end
     else
-      undefined_modules = basic_api_modules
+      undefined_settings = basic_settings
     end
 
-    @undefined_modules = []
-    if undefined_modules.present?
-      undefined_modules.each do |api_module|
-        current_module = ApiModule.new(:module_name => api_module)
-        @undefined_modules << current_module
+    if undefined_settings.present?
+      undefined_settings.each do |setting|
+        current_setting = Setting.new(:title => setting)
+        @undefined_settings << current_setting
       end
     end
   end
@@ -41,46 +42,42 @@ class Admin::SettingsController < ApplicationController
     redirect_to(admin_settings_path)
   end
 
-  def add_module
-    if params[:api_settings][:api_module] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
+  def add_setting
+    if params[:api_settings][:setting] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
       api_hash = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }
       api_hash[:container] = params[:api_settings][:container] if params[:api_settings][:container].present?
       api_configurations = api_hash.to_json
-      api_module = ApiModule.create!(:module_name => params[:api_settings][:api_module],
-                        :module_version => 1,
-                        :title => params[:api_settings][:api_module],
-                        :configuration => api_configurations)
+      setting = Setting.create!(:title => params[:api_settings][:setting],
+                                   :configuration => api_configurations)
                       
-      api_module.define_cloudfiles_configuration if params[:api_settings][:container].present?
+      setting.define_cloudfiles_configuration if params[:api_settings][:container].present?
     end
     
     redirect_to(admin_settings_path)
   end
 
-  def edit_module
-    if params[:api_settings][:api_module] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
-      api_module = ApiModule.find(params[:api_settings][:api_module])
+  def edit_setting
+    if params[:api_settings][:setting] && params[:api_settings][:api_token] && params[:api_settings][:api_key]
+      setting = Setting.find(params[:api_settings][:setting])
       api_hash = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }
       api_hash[:container] = params[:api_settings][:container] if params[:api_settings][:container].present?
       api_configurations = api_hash.to_json
-      api_module.update_attribute(:configuration, api_configurations) if api_module
+      setting.update_attribute(:configuration, api_configurations) if setting
 
-      api_module.define_cloudfiles_configuration if params[:api_settings][:container].present?
+      setting.define_cloudfiles_configuration if params[:api_settings][:container].present?
     end
 
     redirect_to(admin_settings_path)
   end
 
-  def clear_api_cashes
-    vimeo_module = ApiModule.find_by_module_name('vimeo basic')
-    fleakr_module = ApiModule.find_by_module_name('fleakr basic')
-    tumblr_module = ApiModule.find_by_module_name('tumblr basic')
+  def destroy
+    setting = Setting.find(params[:id])
+    setting.destroy
 
-    Admin::VideosController.new.update_cached_videos if vimeo_module.present?
-    Admin::GalleriesController.new.update_cached_galleries if fleakr_module.present?
-    Admin::PostsController.new.update_cached_posts if tumblr_module.present?
-
-    redirect_to(admin_settings_path)
+    respond_to do |format|
+      format.html { redirect_to(admin_settings_url, :notice => 'Setting successfully deleted!') }
+      format.xml  { head :ok }
+    end
   end
 
   private

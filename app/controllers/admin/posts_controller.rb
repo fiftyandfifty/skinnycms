@@ -12,7 +12,7 @@ class Admin::PostsController < ApplicationController
   def force_reload_posts
     update_cached_posts
     
-    redirect_to(admin_settings_path)
+    redirect_to(admin_modules_path)
   end
 
   def login_and_get_tumblr_user
