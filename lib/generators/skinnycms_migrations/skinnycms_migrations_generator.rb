@@ -103,21 +103,6 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
                     "index_vimeo_videos_on_complete_id"
                     ]
 
-    cache_tumblr_post_columns = {
-                    :tumblr_post_id => "string",
-                    :title => "string",
-                    :desc => "text",
-                    :url => "string",
-                    :reblog_key => "string",
-                    :post_type => "string",
-                    :post_date => "datetime",
-                    :incomplete => "boolean"
-                    }
-
-    cache_tumblr_post_indexes = [
-                    "index_tumblr_posts_on_complete_id"
-                    ]
-
     asset_columns = {
                     :title => "string",
                     :description => "text",
@@ -219,15 +204,6 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
       self.class.define_migration("cache_vimeo_videos", cache_vimeo_video_columns, cache_vimeo_video_app_columns, cache_vimeo_video_indexes, cache_vimeo_video_app_indexes)
     rescue
       self.class.check_migration_file("*create_cache_vimeo_videos*", "create_cache_vimeo_videos.rb")
-    end
-    sleep(1)
-
-    begin
-      cache_tumblr_post_app_columns = ActiveRecord::Base::CacheTumblrPost.column_names
-      cache_tumblr_post_app_indexes = ActiveRecord::Base.connection.indexes("cache_tumblr_posts")
-      self.class.define_migration("cache_tumblr_posts", cache_tumblr_post_columns, cache_tumblr_post_app_columns, cache_tumblr_post_indexes, cache_tumblr_post_app_indexes)
-    rescue
-      self.class.check_migration_file("*create_cache_tumblr_posts*", "create_cache_tumblr_posts.rb")
     end
     sleep(1)
 

@@ -15,7 +15,6 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     run "gem install paperclip -v '2.3.8'" if gemfile.scan("paperclip").size < 1
     run "gem install cloudfiles -v '1.4.10'" if gemfile.scan("cloudfiles").size < 1
     run "gem install paperclip-cloudfiles -v '2.3.8'" if gemfile.scan("paperclip-cloudfiles").size < 1
-    run "gem install tumblr-api -v '0.1.4'" if gemfile.scan("tumblr-api").size < 1
 
      if gemfile.scan("fleakr").size < 1
     run "cd #{RAILS_ROOT}/vendor && mkdir forks"
@@ -36,7 +35,6 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     insert_into_file "Gemfile", "gem 'paperclip', '2.3.8'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("paperclip").size < 1
     insert_into_file "Gemfile", "gem 'cloudfiles', '1.4.10'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("cloudfiles").size < 1
     insert_into_file "Gemfile", "gem 'paperclip-cloudfiles', '2.3.8', :require => 'paperclip'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("paperclip-cloudfiles").size < 1
-    insert_into_file "Gemfile", "gem 'tumblr-api', '0.1.4', :require => 'tumblr'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("tumblr-api").size < 1
     insert_into_file "Gemfile", "gem 'fleakr', :path => 'vendor/forks/fleakr'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("fleakr").size < 1
     insert_into_file "Gemfile", "gem 'vimeo', '1.3.0'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("vimeo").size < 1
     insert_into_file "Gemfile", "gem 'tiny_mce', '0.1.4'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("tiny_mce").size < 1
@@ -68,7 +66,6 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
      paperclip '2.3.8'
      cloudfiles, '1.4.10'
      paperclip-cloudfiles, '2.3.8'
-     tumblr-api '0.1.4'
      fleakr '0.6.4'
      vimeo '1.3.0'
      tinymce '0.1.4'
