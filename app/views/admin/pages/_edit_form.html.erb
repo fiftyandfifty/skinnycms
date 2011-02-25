@@ -121,7 +121,7 @@
 
           <% elsif header_content.module_type == 'CustomModule' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%=  header_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%=  header_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CustomModule.find(header_content.module_id.to_i).title %></input>
@@ -132,7 +132,7 @@
 
           <% elsif header_content.module_type == 'CacheTumblrPost' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%=  header_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%=  header_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => header_content.module_id.to_i }).title %></input>
@@ -143,7 +143,7 @@
 
           <% elsif header_content.module_type == 'CacheVimeoVideo' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%=  header_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%=  header_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => header_content.module_id.to_i }).title %></input>
@@ -154,10 +154,21 @@
 
           <% elsif header_content.module_type == 'CacheFleakrGallery' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%=  header_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%=  header_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="header_contents_<%= header_content.module_id %>" value="<%= header_content.module_id %>" style="display: none;" name="header_new[<%= header_content.module_type %>][<%= header_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => header_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif header_content.module_type == 'Tumblr Basic' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="tumblr_basic_old<%=  header_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="header_contents_<%= header_content.id %>" value="<%= header_content.id %>" style="display: none;" name="header_new[tumblr_basic_old][<%= header_content.id %>]"><%= header_content.module_type %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -204,7 +215,7 @@
 
           <% elsif page_content.module_type == 'CustomModule' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= page_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= page_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CustomModule.find(page_content.module_id.to_i).title %></input>
@@ -215,7 +226,7 @@
 
           <% elsif page_content.module_type == 'CacheTumblrPost' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= page_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= page_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => page_content.module_id.to_i }).title %></input>
@@ -226,7 +237,7 @@
 
           <% elsif page_content.module_type == 'CacheVimeoVideo' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= page_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= page_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => page_content.module_id.to_i }).title %></input>
@@ -237,10 +248,21 @@
 
           <% elsif page_content.module_type == 'CacheFleakrGallery' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= page_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= page_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="test" id="page_contents_<%= page_content.module_id %>" value="<%= page_content.module_id %>" style="display: none;" name="content_new[<%= page_content.module_type %>][<%= page_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => page_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif page_content.module_type == 'Tumblr Basic' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="tumblr_basic_old<%= page_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="test" id="page_contents_<%= page_content.id %>" value="<%= page_content.id %>" style="display: none;" name="content_new[tumblr_basic_old][<%= page_content.id %>]"><%= page_content.module_type %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -276,7 +298,7 @@
 
           <% elsif sidebar_content.module_type == 'CustomModule' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= sidebar_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CustomModule<%= sidebar_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CustomModule.find(sidebar_content.module_id.to_i).title %></input>
@@ -287,7 +309,7 @@
 
           <% elsif sidebar_content.module_type == 'CacheTumblrPost' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= sidebar_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheTumblrPost<%= sidebar_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheTumblrPost.find(:first, :conditions => { :tumblr_post_id => sidebar_content.module_id.to_i }).title %></input>
@@ -298,7 +320,7 @@
 
           <% elsif sidebar_content.module_type == 'CacheVimeoVideo' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= sidebar_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheVimeoVideo<%= sidebar_content.module_id %>">
              <div class="holder">
                <h4>
                  <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheVimeoVideo.find(:first, :conditions => { :vimeo_video_id => sidebar_content.module_id.to_i }).title %></input>
@@ -309,10 +331,21 @@
 
           <% elsif sidebar_content.module_type == 'CacheFleakrGallery' %>
 
-           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= sidebar_content.id %>">
+           <li class="area inner turbo" style="margin-bottom: 0;" id="CacheFleakrGallery<%= sidebar_content.module_id %>">
              <div class="holder">
                <h4>
-                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_contentmodule_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.module_id %>" value="<%= sidebar_content.module_id %>" style="display: none;" name="sidebar_new[<%= sidebar_content.module_type %>][<%= sidebar_content.module_id %>]"><%= CacheFleakrGallery.find(:first, :conditions => { :fleakr_gallery_id => sidebar_content.module_id.to_i }).title %></input>
+               </h4>
+               <a href="javascript:void(0);"  class="remove_available">Remove</a>
+             </div><div style="height:10px; background-color: white; width: 100%;"></div>
+           </li>
+
+          <% elsif sidebar_content.module_type == 'Tumblr Basic' %>
+
+           <li class="area inner turbo" style="margin-bottom: 0;" id="tumblr_basic_old<%= sidebar_content.id %>">
+             <div class="holder">
+               <h4>
+                 <input class="field" id="sidebar_contents_<%= sidebar_content.id %>" value="<%= sidebar_content.id %>" style="display: none;" name="sidebar_new[tumblr_basic_old][<%= sidebar_content.id %>]"><%= sidebar_content.module_type %></input>
                </h4>
                <a href="javascript:void(0);"  class="remove_available">Remove</a>
              </div><div style="height:10px; background-color: white; width: 100%;"></div>
@@ -405,6 +438,8 @@
                   <%= text_field "CacheFleakrGallery", "[#{available_module.id}]", :value => available_module.fleakr_gallery_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
                 <% elsif available_module.class.name == 'CacheVimeoVideo' %>
                   <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
+                <% elsif available_module == 'Tumblr Basic' %>
+                  <%= text_field "Tumblr Basic", "", :class => "tumblr_basic_new", :style => "display: none;" %>
                 <% end %>
               </div>
               <div class="available_content" style="float:left; width: 160px;">
@@ -582,7 +617,14 @@ $(document).ready(function(){
       else if (draggable_element.attr("class") == "frag_to ui-draggable"){
         header_id_end = header_id_end + 1;
         available_type = draggable_element.find('input').attr("class");
-        available_id = draggable_element.find('input').attr("value");
+
+        if(available_type == 'tumblr_basic_new'){
+          available_id = header_id_end;
+        }
+        else {
+          available_id = draggable_element.find('input').attr("value");
+        }
+        
         available_title = draggable_element.parent().find('.available_content').text();
         available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + header_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#header_drag').append(available_result_html);
@@ -618,7 +660,14 @@ $(document).ready(function(){
 
         content_id_end = content_id_end + 1;
         available_type = draggable_element.find('input').attr("class");
-        available_id = draggable_element.find('input').attr("value");
+
+        if(available_type == 'tumblr_basic_new'){
+          available_id = content_id_end;
+        }
+        else {
+          available_id = draggable_element.find('input').attr("value");
+        }
+
         available_title = draggable_element.parent().find('.available_content').text();
         available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + content_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#content_drag').append(available_result_html);
@@ -656,7 +705,14 @@ $(document).ready(function(){
 
         sidebar_id_end = sidebar_id_end + 1;
         available_type = draggable_element.find('input').attr("class");
-        available_id = draggable_element.find('input').attr("value");
+
+        if(available_type == 'tumblr_basic_new'){
+          available_id = sidebar_id_end;
+        }
+        else {
+          available_id = draggable_element.find('input').attr("value");
+        }
+
         available_title = draggable_element.parent().find('.available_content').text();
         available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_s_part_2 + sidebar_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + sidebar_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#sidebar_drag').append(available_result_html);

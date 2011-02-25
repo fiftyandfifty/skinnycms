@@ -24,6 +24,8 @@ class Admin::AssetsController < ApplicationController
     @videos = CacheVimeoVideo.find(:all, :conditions => "incomplete != 1")
     @galleries = CacheFleakrGallery.find(:all, :conditions => "incomplete != 1")
 
+    @undefined_modules_names = ApiModule.undefined_modules_names
+
     respond_to do |format|
       format.html
       format.xml  { render :xml => @assets }

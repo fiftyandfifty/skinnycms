@@ -225,7 +225,7 @@
                 <% elsif available_module.class.name == 'CacheVimeoVideo' %>
                   <%= text_field "CacheVimeoVideo", "[#{available_module.id}]", :value => available_module.vimeo_video_id, :class => "#{available_module.class.name}", :style => "display: none;" %>
                 <% elsif available_module == 'Tumblr Basic' %>
-                  <%= text_field "Tumblr Basic", "", :value => available_module, :class => "tumblr_basic", :style => "display: none;" %>
+                  <%= text_field "Tumblr Basic", "", :class => "tumblr_basic_new", :style => "display: none;" %>
                 <% end %>
               </div>
               <div class="available_content" style="float:left; width: 160px;">
@@ -458,10 +458,18 @@ $(document).ready(function(){
       else if (draggable_element.attr("class") == "frag_to ui-draggable"){
         header_id_end = header_id_end + 1;
         available_type = draggable_element.find('input').attr("class");
-        available_id = draggable_element.find('input').attr("value");
+
+        if(available_type == 'tumblr_basic_new'){
+          available_id = header_id_end;
+        }
+        else {
+          available_id = draggable_element.find('input').attr("value");
+        }
+
         available_title = draggable_element.parent().find('.available_content').text();
         available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_h_part_2 + header_id_end.toString() + available_h_part_3 + available_type.toString() + available_part_4 + header_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#header_drag').append(available_result_html);
+
       }
 
       $('#header_drag').sortable("refresh");
@@ -494,7 +502,14 @@ $(document).ready(function(){
 
         content_id_end = content_id_end + 1;
         available_type = draggable_element.find('input').attr("class");
-        available_id = draggable_element.find('input').attr("value");
+
+        if(available_type == 'tumblr_basic_new'){
+          available_id = content_id_end;
+        }
+        else {
+          available_id = draggable_element.find('input').attr("value");
+        }
+
         available_title = draggable_element.parent().find('.available_content').text();
         available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_c_part_2 + content_id_end.toString() + available_c_part_3 + available_type.toString() + available_part_4 + content_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#content_drag').append(available_result_html);
@@ -532,7 +547,14 @@ $(document).ready(function(){
 
         sidebar_id_end = sidebar_id_end + 1;
         available_type = draggable_element.find('input').attr("class");
-        available_id = draggable_element.find('input').attr("value");
+
+        if(available_type == 'tumblr_basic_new'){
+          available_id = sidebar_id_end;
+        }
+        else {
+          available_id = draggable_element.find('input').attr("value");
+        }
+        
         available_title = draggable_element.parent().find('.available_content').text();
         available_result_html = available_part_1 + available_type.toString() + available_id.toString() + available_part_1_2 + available_s_part_2 + sidebar_id_end.toString() + available_s_part_3 + available_type.toString() + available_part_4 + sidebar_id_end.toString() + available_part_5 + available_id.toString() + available_part_6 + available_title.toString() + available_part_7;
         $('#sidebar_drag').append(available_result_html);
