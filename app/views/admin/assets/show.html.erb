@@ -1,19 +1,41 @@
-<p id="notice"><%= notice %></p>
+<!-- heading -->
+<div class="heading">
+  <h2>Preview asset</h2>
+</div>
 
-<p>
-  <b>Title:</b>
-  <%= @asset.title %>
-</p>
+<!-- main -->
+<div id="main" class="shadow">
+  <!-- content -->
+  <div id="content">
+    <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Description:</b>
-  <%= @asset.description %>
-</p>
+    <h3>Title:</h3>
+    <p>
+      <%= @asset.title %>
+    </p><br />
 
-<p>
-  <b>File:</b>
-  <%= image_tag @asset.asset.url(:thumbnail) %>
-</p>
+    <h3>Description:</h3>
+    <p>
+      <%= @asset.description %>
+    </p><br />
 
-<%= link_to 'Edit', edit_admin_asset_path(@asset) %> |
-<%= link_to 'Back', admin_assets_path %>
+    <div class="asset_image">
+      <% if @asset.content_type == 'image' %>
+        <%= image_tag @asset.asset.url(:medium) %>
+      <% elsif @asset.content_type == 'video' %>
+        <!-- We will add swfobject player here for video -->
+      <% elsif @asset.content_type == 'audio' %>
+        <!-- We will add swfobject player here for audio -->
+      <% elsif @asset.content_type == 'text' %>
+        <!-- We will add not big part of text in file or special icon -->
+      <% end %>
+    </div><br />
+
+    <%= link_to 'Edit', edit_admin_asset_path(@asset) %> |
+    <%= link_to 'Back', admin_assets_path %>
+  </div>
+
+  <!-- sidebar -->
+  <div id="sidebar">
+  </div>
+</div>
