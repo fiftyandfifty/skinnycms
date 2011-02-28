@@ -3,7 +3,7 @@ class Admin::PagesController < ApplicationController
   before_filter :define_page
   layout "admin"
   uses_tiny_mce :options => {:theme_advanced_buttons1_add => %w{assets}},
-                :raw_options => "setup : function(ed) { ed.addButton('assets', { title : 'Assets', image : '/images/skinnycms/admin/ico-l.gif', onclick : function() { $('#assets_popup').dialog('open'); }});}"
+                :raw_options => "setup : function(ed) { ed.addButton('assets', { title : 'Assets', image : '/images/skinnycms/admin/assets.gif', onclick : function() { var my_id = $(this).attr('id'); $('#wysiwyg_container').text(my_id); $('#assets_popup').dialog('open'); }});}"
   respond_to :html, :xml
 
 
@@ -52,11 +52,38 @@ class Admin::PagesController < ApplicationController
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
-    @assets = Asset.all.paginate :page => params[:page], :per_page => 3
+    @assets = Asset.all.paginate :page => params[:page], :per_page => 8
 
     respond_to do |format|
       format.html
+      format.js
       format.xml { render :xml => @page }
+    end
+  end
+
+  def get_asset_by_type_to_editor
+    sleep 2
+    if params[:asset_type].present? && params[:asset_type] != 'all'
+      assets = Asset.find(:all, :conditions => ['asset_content_type LIKE ?', '%' + params[:asset_type] + '%'])
+    elsif params[:asset_type] == 'all'
+      assets = Asset.all
+    end
+    @assets = assets.paginate :page => params[:page], :per_page => 8 if assets.present?
+
+    respond_to do |format|
+      format.js
+      format.xml { head :ok }
+    end
+  end
+
+  def search_asset_for_editor
+    sleep 2
+    assets = Asset.find( :all, :conditions => ['title LIKE ? OR description LIKE ? OR asset_file_name LIKE ?', '%' + params[:search_key] + '%', '%' + params[:search_key] + '%', '%' + params[:search_key] + '%'], :limit => 10 )
+    @assets = assets.paginate :page => params[:page], :per_page => 8 if assets.present?
+
+    respond_to do |format|
+      format.js
+      format.xml { head :ok }
     end
   end
 

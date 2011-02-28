@@ -120,38 +120,7 @@
     <input id="header_positions" name="header_positions" style="display: none;"></input>
     <input id="content_positions" name="content_positions" style="display: none;"></input>
     <input id="sidebar_positions" name="sidebar_positions" style="display: none;"></input>
-    <input id="selected_navigations" name="selected_navigations" style="display: none;"></input>
-
-    <div id="assets_popup" title="Add Asset">
-
-      <ul class="assets_list" style="margin-bottom: 20px; margin-top: 10px; font-weight: bold; font-size: 14px;">
-        <li style="border-right: 1px solid gray;">All</li>
-        <li style="border-right: 1px solid gray;">Images</li>
-        <li style="border-right: 1px solid gray;">Videos</li>
-        <li style="border-right: 1px solid gray;">Audio</li>
-        <li>Files</li>
-      </ul>
-
-      <table class="assets"  style="margin-bottom: 20px;">
-        <tr class="assets_headers"  style="font-weight: bold;font-size: 14px;">
-          <td class="assets_title">Name</td>
-          <td class="assets_icon">Icon</td>
-          <td class="assets_type">Type</td>
-        </tr>
-        <% @assets.each do |asset| %>
-          <tr class="assets_data"  style="">
-            <td class="assets_title"><%= asset.title %></td>
-            <td class="assets_icon">no icon yet!</td>
-            <td class="assets_type"><%= asset.asset_content_type %></td>
-          </tr>
-        <% end %>
-      </table>
-
-      <div class="pagination_container" style="width: 390px;">
-        <%= will_paginate @assets %>
-      </div>
-       
-    </div>
+    <input id="wysiwyg_container" style="display: none;"></input>
 
     <!-- module -->
    <div class="module"  id="scripts_module">
@@ -253,61 +222,49 @@
 
 <% end %>
 
+<!-- Hidden search assets dialog window -->
+<div id="assets_popup" title="Add Asset">
+  <!-- search form -->
+  <div class="search_asset_form" style="width: 540px; height:30px; margin-top: 5px; ">
+    <ul class="assets_list" style="float: left; width: 300px; height:25px; ">
+      <%= link_to(get_asset_by_type_to_editor_path(:asset_type => 'all'), :id => 'all_types') do %>
+        <li>ALL</li>
+      <% end %>
+      <%= link_to(get_asset_by_type_to_editor_path(:asset_type => 'image'), :id => 'image') do %>
+        <li>IMAGES</li>
+      <% end %>
+      <%= link_to(get_asset_by_type_to_editor_path(:asset_type => 'video'), :id => 'video') do %>
+        <li>VIDEOS</li>
+      <% end %>
+      <%= link_to(get_asset_by_type_to_editor_path(:asset_type => 'audio'), :id => 'audio') do %>
+        <li>AUDIO</li>
+      <% end %>
+      <%= link_to(get_asset_by_type_to_editor_path(:asset_type => 'text'), :id => 'text') do %>
+        <li>FILES</li>
+      <% end %>
+    </ul>
+    <%= form_tag(search_asset_for_editor_path, :method => 'get', :class => 'search', :style => "float:left; margin-left:5px; width: 200px;") do %>
+      <fieldset>
+        <div class="holder" style=" width:240px;">
+          <span class="text"><input name="search_key" type="text" style="width:140px;" /></span>
+         <input type="submit" value="SEARCH" class="submit" />
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+  <div id="super_div">
+  <%= render :partial => 'add_assets' %>
+  </div>
+</div>
+
 <% content_for :html_header_includes do %>
   <%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
   <%= javascript_include_tag 'skinnycms/jquery/jquery.validationEngine.js' %>
   <%= javascript_include_tag 'skinnycms/jquery/jquery.validationEngine-en.js' %>
-  <%= stylesheet_link_tag 'skinnycms/jquery-ui-1.8.9.custom' %>
+  <%= stylesheet_link_tag 'skinnycms/jquery-ui-1.8.10.custom' %>
   <%= stylesheet_link_tag 'skinnycms/validationEngine.jquery.css' %>
 
 <style type="text/css">
-
-#assets_popup {
-
-}
-
-#assets_popup .assets_list {
-  overflow: hidden;
-  width: 405px;
-  height: 20px;
-}
-
-#assets_popup .assets_list li {
-  float: left;
-  width: 80px;
-  text-align: center;
-}
-
-.assets_headers td {
-  height: 20px;
-  text-align: center;
-  border: 1px solid gray;
-  padding: 2px;
-}
-
-.assets_data td {
-  height: 20px;
-  text-align: center;
-  border: 1px solid gray;
-  padding: 2px;
-}
-
-.assets_title {
-  width: 80px;
-}
-
-.assets_icon {
-  width: 240px;
-}
-
-.assets_type {
-  width: 80px;
-}
-
-#assets_popup .pagination {
-  width: 375px;
-}
-
 .pagination_container {
   width: 220px;
   overflow: hidden;
@@ -327,7 +284,11 @@ div.pagination {
   float:right;
 }
 
-   </style>
+.assets_list li { height: 15px; border: 1px solid gray; margin: 0; padding: 3px 7px; float: left;}
+.pagination_container .pagination { width: 510px;}
+a.mceButton.mceButtonEnabled.mce_assets { width: 50px; }
+a.mceButton.mceButtonEnabled.mce_assets img { width: 50px; }
+</style>
 
 <script type="text/javascript">
 
@@ -819,25 +780,48 @@ $(document).ready(function(){
 
   });
 
-  <!-- Select logic for navigations -->
+  <!-- Select logic for assets -->
 
   $( "#assets_popup" ).dialog({
                               autoOpen: false,
-			      height: 300,
-			      width: 430,
-			      modal: true,
-			      buttons: {
+                              height: 395,
+                              width: 570,
+                              modal: true,
+                              buttons: {
                                 "Add asset": function() {
-			          // we will send data to the wysiwyg editor
-				},
-				Cancel: function() {
-				  $( this ).dialog( "close" );
-				}
-			      }
-		});
+                                  var grisha = $(".ui-selected")
+                                  $.each(grisha, function(index, value) {
+                                    alert("index = " + index + "value = " + $(value).attr("id"));
+                                    wysiwyg_container = $('#wysiwyg_container').text();
+                                    iframe_id = "#" + wysiwyg_container + '_ifr';
+                                    alert(iframe_id);
+                                   // asset = '<img src="' + $(value).attr("id") + '" />';
+                                    alert(wysiwyg_container);
+                                  });
+                                  $( this ).dialog( "close" );
+                                },
+                              Cancel: function() {
+                                $( this ).dialog( "close" );
+                              }
+                             }
+   });
 
    $( "#assets_popup" ).bind( "dialogopen", function(event, ui) {
      $('.ui-dialog-buttonset button').removeClass( "ui-state-focus" );
+   });
+
+   <!-- AJAX queries for assets -->
+
+   // Sorting and pagination links.
+   $('#all_types, #image, #video, #audio, #text, #assets_popup .pagination a').live("click", function () {
+     $.get(this.href, null, null, 'script');
+     return false;
+   });
+
+   // Search form.
+   $('.search').submit(function () {
+     $.get(this.action, $(this).serialize());
+     return false;
    });
      
    $("#new_page").validationEngine();

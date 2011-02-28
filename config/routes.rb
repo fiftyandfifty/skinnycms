@@ -22,6 +22,10 @@ Rails.application.routes.draw do
 
   match 'update_sort', :controller => 'admin/pages', :action => 'update_sort'
 
+  match 'get_asset_by_type_to_editor', :controller => 'admin/pages', :action => 'get_asset_by_type_to_editor'
+
+  match 'search_asset_for_editor', :controller => 'admin/pages', :action => 'search_asset_for_editor'
+
   match 'edit_admin_settings', :controller => 'admin/settings', :action => 'edit_admin_settings'
 
   match 'add_setting', :controller => 'admin/settings', :action => 'add_setting'
