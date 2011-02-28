@@ -47,10 +47,8 @@ class Admin::SettingsController < ApplicationController
       api_hash = { :api_token => params[:api_settings][:api_token], :api_key => params[:api_settings][:api_key] }
       api_hash[:container] = params[:api_settings][:container] if params[:api_settings][:container].present?
       api_configurations = api_hash.to_json
-      setting = Setting.create!(:title => params[:api_settings][:setting],
-                                   :configuration => api_configurations)
-                      
-      setting.define_cloudfiles_configuration if params[:api_settings][:container].present?
+      Setting.create!(:title => params[:api_settings][:setting],
+                    :configuration => api_configurations)
     end
     
     redirect_to(admin_settings_path)
@@ -63,8 +61,6 @@ class Admin::SettingsController < ApplicationController
       api_hash[:container] = params[:api_settings][:container] if params[:api_settings][:container].present?
       api_configurations = api_hash.to_json
       setting.update_attribute(:configuration, api_configurations) if setting
-
-      setting.define_cloudfiles_configuration if params[:api_settings][:container].present?
     end
 
     redirect_to(admin_settings_path)

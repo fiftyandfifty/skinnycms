@@ -8,7 +8,6 @@ class SkinnycmsGenerator < Rails::Generators::Base
     run "rails generate skinnycms_gems"
     run "rails generate skinnycms_devise"
     run "rails generate skinnycms_tinymce"
-    run "rails generate skinnycms_cloudfiles"
     run "rails generate friendly_id"
     run "rails generate skinnycms_migrations"
     run "rails generate skinnycms_layouts"
