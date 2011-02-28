@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.2.8"
+  s.version = "0.2.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-25}
+  s.date = %q{2011-02-28}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -39,21 +39,17 @@ Gem::Specification.new do |s|
     "app/controllers/pages_controller.rb",
     "app/models/api_module.rb",
     "app/models/asset.rb",
-    "app/models/audio_file.rb",
     "app/models/cache_fleakr_gallery.rb",
     "app/models/cache_tumblr_post.rb",
     "app/models/cache_vimeo_video.rb",
     "app/models/custom_module.rb",
-    "app/models/image_file.rb",
     "app/models/navigation.rb",
     "app/models/page.rb",
     "app/models/page_content.rb",
     "app/models/pages_to_navigation.rb",
     "app/models/setting.rb",
     "app/models/template.rb",
-    "app/models/text_file.rb",
     "app/models/user.rb",
-    "app/models/video_file.rb",
     "app/views/admin/assets/_form.html.erb",
     "app/views/admin/assets/edit.html.erb",
     "app/views/admin/assets/index.html.erb",
@@ -1084,7 +1080,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/fiftyandfifty/skinnycms}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.0}
+  s.rubygems_version = %q{1.5.2}
   s.summary = %q{Lightweight CMS which leverages the lastest external social networking APIs}
   s.test_files = [
     "spec/models/category_item_spec.rb",
