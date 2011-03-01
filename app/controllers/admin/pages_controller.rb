@@ -101,6 +101,13 @@ class Admin::PagesController < ApplicationController
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
+    @assets = Asset.all.paginate :page => params[:page], :per_page => 8
+
+    respond_to do |format|
+      format.html
+      format.js
+      format.xml { render :xml => @page }
+    end
   end
 
   def create
