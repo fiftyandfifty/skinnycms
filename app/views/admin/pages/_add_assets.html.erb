@@ -25,7 +25,7 @@ $(document).ready(function(){
   <ol id="selectable">
     <% @assets.each do |asset| %>
 	<li class="ui-state-default" id="<%= asset.asset.url %>">
-          <div style="width: 70px; height: 70px; margin-top:5px; margin-left:4px; border: 1px solid gray;">icon</div>
+          <div style="width: 70px; height: 70px; margin-top:5px; margin-left:4px; border: 1px solid gray;"><%= image_tag(asset.asset.url(:bigthumb)) %></div>
           <span style="width: 70px; height: 10px; margin-top:5px; margin-left:4px; overflow: hidden;">
             <%= asset.title %>
           </span>

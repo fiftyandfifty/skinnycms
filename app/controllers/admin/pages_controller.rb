@@ -52,6 +52,7 @@ class Admin::PagesController < ApplicationController
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
+    Asset.all.each { |asset| asset.asset.reprocess! }
     @assets = Asset.all.paginate :page => params[:page], :per_page => 8
 
     respond_to do |format|
@@ -101,6 +102,7 @@ class Admin::PagesController < ApplicationController
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
+    Asset.all.each { |asset| asset.asset.reprocess! }
     @assets = Asset.all.paginate :page => params[:page], :per_page => 8
 
     respond_to do |format|

@@ -791,12 +791,13 @@ $(document).ready(function(){
                                 "Add asset": function() {
                                   var grisha = $(".ui-selected")
                                   $.each(grisha, function(index, value) {
-                                    alert("index = " + index + "value = " + $(value).attr("id"));
+                                   // alert("index = " + index + "value = " + $(value).attr("id"));
                                     wysiwyg_container = $('#wysiwyg_container').text();
                                     iframe_id = "#" + wysiwyg_container + '_ifr';
-                                    alert(iframe_id);
-                                   // asset = '<img src="' + $(value).attr("id") + '" />';
-                                    alert(wysiwyg_container);
+                                  //  alert(iframe_id);
+                                    asset = '<img src="' + $(value).attr("id") + '" />';
+                                   // alert(wysiwyg_container);
+                                    $(iframe_id).contents().find('body.mceContentBody').append(asset);
                                   });
                                   $( this ).dialog( "close" );
                                 },
