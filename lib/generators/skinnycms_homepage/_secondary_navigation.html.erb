@@ -1,0 +1,11 @@
+<div id="secondary_navigation" class="navigations">
+	<ul>
+    <% for p in PagesToNavigation.for_navigation_roots('Secondary Navigation') %>  
+    	<% if p.page.status == "published" %>
+        <li>	
+    	    <%= link_to p.page.title.capitalize, (!p.page.redirect_url.blank? ? p.page.redirect_url : friendly_path(p.page)) %>
+        </li>
+    	<% end %>
+    <% end %>
+	</ul>
+</div>
