@@ -9,7 +9,7 @@ class Page < ActiveRecord::Base
 
   validates :title, :permalink, :presence => true
   
-  has_friendly_id :title, :use_slug => true, :approximate_ascii => true
+  has_friendly_id :permalink, :use_slug => true, :approximate_ascii => true
   
   scope :not_on_nav, :conditions => 'pages_to_navigations.navigation_id IS NULL' , :order => :title, :include => :pages_to_navigations  
 
