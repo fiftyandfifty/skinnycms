@@ -34,6 +34,7 @@ class Admin::AssetsController < ApplicationController
 
   def show
     @asset = Asset.find(params[:id])
+    @asset.asset.reprocess!
 
     respond_to do |format|
       format.html
