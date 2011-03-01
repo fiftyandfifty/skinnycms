@@ -23,10 +23,11 @@ class PagesController < ApplicationController
     end
     page_template = 'home_page' if !page_template
     
-    @header_contents = PageContent.where(:page_id => @page, :location => 'header').order(:position) if locations.include?('header')
-    @page_contents = PageContent.where(:page_id => @page, :location => 'content').order(:position) if locations.include?('content')
-    @sidebar_contents = PageContent.where(:page_id => @page, :location => 'sidebar').order(:position) if locations.include?('sidebar')
-
+    @content_locations = {}
+    locations.each do |loc|
+      @content_locations[loc] = PageContent.where(:page_id => @page, :location => loc).order(:position)
+    end
+    
     ApiModule.all.each do |api_module|
       if api_module.module_name == 'tumblr basic'
         recent_posts_number = JSON.parse(api_module.configuration)["recent_posts_number"].to_i

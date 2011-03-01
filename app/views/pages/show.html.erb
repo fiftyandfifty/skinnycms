@@ -1,49 +1,20 @@
-<% content_for :header do %>
-  <% if @page.blank? %>
-    <p style="text-align: center; color:red; font-weight: bold; font-size: 16px;">page doesn't exist!</p>
-  <% end %>
-  <% if @header_contents.present? %>
-    <% for header_content in @header_contents %>
-      <% if header_content.module_type == 'Tumblr Basic' %>
-        <% for post in @all_tumblr_posts %>
-          <%= post.title %><br />
+<%- @content_locations.each do |location, location_contents| -%>
+  <% content_for location.to_sym do %>
+    <% if @page.blank? %>
+      <p style="text-align: center; color:red; font-weight: bold; font-size: 16px;">page doesn't exist!</p>
+    <% end %>
+    <% if location_contents.present? %>
+      <% for content in location_contents %>
+        <% if content.module_type == 'Tumblr Basic' %>
+          <% for post in @all_tumblr_posts %>
+            <%= post.title %><br />
+          <% end %>
+          <%= will_paginate @all_tumblr_posts %>
+          <%= link_to("Details", @tumblr_detail_page_path) %>
+        <% else %>
+          <%= raw(content.content) %>
         <% end %>
-        <%= will_paginate @all_tumblr_posts %>
-        <%= link_to("Details", @tumblr_detail_page_path) %>
-      <% else %>
-        <%= raw(header_content.content) %>
       <% end %>
     <% end %>
   <% end %>
-<% end %>
-
-<% content_for :content do %>
-  <% if @page_contents.present? %>
-    <% for page_content in @page_contents %>
-      <% if page_content.module_type == 'Tumblr Basic' %>
-        <% for post in @all_tumblr_posts %>
-          <%= post.title %><br />
-        <% end %>
-        <%= will_paginate @all_tumblr_posts %>
-        <%= link_to("Details", @tumblr_detail_page_path) %>
-      <% else %>
-        <%= raw(page_content.content) %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
-
-<% content_for :sidebar do %>
-  <% if @sidebar_contents.present? %>
-    <% for sidebar_content in @sidebar_contents %>
-      <% if sidebar_content.module_type == 'Tumblr Basic' %>
-        <% for post in @recent_tumblr_posts %>
-          <%= post.title %><br />
-        <% end %>
-        <%= link_to("Details", @tumblr_detail_page_path) %>
-      <% else %>
-        <%= raw(sidebar_content.content) %>
-      <% end %>
-    <% end %>
-  <% end %>
-<% end %>
+<%- end -%>
