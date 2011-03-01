@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.3.1"
+  s.version = "0.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-02-28}
+  s.date = %q{2011-03-01}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -116,6 +116,12 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_gems/USAGE",
     "lib/generators/skinnycms_gems/skinnycms_gems_generator.rb",
     "lib/generators/skinnycms_homepage/USAGE",
+    "lib/generators/skinnycms_homepage/_footer_navigation.html.erb",
+    "lib/generators/skinnycms_homepage/_main_navigation.html.erb",
+    "lib/generators/skinnycms_homepage/_secondary_navigation.html.erb",
+    "lib/generators/skinnycms_homepage/detail_page.html.erb",
+    "lib/generators/skinnycms_homepage/home_page.html.erb",
+    "lib/generators/skinnycms_homepage/landing_page.html.erb",
     "lib/generators/skinnycms_homepage/page_helper.rb",
     "lib/generators/skinnycms_homepage/skinnycms_homepage_generator.rb",
     "lib/generators/skinnycms_images/USAGE",
@@ -268,7 +274,6 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_styles/stylesheets/devise.css",
     "lib/generators/skinnycms_styles/stylesheets/ie.css",
     "lib/generators/skinnycms_styles/stylesheets/jquery-ui-1.8.10.custom.css",
-    "lib/generators/skinnycms_styles/stylesheets/jquery-ui-1.8.9.custom.css",
     "lib/generators/skinnycms_styles/stylesheets/nestedSortable.css",
     "lib/generators/skinnycms_styles/stylesheets/reset.css",
     "lib/generators/skinnycms_styles/stylesheets/text.css",
@@ -1083,7 +1088,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/fiftyandfifty/skinnycms}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.5.0}
   s.summary = %q{Lightweight CMS which leverages the lastest external social networking APIs}
   s.test_files = [
     "spec/models/category_item_spec.rb",
