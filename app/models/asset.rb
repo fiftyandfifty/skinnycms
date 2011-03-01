@@ -2,26 +2,26 @@ class Asset < ActiveRecord::Base
 
   after_update :reprocess
 
-  has_attached_file :asset, :styles         => lambda { |a|
-                                                 if a.instance.thumbnailable?
-                                                   {:medium => "300x300>", :small => "150x150>", :thumb => "40x40>", :bigthumb => "60x60>"}
-                                                 elsif a.instance.editable?
-                                                   {:original => {:contents => 'asset_contents'}}
-                                                 end
+  has_attached_file :asset, :styles => lambda { |a|
+                                                if a.instance.thumbnailable?
+                                                  { :medium => "300x300>", :small => "150x150>", :thumb => "40x40>", :bigthumb => "60x60>" }
+                                                elsif a.instance.editable?
+                                                  { :original => { :contents => 'asset_contents' }}
+                                                end
                                                },
-                                               #:storage => :cloud_files,
-                                               #:cloudfiles_credentials => Setting.rackspace_credentials,
-                            :processors     => lambda { |a|
-                                                 if a.editable?
-                                                   [:file_contents]
-                                                 elsif a.thumbnailable?
-                                                   [:thumbnail]
-                                                 end
-                                               }
+                                               :storage => :cloud_files,
+                                               :cloudfiles_credentials => Setting.rackspace_credentials,
+                            :processors => lambda { |a|
+                                                    if a.editable?
+                                                      [:file_contents]
+                                                    elsif a.thumbnailable?
+                                                      [:thumbnail]
+                                                    end
+                                                  }
 
   attr_protected :asset_file_name, :asset_content_type, :asset_size
 
-  validates_attachment_size     :asset, :less_than => 6.megabytes
+  #validates_attachment_size     :asset, :less_than => 6.megabytes
   validates_attachment_presence :asset
 
   BASIC_TYPES = ['text', 'image', 'audio', 'video']
