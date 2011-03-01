@@ -9,7 +9,7 @@
           <%= post.title %><br />
         <% end %>
         <%= will_paginate @all_tumblr_posts %>
-        <%= link_to("Details", @detail_page_path) %>
+        <%= link_to("Details", @tumblr_detail_page_path) %>
       <% else %>
         <%= raw(header_content.content) %>
       <% end %>
@@ -25,7 +25,7 @@
           <%= post.title %><br />
         <% end %>
         <%= will_paginate @all_tumblr_posts %>
-        <%= link_to("Details", @detail_page_path) %>
+        <%= link_to("Details", @tumblr_detail_page_path) %>
       <% else %>
         <%= raw(page_content.content) %>
       <% end %>
@@ -40,7 +40,7 @@
         <% for post in @recent_tumblr_posts %>
           <%= post.title %><br />
         <% end %>
-        <%= link_to("Details", @detail_page_path) %>
+        <%= link_to("Details", @tumblr_detail_page_path) %>
       <% else %>
         <%= raw(sidebar_content.content) %>
       <% end %>

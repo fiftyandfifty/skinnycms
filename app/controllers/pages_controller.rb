@@ -27,12 +27,19 @@ class PagesController < ApplicationController
     @page_contents = PageContent.where(:page_id => @page, :location => 'content').order(:position) if locations.include?('content')
     @sidebar_contents = PageContent.where(:page_id => @page, :location => 'sidebar').order(:position) if locations.include?('sidebar')
 
-    if @page.page_contents.where(:module_type => 'Tumblr Basic').present?
-      tumblr_basic_module = ApiModule.where(:module_name => 'tumblr basic').first
-      recent_posts_number = JSON.parse(tumblr_basic_module.configuration)["recent_posts_number"].to_i
-      @detail_page_path = JSON.parse(tumblr_basic_module.configuration)["detail_page_path"]
-      @all_tumblr_posts = CacheTumblrPost.all.paginate :page => params[:page], :per_page => recent_posts_number
-      @recent_tumblr_posts = CacheTumblrPost.order('post_date asc').limit(recent_posts_number)
+    ApiModule.all.each do |api_module|
+      if api_module.module_name == 'tumblr basic'
+        recent_posts_number = JSON.parse(api_module.configuration)["recent_posts_number"].to_i
+        @tumblr_detail_page_path = JSON.parse(api_module.configuration)["detail_page_path"]
+        @all_tumblr_posts = CacheTumblrPost.all.paginate :page => params[:page], :per_page => recent_posts_number
+        @recent_tumblr_posts = CacheTumblrPost.order('post_date asc').limit(recent_posts_number)
+      end
+      if api_module.module_name == 'fleakr basic'
+        # specific actions for fleakr basic
+      end
+      if api_module.module_name == 'vimeo basic'
+        # specific actions for vimeo basic
+      end
     end
 
     respond_to do |format|
