@@ -44,6 +44,12 @@ class Asset < ActiveRecord::Base
     end
   end
 
+  def self.image_list
+    list = {}
+    all.each { |element| list[element.title] = element.asset.url }
+    list
+  end
+
   private
   
   def reprocess

@@ -3,6 +3,7 @@ class Admin::PagesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :define_page
   before_filter :update_thumbnails_for_assets, :only => [:new, :edit]
+  before_filter :generate_list_of_assets, :only => [:new, :edit]
   layout "admin"
   uses_tiny_mce :options => {:theme_advanced_buttons1_add => %w{assets}},
                 :raw_options => "setup : function(ed) { ed.addButton('assets', { title : 'Assets', image : '/images/skinnycms/admin/assets.gif', onclick : function() { var my_id = $(this).attr('id'); $('#wysiwyg_container').text(my_id); $('#assets_popup').dialog('open'); }});}"
@@ -1121,6 +1122,21 @@ class Admin::PagesController < ApplicationController
 
   def update_thumbnails_for_assets
     Asset.all.each { |asset| asset.asset.reprocess! }
+  end
+
+  def generate_list_of_assets
+    images_list = "var tinyMCEImageList = new Array("
+    i = Asset.count
+    Asset.image_list.each do |key, value|
+      asset_url = "[" + "\'" + key.to_s + "\'" + "," + "\'" + value.to_s + "\'" + "]"
+      asset_url += "," if i > 1
+      images_list += asset_url
+      i -= 1
+    end
+    images_list += ");"
+    f = File.open("#{Rails.root}/public/javascripts/tiny_mce/image_list.js",'w+')
+    f.write(images_list)
+    f.close
   end
 end
 

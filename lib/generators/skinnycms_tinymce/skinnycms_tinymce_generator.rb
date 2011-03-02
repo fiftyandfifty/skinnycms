@@ -17,6 +17,34 @@ class SkinnycmsTinymceGenerator < Rails::Generators::Base
     config_tiny_mce_file = IO.read('config/tiny_mce.yml')
 
     tiny_mce_configs = "theme: advanced
+plugins:
+  - spellchecker
+  - pagebreak
+  - style
+  - layer
+  - table
+  - save
+  - advhr
+  - advimage
+  - advlink
+  - emotions
+  - iespell
+  - inlinepopups
+  - insertdatetime
+  - preview
+  - media
+  - searchreplace
+  - print
+  - contextmenu
+  - paste
+  - directionality
+  - fullscreen
+  - noneditable
+  - visualchars
+  - nonbreaking
+  - xhtmlxtras
+  - template
+external_image_list_url : '/javascripts/tiny_mce/image_list.js'
 convert_urls: false
 relative_urls: false
 theme_advanced_resizing: true
@@ -47,7 +75,9 @@ theme_advanced_buttons2: ''
 theme_advanced_buttons3: ''\n"
 
     if config_tiny_mce_file.scan(tiny_mce_configs).size < 1
-      inject_into_file "config/tiny_mce.yml", tiny_mce_configs, :before => "# Here you can specify default options"
+      f = File.open("#{Rails.root}/config/tiny_mce.yml",'w+')
+      f.write(tiny_mce_configs)
+      f.close
     end
     
     puts SkinnycmsTinymceGenerator.end_description
