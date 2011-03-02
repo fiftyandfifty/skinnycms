@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.3.4"
+  s.version = "0.3.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-03-01}
+  s.date = %q{2011-03-02}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -64,7 +64,6 @@ Gem::Specification.new do |s|
     "app/views/admin/pages/_add_assets.html.erb",
     "app/views/admin/pages/_edit_form.html.erb",
     "app/views/admin/pages/_homepage.html.erb",
-    "app/views/admin/pages/_new_form.html.erb",
     "app/views/admin/pages/_page_list.html.erb",
     "app/views/admin/pages/edit.html.erb",
     "app/views/admin/pages/get_asset_by_type_to_editor.js.erb",
@@ -85,7 +84,6 @@ Gem::Specification.new do |s|
     "app/views/admin/users/index.html.erb",
     "app/views/admin/users/new.html.erb",
     "app/views/admin/users/show.html.erb",
-    "app/views/pages/index.html.erb",
     "app/views/pages/show.html.erb",
     "app/views/shared/_error_messages.html.erb",
     "config/routes.rb",
@@ -1019,6 +1017,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_tinymce/templates/kete-tiny_mce-a8dc663/test/unit/helpers/tiny_mce_helper_test.rb",
     "lib/generators/skinnycms_tinymce/templates/kete-tiny_mce-a8dc663/test/unit/tiny_mce_test.rb",
     "lib/generators/skinnycms_tinymce/templates/kete-tiny_mce-a8dc663/tiny_mce.gemspec",
+    "lib/paperclip_cloudfiles_patch.rb",
     "lib/skinnycms.rb",
     "lib/skinnycms/engine.rb",
     "lib/skinnycms/railties/tasks.rake",
