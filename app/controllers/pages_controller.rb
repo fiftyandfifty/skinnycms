@@ -1,8 +1,5 @@
 class PagesController < ApplicationController
-  def index
-    show
-  end
-  
+ 
   def show
     if params
       if params[:id].blank? then page_id = 1 else page_id = params[:id] end
