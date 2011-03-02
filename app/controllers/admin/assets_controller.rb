@@ -1,5 +1,6 @@
 class Admin::AssetsController < ApplicationController
- # before_filter :authenticate_user!
+  require 'paperclip_cloudfiles_patch'
+  before_filter :authenticate_user!
   before_filter :define_page
   uses_tiny_mce
   layout "admin"

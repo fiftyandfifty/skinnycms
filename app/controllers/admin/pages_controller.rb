@@ -1,11 +1,12 @@
 class Admin::PagesController < ApplicationController
+  require 'paperclip_cloudfiles_patch'
   before_filter :authenticate_user!
   before_filter :define_page
+  before_filter :update_thumbnails_for_assets, :only => [:new, :edit]
   layout "admin"
   uses_tiny_mce :options => {:theme_advanced_buttons1_add => %w{assets}},
                 :raw_options => "setup : function(ed) { ed.addButton('assets', { title : 'Assets', image : '/images/skinnycms/admin/assets.gif', onclick : function() { var my_id = $(this).attr('id'); $('#wysiwyg_container').text(my_id); $('#assets_popup').dialog('open'); }});}"
   respond_to :html, :xml
-
 
   def index
     @title = "Pages"
@@ -52,7 +53,6 @@ class Admin::PagesController < ApplicationController
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
-    Asset.all.each { |asset| asset.asset.reprocess! }
     @assets = Asset.all.paginate :page => params[:page], :per_page => 8
 
     respond_to do |format|
@@ -102,8 +102,6 @@ class Admin::PagesController < ApplicationController
     available_modules = CustomModule.all + CacheTumblrPost.all + CacheVimeoVideo.all + CacheFleakrGallery.all
     available_modules.unshift('Tumblr Basic') if CacheTumblrPost.present?
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
-    # FIX: below  is causing error: undefined method `read' for #<CloudFiles::StorageObject:0x1039297b8>
-    #Asset.all.each { |asset| asset.asset.reprocess! }
     @assets = Asset.all.paginate :page => params[:page], :per_page => 8
 
     respond_to do |format|
@@ -1119,6 +1117,10 @@ class Admin::PagesController < ApplicationController
 
   def define_page
     @current_page = 'pages'
+  end
+
+  def update_thumbnails_for_assets
+    Asset.all.each { |asset| asset.asset.reprocess! }
   end
 end
 
