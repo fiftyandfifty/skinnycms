@@ -4,6 +4,7 @@
   #selectable .ui-selected { background: #F39814; color: white; }
   #selectable { list-style-type: none; margin: 0; padding: 0; }
   #selectable li { margin: 3px; padding: 1px; float: left; width: 80px; height: 95px; font-size: 0.9em; text-align: center; }
+  .assets_pagination_container .pagination { width: 510px;}
 </style>
 
 <script type="text/javascript">
@@ -38,7 +39,7 @@ $(document).ready(function(){
 </div>
 
 <% if @assets.present? %>
-  <div class="pagination_container" style="width: 520px; margin-top: 10px;">
+  <div class="assets_pagination_container" style="width: 520px; margin-top: 10px;">
     <%= will_paginate @assets %>
   </div>
 <% end %>
