@@ -9,9 +9,17 @@ class Page < ActiveRecord::Base
 
   validates :title, :permalink, :presence => true
   
-  has_friendly_id :permalink, :use_slug => true, :approximate_ascii => true
+  has_friendly_id :title_or_permalink, :use_slug => true, :approximate_ascii => true
   
   scope :not_on_nav, :conditions => 'pages_to_navigations.navigation_id IS NULL' , :order => :title, :include => :pages_to_navigations  
+
+  def title_or_permalink
+    if !permalink.blank?
+      permalink
+    else
+      title
+    end 
+  end
 
   def parent_in_navigation(navigation_name)
     pages_to_navigations.find(:first, :conditions => { :navigation_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id }).parent_id rescue 0

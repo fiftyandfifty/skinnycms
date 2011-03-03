@@ -1121,7 +1121,8 @@ class Admin::PagesController < ApplicationController
   end
 
   def update_thumbnails_for_assets
-    Asset.all.each { |asset| asset.asset.reprocess! }
+    #FIXME - this is failing with a NoSuchObjectException: Object assets/1/original/Screen shot 2011-02-11 at 10.35.24 AM.jpg does not exist
+    #Asset.all.each { |asset| asset.asset.reprocess! }
   end
 
   def generate_list_of_assets
