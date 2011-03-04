@@ -1,45 +1,33 @@
-<style type="text/css">
-  #feedback { font-size: 1.4em; }
-  #selectable .ui-selecting { background: #FECA40; }
-  #selectable .ui-selected { background: #F39814; color: white; }
-  #selectable { list-style-type: none; margin: 0; padding: 0; }
-  #selectable li { margin: 3px; padding: 1px; float: left; width: 80px; height: 95px; font-size: 0.9em; text-align: center; }
-  .assets_pagination_container .pagination { width: 510px;}
-</style>
-
-<script type="text/javascript">
-$(document).ready(function(){
-  $( "#selectable" ).selectable();
-
-  <!-- Add Styles for pagination -->
-
-  $('.pagination').find('a.prev_page').text("BACK");
-  $('.pagination').find('.disabled.prev_page').text("BACK");
-  $('.pagination').find('a.next_page').text("NEXT");
-  $('.pagination').find('.disabled.next_page').text("NEXT");
-});
-
-</script>
-
-<div style="width: 540px; height: 210px; margin-top: 10px;">
+<div class="assets">
 <% if @assets.present? %>
   <ol id="selectable">
     <% @assets.each do |asset| %>
 	<li class="ui-state-default" id="<%= asset.asset.url %>">
-          <div style="width: 70px; height: 70px; margin-top:5px; margin-left:4px; border: 1px solid gray;"><%= image_tag(asset.asset.url(:bigthumb)) %></div>
-          <span style="width: 70px; height: 10px; margin-top:5px; margin-left:4px; overflow: hidden;">
+          <div class="icon"><%= image_tag(asset.asset.url(:bigthumb)) %></div>
+          <span>
             <%= asset.title %>
           </span>
         </li>
     <% end %>
   </ol>
 <% else %>
-    <div style=" margin-top: 10px; border: 1px dashed gray; text-align: center; width: 100%;">No assets for condition!</div>
+    <div class="no_message">No assets for condition!</div>
 <% end %>
 </div>
 
 <% if @assets.present? %>
-  <div class="assets_pagination_container" style="width: 520px; margin-top: 10px;">
+  <div class="assets_pagination_container">
     <%= will_paginate @assets %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  <!-- Selectable logic for assets -->
+  $( "#selectable" ).selectable();
+
+});
+
+</script>

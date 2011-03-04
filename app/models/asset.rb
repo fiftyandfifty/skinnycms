@@ -9,8 +9,8 @@ class Asset < ActiveRecord::Base
                                                   { :original => { :contents => 'asset_contents' }}
                                                 end
                                                },
-                                               :storage => :cloud_files,
-                                               :cloudfiles_credentials => Setting.rackspace_credentials,
+                                               #:storage => :cloud_files,
+                                               #:cloudfiles_credentials => Setting.rackspace_credentials,
                             :processors => lambda { |a|
                                                     if a.editable?
                                                       [:file_contents]
@@ -24,7 +24,7 @@ class Asset < ActiveRecord::Base
   #validates_attachment_size     :asset, :less_than => 6.megabytes
   validates_attachment_presence :asset
 
-  BASIC_TYPES = ['text', 'image', 'audio', 'video']
+  BASIC_TYPES = ['all', 'text', 'image', 'audio', 'video']
 
   def editable?
     return false unless asset.content_type
@@ -44,15 +44,22 @@ class Asset < ActiveRecord::Base
     end
   end
 
-  def self.image_list
-    list = {}
-    all.each { |element| list[element.title] = element.asset.url }
-    list
+  class << self
+    def types
+      BASIC_TYPES
+    end
+
+    def image_list
+      list = {}
+      all.each { |element| list[element.title] = element.asset.url }
+      list
+    end
   end
 
   private
-  
+
   def reprocess
     asset.reprocess! if editable?
-  end 
+  end
 end
+

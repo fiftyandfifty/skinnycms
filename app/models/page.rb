@@ -47,4 +47,13 @@ class Page < ActiveRecord::Base
   def exist_in_navigation?(navigation_name)
     navigations.where(:title => navigation_name).present?
   end
+
+  def locations
+    content_in_locations = {}
+    locations = template.content_locations.split(',')
+    locations.each do |loc|
+     content_in_locations[loc] = PageContent.where(:page_id => self, :location => loc).order(:position)
+    end
+    content_in_locations
+  end
 end

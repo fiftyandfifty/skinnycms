@@ -2,6 +2,10 @@ class ApiModule < ActiveRecord::Base
   cattr_accessor :api_key, :api_token
   validates :module_name, :presence => true
 
+  def unique_id
+    id
+  end
+
   class << self
     def undefined_modules
       basic_api_modules = []

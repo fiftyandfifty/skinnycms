@@ -1,0 +1,825 @@
+<!-- form of add/edit pages -->
+<%= form_for([:admin, @page], :html => { :class => "add-pages edit_page_form" }) do |f| %>
+
+  <!-- heading -->
+  <div class="heading">
+    <ul class="buttons">
+      <li>
+        <%= link_to do -%>
+          <span>Preview</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to do -%>
+          <span>save draft</span>
+        <% end %>
+      </li>
+      <li>
+        <input type="submit" name="submit" value="Publish" id="submit" class="save_button" />
+      </li>
+    </ul>
+
+    <h2>
+      <% if @page.id.present? %>
+        Edit Page
+      <% else %>
+        Add New Page
+      <% end %>
+    </h2>
+  </div><!-- heading -->
+
+  <fieldset>
+    <div class="row">
+      <label for="page-title">Page Title</label>
+      <span class="text">
+        <%= f.text_field :title, :html => { :id => "page-title" }, :class => "validate[required]" %>
+      </span>
+    </div>
+
+    <div class="row">
+      <div class="section">
+	<label for="page-url">Permalink</label>
+	<span class="small-text">
+          <%= f.text_field :permalink, :html => { :id => "page-url" }, :class => "validate[required]" %>
+        </span>
+      </div>
+
+      <div class="section">
+	<label for="visibility">Redirect URL</label>
+        <span class="small-text">
+          <%= f.text_field :redirect_url, :size => "48px" %>
+        </span>
+      </div>
+    </div><!-- row -->
+
+    <div class="row">
+      <div class="section">
+        <label for="parent">Page Template</label>
+        <%= f.collection_select(:template_id, @templates, :id, :title, { :include_blank => "- No Template - ", :id => "parent" } )%>
+      </div>
+
+      <div class="section">
+        <label for="status">Status</label>
+        <%= f.select :status, [['Published', 'published'], ['Draft', 'draft']], { :selected => @page.status.to_s, :id => "status" } %>
+      </div>
+    </div><!-- row -->
+
+    <% @navigations.each do |navigation| %>
+      <div class="row">
+        <div class="section">
+          <label for="parent" id="nav_header"><%= navigation.title %></label>
+          <select name="navigation[<%= navigation.id %>]">
+            <% if @page.parent_in_navigation(navigation.title) == 0 && @page.exist_in_navigation?(navigation.title) %>
+              <option value="root" SELECTED>Top level of <%= navigation.title %></option>
+            <% elsif @page.exist_in_navigation?(navigation.title) %>
+              <option value="<%= @page.parent_in_navigation(navigation.title) %>" SELECTED><%= @page.parent_title_in_navigation(navigation.title) %></option>
+            <% end %>
+            <option value="">Not on <%= navigation.title %></option>
+            <option value="root">Top level of <%= navigation.title %></option>
+            <%- PagesToNavigation.for_navigation_without_dublicates(navigation.title, @page).each do |n| -%>
+              <option value="<%= n.id %>">- Under <%= n.page.title %></option>
+            <%- end -%>
+          </select>
+        </div>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <!-- main -->
+  <div id="main" class="shadow">
+    <!-- content -->
+    <div id="content">
+      <h3>Page Content</h3>
+
+      <% if @locations.present? %>
+
+        <% @locations.each do |location, contents| %>
+
+            <div class="module">
+
+              <% if location == 'content' || location == 'sidebar' %>
+
+                <% if @loc_marks.include?('content') || @loc_marks.include?('sidebar') %>
+
+                  <ul class="tabset">
+                    <li id="content_location" style="<% if !@loc_marks.include?('content') %>display:none;<% end %>" class="receiver">
+                      <a href="javascript:void(0);" class="tabset-l active">
+                        <span>Left Column Modules</span>
+                      </a>
+                    </li>
+                    
+                    <li id="sidebar_location" style="<% if !@loc_marks.include?('sidebar') %>display:none;<% end %>" class="receiver">
+                      <a href="javascript:void(0);" class="tabset-r">
+                        <span>Right Column Modules</span>
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content" id="tab-1">
+                    <ul class="inner sortlist" id="content_receiver">
+                      <% for element in @locations['content'] %>
+                        <%= render 'location_content', :locals => { :content => element } %>
+                      <% end %>
+                    </ul>
+
+                    <ul class="inner sortlist" id="sidebar_receiver">
+                      <% for element in @locations['sidebar']  %>
+                        <%= render 'location_content', :locals => { :content => element } %>
+                      <% end %>
+                    </ul>
+                  </div>
+
+                  <% @loc_marks.clear %> <!-- clear after generate content/sidebar html -->
+                  
+                <% end %>
+
+              <% else %>
+
+                <div class="title receiver" id="<%= location %>_location">
+	          <h4 class="head"><%= location.upcase %> Modules</h4>
+                  <a href="javascript:void(0);" class="hide">Hide</a>
+	        </div>
+	        <ul class="inner sortlist" id="<%= location %>_receiver">
+                  <% if contents.present? %>
+                    <% for content in contents %>
+                      <%= render 'location_content', :locals => { :content => content } %>
+                    <% end %>
+                  <% end %>
+                </ul>
+              
+              <% end %>
+
+            </div>
+
+          <div class="area">
+          </div>
+
+        <% end %>
+
+      <% end %>
+
+      <!-- module -->
+      <div class="module"  id="scripts_module">
+        <div class="title">
+          <h4>Script Includes</h4>
+          <a href="javascript:void(0);" id="hide_scripts">Hide</a>
+        </div>
+        <div class="text-area">
+          <div class="holder">
+            <div class="frame">
+              <em>There are currently no modules in this section</em>
+	    </div>
+          </div>
+        </div>
+      </div><!-- module -->
+
+      <!-- seo fields form -->
+      <div class="seo-fields">
+        <fieldset>
+          <div class="form-holder">
+            <div class="title">
+              <h4>SEO Fields</h4>
+	      <a href="javascript:void(0);" id="hide_seo_fields">Hide</a>
+	    </div>
+            <div class="seo_fields">
+              <div class="row">
+	        <label for="site-name">Page URL (Optional)</label>
+	        <span class="text">
+                  <%= f.text_field :seo_title, :html => { :id => "site-name" } %>
+                </span>
+              </div>
+	      <div class="row">
+                <label for="keywords">Keywords (Separate with commas)</label>
+	        <span class="long-text"  style="height: 25px;">
+                  <%= f.text_area :seo_keywords %>
+                </span>
+	      </div>
+              <div class="row">
+	        <label for="description">Description (Max - 150 characters)</label>
+	        <div class="textarea">
+	          <div class="holder">
+	            <div class="frame">
+                      <%= f.text_area :seo_description, :style => "height:44px;" %>
+                    </div>
+                  </div>
+               </div>
+             </div>
+           </div><!-- seo_fields -->
+         </div><!-- form-holder -->
+       </fieldset>
+     </div><!-- seo fields -->
+   </div><!-- content -->
+
+   <!-- sidebar -->
+   <div id="sidebar">
+     <h3>Available Modules</h3>
+     <ul class="add-nav">
+       <li>
+         <a href="#" class="active">
+           <span>
+             <strong class="wdrag">WYSIWYG</strong>
+           </span>
+         </a>
+       </li>
+
+       <li class="divider">&nbsp;</li>
+
+       <% for available_module in @available_modules %>
+         <li>
+           <%= link_to do -%>
+             <span>
+               <div>
+                 <div class="adrag">
+                   <%= image_tag("skinnycms/admin/ico-line.gif") %>
+                     <%= text_field available_module.class.name, available_module.id, :value => available_module.unique_id, :class => available_module.class.name %>
+                 </div>
+                 <div class="available_content">
+                   <%= available_module.title rescue available_module %>
+                 </div>
+               </div>
+             </span>
+           <% end %>
+         </li>
+       <% end %>
+     </ul><!-- add-nav -->
+
+     <div class="pagination_container">
+       <%= will_paginate @available_modules %>
+     </div>
+   </div><!-- #sidebar -->
+ </div><!-- #main -->
+<% end %>
+
+<!-- there is the hidden block, which gets sortable positions by JQuery -->
+<div class="hidden_fields">
+  <% @locations.keys.each do |location| %>
+    <input id="<%= location %>_positions" name="<%= location %>_positions"></input>
+  <% end %>
+  <input id="wysiwyg_container"></input>
+</div>
+
+<!-- Hidden search assets dialog window -->
+<div id="assets_popup" title="Add Asset">
+  <!-- search form -->
+  <div class="search_asset_form">
+    <ul class="assets_list">
+      <% for type in @asset_types %>
+        <%= link_to(get_asset_by_type_to_editor_path(:asset_type => type), :id => type) do %>
+          <li>
+            <%= type.upcase %>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+    <%= form_tag(search_asset_for_editor_path, :method => 'get', :class => 'search') do %>
+      <fieldset>
+        <div class="holder">
+          <span class="text">
+            <input name="search_key" type="text" />
+          </span>
+          <input type="submit" value="SEARCH" class="submit" />
+        </div>
+      </fieldset>
+    <% end %>
+  </div><!-- .search_asset_form -->
+
+  <div id="assets">
+    <%= render :partial => 'add_assets' %>
+  </div>
+</div><!-- #assets_popup -->
+
+<% content_for :html_header_includes do %>
+
+  <%= javascript_include_tag 'skinnycms/jquery/jquery.livequery.js' %>
+  <%= javascript_include_tag 'skinnycms/jquery/jquery.validationEngine.js' %>
+  <%= javascript_include_tag 'skinnycms/jquery/jquery.validationEngine-en.js' %>
+  <%= stylesheet_link_tag 'skinnycms/jquery-ui-1.8.10.custom' %>
+  <%= stylesheet_link_tag 'skinnycms/validationEngine.jquery.css' %>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  <!-- Hide sidebar when DOM loaded -->
+
+  $('#sidebar_receiver').delay(200).slideUp(200);
+
+  <!-- Left/Right contents SWITCH logic -->
+
+  $('#content_location a').click(function() {
+
+    $('#content_location a').attr('class','tabset-l  active');
+    $('#sidebar_location a').attr('class','tabset-r');
+    $('#sidebar_receiver').slideUp(1000);
+    $('#content_receiver').delay(1000).slideDown(1000);
+
+  });
+
+  $('#sidebar_location a').click(function() {
+
+    $('#content_location a').attr('class','tabset-l');
+    $('#sidebar_location a').attr('class','tabset-r  active');
+    $('#content_receiver').slideUp(1000);
+    $('#sidebar_receiver').delay(1000).slideDown(1000);
+
+  });
+
+  <!-- WYSIWYG draggable logic -->
+
+    // Define main variables for building wysiwyg editor's basic HTML
+
+    var w1 = '<li class="inner" id="';
+    var w2 = '">';
+    var w3 = '<div class="holder"><div class="headline"><h4>WYSIWYG</h4><a href="javascript:void(0);"\n\
+                   class="remove">Remove</a></div><div class="edit-box"><div class="holder"><div class="frame">\n\
+                   <textarea cols="40" rows="20" style="width:100%;" class="';
+    var w4 = '" id="';
+    var w5 = '" name="';
+    var w6 = '[';
+    var w7 = '][';
+    var w8 = ']"></textarea></div></div></div></div><div class="blocks_devider"></div>';
+    var w9 = '</li>';
+    var wcounter = 1;
+    var wysiwyg = 'UniqueContentModule';
+
+    // Define draggable wysiwyg container
+
+    $('.wdrag').draggable({
+      helper : 'clone',
+      opacity : 0.3
+    });
+
+  <!-- Available modules draggable logic -->
+
+    // Define main variables for building api and custom modules's basic HTML
+
+    var a1 = '<li class="area" style="margin-bottom:0;" id="';
+    var a2 = '"><div class="holder"><h4><input style="display:none;" id="';
+    var a3 = '" name="';
+    var a4 = '[';
+    var a5 = '][';
+    var a6 = ']" value="';
+    var a7 = '" class="';
+    var a8 = '">';
+    var a9 = '</input></h4><a href="javascript:void(0);" class="remove">Remove</a></div><div class="blocks_devider"></div></li>';
+
+    // Define draggable container for available modules
+
+    $('.adrag').draggable({
+      helper : 'clone',
+      opacity : 0.3
+    });
+
+  <!-- Common droppable logic for wysiwyg editor and available modules -->
+
+  $('.receiver').droppable({
+    tolerance : 'fit',
+    drop : function(event, ui) {
+
+      // Switch locations's tabs
+
+      if($(this).attr("id") == 'content_location'){
+
+        $('#content_location a').attr('class','tabset-l  active');
+        $('#sidebar_location a').attr('class','tabset-r');
+        $('#sidebar_receiver').slideUp(1000);
+        $('#content_receiver').slideDown(1000);
+
+      }
+      else if($(this).attr("id") == 'sidebar_location'){
+
+        $('#sidebar_location a').attr('class','tabset-r  active');
+        $('#content_location a').attr('class','tabset-l');
+        $('#content_receiver').slideUp(1000);
+        $('#sidebar_receiver').slideDown(1000);
+
+      }
+      else {
+        
+        $(this).parents('.module').find('ul').slideDown(1000);
+        $(this).find('.hide').text("Hide");
+        
+      }
+
+      // Define variables
+
+      var droppable = $(this);
+      var draggable = $(ui.draggable);
+      var loc = '';
+      var destination = '';
+      var html = '';
+
+      // Define location (header, sidebar, content e.t.c) and paste destination (ul.inner)
+
+      loc = droppable.attr("id").replace('_location','');
+      destination = $(('#'+loc+'_receiver').toString());
+
+      // Define type of draggable element, build specific html (w - wysiwyg editor, a - available modules)
+      // and then put it to destination
+
+      if(draggable.attr("class") == "wdrag ui-draggable"){
+
+        html = (w1 + wysiwyg + wcounter + w2 + w3 + loc + w4 + loc + wcounter + w5 + loc + w6 + wysiwyg + w7 + wcounter + w8 + w9).toString();
+        destination.append(html);
+        tinymce.execCommand('mceAddControl',true,(loc + wcounter).toString());
+        wcounter++;
+
+      }
+      else if (draggable.attr("class") == "adrag ui-draggable"){
+
+        type = draggable.find('input').attr("class");
+        id = draggable.find('input').attr("value");
+        title = draggable.parent().find('.available_content').text();
+        html = (a1 + type + id + a2 + loc + id + a3 + loc + a4 + type + a5 + id + a6 + title + a7 + loc + a8 + title + a9).toString();
+        destination.append(html);
+
+      }
+
+    }
+  });
+
+  <!-- WYSIWYG remove -->
+
+  $('.remove').livequery('click', function(event) {
+
+    // Define location, sortable list and remove <li> element
+
+    loc = $(this).parents('ul').attr('id').replace('_receiver','');
+    ul = $(this).parents('ul');
+    $(this).parents('li').remove();
+    
+    // Refresh positions in sortable list and then put it to hidden field
+
+    $(ul).sortable("refresh");
+    positions = $(ul).sortable("toArray");
+    $('#' + loc + '_positions').attr("value",positions.toString());
+
+  });
+
+  <!-- show/hide logic for content locations -->
+
+  $('.hide').click(function() {
+    $(this).parents('.module').find('ul').slideToggle(1000);
+    if($(this).text() == 'Hide'){
+      $(this).text("Show");
+    }
+    else{
+      $(this).text("Hide");
+    }
+  });
+
+  <!-- show/hide logic for seo fields and scripts include -->
+
+  var seo_fields_state = false;
+  var scripts_state = false;
+
+  $('#hide_seo_fields').click(function() {
+    $('div.seo_fields').slideToggle(1000);
+    if(seo_fields_state == false){
+      $(this).text("show");
+    }
+    else{
+      $(this).text("hide");
+    }
+    seo_fields_state = !seo_fields_state;
+  });
+
+  $('#hide_scripts').click(function() {
+    $('div.text-area').slideToggle(1000);
+    if(scripts_state == false){
+      $(this).text("show");
+    }
+    else{
+      $(this).text("hide");
+    }
+    scripts_state = !scripts_state;
+  });
+
+  <!-- Change texts for pagination -->
+
+  $('.pagination').find('a.prev_page').text("BACK");
+  $('.pagination').find('.disabled.prev_page').text("BACK");
+  $('.pagination').find('a.next_page').text("NEXT");
+  $('.pagination').find('.disabled.next_page').text("NEXT");
+
+  <!-- Add sortable to modules -->
+
+  // Define variables
+
+  var body = '';
+  var textarea = '';
+  var positions = '';
+  var sortable_class = '';
+
+  // Define all content locations and make them as sortable <ul> lists
+
+  var sortlist = $('ul.sortlist');
+
+  $.each(sortlist, function() {
+
+    $('#'+$(this).attr('id')).livequery(function(){
+
+      $(this).sortable({
+
+        create: function(event, ui) {
+
+          // Define location
+
+          loc = $(this).attr('id').replace('_receiver','');
+
+          // Define initial positions and put order of positions to hidden field
+          
+          $(this).sortable("refresh");
+          positions = $(this).sortable("toArray");
+          $('#' + loc + '_positions').attr("value",positions.toString());
+
+        },
+
+        start: function(event, ui) {
+
+          // Define define type of sortable element by class (inner - wysiwyg editor, area - available modules)
+
+          sortable_class = $(ui.item).attr("class").substr(0,4);
+
+          // If sortable element is wysiwyg editor - save editor's content to 'body' variable
+
+          if(sortable_class != "area"){
+
+            textarea = $(ui.item).find('iframe');
+            body = textarea.contents().find('body').html();
+
+          }
+        },
+        
+        stop: function(event, ui) {
+
+          if(sortable_class != "area"){
+
+            // Remove div with wysiwyg editor from sortable li
+
+            $(ui.item).find('div').remove();
+
+            // Build specific HTML, paste it to empty li and initialize new wysiwyg editor
+
+            html = (w3 + loc + w4 + loc + wcounter + w5 + loc + w6 + wysiwyg + w7 + wcounter + w8).toString();
+
+            $(ui.item).append(html);
+            $(ui.item).attr("id",(wysiwyg + wcounter));
+            tinymce.execCommand('mceAddControl',true,(loc + wcounter).toString());
+
+            // Define id of new wysiwyg editor's iframe
+
+            iframe = ('#' + loc + wcounter + '_ifr').toString();
+            wcounter++;
+
+            // Wait a little timeout when iframe loaded, then delete unusable <br> tags from new wysiwyg iframe
+            // and append previously saved content
+
+            window.setTimeout(function(){
+              $(iframe).contents().find('body.mceContentBody').find('br').remove();
+              $(iframe).contents().find('body.mceContentBody').append(body);
+            }, 100);
+
+          }
+
+          // Update positions and put order of positions to hidden field
+
+          positions = $(this).sortable("toArray");
+          $('#' + loc + '_positions').attr("value",positions.toString());
+        }
+
+      });
+    });
+  });
+
+  <!-- Select logic for assets -->
+
+  $( "#assets_popup" ).dialog({
+    autoOpen: false,
+    height: 395,
+    width: 570,
+    modal: true,
+    buttons: {
+      "Add asset": function() {
+        var grisha = $(".ui-selected")
+        $.each(grisha, function(index, value) {
+          wysiwyg_container = $('#wysiwyg_container').text();
+          iframe_id = "#" + wysiwyg_container + '_ifr';
+          asset = '<img src="' + $(value).attr("id") + '" />';
+          $(iframe_id).contents().find('body.mceContentBody').append(asset);
+        });
+        $( this ).dialog( "close" );
+      },
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+   });
+
+   // Remove unusable Jquery class
+
+   $( "#assets_popup" ).bind( "dialogopen", function(event, ui) {
+     $('.ui-dialog-buttonset button').removeClass( "ui-state-focus" );
+   });
+
+   <!-- AJAX queries for assets -->
+
+   // Sorting and pagination links
+
+   $('#all, #image, #video, #audio, #text, #assets_popup .pagination a').live("click", function () {
+     $.get(this.href, null, null, 'script');
+     return false;
+   });
+
+   // Search form
+   $('.search').submit(function () {
+     $.get(this.action, $(this).serialize());
+     return false;
+   });
+
+   <!-- Validation js -->
+
+   $(".edit_page_form").validationEngine();
+
+});
+
+</script>
+
+<style type="text/css">
+
+/* Styles for page_contents */
+
+.blocks_devider {
+  height: 10px;
+  background-color: white;
+  width: 100%;
+}
+
+.inner.area {
+  margin-bottom: 0;
+}
+
+textarea.mceEditor {
+  width: 100%;
+}
+
+.hidden_fields {
+  display: none;
+}
+
+/* Styles for sidebar */
+
+div.adrag {
+  float: left;
+  width: 25px;
+  height: 100%;
+  height: 11px;
+}
+
+.adrag img {
+  float:left;
+}
+
+.adrag input {
+  display: none;
+}
+
+div.available_content {
+  float: left;
+  width: 160px;
+}
+
+/* Advanced styles for pagination */
+
+.pagination_container {
+  width: 220px;
+  overflow: hidden;
+  padding-left: 15px;
+}
+
+div.pagination {
+  text-align: center;
+  width: 210px;
+}
+
+.prev_page {
+  float: left;
+}
+
+.next_page {
+  float: right;
+}
+
+/* Styles for assets modal popup */
+
+div.search_asset_form {
+  width: 540px;
+  height: 30px;
+  margin-top: 5px;
+}
+
+ul.assets_list {
+  float: left;
+  width: 300px;
+  height: 25px;
+}
+
+form.search {
+  float: left;
+  margin-left: 5px;
+  width: 200px;
+}
+
+#assets_popup div.holder {
+  width: 250px;
+}
+
+#assets_popup span input {
+  width:140px;
+}
+
+.assets_list li {
+  height: 15px;
+  border: 1px solid gray;
+  margin: 0;
+  padding: 3px 7px;
+  float: left;
+}
+
+a.mceButton.mceButtonEnabled.mce_assets {
+  width: 50px;
+}
+
+a.mceButton.mceButtonEnabled.mce_assets img {
+  width: 50px;
+}
+
+#feedback {
+  font-size: 1.4em;
+}
+
+#selectable .ui-selecting {
+  background: #FECA40;
+}
+
+#selectable .ui-selected {
+  background: #F39814;
+  color: white;
+}
+
+#selectable {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#selectable li {
+  margin: 3px;
+  padding: 1px;
+  float: left;
+  width: 80px;
+  height: 95px;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.assets {
+  width: 540px; height: 210px; margin-top: 10px;
+}
+
+.assets span {
+  width: 70px;
+  height: 10px;
+  margin-top:5px;
+  margin-left:4px;
+  overflow: hidden;
+}
+
+.icon {
+  width: 70px;
+  height: 70px;
+  margin-top:5px;
+  margin-left:4px;
+  border: 1px solid gray;
+}
+
+.no_message {
+  margin-top: 10px;
+  border: 1px dashed gray;
+  text-align: center;
+  width: 96%;
+}
+
+.assets_pagination_container {
+  width: 520px;
+  margin-top: 10px;
+}
+
+.assets_pagination_container .pagination {
+  width: 510px;
+}
+
+</style>
+
+<% end %>
+
