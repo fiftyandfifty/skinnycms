@@ -233,7 +233,7 @@
                    <%= image_tag("skinnycms/admin/ico-line.gif") %>
                      <%= text_field available_module.class.name, available_module.id, :value => available_module.unique_id, :class => available_module.class.name %>
                  </div>
-                 <div class="available_content">
+                 <div class="available_content" value="<%= available_module.title rescue available_module %>">
                    <%= available_module.title rescue available_module %>
                  </div>
                </div>
@@ -430,7 +430,7 @@ $(document).ready(function(){
 
         type = draggable.find('input').attr("class");
         id = draggable.find('input').attr("value");
-        title = draggable.parent().find('.available_content').text();
+        title = draggable.parent().find('.available_content').attr('value');
         html = (a1 + type + id + a2 + loc + id + a3 + loc + a4 + type + a5 + id + a6 + title + a7 + loc + a8 + title + a9).toString();
         destination.append(html);
 
@@ -532,7 +532,7 @@ $(document).ready(function(){
 
           // Define location
 
-          loc_s = $(this).attr('id').replace('_receiver',''); alert(loc_s);
+          loc_s = $(this).attr('id').replace('_receiver','');
 
           // Define initial positions and put order of positions to hidden field
 
@@ -562,7 +562,7 @@ $(document).ready(function(){
 
           // Define location
 
-          loc_s = $(this).attr('id').replace('_receiver',''); alert(loc_s);
+          loc_s = $(this).attr('id').replace('_receiver','');
 
           if(sortable_class != "area"){
 
