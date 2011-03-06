@@ -114,7 +114,7 @@ class Admin::PagesController < ApplicationController
 
     # Get positions for each location
 
-    
+
 
     # Reordering logic for header content
 

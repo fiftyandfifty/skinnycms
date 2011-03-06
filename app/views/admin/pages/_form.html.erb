@@ -107,7 +107,7 @@
                         <span>Left Column Modules</span>
                       </a>
                     </li>
-                    
+
                     <li id="sidebar_location" style="<% if !@loc_marks.include?('sidebar') %>display:none;<% end %>" class="receiver">
                       <a href="javascript:void(0);" class="tabset-r">
                         <span>Right Column Modules</span>
@@ -130,7 +130,7 @@
                   </div>
 
                   <% @loc_marks.clear %> <!-- clear after generate content/sidebar html -->
-                  
+
                 <% end %>
 
               <% else %>
@@ -146,7 +146,7 @@
                     <% end %>
                   <% end %>
                 </ul>
-              
+
               <% end %>
 
             </div>
@@ -248,15 +248,16 @@
      </div>
    </div><!-- #sidebar -->
  </div><!-- #main -->
-<% end %>
 
 <!-- there is the hidden block, which gets sortable positions by JQuery -->
-<div class="hidden_fields">
+<div class="hidden_field">
   <% @locations.keys.each do |location| %>
-    <input id="<%= location %>_positions" name="<%= location %>_positions"></input>
+    <%= location %>
+    <input id="<%= location %>_positions" style='width:600px' name="<%= location %>_positions"></input><br />
   <% end %>
   <input id="wysiwyg_container"></input>
 </div>
+<% end %>
 
 <!-- Hidden search assets dialog window -->
 <div id="assets_popup" title="Add Asset">
@@ -284,7 +285,7 @@
   </div><!-- .search_asset_form -->
 
   <div id="assets">
-    <%= render :partial => 'add_assets' %>
+    <%#= render :partial => 'add_assets' %>
   </div>
 </div><!-- #assets_popup -->
 
@@ -395,10 +396,10 @@ $(document).ready(function(){
 
       }
       else {
-        
+
         $(this).parents('.module').find('ul').slideDown(1000);
         $(this).find('.hide').text("Hide");
-        
+
       }
 
       // Define variables
@@ -435,6 +436,12 @@ $(document).ready(function(){
 
       }
 
+      // Update positions for sortable list and put them to hidden field
+
+      destination.sortable("refresh");
+      positions = destination.sortable("toArray");
+      $('#' + loc + '_positions').attr("value",positions.toString());
+
     }
   });
 
@@ -447,7 +454,7 @@ $(document).ready(function(){
     loc = $(this).parents('ul').attr('id').replace('_receiver','');
     ul = $(this).parents('ul');
     $(this).parents('li').remove();
-    
+
     // Refresh positions in sortable list and then put it to hidden field
 
     $(ul).sortable("refresh");
@@ -525,13 +532,13 @@ $(document).ready(function(){
 
           // Define location
 
-          loc = $(this).attr('id').replace('_receiver','');
+          loc_s = $(this).attr('id').replace('_receiver',''); alert(loc_s);
 
           // Define initial positions and put order of positions to hidden field
-          
+
           $(this).sortable("refresh");
           positions = $(this).sortable("toArray");
-          $('#' + loc + '_positions').attr("value",positions.toString());
+          $('#' + loc_s + '_positions').attr("value",positions.toString());
 
         },
 
@@ -550,8 +557,12 @@ $(document).ready(function(){
 
           }
         },
-        
+
         stop: function(event, ui) {
+
+          // Define location
+
+          loc_s = $(this).attr('id').replace('_receiver',''); alert(loc_s);
 
           if(sortable_class != "area"){
 
@@ -561,15 +572,15 @@ $(document).ready(function(){
 
             // Build specific HTML, paste it to empty li and initialize new wysiwyg editor
 
-            html = (w3 + loc + w4 + loc + wcounter + w5 + loc + w6 + wysiwyg + w7 + wcounter + w8).toString();
+            html = (w3 + loc_s + w4 + loc_s + wcounter + w5 + loc_s + w6 + wysiwyg + w7 + wcounter + w8).toString();
 
             $(ui.item).append(html);
             $(ui.item).attr("id",(wysiwyg + wcounter));
-            tinymce.execCommand('mceAddControl',true,(loc + wcounter).toString());
+            tinymce.execCommand('mceAddControl',true,(loc_s + wcounter).toString());
 
             // Define id of new wysiwyg editor's iframe
 
-            iframe = ('#' + loc + wcounter + '_ifr').toString();
+            iframe = ('#' + loc_s + wcounter + '_ifr').toString();
             wcounter++;
 
             // Wait a little timeout when iframe loaded, then delete unusable <br> tags from new wysiwyg iframe
@@ -582,10 +593,11 @@ $(document).ready(function(){
 
           }
 
-          // Update positions and put order of positions to hidden field
+        // Update positions and put order of positions to hidden field
 
-          positions = $(this).sortable("toArray");
-          $('#' + loc + '_positions').attr("value",positions.toString());
+            positions = $(this).sortable("toArray");
+            $('#' + loc_s + '_positions').attr("value",positions.toString());
+
         }
 
       });
