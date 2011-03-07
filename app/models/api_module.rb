@@ -2,17 +2,17 @@ class ApiModule < ActiveRecord::Base
   cattr_accessor :api_key, :api_token
   validates :module_name, :presence => true
 
+  def unique_id
+    id
+  end
+
   class << self
     def undefined_modules
       basic_api_modules = []
       undefined_modules = []
       @undefined_modules = []
 
-      Dir.chdir("#{RAILS_ROOT}/")
-      gemfile = IO.read('Gemfile')
-      basic_api_modules << 'tumblr basic' if gemfile.scan("skinnycms_tumblr").size > 0
-      basic_api_modules << 'fleakr basic' if gemfile.scan("skinnycms_fleakr").size > 0
-      basic_api_modules << 'vimeo basic' if gemfile.scan("skinnycms_vimeo").size > 0
+      basic_api_modules = ['tumblr basic','fleakr basic','vimeo basic']
 
       if ApiModule.present?
         basic_api_modules.each do |api_module|

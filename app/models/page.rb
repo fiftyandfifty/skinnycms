@@ -11,7 +11,9 @@ class Page < ActiveRecord::Base
   
   has_friendly_id :title_or_permalink, :use_slug => true, :approximate_ascii => true
   
-  scope :not_on_nav, :conditions => 'pages_to_navigations.navigation_id IS NULL' , :order => :title, :include => :pages_to_navigations  
+  scope :not_on_nav, :conditions => 'pages_to_navigations.navigation_id IS NULL' , :order => :title, :include => :pages_to_navigations
+
+  CONTENT_TYPES = ['UniqueContentModule','CustomModule','ApiModule','CacheTumblrPost','CacheFleakrGallery','CacheVimeoVideo']
 
   def title_or_permalink
     if !permalink.blank?
@@ -46,5 +48,33 @@ class Page < ActiveRecord::Base
 
   def exist_in_navigation?(navigation_name)
     navigations.where(:title => navigation_name).present?
+  end
+
+  def locations
+    content_in_locations = {}
+    locations = template.content_locations.split(',')
+    locations.each do |loc|
+     content_in_locations[loc] = PageContent.find(:all, :conditions => { :page_id => self, :location => loc }, :order => :position )
+    end
+    content_in_locations
+  end
+
+  def define_contents(location, positions, values)
+    CONTENT_TYPES.each do |type|
+      positions.each_with_index do |item, index|
+        if item.include?(type)
+          if type.eql?('UniqueContentModule')
+            content = values[type][item.sub(type,"")]
+            content = content.gsub!("<p>&nbsp;</p>\r\n","") if content.include?("<p>&nbsp;</p>\r\n")
+          end
+          PageContent.create(:page_id => id,
+                             :content => content,
+                             :position => index,
+                             :location => location,
+                             :module_type => type,
+                             :module_id => item.sub(type,"").to_i)
+        end
+      end
+    end
   end
 end

@@ -1,0 +1,35 @@
+<% if content.module_type == 'UniqueContentModule' %>
+  <li class="inner" id="<%= content.module_type.to_s + content.id.to_s %>">
+    <div class="holder">
+      <div class="headline">
+	<h4>WYSIWYG</h4>
+	  <a href="javascript:void(0);" class="remove">Remove</a>
+      </div>
+      <div class="edit-box">
+	<div class="holder">
+	  <div class="frame">
+            <%= text_area "#{content.location}[#{content.module_type}]", content.id,
+                :value => content.content,
+                :class => "mceEditor" %>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="blocks_devider"></div>
+  </li>
+<% else %>
+  <li class="area" style="margin-bottom: 0;" id="<%= content.module_type.to_s + content.module_id.to_s %>">
+    <div class="holder">
+      <h4>
+        <input id="<%= content.location.to_s + content.module_id.to_s %>"
+               name="<%= content.location.to_s %>[<%= content.module_type %>][<%= content.module_id %>]"
+               value="<%= content.module_id %>"
+               style="display: none;">
+          <%= content.module_title %>
+        </input>
+      </h4>
+      <a href="javascript:void(0);"  class="remove">Remove</a>
+    </div>
+    <div class="blocks_devider"></div>
+  </li>
+<% end %>
