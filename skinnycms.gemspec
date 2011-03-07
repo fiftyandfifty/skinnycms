@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.3.6"
+  s.version = "0.3.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-03-02}
+  s.date = %q{2011-03-07}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -62,7 +62,8 @@ Gem::Specification.new do |s|
     "app/views/admin/modules/_undefined_api_modules.html.erb",
     "app/views/admin/modules/index.html.erb",
     "app/views/admin/pages/_add_assets.html.erb",
-    "app/views/admin/pages/_edit_form.html.erb",
+    "app/views/admin/pages/_content.html.erb",
+    "app/views/admin/pages/_form.html.erb",
     "app/views/admin/pages/_homepage.html.erb",
     "app/views/admin/pages/_page_list.html.erb",
     "app/views/admin/pages/edit.html.erb",
@@ -222,7 +223,6 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.livequery.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine-en.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine.js",
-    "lib/generators/skinnycms_javascripts/javasripts/main.js",
     "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
     "lib/generators/skinnycms_javascripts/javasripts/rails.js",
     "lib/generators/skinnycms_javascripts/skinnycms_javascripts_generator.rb",
@@ -1087,7 +1087,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/fiftyandfifty/skinnycms}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.5.0}
   s.summary = %q{Lightweight CMS which leverages the lastest external social networking APIs}
   s.test_files = [
     "spec/models/category_item_spec.rb",
@@ -1123,7 +1123,6 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
@@ -1143,7 +1142,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<autotest-rails>, ["= 4.1.0"])
       s.add_development_dependency(%q<autotest>, ["= 4.4.1"])
       s.add_development_dependency(%q<rcov>, ["= 0.9.9"])
-      s.add_development_dependency(%q<bundler>, ["= 1.0.7"])
+      s.add_development_dependency(%q<bundler>, ["= 1.0.10"])
       s.add_development_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_development_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
       s.add_development_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1165,7 +1164,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<autotest-rails>, ["= 4.1.0"])
       s.add_development_dependency(%q<autotest>, ["= 4.4.1"])
       s.add_development_dependency(%q<rcov>, ["= 0.9.9"])
-      s.add_development_dependency(%q<bundler>, ["= 1.0.7"])
+      s.add_development_dependency(%q<bundler>, ["= 1.0.10"])
       s.add_development_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_development_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
       s.add_development_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1187,7 +1186,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<autotest-rails>, ["= 4.1.0"])
       s.add_dependency(%q<autotest>, ["= 4.4.1"])
       s.add_dependency(%q<rcov>, ["= 0.9.9"])
-      s.add_dependency(%q<bundler>, ["= 1.0.7"])
+      s.add_dependency(%q<bundler>, ["= 1.0.10"])
       s.add_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
       s.add_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1209,7 +1208,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<autotest-rails>, ["= 4.1.0"])
       s.add_dependency(%q<autotest>, ["= 4.4.1"])
       s.add_dependency(%q<rcov>, ["= 0.9.9"])
-      s.add_dependency(%q<bundler>, ["= 1.0.7"])
+      s.add_dependency(%q<bundler>, ["= 1.0.10"])
       s.add_dependency(%q<jeweler>, ["= 1.5.1"])
       s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
       s.add_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1232,7 +1231,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<autotest-rails>, ["= 4.1.0"])
     s.add_dependency(%q<autotest>, ["= 4.4.1"])
     s.add_dependency(%q<rcov>, ["= 0.9.9"])
-    s.add_dependency(%q<bundler>, ["= 1.0.7"])
+    s.add_dependency(%q<bundler>, ["= 1.0.10"])
     s.add_dependency(%q<jeweler>, ["= 1.5.1"])
     s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
     s.add_dependency(%q<devise>, ["= 1.2.rc"])
@@ -1254,7 +1253,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<autotest-rails>, ["= 4.1.0"])
     s.add_dependency(%q<autotest>, ["= 4.4.1"])
     s.add_dependency(%q<rcov>, ["= 0.9.9"])
-    s.add_dependency(%q<bundler>, ["= 1.0.7"])
+    s.add_dependency(%q<bundler>, ["= 1.0.10"])
     s.add_dependency(%q<jeweler>, ["= 1.5.1"])
     s.add_dependency(%q<bcrypt-ruby>, ["= 2.1.3"])
     s.add_dependency(%q<devise>, ["= 1.2.rc"])
