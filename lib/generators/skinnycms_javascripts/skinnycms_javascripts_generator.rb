@@ -12,10 +12,6 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
     puts SkinnycmsJavascriptsGenerator.start_description
     sleep(3)
 
-    if !File.exist?("public/javascripts/skinnycms/admin/main.js")
-      copy_file "main.js", "public/javascripts/skinnycms/admin/main.js"
-    end
-
     if !File.exist?("public/javascripts/skinnycms/rails.js")
       copy_file "rails.js", "public/javascripts/skinnycms/rails.js"
     end
