@@ -11,8 +11,16 @@
           <% end %>
           <%= will_paginate @all_tumblr_posts %>
           <%= link_to("Details", @tumblr_detail_page_path) %>
-        <% else %>
+        <% elsif content.module_type == 'UniqueContentModule' %>
           <%= raw(content.content) %>
+        <% elsif content.module_type == 'CacheTumblrPost' %>
+          <%= raw(content.remote_module.desc) %>
+        <% elsif content.module_type == 'CacheFleakrGallery' %>
+          <!-- TODO: gallery output -->
+        <% elsif content.module_type == 'CacheVimeoVideo' %>
+          <!-- TODO: video output -->
+        <% elsif content.module_type == 'CustomModule' %>
+          <%= raw(content.content_for_location(location)) %>
         <% end %>
       <% end %>
     <% end %>

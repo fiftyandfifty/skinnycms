@@ -24,8 +24,6 @@ class PagesController < ApplicationController
     locations.each do |loc|
       @content_locations[loc] = PageContent.where(:page_id => @page, :location => loc).order(:position)
     end
-
-    Rails.logger.info "+++++++++++ #{@content_locations.inspect}"
     
     ApiModule.all.each do |api_module|
       if api_module.module_name == 'tumblr basic'
