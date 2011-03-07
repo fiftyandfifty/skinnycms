@@ -117,15 +117,11 @@
 
                   <div class="tab-content" id="tab-1">
                     <ul class="inner sortlist" id="content_receiver">
-                      <% for element in @locations['content'] %>
-                        <%= render 'location_content', :locals => { :content => element } %>
-                      <% end %>
+                      <%= render :partial => 'content', :collection => @locations['content'] %>       
                     </ul>
 
                     <ul class="inner sortlist" id="sidebar_receiver">
-                      <% for element in @locations['sidebar']  %>
-                        <%= render 'location_content', :locals => { :content => element } %>
-                      <% end %>
+                      <%= render :partial => 'content', :collection => @locations['sidebar'] %>
                     </ul>
                   </div>
 
@@ -140,11 +136,7 @@
                   <a href="javascript:void(0);" class="hide">Hide</a>
 	        </div>
 	        <ul class="inner sortlist" id="<%= location %>_receiver">
-                  <% if contents.present? %>
-                    <% for content in contents %>
-                      <%= render 'location_content', :locals => { :content => content } %>
-                    <% end %>
-                  <% end %>
+                  <%= render :partial => 'content', :collection => contents %>
                 </ul>
 
               <% end %>
@@ -340,7 +332,7 @@ $(document).ready(function(){
     var w7 = '][';
     var w8 = ']"></textarea></div></div></div></div><div class="blocks_devider"></div>';
     var w9 = '</li>';
-    var wcounter = 1;
+    var wcounter = <%= @last_id + 1 %>;
     var wysiwyg = 'UniqueContentModule';
 
     // Define draggable wysiwyg container
