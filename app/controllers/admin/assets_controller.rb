@@ -8,23 +8,19 @@ class Admin::AssetsController < ApplicationController
   def index
     @title = "Assets"
 
-    if params[:assets] || params[:searched_assets]
-      @assets = Asset.find(params[:searched_assets]) if params[:searched_assets]
-      @assets = Asset.find(params[:assets]) if params[:assets]
-    else
-      @assets = Asset.all
-    end
-
     if params[:asset_type].present?
       @asset_type = params[:asset_type]
-    else
+    elsif params[:asset_type].blank? && params[:search].blank?
       @asset_type = 'all'
     end
 
-    @assets = @assets.paginate :page => params[:page], :per_page => 10
-    @videos = CacheVimeoVideo.find(:all, :conditions => "incomplete != 1")
-    @galleries = CacheFleakrGallery.find(:all, :conditions => "incomplete != 1")
+    if params[:assets].present?
+      @assets = Asset.find(params[:assets])
+    elsif @asset_type == 'all'
+      @assets = Asset.all
+    end
 
+    @assets = @assets.paginate :page => params[:page], :per_page => 10 if @assets.present?
     @undefined_modules_names = ApiModule.undefined_modules_names
 
     respond_to do |format|
@@ -95,11 +91,15 @@ class Admin::AssetsController < ApplicationController
   end
   
   def search_asset
-    @searched_assets = Asset.find( :all, :conditions => ['title LIKE ? OR description LIKE ? OR asset_file_name LIKE ?', '%' + params[:search][:key] + '%', '%' + params[:search][:key] + '%', '%' + params[:search][:key] + '%'], :limit => 10 )
+    if params[:search][:key].present?
+      @assets = Asset.find( :all, :conditions => ['title LIKE ? OR description LIKE ? OR asset_file_name LIKE ?', '%' + params[:search][:key] + '%', '%' + params[:search][:key] + '%', '%' + params[:search][:key] + '%'], :limit => 10 )
+    else
+      @assets = []
+    end
 
     respond_to do |format|
-      format.html { redirect_to(admin_assets_path(:searched_assets => @searched_assets)) }
-      format.xml  { render :xml => @searched_assets }
+      format.html { redirect_to(admin_assets_path(:assets => @assets, :search => true)) }
+      format.xml  { render :xml => @assets }
     end
   end
 
@@ -107,7 +107,7 @@ class Admin::AssetsController < ApplicationController
     if params[:asset_type].present?
       @assets = Asset.find(:all, :conditions => ['asset_content_type LIKE ?', '%' + params[:asset_type] + '%'])
     else
-      @assets = Asset.all
+      @assets = []
     end
 
     respond_to do |format|

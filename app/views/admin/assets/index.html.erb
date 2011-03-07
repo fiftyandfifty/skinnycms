@@ -84,43 +84,51 @@ div.pagination {
                                         <% end %>
                                   </li>
 				</ul>
-				<!-- items -->
-				<table class="items">
-					<thead>
-						<tr>
-							<th class="name">Name</th>
-							<th>Type</th>
-							<th class="data">Date</th>
-							<th class="actions">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-                                          <% @assets.each do |asset| %>
-
-						<tr>
-							<td class="name"><%= asset.title %></td>
-							<td><%= asset.asset_content_type %></td>
-							<td class="data"><%= asset.asset_updated_at %></td>
-							<td class="actions">
-								<ul>
-									<li><%= link_to 'Preview', admin_asset_path(asset) %></li>
-									<li><%= link_to 'Edit', edit_admin_asset_path(asset) %></li>
-									<li><%= link_to 'Destroy', admin_asset_path(asset), :confirm => 'Are you sure?', :method => :delete %></li>
-								</ul>
-							</td>
-						</tr>
-						<tr class="divider">
-							<td colspan="4">&nbsp;</td>
-						</tr>
-
-                                           <% end %>
-						
-					</tbody>
-				</table>
-				<!-- paging -->
-				<div class="pagination_container">
-                                  <%= will_paginate @assets %>
-                                </div>
+                                <% if @assets.present? %>
+				  <!-- items -->
+				  <table class="items">
+				    <thead>
+				      <tr>
+					<th class="name">Name</th>
+					<th>Type</th>
+					<th class="data">Date</th>
+					<th class="actions">Actions</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+                                      <% @assets.each do |asset| %>
+					<tr>
+					  <td class="name"><%= asset.title %></td>
+					  <td><%= asset.asset_content_type %></td>
+					  <td class="data"><%= asset.asset_updated_at %></td>
+					  <td class="actions">
+					    <ul>
+					      <li><%= link_to 'Preview', admin_asset_path(asset) %></li>
+					      <li><%= link_to 'Edit', edit_admin_asset_path(asset) %></li>
+					      <li><%= link_to 'Destroy', admin_asset_path(asset), :confirm => 'Are you sure?', :method => :delete %></li>
+				            </ul>
+					  </td>
+					</tr>
+					<tr class="divider">
+					  <td colspan="4">&nbsp;</td>
+					</tr>
+                                      <% end %>
+			            </tbody>
+				  </table>
+				  <div class="pagination_container">
+                                    <%= will_paginate @assets %>
+                                  </div>
+                                <% else %>
+                                  <ul class="list black-text">
+                                    <li>
+                                      <div class="holder" style="margin-top: 20px;">
+                                        <span style="margin-left: 20px;">
+                                          No assets for your condition yet!
+                                        </span>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                <% end %>
 			</div>
   <!-- sidebar -->
   <div id="sidebar">
