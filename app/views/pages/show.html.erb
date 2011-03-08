@@ -5,12 +5,23 @@
     <% end %>
     <% if location_contents.present? %>
       <% for content in location_contents %>
-        <% if content.module_type == 'Tumblr Basic' %>
-          <% for post in @all_tumblr_posts %>
-            <%= post.title %><br />
+        <% if content.module_type == 'ApiModule' %>
+          <% if content.remote_module.title == 'tumblr basic' %>
+            <% if location == 'sidebar' %>
+              <h3>RECENT POSTS:</h3>
+              <% @recent_tumblr_posts.each do |post| %>
+                <%= post.title %><br />
+              <% end %><br />
+              <%= link_to("Details", @tumblr_detail_page_path) %>
+            <% else %>
+              <h3>POSTS:</h3>
+              <% for post in @all_tumblr_posts %>
+                <%= post.title %><br />
+              <% end %>
+              <%= will_paginate @all_tumblr_posts %><br />
+              <%= link_to("Details", @tumblr_detail_page_path) %>
+            <% end %>
           <% end %>
-          <%= will_paginate @all_tumblr_posts %>
-          <%= link_to("Details", @tumblr_detail_page_path) %>
         <% elsif content.module_type == 'UniqueContentModule' %>
           <%= raw(content.content) %>
         <% elsif content.module_type == 'CacheTumblrPost' %>
