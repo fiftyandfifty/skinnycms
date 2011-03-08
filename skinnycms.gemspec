@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.3.9"
+  s.version = "0.4.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
     "app/models/cache_tumblr_post.rb",
     "app/models/cache_vimeo_video.rb",
     "app/models/custom_module.rb",
+    "app/models/custom_module_content.rb",
     "app/models/navigation.rb",
     "app/models/page.rb",
     "app/models/page_content.rb",
@@ -243,6 +244,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_cache_fleakr_galleries.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_cache_tumblr_posts.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_cache_vimeo_videos.rb",
+    "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_custom_module_contents.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_custom_modules.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_navigations.rb",
     "lib/generators/skinnycms_migrations/templates/add_skinnycms_fields_to_page_contents.rb",
@@ -256,6 +258,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/create_cache_fleakr_galleries.rb",
     "lib/generators/skinnycms_migrations/templates/create_cache_tumblr_posts.rb",
     "lib/generators/skinnycms_migrations/templates/create_cache_vimeo_videos.rb",
+    "lib/generators/skinnycms_migrations/templates/create_custom_module_contents.rb",
     "lib/generators/skinnycms_migrations/templates/create_custom_modules.rb",
     "lib/generators/skinnycms_migrations/templates/create_navigations.rb",
     "lib/generators/skinnycms_migrations/templates/create_page_contents.rb",
