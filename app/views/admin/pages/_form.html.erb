@@ -95,7 +95,7 @@
 
         <% @locations.each do |location, contents| %>
 
-            <div class="module">
+            <div class="module loc" id="<%= location %>_block">
 
               <% if location == 'content' || location == 'sidebar' %>
 
@@ -117,7 +117,7 @@
 
                   <div class="tab-content" id="tab-1">
                     <ul class="inner sortlist" id="content_receiver">
-                      <%= render :partial => 'content', :collection => @locations['content'] %>       
+                      <%= render :partial => 'content', :collection => @locations['content'] %>
                     </ul>
 
                     <ul class="inner sortlist" id="sidebar_receiver">
@@ -214,39 +214,43 @@
          </a>
        </li>
 
-       <li class="divider">&nbsp;</li>
+       <% if @available_modules.present? %>
+         <li class="divider">&nbsp;</li>
 
-       <% for available_module in @available_modules %>
-         <li>
-           <%= link_to do -%>
-             <span>
-               <div>
-                 <div class="adrag">
-                   <%= image_tag("skinnycms/admin/ico-line.gif") %>
+         <% for available_module in @available_modules %>
+           <li>
+             <%= link_to do -%>
+               <span>
+                 <div>
+                   <div class="adrag">
+                     <%= image_tag("skinnycms/admin/ico-line.gif") %>
                      <%= text_field available_module.class.name, available_module.id, :value => available_module.unique_id, :class => available_module.class.name %>
+                   </div>
+                   <div class="available_content" value="<%= available_module.title rescue available_module %>">
+                     <%= available_module.title rescue available_module %>
+                   </div>
                  </div>
-                 <div class="available_content" value="<%= available_module.title rescue available_module %>">
-                   <%= available_module.title rescue available_module %>
-                 </div>
-               </div>
-             </span>
-           <% end %>
-         </li>
+               </span>
+             <% end %>
+           </li>
+         <% end %>
        <% end %>
      </ul><!-- add-nav -->
 
-     <div class="pagination_container">
-       <%= will_paginate @available_modules %>
-     </div>
+     <% if @available_modules.present? %>
+       <div class="pagination_container">
+         <%= will_paginate @available_modules %>
+       </div>
+     <% end %>
    </div><!-- #sidebar -->
  </div><!-- #main -->
 
 <!-- there is the hidden block, which gets sortable positions by JQuery -->
 <div class="hidden_field">
   <% @locations.keys.each do |location| %>
-    <input id="<%= location %>_positions" style='width:600px; display: none;' name="<%= location %>_positions"></input><br />
+    <input id="<%= location %>_positions" style='display: none;' name="<%= location %>_positions"></input><br />
   <% end %>
-  <input id="wysiwyg_container"></input>
+  <input id="wysiwyg_container" style='display: none;'></input>
 </div>
 <% end %>
 
@@ -291,10 +295,6 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-
-  <!-- Hide sidebar when DOM loaded -->
-
-  $('#sidebar_receiver').slideUp(1000);
 
   <!-- Left/Right contents SWITCH logic -->
 
@@ -643,6 +643,62 @@ $(document).ready(function(){
    <!-- Validation js -->
 
    $(".edit_page_form").validationEngine();
+
+   <!-- Templates switching logic -->
+
+   // Creating hash of templates as title : content_locations
+
+   var temps_hash = {};
+
+   <% @templates_hash.each do |template, locations| %>
+
+     locs = [];
+
+     <% locations.split(',').each do |loc| %>
+
+       locs.push('<%= loc %>');
+
+     <% end %>
+
+     temps_hash['<%= template %>'] = locs;
+
+   <% end %>
+
+   // On select template event
+
+   $("#page_template_id").change(function () {
+
+     // Close all current content locations in a page
+
+     $('.module.loc').slideUp(1000);
+
+     $("#page_template_id option:selected").each(function () {
+
+       // Define selected template
+
+       template = $(this).text();
+
+       // If template not selected we will use 'Home Page' template
+
+       if(template == "- No Template - "){
+         template = 'Home Page';
+       }
+
+       // Open all content_locations for selected template
+
+       $.each(temps_hash[template], function(index, value) {
+
+         $('#'+value.toString()+'_block').slideDown(1000);
+
+       });
+
+     });
+
+   }).trigger('change');
+
+   <!-- Hide sidebar when DOM loaded -->
+
+  $('#sidebar_receiver').delay(3000).slideUp(1000);
 
 });
 

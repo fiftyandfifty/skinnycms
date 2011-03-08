@@ -48,8 +48,9 @@ class Admin::PagesController < ApplicationController
     @templates = Template.all(:order => :title)
     @navigations = Navigation.all(:order => :title)
     @pages_to_navigations = PagesToNavigation.all
-    @locations = { 'header' => {}, 'content' => {}, 'sidebar' => {} }
+    @locations = Template.all_locations
     @loc_marks = @locations.keys
+    @templates_hash = Template.templates_hash
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
     @assets = Asset.all.paginate :page => params[:page], :per_page => 8
     @asset_types = Asset.types
@@ -62,40 +63,15 @@ class Admin::PagesController < ApplicationController
     end
   end
 
-  def get_asset_by_type_to_editor
-    sleep 2
-    if params[:asset_type].present? && params[:asset_type] != 'all'
-      assets = Asset.find(:all, :conditions => ['asset_content_type LIKE ?', '%' + params[:asset_type] + '%'])
-    elsif params[:asset_type] == 'all'
-      assets = Asset.all
-    end
-    @assets = assets.paginate :page => params[:page], :per_page => 8 if assets.present?
-
-    respond_to do |format|
-      format.js
-      format.xml { head :ok }
-    end
-  end
-
-  def search_asset_for_editor
-    sleep 2
-    assets = Asset.find( :all, :conditions => ['title LIKE ? OR description LIKE ? OR asset_file_name LIKE ?', '%' + params[:search_key] + '%', '%' + params[:search_key] + '%', '%' + params[:search_key] + '%'], :limit => 10 )
-    @assets = assets.paginate :page => params[:page], :per_page => 8 if assets.present?
-
-    respond_to do |format|
-      format.js
-      format.xml { head :ok }
-    end
-  end
-
   def edit
     @title = "Edit Page"
     @page = Page.find(params[:id])
     @templates = Template.all(:order => :title)
     @navigations = Navigation.all(:order => :id)
     @pages_to_navigations = PagesToNavigation.all
-    @locations = @page.locations
+    @locations = @page.exist_and_other_locations
     @loc_marks = @locations.keys
+    @templates_hash = Template.templates_hash
     @available_modules = available_modules.paginate :page => params[:page], :per_page => 10
     @assets = Asset.all.paginate :page => params[:page], :per_page => 8
     @asset_types = Asset.types
@@ -204,6 +180,30 @@ class Admin::PagesController < ApplicationController
     end
 
     render :nothing => true
+  end
+
+  def get_asset_by_type_to_editor
+    if params[:asset_type].present? && params[:asset_type] != 'all'
+      assets = Asset.find(:all, :conditions => ['asset_content_type LIKE ?', '%' + params[:asset_type] + '%'])
+    elsif params[:asset_type] == 'all'
+      assets = Asset.all
+    end
+    @assets = assets.paginate :page => params[:page], :per_page => 8 if assets.present?
+
+    respond_to do |format|
+      format.js
+      format.xml { head :ok }
+    end
+  end
+
+  def search_asset_for_editor
+    assets = Asset.find( :all, :conditions => ['title LIKE ? OR description LIKE ? OR asset_file_name LIKE ?', '%' + params[:search_key] + '%', '%' + params[:search_key] + '%', '%' + params[:search_key] + '%'], :limit => 10 )
+    @assets = assets.paginate :page => params[:page], :per_page => 8 if assets.present?
+
+    respond_to do |format|
+      format.js
+      format.xml { head :ok }
+    end
   end
 
   private

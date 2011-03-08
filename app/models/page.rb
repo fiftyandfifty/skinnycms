@@ -8,9 +8,9 @@ class Page < ActiveRecord::Base
   belongs_to :template
 
   validates :title, :permalink, :presence => true
-  
+
   has_friendly_id :title_or_permalink, :use_slug => true, :approximate_ascii => true
-  
+
   scope :not_on_nav, :conditions => 'pages_to_navigations.navigation_id IS NULL' , :order => :title, :include => :pages_to_navigations
 
   CONTENT_TYPES = ['UniqueContentModule','CustomModule','ApiModule','CacheTumblrPost','CacheFleakrGallery','CacheVimeoVideo']
@@ -20,14 +20,14 @@ class Page < ActiveRecord::Base
       permalink
     else
       title
-    end 
+    end
   end
 
   def parent_in_navigation(navigation_name)
     pages_to_navigations.find(:first, :conditions => { :navigation_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id }).parent_id rescue 0
     # TODO: fix the rescue above
   end
-  
+
   def parent_id_in_navigation(navigation_name)
     parent = parent_in_navigation(navigation_name)
     return {} if parent.blank? || parent == 0
@@ -39,7 +39,7 @@ class Page < ActiveRecord::Base
     return "Not on #{navigation_name}" if parent.blank? || parent == 0
     PagesToNavigation.find(parent).page.title
   end
-  
+
   def this_navigation(navigation_name)
     this_nav = pages_to_navigations.first(:conditions => { :navigation_id => Navigation.find(:first, :conditions => { :title => navigation_name }).id })
     this_nav = PagesToNavigation.new if this_nav.blank?
@@ -57,6 +57,10 @@ class Page < ActiveRecord::Base
      content_in_locations[loc] = PageContent.find(:all, :conditions => { :page_id => self, :location => loc }, :order => :position )
     end
     content_in_locations
+  end
+
+  def exist_and_other_locations
+    Template.all_locations.merge(locations)
   end
 
   def define_contents(location, positions, values)
@@ -78,3 +82,4 @@ class Page < ActiveRecord::Base
     end
   end
 end
+
