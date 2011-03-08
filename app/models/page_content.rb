@@ -14,6 +14,8 @@ class PageContent < ActiveRecord::Base
   end
 
   def content_for_location(location)
-    remote_module.send(location)
+    content_module = remote_module.custom_module_contents.where(:location => location).first
+    content = content_module.present? ? content_module.content : ''
   end
 end
+
