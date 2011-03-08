@@ -71,13 +71,18 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     api_module_indexes = []
 
     custom_module_columns = {
-                    :title => "string",
-                    :header => "text",
-                    :content => "text",
-                    :sidebar => "text"
+                    :title => "string"
                     }
 
     custom_module_indexes = []
+
+    custom_module_content_columns = {
+                    :custom_module_id => "integer",
+                    :content => "text",
+                    :location => "string"
+                    }
+
+    custom_module_content_indexes = []
 
     cache_fleakr_gallery_columns = {
                     :fleakr_gallery_id => "string",
@@ -205,6 +210,15 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     sleep(1)
 
     begin
+      custom_module_content_app_columns = ActiveRecord::Base::CustomModuleContent.column_names
+      custom_module_content_app_indexes = ActiveRecord::Base.connection.indexes("custom_module_contents")
+      self.class.define_migration("custom_module_contents", custom_module_content_columns, custom_module_content_app_columns, custom_module_content_indexes, custom_module_content_app_indexes)
+    rescue
+      self.class.check_migration_file("*create_custom_module_contents*", "create_custom_module_contents.rb")
+    end
+    sleep(1)
+
+    begin
       cache_fleakr_gallery_app_columns = ActiveRecord::Base::CacheFleakrGallery.column_names
       cache_fleakr_gallery_app_indexes = ActiveRecord::Base.connection.indexes("cache_fleakr_galleries")
       self.class.define_migration("cache_fleakr_galleries", cache_fleakr_gallery_columns, cache_fleakr_gallery_app_columns, cache_fleakr_gallery_indexes, cache_fleakr_gallery_app_indexes)
@@ -276,7 +290,7 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     end
     sleep(1)
 
-    
+
     rake("db:migrate")
     puts self.class.end_description
   end
@@ -320,7 +334,7 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
           generator.remove_file old_migration
           generator.migration_template "add_skinnycms_fields_to_#{table_name}.rb", "add_skinnycms_fields_to_#{table_name}.rb"
         end
-        
+
         exist_migration = Dir.glob("*add_skinnycms_fields_to_#{table_name}.rb*").first
 
         migration_columns.each do |key, value|
@@ -342,7 +356,7 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
         end
 
         if migration_columns.blank? && migration_indexes.blank?
-          generator.remove_file exist_migration 
+          generator.remove_file exist_migration
           generator.say "You already have all required #{table_name} fields!", :green
         end
     end
@@ -379,3 +393,4 @@ class SkinnycmsMigrationsGenerator < Rails::Generators::Base
     end
   end
 end
+
