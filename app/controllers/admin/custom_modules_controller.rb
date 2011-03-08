@@ -4,14 +4,11 @@ class Admin::CustomModulesController < ApplicationController
   uses_tiny_mce
   layout "admin"
 
-  def index
-    @title = "Modules"
-
-  end
-
   def new
     @title = "Add Module"
     @custom_module = CustomModule.new
+    @locations = Template.all_locations
+    @last_id = CustomModuleContent.last.id
 
     respond_to do |format|
       format.html
@@ -21,40 +18,26 @@ class Admin::CustomModulesController < ApplicationController
 
   def edit
     @custom_module = CustomModule.find(params[:id])
+    @locations = @custom_module.all_contents
+    @last_id = CustomModuleContent.last.id
   end
 
   def create
-    if params[:header_new].present?
-      header_blocks = '';
-      header_params = params[:header_new]
-      header_params.each do |key, value|
-        header_blocks += value
-      end
-    end
-
-    if params[:content_new].present?
-      content_blocks = '';
-      content_params = params[:content_new]
-      content_params.each do |key, value|
-        content_blocks += value
-      end
-    end
-
-    if params[:sidebar_new].present?
-      sidebar_blocks = '';
-      sidebar_params = params[:sidebar_new]
-      sidebar_params.each do |key, value|
-        sidebar_blocks += value
-      end
-    end
-
-    @custom_module = CustomModule.new(:title => params[:custom_module][:title]) if params[:custom_module][:title].present?  
-    @custom_module.header = header_blocks if header_blocks.present?
-    @custom_module.content = content_blocks if content_blocks.present?
-    @custom_module.sidebar = sidebar_blocks if sidebar_blocks.present?
+    @custom_module = CustomModule.new(params[:custom_module])
 
     respond_to do |format|
       if @custom_module.save
+
+        if params[:locations].present?
+          params[:locations].each do |location, content|
+            all_contents = '';
+            content.each { |key, value| all_contents += value }
+            CustomModuleContent.create(:custom_module_id => @custom_module.id,
+                                       :content => all_contents,
+                                       :location => location)
+          end
+        end
+
         format.html { redirect_to(admin_modules_path) }
         format.xml  { render :xml => @custom_module, :status => :created, :location => @custom_module }
       else
@@ -65,60 +48,26 @@ class Admin::CustomModulesController < ApplicationController
   end
 
   def update
-    if params[:custom_module][:header].present? || !params[:header_new].present?
-      header_exist = []
-      header_exist = params[:custom_module][:header] if params[:custom_module][:header].present?
-
-      if params[:header_new].present?
-        header_blocks = []
-        header_params = params[:header_new]
-        header_params.each do |key, value|
-          header_blocks << value
-        end
-      end
-
-      header_result = header_exist.to_s + header_blocks.to_s
-    end
-
-    if params[:custom_module][:content].present? || params[:content_new].present?
-      content_exist = []
-      content_exist = params[:custom_module][:content] if params[:custom_module][:content].present?
-
-      if params[:content_new].present?
-        content_blocks = []
-        content_params = params[:content_new]
-        content_params.each do |key, value|
-          content_blocks << value
-        end
-      end
-
-      content_result = content_exist.to_s + content_blocks.to_s
-    end
-
-    if params[:custom_module][:sidebar].present? || params[:sidebar_new].present?
-      sidebar_exist = []
-      sidebar_exist = params[:custom_module][:sidebar] if params[:custom_module][:sidebar].present?
-
-      if params[:sidebar_new].present?
-        sidebar_blocks = []
-        sidebar_params = params[:sidebar_new]
-        sidebar_params.each do |key, value|
-          sidebar_blocks << value
-        end
-      end
-
-      sidebar_result = sidebar_exist.to_s + sidebar_blocks.to_s
-    end
-
-
     @custom_module = CustomModule.find(params[:id])
-    @custom_module.title = params[:custom_module][:title] if params[:custom_module][:title].present?
-    @custom_module.header = header_result if header_result.present?
-    @custom_module.content = content_result if content_result.present?
-    @custom_module.sidebar = sidebar_result if sidebar_result.present?
 
     respond_to do |format|
-      if @custom_module.save
+      if @custom_module.update_attributes(params[:custom_module])
+
+        if params[:locations].present?
+          params[:locations].each do |location, content|
+            all_contents = '';
+            content.each { |key, value| all_contents += value }
+            exist_content = CustomModuleContent.where(:custom_module_id => @custom_module.id, :location => location).first
+            if exist_content.present?
+              exist_content.update_attribute(:content, all_contents)
+            else
+              CustomModuleContent.create(:custom_module_id => @custom_module.id,
+                                         :content => all_contents,
+                                         :location => location)
+            end
+          end
+        end
+
         format.html { redirect_to(admin_modules_path, :notice => 'Custom Module was successfully updated!') }
         format.xml  { head :ok }
       else
