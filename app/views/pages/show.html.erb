@@ -27,7 +27,9 @@
         <% elsif content.module_type == 'CacheTumblrPost' %>
           <%= raw(content.remote_module.desc) %>
         <% elsif content.module_type == 'CacheFleakrGallery' %>
-          <!-- TODO: gallery output -->
+          <% Fleakr::Objects::Set.find_by_id(content.remote_module.fleakr_gallery_id).photos.each do |photo| %>
+            <%= image_tag(photo.medium.url) %><br />
+          <% end %>
         <% elsif content.module_type == 'CacheVimeoVideo' %>
           <a href="<%= content.remote_module.url %>">
             <%= content.remote_module.title %>

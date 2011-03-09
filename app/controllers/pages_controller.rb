@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
  
   def show
+    Admin::GalleriesController.new.login_and_get_fleakr_user
+
     if params
       if params[:id].blank? then page_id = 1 else page_id = params[:id] end
     else
