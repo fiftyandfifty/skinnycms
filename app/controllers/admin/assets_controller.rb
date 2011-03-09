@@ -1,12 +1,11 @@
 class Admin::AssetsController < ApplicationController
-  require 'paperclip_cloudfiles_patch'
   before_filter :authenticate_user!
   before_filter :define_page
   uses_tiny_mce
-  layout "admin"
+  layout 'admin'
 
   def index
-    @title = "Assets"
+    @title = 'Assets'
 
     if params[:asset_type].present?
       @asset_type = params[:asset_type]
@@ -31,7 +30,6 @@ class Admin::AssetsController < ApplicationController
 
   def show
     @asset = Asset.find(params[:id])
-    @asset.asset.reprocess!
 
     respond_to do |format|
       format.html
@@ -60,7 +58,7 @@ class Admin::AssetsController < ApplicationController
         format.html { redirect_to(admin_assets_path, :notice => 'Asset was successfully created.') }
         format.xml  { render :xml => @asset, :status => :created, :location => @asset }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => 'new' }
         format.xml  { render :xml => @asset.errors, :status => :unprocessable_entity }
       end
     end
@@ -74,7 +72,7 @@ class Admin::AssetsController < ApplicationController
         format.html { redirect_to(admin_assets_path, :notice => 'Asset was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => 'edit' }
         format.xml  { render :xml => @asset.errors, :status => :unprocessable_entity }
       end
     end
