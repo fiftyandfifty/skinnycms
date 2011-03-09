@@ -21,13 +21,38 @@
 
     <div class="asset_image">
       <% if @asset.content_type == 'image' %>
+
         <%= image_tag @asset.asset.url(:medium) %>
+      
       <% elsif @asset.content_type == 'video' %>
-        <!-- We will add swfobject player here for video -->
+
+        <!-- Free Uppod video - player -->
+        <object type="application/x-shockwave-flash"
+                data="/javascripts/skinnycms/media/uflvplayer_500x375.swf"
+                height="300" width="400">
+          <param name="bgcolor" value="#FFFFFF" />
+          <param name="allowFullScreen" value="true" />
+          <param name="allowScriptAccess" value="always" />
+          <param name="movie" value="/javascripts/skinnycms/media/uflvplayer_500x375.swf" />
+          <param name="FlashVars"
+                 value="way=<%= @asset.asset.url %>&amp;swf=/javascripts/skinnycms/media/uflvplayer_500x375.swf&amp;w=400&amp;h=300&amp;pic=http://&amp;autoplay=0&amp;tools=1&amp;skin=white&amp;volume=70&amp;q=&amp;comment=" />
+        </object>
+
       <% elsif @asset.content_type == 'audio' %>
-        <!-- We will add swfobject player here for audio -->
+
+        <!-- Free Uppod audio - player -->
+        <object type="application/x-shockwave-flash" 
+                data="/javascripts/skinnycms/media/ump3player_500x70.swf"
+                height="70" width="470">
+          <param name="wmode" value="transparent" />
+          <param name="allowFullScreen" value="true" />
+          <param name="allowScriptAccess" value="always" />
+          <param name="movie" value="/javascripts/skinnycms/media/ump3player_500x70.swf" />
+          <param name="FlashVars" value="way=<%= @asset.asset.url %>&amp;swf=/javascripts/skinnycms/media/ump3player_500x70.swf&amp;w=470&amp;h=70&amp;time_seconds=164&amp;autoplay=0&amp;q=&amp;skin=grey&amp;volume=70&amp;comment=" />
+        </object>
+
       <% elsif @asset.content_type == 'text' %>
-        <!-- We will add not big part of text in file or special icon -->
+        <!-- We will add special icon -->
       <% end %>
     </div><br />
 

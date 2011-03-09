@@ -39,6 +39,14 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
     if !File.exist?("public/javascripts/skinnycms/jquery/jquery.validationEngine-en.js")
       copy_file "jquery/jquery.validationEngine-en.js", "public/javascripts/skinnycms/jquery/jquery.validationEngine-en.js"
     end
+
+    if !File.exist?("public/javascripts/skinnycms/media/uflvplayer_500x375.swf")
+      copy_file "media/uflvplayer_500x375.swf", "public/javascripts/skinnycms/media/uflvplayer_500x375.swf"
+    end
+
+    if !File.exist?("public/javascripts/skinnycms/media/ump3player_500x70.swf")
+      copy_file "media/ump3player_500x70.swf", "public/javascripts/skinnycms/media/ump3player_500x70.swf"
+    end
     
     puts SkinnycmsJavascriptsGenerator.end_description
   end
