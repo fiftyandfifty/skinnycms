@@ -604,12 +604,63 @@ $(document).ready(function(){
     modal: true,
     buttons: {
       "Add asset": function() {
-        var grisha = $(".ui-selected")
-        $.each(grisha, function(index, value) {
-          wysiwyg_container = $('#wysiwyg_container').text();
-          iframe_id = "#" + wysiwyg_container + '_ifr';
-          asset = '<img src="' + $(value).attr("id") + '" />';
-          $(iframe_id).contents().find('body.mceContentBody').append(asset);
+        var assets = $(".ui-selected")
+        $.each(assets, function(index, value) {
+
+          // Define asset's url, title and type
+
+          asset_url = $(value).attr('id');
+          asset_title = $($(value).find('span')).attr('value');
+          asset_type = $($(value).find('span')).attr('class').replace(' ui-selectee','');
+
+          //alert('asset_url: '+asset_url+' asset_title: '+asset_title+' asset_type: '+asset_type);
+
+          // Define destination iframe
+          iframe = ("#" + $('#wysiwyg_container').text() + '_ifr').toString();
+
+          // Build specific HTML for asset type
+
+          if(asset_type == 'image'){
+
+            asset = '<img src="' + asset_url + '" />';
+
+          }
+          else if(asset_type == 'video'){
+
+            asset = '<object type="application/x-shockwave-flash"\n\
+                       data="/javascripts/skinnycms/media/uflvplayer_500x375.swf"\n\
+                       height="300" width="400">\n\
+                       <param name="bgcolor" value="#FFFFFF" />\n\
+                       <param name="allowFullScreen" value="true" />\n\
+                       <param name="allowScriptAccess" value="always" />\n\
+                       <param name="movie" value="/javascripts/skinnycms/media/uflvplayer_500x375.swf" />\n\
+                       <param name="FlashVars" value="way=' + asset_url + '&amp;swf=/javascripts/skinnycms/media/uflvplayer_500x375.swf&amp;w=400&amp;h=300&amp;pic=http://&amp;autoplay=0&amp;tools=1&amp;skin=white&amp;volume=70&amp;q=&amp;comment=" />\n\
+                     </object>';
+
+          }
+          else if(asset_type == 'audio'){
+
+            asset = '<object type="application/x-shockwave-flash" \n\
+                       data="/javascripts/skinnycms/media/ump3player_500x70.swf" \n\
+                       height="70" width="470">\n\
+                       <param name="wmode" value="transparent" />\n\
+                       <param name="allowFullScreen" value="true" />\n\
+                       <param name="allowScriptAccess" value="always" />\n\
+                       <param name="movie" value="/javascripts/skinnycms/media/ump3player_500x70.swf" />\n\
+                       <param name="FlashVars" value="way=' + asset_url + '&amp;swf=/javascripts/skinnycms/media/ump3player_500x70.swf&amp;w=470&amp;h=70&amp;time_seconds=164&amp;autoplay=0&amp;q=&amp;skin=grey&amp;volume=70&amp;comment=" />\n\
+                     </object>';
+
+          }
+          else {
+
+            asset = '<a href="' + asset_url + '" >' + asset_title + '</a>';
+
+          }
+         
+         // Insert specific asset's HTML to wysiwyg editor
+
+          $(iframe).contents().find('body.mceContentBody').append(asset);
+         
         });
         $( this ).dialog( "close" );
       },
