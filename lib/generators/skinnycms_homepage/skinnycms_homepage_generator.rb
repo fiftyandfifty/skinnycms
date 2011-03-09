@@ -71,33 +71,42 @@ class SkinnycmsHomepageGenerator < Rails::Generators::Base
             
       PageContent.create!(:page_id => home_page_id,
                           :content => '<p><h2>Welcome to your new website!</h2></p>',
-                          :location => 'header')
+                          :location => 'header',
+                          :module_type => 'UniqueContentModule')
       PageContent.create!(:page_id => home_page_id,
                           :content => '<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum comes from a line in section 1.10.32.</p><p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>',
-                          :location => 'content')
+                          :location => 'content',
+                          :module_type => 'UniqueContentModule')
       PageContent.create!(:page_id => home_page_id,
                           :content => '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-                          :location => 'sidebar')
+                          :location => 'sidebar',
+                          :module_type => 'UniqueContentModule')
                           
       PageContent.create!(:page_id => about_us_page_id,
                           :content => '<p><h1>About Us</h1></p>',
-                          :location => 'header')
+                          :location => 'header',
+                          :module_type => 'UniqueContentModule')
       PageContent.create!(:page_id => about_us_page_id,
                           :content => '<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum comes from a line in section 1.10.32.</p><p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>',
-                          :location => 'content')
+                          :location => 'content',
+                          :module_type => 'UniqueContentModule')
       PageContent.create!(:page_id => about_us_page_id,
                           :content => '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-                          :location => 'sidebar')
+                          :location => 'sidebar',
+                          :module_type => 'UniqueContentModule')
                           
       PageContent.create!(:page_id => history_page_id,
                           :content => '<p><h1>Our History</h1></p>',
-                          :location => 'header')
+                          :location => 'header',
+                          :module_type => 'UniqueContentModule')
       PageContent.create!(:page_id => history_page_id,
                           :content => '<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum comes from a line in section 1.10.32.</p><p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>',
-                          :location => 'content')
+                          :location => 'content',
+                          :module_type => 'UniqueContentModule')
       PageContent.create!(:page_id => history_page_id,
                           :content => '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-                          :location => 'sidebar')
+                          :location => 'sidebar',
+                          :module_type => 'UniqueContentModule')
                                 
       User.create!(:name => '5ifty 5ifty Admin',
                    :email => 'admin@fiftyandfifty.org',
