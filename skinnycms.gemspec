@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.4.3"
+  s.version = "0.4.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
@@ -224,6 +224,8 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.livequery.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine-en.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine.js",
+    "lib/generators/skinnycms_javascripts/javasripts/media/uflvplayer_500x375.swf",
+    "lib/generators/skinnycms_javascripts/javasripts/media/ump3player_500x70.swf",
     "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
     "lib/generators/skinnycms_javascripts/javasripts/rails.js",
     "lib/generators/skinnycms_javascripts/skinnycms_javascripts_generator.rb",
