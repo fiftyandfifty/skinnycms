@@ -29,7 +29,12 @@
         <% elsif content.module_type == 'CacheFleakrGallery' %>
           <!-- TODO: gallery output -->
         <% elsif content.module_type == 'CacheVimeoVideo' %>
-          <!-- TODO: video output -->
+          <a href="<%= content.remote_module.url %>">
+            <%= content.remote_module.title %>
+          </a><br />
+          <iframe src="http://player.vimeo.com/video/<%= content.remote_module.url.sub('http://vimeo.com/','') %>" 
+                  width="400" height="225" frameborder="0">
+          </iframe><br />
         <% elsif content.module_type == 'CustomModule' %>
           <%= raw(content.content_for_location(location)) %>
         <% end %>
