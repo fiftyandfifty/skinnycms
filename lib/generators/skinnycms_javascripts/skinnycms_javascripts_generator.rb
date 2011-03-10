@@ -47,6 +47,10 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
     if !File.exist?("public/javascripts/skinnycms/media/ump3player_500x70.swf")
       copy_file "media/ump3player_500x70.swf", "public/javascripts/skinnycms/media/ump3player_500x70.swf"
     end
+
+    if !File.exist?("public/javascripts/skinnycms/gallery/coin-slider.min.js")
+      copy_file "gallery/coin-slider.min.js", "public/javascripts/skinnycms/gallery/coin-slider.min.js"
+    end
     
     puts SkinnycmsJavascriptsGenerator.end_description
   end

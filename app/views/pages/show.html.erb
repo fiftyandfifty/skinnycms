@@ -1,47 +1,103 @@
 <%- @content_locations.each do |location, location_contents| -%>
+
   <% content_for location.to_sym do %>
+
     <% if @page.blank? %>
       <p style="text-align: center; color:red; font-weight: bold; font-size: 16px;">page doesn't exist!</p>
     <% end %>
+
     <% if location_contents.present? %>
+
       <% for content in location_contents %>
+
         <% if content.module_type == 'ApiModule' %>
+
           <% if content.remote_module.title == 'tumblr basic' %>
+
             <% if location == 'sidebar' %>
+
               <h3>RECENT POSTS:</h3>
+
               <% @recent_tumblr_posts.each do |post| %>
                 <%= post.title %><br />
               <% end %><br />
+
               <%= link_to("Details", @tumblr_detail_page_path) %>
+
             <% else %>
+
               <h3>POSTS:</h3>
+
               <% for post in @all_tumblr_posts %>
                 <%= post.title %><br />
               <% end %>
+
               <%= will_paginate @all_tumblr_posts %><br />
               <%= link_to("Details", @tumblr_detail_page_path) %>
+
             <% end %>
+
           <% end %>
+
         <% elsif content.module_type == 'UniqueContentModule' %>
+
           <%= raw(content.content) %>
+
         <% elsif content.module_type == 'CacheTumblrPost' %>
+
           <%= raw(content.remote_module.desc) %>
+
         <% elsif content.module_type == 'CacheFleakrGallery' %>
-          <% Fleakr::Objects::Set.find_by_id(content.remote_module.fleakr_gallery_id).photos.each do |photo| %>
-            <%= image_tag(photo.medium.url) %><br />
-          <% end %>
+
+          <h3><%= content.remote_module.title %></h3>
+
+          <div id='coin-slider'>
+            <% Fleakr::Objects::Set.find_by_id(content.remote_module.fleakr_gallery_id).photos.each do |photo| %>
+              <a href="<%= photo.medium.url %>" target="_blank">
+                <%= image_tag(photo.medium.url) %>
+                <span>
+		  <%= photo.title %>
+	        </span>
+              </a>
+            <% end %>
+          </div>
+
         <% elsif content.module_type == 'CacheVimeoVideo' %>
+
           <a href="<%= content.remote_module.url %>">
             <%= content.remote_module.title %>
           </a><br />
-          <iframe src="http://player.vimeo.com/video/<%= content.remote_module.url.sub('http://vimeo.com/','') %>" 
-                  width="400" height="225" frameborder="0">
+
+          <iframe src="http://player.vimeo.com/video/<%= content.remote_module.url.sub('http://vimeo.com/','') %>"
+            width="400" height="225" frameborder="0">
           </iframe><br />
+
         <% elsif content.module_type == 'CustomModule' %>
+
           <%= raw(content.content_for_location(location)) %>
+
         <% end %>
+
       <% end %>
+
     <% end %>
+
   <% end %>
+
 <%- end -%>
+
+<% content_for :html_header_includes do %>
+
+  <%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
+  <%= javascript_include_tag 'skinnycms/gallery/coin-slider.min.js' %>
+  <%= stylesheet_link_tag 'skinnycms/coin-slider-styles.css' %>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#coin-slider').coinslider({ effect: 'rain', delay: 5000 });
+    });
+  </script>
+
+<% end %>
+
 

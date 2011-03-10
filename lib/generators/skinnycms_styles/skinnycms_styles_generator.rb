@@ -84,7 +84,7 @@ class SkinnycmsStylesGenerator < Rails::Generators::Base
       end
     end
 
-     if !File.exist?("public/stylesheets/skinnycms/jquery-ui-1.8.10.custom.css")
+    if !File.exist?("public/stylesheets/skinnycms/jquery-ui-1.8.10.custom.css")
       copy_file "jquery-ui-1.8.10.custom.css", "public/stylesheets/skinnycms/jquery-ui-1.8.10.custom.css"
     else
       if yes? "You already have 'public/stylesheets/skinnycms/jquery-ui-1.8.10.custom.css' file. Do you want to update it?", :green
@@ -93,12 +93,21 @@ class SkinnycmsStylesGenerator < Rails::Generators::Base
       end
     end
     
-     if !File.exist?("public/stylesheets/skinnycms/validationEngine.jquery.css")
+    if !File.exist?("public/stylesheets/skinnycms/validationEngine.jquery.css")
       copy_file "validationEngine.jquery.css", "public/stylesheets/skinnycms/validationEngine.jquery.css"
     else
       if yes? "You already have 'public/stylesheets/skinnycms/validationEngine.jquery.css' file. Do you want to update it?", :green
         remove_file "public/stylesheets/skinnycms/validationEngine.jquery.css"
         copy_file "validationEngine.jquery.css", "public/stylesheets/skinnycms/validationEngine.jquery.css"
+      end
+    end
+
+    if !File.exist?("public/stylesheets/skinnycms/coin-slider-styles.css")
+      copy_file "coin-slider-styles.css", "public/stylesheets/skinnycms/coin-slider-styles.css"
+    else
+      if yes? "You already have 'public/stylesheets/skinnycms/coin-slider-styles.css' file. Do you want to update it?", :green
+        remove_file "public/stylesheets/skinnycms/coin-slider-styles.css"
+        copy_file "coin-slider-styles.css", "public/stylesheets/skinnycms/coin-slider-styles.css"
       end
     end
 
