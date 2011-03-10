@@ -51,7 +51,7 @@
 
           <h3><%= content.remote_module.title %></h3>
 
-          <div id='coin-slider'>
+          <div class="sliders" id='<%= content.id %>'>
             <% Fleakr::Objects::Set.find_by_id(content.remote_module.fleakr_gallery_id).photos.each do |photo| %>
               <a href="<%= photo.medium.url %>" target="_blank">
                 <%= image_tag(photo.medium.url) %>
@@ -94,7 +94,13 @@
 
   <script type="text/javascript">
     $(document).ready(function() {
-      $('#coin-slider').coinslider({ effect: 'rain', delay: 5000 });
+
+      var sliders = $('.sliders');
+
+      $.each(sliders, function(index,value) {
+        $(value).coinslider({ effect: 'rain', delay: 5000 });
+      });
+
     });
   </script>
 
