@@ -1,0 +1,66 @@
+<ul class="add-nav">
+  <li>
+    <a href="#" class="active">
+      <span>
+        <strong class="wdrag">WYSIWYG</strong>
+      </span>
+    </a>
+  </li>
+
+  <% if @available_modules.present? %>
+    <li class="divider">&nbsp;</li>
+
+      <% for available_module in @available_modules %>
+        <li>
+          <%= link_to do -%>
+            <span>
+              <div>
+                <div class="adrag">
+                  <%= image_tag("skinnycms/admin/ico-line.gif") %>
+                  <%= text_field available_module.class.name, available_module.id, :value => available_module.unique_id, :class => available_module.class.name %>
+                </div>
+                <div class="available_content" value="<%= available_module.title rescue available_module %>">
+                  <%= available_module.title rescue available_module %>
+                </div>
+              </div>
+            </span>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+</ul><!-- add-nav -->
+
+<% if @available_modules.present? %>
+  <div class="pagination_container">
+    <%= will_paginate @available_modules %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    $('.wdrag').draggable({
+      helper : 'clone',
+      opacity : 0.3
+    });
+
+  <!-- Available modules draggable logic -->
+
+    // Define draggable container for available modules
+
+    $('.adrag').draggable({
+      helper : 'clone',
+      opacity : 0.3
+    });
+
+  <!-- Change texts for pagination -->
+
+  $('.pagination').find('a.prev_page').text("BACK");
+  $('.pagination').find('.disabled.prev_page').text("BACK");
+  $('.pagination').find('a.next_page').text("NEXT");
+  $('.pagination').find('.disabled.next_page').text("NEXT");
+
+});
+
+</script>
