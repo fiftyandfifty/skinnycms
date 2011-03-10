@@ -30,6 +30,33 @@ class SkinnycmsLayoutsGenerator < Rails::Generators::Base
       end
     end
 
+    if !File.exist?('app/views/layouts/home_page.html.erb')
+      copy_file "home_page.html.erb", "app/views/layouts/home_page.html.erb"
+    else
+      if yes? "You already have 'app/views/layouts/home_page.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/layouts/home_page.html.erb"
+        copy_file "home_page.html.erb", "app/views/layouts/home_page.html.erb"
+      end
+    end
+
+    if !File.exist?('app/views/layouts/landing_page.html.erb')
+      copy_file "landing_page.html.erb", "app/views/layouts/landing_page.html.erb"
+    else
+      if yes? "You already have 'app/views/layouts/landing_page.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/layouts/landing_page.html.erb"
+        copy_file "landing_page.html.erb", "app/views/layouts/landing_page.html.erb"
+      end
+    end
+
+    if !File.exist?('app/views/layouts/detail_page.html.erb')
+      copy_file "detail_page.html.erb", "app/views/layouts/detail_page.html.erb"
+    else
+      if yes? "You already have 'app/views/layouts/detail_page.html.erb' layout. Do you want to update it?", :green
+        remove_file "app/views/layouts/detail_page.html.erb"
+        copy_file "detail_page.html.erb", "app/views/layouts/detail_page.html.erb"
+      end
+    end
+
     puts SkinnycmsLayoutsGenerator.end_description
   end
 
