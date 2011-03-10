@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.4.7"
+  s.version = "0.4.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-03-09}
+  s.date = %q{2011-03-10}
   s.description = %q{long description}
   s.email = %q{ruslan.hamidullin@flatsoft.com}
   s.extra_rdoc_files = [
@@ -219,6 +219,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_images/images/jquery_ui_images/ui-icons_ffffff_256x240.png",
     "lib/generators/skinnycms_images/skinnycms_images_generator.rb",
     "lib/generators/skinnycms_javascripts/USAGE",
+    "lib/generators/skinnycms_javascripts/javasripts/gallery/coin-slider.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-1.4.4.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-ui-1.8.7.custom.min.js",
     "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.livequery.js",
@@ -273,6 +274,7 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_styles/skinnycms_styles_generator.rb",
     "lib/generators/skinnycms_styles/stylesheets/960.css",
     "lib/generators/skinnycms_styles/stylesheets/all.css",
+    "lib/generators/skinnycms_styles/stylesheets/coin-slider-styles.css",
     "lib/generators/skinnycms_styles/stylesheets/demo.css",
     "lib/generators/skinnycms_styles/stylesheets/devise.css",
     "lib/generators/skinnycms_styles/stylesheets/ie.css",
