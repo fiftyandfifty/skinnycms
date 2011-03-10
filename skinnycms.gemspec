@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.4.8"
+  s.version = "0.4.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin"]
@@ -63,11 +63,13 @@ Gem::Specification.new do |s|
     "app/views/admin/modules/_undefined_api_modules.html.erb",
     "app/views/admin/modules/index.html.erb",
     "app/views/admin/pages/_add_assets.html.erb",
+    "app/views/admin/pages/_available_modules.html.erb",
     "app/views/admin/pages/_content.html.erb",
     "app/views/admin/pages/_form.html.erb",
     "app/views/admin/pages/_homepage.html.erb",
     "app/views/admin/pages/_page_list.html.erb",
     "app/views/admin/pages/edit.html.erb",
+    "app/views/admin/pages/edit.js.erb",
     "app/views/admin/pages/get_asset_by_type_to_editor.js.erb",
     "app/views/admin/pages/index.html.erb",
     "app/views/admin/pages/new.html.erb",
