@@ -6,6 +6,22 @@ class ApiModule < ActiveRecord::Base
     id
   end
 
+  def api_key
+    JSON.parse(self.configuration)['api_token']
+  end
+
+  def api_token
+    JSON.parse(self.configuration)['api_token']
+  end
+
+  def detail_page_path
+    JSON.parse(self.configuration)['detail_page_path']
+  end
+
+  def recent_posts_number
+    JSON.parse(self.configuration)['recent_posts_number']
+  end
+
   class << self
     def undefined_modules
       basic_api_modules = []

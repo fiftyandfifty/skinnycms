@@ -33,22 +33,22 @@
 
               <div class="col">
                 <label>API TOKEN</label>
-                <span class="text"><%= text_field "api_settings", "api_token" %></span>
+                <span class="text"><%= text_field "api_settings", "api_token", :value => api_module.api_token %></span>
               </div>
 
               <div class="col">
                 <label>API KEY</label>
-                <span class="password"><%= text_field "api_settings", "api_key", :type => "password" %></span>
+                <span class="password"><%= text_field "api_settings", "api_key", :type => "password", :value => api_module.api_key %></span>
               </div>
                
               <% if api_module.module_name == 'tumblr basic' %>
                 <div class="col" style="width: 500px;">
                   <label>RECENT POSTS NUMBER</label>
-                  <span class="text"><%= text_field "api_settings", "recent_posts_number" %></span>
+                  <span class="text"><%= text_field "api_settings", "recent_posts_number", :value => api_module.recent_posts_number %></span>
                 </div>
                 <div class="col">
                   <label>DETAIL PAGE PATH</label>
-                  <span class="text"><%= text_field "api_settings", "detail_page_path" %></span>
+                  <span class="text"><%= text_field "api_settings", "detail_page_path", :value => api_module.detail_page_path %></span>
                 </div>
               <% end %>
 

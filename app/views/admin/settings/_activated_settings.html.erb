@@ -25,18 +25,18 @@
               <% if setting.title == 'Rackspace Cloudfiles' %>
                 <div class="col" style="width:500px;">
                   <label>CONTAINER</label>
-                  <span class="text"><%= text_field "api_settings", "container" %></span>
+                  <span class="text"><%= text_field "api_settings", "container", :value => setting.container %></span>
                 </div>
               <% end %>
 
               <div class="col">
                 <label>API TOKEN</label>
-                <span class="text"><%= text_field "api_settings", "api_token" %></span>
+                <span class="text"><%= text_field "api_settings", "api_token", :value => setting.api_token %></span>
               </div>
 
               <div class="col">
                 <label>API KEY</label>
-                <span class="password"><%= text_field "api_settings", "api_key", :type => "password" %></span>
+                <span class="password"><%= text_field "api_settings", "api_key", :type => "password", :value => setting.api_key  %></span>
               </div>
                
               <div class="row high">

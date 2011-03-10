@@ -27,11 +27,11 @@
               <%= text_field "admin_settings", "user", :value => user.id, :style => "display:none;" %>
               <div class="col">
                 <label>ADMIN EMAIL</label>
-                <span class="text"><%= text_field "admin_settings", "login" %></span>
+                <span class="text"><%= text_field "admin_settings", "login", :value => user.email %></span>
               </div>
               <div class="col">
                 <label>PASSWORD </label>
-                <span class="password"><%= text_field "admin_settings", "password", :type => "password" %></span>
+                <span class="password"><%= text_field "admin_settings", "password", :type => "password", :value => '*'*8 %></span>
               </div>
               <div class="row">
                 <%= submit_tag 'save Changes', :class => 'submit' %>
