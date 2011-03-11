@@ -1,5 +1,6 @@
 class CustomModule < ActiveRecord::Base
   has_many :custom_module_contents, :dependent => :destroy
+  has_many :page_contents, :foreign_key => :module_id
 
   validates :title, :presence => true
 

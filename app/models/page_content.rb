@@ -1,5 +1,6 @@
 class PageContent < ActiveRecord::Base
   belongs_to :page
+  belongs_to :custom_modules, :primary_key => :module_id
 
   validates :page_id, :location, :presence => true
 

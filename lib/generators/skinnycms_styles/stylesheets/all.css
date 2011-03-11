@@ -778,7 +778,7 @@ form, fieldset {
 	float:right;
 	overflow:hidden;
 	margin:0;
-	width:149px;
+/*	width:149px;*/
 	font-size:11px;
 }
 .site-map .actions li,
@@ -869,6 +869,12 @@ form, fieldset {
 	padding-left:17px;
 	text-transform:uppercase;
 	float:left;
+}
+.list strong a {
+	border-right:1px solid #c3c3c3;
+	margin: 10px 12px 0 0;
+	line-height:21px;
+	padding-right:12px;
 }
 .blue {margin:24px 0 46px;}
 .blue li {background:url(/images/skinnycms/admin/bg-blue-l.gif) no-repeat;}
@@ -1125,16 +1131,19 @@ form, fieldset {
 	border-right:1px solid #c3c3c3;
 	margin-right:12px;
 }
-.gray-area dl {
+.gray-area dl, .list.blue dl {
 	float:left;
 	color:#999;
 	font-size:11px;
 	line-height:21px;
 }
-.gray-area dt,
-.gray-area dd {float:left;}
-.gray-area dt {padding-right:5px;}
-.gray-area dd {padding-right:18px;}
+.list.blue dl {
+	margin-top:10px;
+}
+.gray-area dt, .list.blue dt,
+.gray-area dd, .list.blue dd {float:left;}
+.gray-area dt, .list.blue dt {padding-right:5px;}
+.gray-area dd, .list.blue dd {padding-right:18px;}
 .green {color:#6cab6c;}
 .red {color:#c74537;}
 .gray-area .actions {

@@ -8,7 +8,7 @@ class Admin::CustomModulesController < ApplicationController
     @title = "Add Module"
     @custom_module = CustomModule.new
     @locations = Template.all_locations
-    @last_id = CustomModuleContent.last.id
+    @last_id = (CustomModuleContent.last.id rescue 0)
 
     respond_to do |format|
       format.html
@@ -19,7 +19,7 @@ class Admin::CustomModulesController < ApplicationController
   def edit
     @custom_module = CustomModule.find(params[:id])
     @locations = @custom_module.all_contents
-    @last_id = CustomModuleContent.last.id
+    @last_id = (CustomModuleContent.last.id rescue 0)
   end
 
   def create

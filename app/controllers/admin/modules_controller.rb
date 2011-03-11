@@ -5,7 +5,7 @@ class Admin::ModulesController < ApplicationController
 
   def index
     @title = "Modules"
-    @custom_modules = CustomModule.all
+    @custom_modules = CustomModule.all(:include => :page_contents)
     @api_modules = ApiModule.all
     @undefined_modules = ApiModule.undefined_modules
     @undefined_modules_names = ApiModule.undefined_modules_names

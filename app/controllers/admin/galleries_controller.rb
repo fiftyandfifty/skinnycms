@@ -16,8 +16,10 @@ class Admin::GalleriesController < ApplicationController
 
   def login_and_get_fleakr_user
     fleakr_module = ApiModule.find_by_module_name('fleakr basic')
-    Fleakr.api_key = JSON.parse(fleakr_module.configuration)["api_key"]
-    Fleakr.user(JSON.parse(fleakr_module.configuration)["api_token"])
+    if fleakr_module.present?
+      Fleakr.api_key = JSON.parse(fleakr_module.configuration)["api_key"]
+      Fleakr.user(JSON.parse(fleakr_module.configuration)["api_token"])
+    end
   end
 
   def update_cached_galleries

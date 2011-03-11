@@ -84,9 +84,16 @@
       <% @custom_modules.each do |custom_module| %>
         <li>
           <div class="holder">
-            <%= link_to(custom_module.title, edit_admin_custom_module_path(custom_module)) %>
+            <strong><%= link_to(custom_module.title, edit_admin_custom_module_path(custom_module)) %></strong>
+            <dl>
+              <dt>In Use: </dt>
+              <%- if custom_module.page_contents.count > 0 -%>
+              <dd class="green"><%= custom_module.page_contents.count %> places</dd>              
+              <%- else -%>
+              <dd class="red">Not currently in use</dd>
+              <%- end -%>
+            </dl>
             <ul class="actions">
-              <li><a href="#">Preview</a></li>
               <li><%= link_to("Edit", edit_admin_custom_module_path(custom_module)) %></li>
               <li><%= link_to "Delete", admin_custom_module_path(custom_module), :confirm => "Are you sure?", :method => :delete %></li>
             </ul>
