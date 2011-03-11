@@ -2,7 +2,11 @@
 <% if @assets.present? %>
   <ol id="selectable">
     <% @assets.each do |asset| %>
+      <% if asset.content_type == 'image' %>
 	<li class="ui-state-default" id="<%= asset.asset.url(:medium) %>">
+      <% else %>
+        <li class="ui-state-default" id="<%= asset.asset.url %>">
+      <% end %>
           <div class="icon"><%= image_tag(asset.asset.url(:bigthumb)) %></div>
           <span value="<%= asset.title %>" class="<%= asset.content_type %>">
             <%= asset.title %>
