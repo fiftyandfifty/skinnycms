@@ -1,4 +1,8 @@
 class PagesController < ApplicationController
+
+  def index
+    show
+  end
  
   def show
     Admin::GalleriesController.new.login_and_get_fleakr_user
@@ -43,7 +47,7 @@ class PagesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render :layout => page_template }
+      format.html { render 'show', :layout => page_template }
       format.xml  { render :xml => @page }
     end
   end
