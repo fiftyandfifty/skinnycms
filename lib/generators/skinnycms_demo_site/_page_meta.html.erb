@@ -1,0 +1,18 @@
+<%- @page = Page.new if !@page -%>
+<%- if !@page.seo_title.blank? -%>
+<title><%= "SkinnyCMS - " if !@page.seo_title.include?("SkinnyCMS") %><%= @page.seo_title %></title>
+<%- else -%>
+<title>Team Sager - <%= @page.title %></title>
+<%- end -%>
+<%- if !@page.seo_description.blank? -%>
+<meta http-equiv="Description" content="<%= @page.seo_description %>" />
+<%- else -%>
+<meta http-equiv="Description" content="SkinnyCMS" />
+<%- end -%>
+<%- if !@page.seo_keywords.blank? -%>
+<meta http-equiv="Keywords" content="<%= @page.seo_keywords %>" />
+<%- else -%>
+<meta http-equiv="Keywords" content="SkinnyCMS" />
+<%- end -%>	
+<meta http-equiv="Generator" content="SkinnyCMS by fiftyandfifty.org" />
+<%= csrf_meta_tag %>

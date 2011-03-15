@@ -31,6 +31,7 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     run "gem install acts_as_tree -v '0.1.1'" if gemfile.scan("acts_as_tree").size < 1
     run "gem install will_paginate -v '2.3.15'" if gemfile.scan("will_paginate").size < 1
     run "gem install friendly_id -v '3.0.6'" if gemfile.scan("friendly_id").size < 1
+    run "gem install jquery-rails -v '0.2.7'" if gemfile.scan("jquery-rails").size < 1
 
     insert_into_file "Gemfile", "gem 'devise', '1.2.rc'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("devise").size < 1
     insert_into_file "Gemfile", "gem 'paperclip', '2.3.8'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("paperclip").size < 1
@@ -44,6 +45,7 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
     insert_into_file "Gemfile", "gem 'acts_as_tree', '0.1.1'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("acts_as_tree").size < 1
     insert_into_file "Gemfile", "gem 'will_paginate', '2.3.15'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("will_paginate").size < 1
     insert_into_file "Gemfile", "gem 'friendly_id', '3.0.6'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("friendly_id").size < 1
+    insert_into_file "Gemfile", "gem 'jquery-rails', '0.2.7'\n\n", :before => "gem 'skinnycms'" if gemfile.scan("jquery-rails").size < 1
 
     run "bundle install"
     puts SkinnycmsGemsGenerator.end_description
@@ -76,6 +78,7 @@ class SkinnycmsGemsGenerator < Rails::Generators::Base
      acts_as_tree, '0.1.1'
      will_paginate, '2.3.15'
      friendly_id, '3.0.6'
+     jquery-rails, '0.2.7'
    successfully installed!
 
 *******************************************************************

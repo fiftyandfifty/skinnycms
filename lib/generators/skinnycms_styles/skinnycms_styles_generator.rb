@@ -12,39 +12,12 @@ class SkinnycmsStylesGenerator < Rails::Generators::Base
     puts SkinnycmsStylesGenerator.start_description
     sleep(3)
 
-    if !File.exist?("public/stylesheets/skinnycms/reset.css")
-      copy_file "reset.css", "public/stylesheets/skinnycms/reset.css"
+    if !File.exist?("public/stylesheets/skinnycms/skinny-960.css")
+      copy_file "skinny-960.css", "public/stylesheets/skinnycms/skinny-960.css"
     else
-      if yes? "You already have 'public/stylesheets/skinnycms/reset.css' file. Do you want to update it?", :green
-        remove_file "public/stylesheets/skinnycms/reset.css"
-        copy_file "reset.css", "public/stylesheets/skinnycms/reset.css"
-      end
-    end
-
-    if !File.exist?("public/stylesheets/skinnycms/text.css")
-      copy_file "text.css", "public/stylesheets/skinnycms/text.css"
-    else
-      if yes? "You already have 'public/stylesheets/skinnycms/text.css' file. Do you want to update it?", :green
-        remove_file "public/stylesheets/skinnycms/text.css"
-        copy_file "text.css", "public/stylesheets/skinnycms/text.css"
-      end
-    end
-
-    if !File.exist?("public/stylesheets/skinnycms/960.css")
-      copy_file "960.css", "public/stylesheets/skinnycms/960.css"
-    else
-      if yes? "You already have 'public/stylesheets/skinnycms/960.css' file. Do you want to update it?", :green
-        remove_file "public/stylesheets/skinnycms/960.css"
-        copy_file "960.css", "public/stylesheets/skinnycms/960.css"
-      end
-    end
-
-    if !File.exist?("public/stylesheets/skinnycms/demo.css")
-      copy_file "demo.css", "public/stylesheets/skinnycms/demo.css"
-    else
-      if yes? "You already have 'public/stylesheets/skinnycms/demo.css' file. Do you want to update it?", :green
-        remove_file "public/stylesheets/skinnycms/demo.css"
-        copy_file "demo.css", "public/stylesheets/skinnycms/demo.css"
+      if yes? "You already have 'public/stylesheets/skinnycms/skinny-960.css' file. Do you want to update it?", :green
+        remove_file "public/stylesheets/skinnycms/skinny-960.css"
+        copy_file "skinny-960.css", "public/stylesheets/skinnycms/skinny-960.css"
       end
     end
 

@@ -14,10 +14,10 @@ Jeweler::Tasks.new do |gem|
   gem.name = "skinnycms"
   gem.homepage = "https://github.com/fiftyandfifty/skinnycms"
   gem.license = "MIT"
-  gem.summary = "Lightweight CMS which leverages the lastest external social networking APIs"
-  gem.description = "long description"
-  gem.email = "ruslan.hamidullin@flatsoft.com"
-  gem.authors = ["RuslanHamidullin"]
+  gem.summary = "Lightweight CMS"
+  gem.description = "Lightweight CMS which leverages the lastest external social networking APIs"
+  gem.email = ["info@fiftyandfifty.org"]
+  gem.authors = ["RuslanHamidullin", "BryanShanaver"]
   gem.add_dependency 'devise', '1.2.rc'
   gem.add_bundler_dependencies
 end

@@ -5,7 +5,7 @@ class SkinnycmsJavascriptsGenerator < Rails::Generators::Base
   desc "Appending SKINNYCMS javascripts to application"
 
   def self.source_root
-      @source_root ||= File.join(File.dirname(__FILE__), 'javasripts')
+      @source_root ||= File.join(File.dirname(__FILE__), 'javascripts')
   end
 
   def copy_javascript_files

@@ -1,0 +1,8 @@
+Description:
+  This is the skinnycms_demo_site generator.
+ 
+Example:
+  rails generate skinnycms_demo_site
+
+  This will install the files for a demo site
+  See the README for more details.

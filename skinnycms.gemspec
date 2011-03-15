@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.5.1"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["RuslanHamidullin"]
-  s.date = %q{2011-03-14}
-  s.description = %q{long description}
-  s.email = %q{ruslan.hamidullin@flatsoft.com}
+  s.authors = ["RuslanHamidullin", "BryanShanaver"]
+  s.date = %q{2011-03-15}
+  s.description = %q{Lightweight CMS which leverages the lastest external social networking APIs}
+  s.email = ["info@fiftyandfifty.org"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -111,21 +111,21 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_cucumber_features/skinnycms_cucumber_features_generator.rb",
     "lib/generators/skinnycms_db_seeds/USAGE",
     "lib/generators/skinnycms_db_seeds/skinnycms_db_seeds_generator.rb",
+    "lib/generators/skinnycms_demo_site/USAGE",
+    "lib/generators/skinnycms_demo_site/_footer_navigation.html.erb",
+    "lib/generators/skinnycms_demo_site/_main_navigation.html.erb",
+    "lib/generators/skinnycms_demo_site/_secondary_navigation.html.erb",
+    "lib/generators/skinnycms_demo_site/detail_page.html.erb",
+    "lib/generators/skinnycms_demo_site/home_page.html.erb",
+    "lib/generators/skinnycms_demo_site/landing_page.html.erb",
+    "lib/generators/skinnycms_demo_site/page_helper.rb",
+    "lib/generators/skinnycms_demo_site/skinnycms_demo_site_generator.rb",
     "lib/generators/skinnycms_devise/USAGE",
     "lib/generators/skinnycms_devise/devise_files/initializers/devise.rb",
     "lib/generators/skinnycms_devise/devise_files/locales/devise.en.yml",
     "lib/generators/skinnycms_devise/skinnycms_devise_generator.rb",
     "lib/generators/skinnycms_gems/USAGE",
     "lib/generators/skinnycms_gems/skinnycms_gems_generator.rb",
-    "lib/generators/skinnycms_homepage/USAGE",
-    "lib/generators/skinnycms_homepage/_footer_navigation.html.erb",
-    "lib/generators/skinnycms_homepage/_main_navigation.html.erb",
-    "lib/generators/skinnycms_homepage/_secondary_navigation.html.erb",
-    "lib/generators/skinnycms_homepage/detail_page.html.erb",
-    "lib/generators/skinnycms_homepage/home_page.html.erb",
-    "lib/generators/skinnycms_homepage/landing_page.html.erb",
-    "lib/generators/skinnycms_homepage/page_helper.rb",
-    "lib/generators/skinnycms_homepage/skinnycms_homepage_generator.rb",
     "lib/generators/skinnycms_images/USAGE",
     "lib/generators/skinnycms_images/images/admin/arrow.gif",
     "lib/generators/skinnycms_images/images/admin/arrow1.gif",
@@ -221,26 +221,20 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_images/images/jquery_ui_images/ui-icons_ffffff_256x240.png",
     "lib/generators/skinnycms_images/skinnycms_images_generator.rb",
     "lib/generators/skinnycms_javascripts/USAGE",
-    "lib/generators/skinnycms_javascripts/javasripts/gallery/coin-slider.min.js",
-    "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-1.4.4.min.js",
-    "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery-ui-1.8.7.custom.min.js",
-    "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.livequery.js",
-    "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine-en.js",
-    "lib/generators/skinnycms_javascripts/javasripts/jquery/jquery.validationEngine.js",
-    "lib/generators/skinnycms_javascripts/javasripts/media/uflvplayer_500x375.swf",
-    "lib/generators/skinnycms_javascripts/javasripts/media/ump3player_500x70.swf",
-    "lib/generators/skinnycms_javascripts/javasripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
-    "lib/generators/skinnycms_javascripts/javasripts/rails.js",
+    "lib/generators/skinnycms_javascripts/javascripts/gallery/coin-slider.min.js",
+    "lib/generators/skinnycms_javascripts/javascripts/jquery/jquery-1.4.4.min.js",
+    "lib/generators/skinnycms_javascripts/javascripts/jquery/jquery-ui-1.8.7.custom.min.js",
+    "lib/generators/skinnycms_javascripts/javascripts/jquery/jquery.livequery.js",
+    "lib/generators/skinnycms_javascripts/javascripts/jquery/jquery.validationEngine-en.js",
+    "lib/generators/skinnycms_javascripts/javascripts/jquery/jquery.validationEngine.js",
+    "lib/generators/skinnycms_javascripts/javascripts/media/uflvplayer_500x375.swf",
+    "lib/generators/skinnycms_javascripts/javascripts/media/ump3player_500x70.swf",
+    "lib/generators/skinnycms_javascripts/javascripts/nestedSortable.1.2.1/jquery.ui.nestedSortable.js",
+    "lib/generators/skinnycms_javascripts/javascripts/rails.js",
     "lib/generators/skinnycms_javascripts/skinnycms_javascripts_generator.rb",
     "lib/generators/skinnycms_layouts/USAGE",
-    "lib/generators/skinnycms_layouts/layouts/_footer_navigation.html.erb",
-    "lib/generators/skinnycms_layouts/layouts/_main_navigation.html.erb",
-    "lib/generators/skinnycms_layouts/layouts/_secondary_navigation.html.erb",
     "lib/generators/skinnycms_layouts/layouts/admin.html.erb",
-    "lib/generators/skinnycms_layouts/layouts/detail_page.html.erb",
     "lib/generators/skinnycms_layouts/layouts/devise.html.erb",
-    "lib/generators/skinnycms_layouts/layouts/home_page.html.erb",
-    "lib/generators/skinnycms_layouts/layouts/landing_page.html.erb",
     "lib/generators/skinnycms_layouts/skinnycms_layouts_generator.rb",
     "lib/generators/skinnycms_migrations/USAGE",
     "lib/generators/skinnycms_migrations/skinnycms_migrations_generator.rb",
@@ -274,16 +268,13 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_migrations/templates/create_users.rb",
     "lib/generators/skinnycms_styles/USAGE",
     "lib/generators/skinnycms_styles/skinnycms_styles_generator.rb",
-    "lib/generators/skinnycms_styles/stylesheets/960.css",
     "lib/generators/skinnycms_styles/stylesheets/all.css",
     "lib/generators/skinnycms_styles/stylesheets/coin-slider-styles.css",
-    "lib/generators/skinnycms_styles/stylesheets/demo.css",
     "lib/generators/skinnycms_styles/stylesheets/devise.css",
     "lib/generators/skinnycms_styles/stylesheets/ie.css",
     "lib/generators/skinnycms_styles/stylesheets/jquery-ui-1.8.10.custom.css",
     "lib/generators/skinnycms_styles/stylesheets/nestedSortable.css",
-    "lib/generators/skinnycms_styles/stylesheets/reset.css",
-    "lib/generators/skinnycms_styles/stylesheets/text.css",
+    "lib/generators/skinnycms_styles/stylesheets/skinny-960.css",
     "lib/generators/skinnycms_styles/stylesheets/validationEngine.jquery.css",
     "lib/generators/skinnycms_tinymce/USAGE",
     "lib/generators/skinnycms_tinymce/skinnycms_tinymce_generator.rb",
@@ -1097,7 +1088,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.2}
-  s.summary = %q{Lightweight CMS which leverages the lastest external social networking APIs}
+  s.summary = %q{Lightweight CMS}
   s.test_files = [
     "spec/models/category_item_spec.rb",
     "spec/models/category_spec.rb",

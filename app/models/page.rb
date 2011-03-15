@@ -8,6 +8,8 @@ class Page < ActiveRecord::Base
   belongs_to :template
 
   validates :title, :permalink, :presence => true
+  
+  validates_uniqueness_of :title, :permalink
 
   has_friendly_id :title_or_permalink, :use_slug => true, :approximate_ascii => true
 
@@ -21,6 +23,12 @@ class Page < ActiveRecord::Base
     else
       title
     end
+  end
+  
+  def get_home_page_id
+    page = Page.find_by_title('Home')
+    page = Page.first() if !page.id
+    page.id
   end
 
   def parent_in_navigation(navigation_name)

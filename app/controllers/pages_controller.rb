@@ -8,9 +8,9 @@ class PagesController < ApplicationController
     Admin::GalleriesController.new.login_and_get_fleakr_user
 
     if params
-      if params[:id].blank? then page_id = 1 else page_id = params[:id] end
+      if params[:id].blank? then page_id = Page.new.get_home_page_id else page_id = params[:id] end
     else
-      page_id = 1
+      page_id = Page.new.get_home_page_id
     end
     @page = Page.find(page_id)
     

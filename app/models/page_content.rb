@@ -3,6 +3,8 @@ class PageContent < ActiveRecord::Base
   belongs_to :custom_modules, :primary_key => :module_id
 
   validates :page_id, :location, :presence => true
+  
+  validates_uniqueness_of :content, :scope => [:page_id, :position, :location, :module_type, :module_id]
 
   CONTENT_TYPES = { 'CustomModule' => 'id',
                     'ApiModule' => 'id',

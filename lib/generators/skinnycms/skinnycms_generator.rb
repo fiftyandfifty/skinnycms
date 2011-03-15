@@ -24,8 +24,8 @@ class SkinnycmsGenerator < Rails::Generators::Base
 
   SKINNYCMS successfully installed!
 
-  Now, you can run 'rails generate skinnycms_homepage'
-  to generate default homepage for your application!
+  Now, you can run 'rails generate skinnycms_demo_site'
+  to generate the files for a demo site!
 
   Also, you can run 'rails generate skinnycms_db_seeds',
   it will add to your database all necessary content
