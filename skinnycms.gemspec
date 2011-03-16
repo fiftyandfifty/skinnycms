@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.6.0"
+  s.version = "0.6.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin", "BryanShanaver"]
@@ -113,7 +113,9 @@ Gem::Specification.new do |s|
     "lib/generators/skinnycms_db_seeds/skinnycms_db_seeds_generator.rb",
     "lib/generators/skinnycms_demo_site/USAGE",
     "lib/generators/skinnycms_demo_site/_footer_navigation.html.erb",
+    "lib/generators/skinnycms_demo_site/_html_top.html.erb",
     "lib/generators/skinnycms_demo_site/_main_navigation.html.erb",
+    "lib/generators/skinnycms_demo_site/_page_meta.html.erb",
     "lib/generators/skinnycms_demo_site/_secondary_navigation.html.erb",
     "lib/generators/skinnycms_demo_site/detail_page.html.erb",
     "lib/generators/skinnycms_demo_site/home_page.html.erb",

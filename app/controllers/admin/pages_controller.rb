@@ -100,8 +100,12 @@ class Admin::PagesController < ApplicationController
       @page.update_attribute(:template_id, Template.find(:first, :conditions => { :title => 'Home Page' }).id) if params[:page][:template_id].blank?
 
       # Define positions of content elements for each location and create new page_contents
-
-      locations = @page.template.content_locations.split(',')
+      
+      if @page.template 
+        locations = @page.template.content_locations.split(',')
+      else
+        locations = []
+      end
 
       locations.each do |location|
         @page.define_contents(location, params["#{location}_positions"].split(','), params[location])
@@ -139,7 +143,11 @@ class Admin::PagesController < ApplicationController
 
     # Define positions of content elements for each location and create new page_contents
 
-    locations = @page.template.content_locations.split(',')
+    if @page.template 
+      locations = @page.template.content_locations.split(',')
+    else
+      locations = []
+    end
 
     locations.each do |location|
       @page.define_contents(location, params["#{location}_positions"].split(','), params[location])

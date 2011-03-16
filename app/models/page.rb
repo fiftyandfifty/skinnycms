@@ -60,7 +60,11 @@ class Page < ActiveRecord::Base
 
   def locations
     content_in_locations = {}
-    locations = template.content_locations.split(',')
+    if template 
+      locations = template.content_locations.split(',')
+    else
+      locations = []
+    end
     locations.each do |loc|
      content_in_locations[loc] = PageContent.find(:all, :conditions => { :page_id => self, :location => loc }, :order => :position )
     end
