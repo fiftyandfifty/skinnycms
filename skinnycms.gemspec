@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{skinnycms}
-  s.version = "0.6.1"
+  s.version = "0.6.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["RuslanHamidullin", "BryanShanaver"]
-  s.date = %q{2011-03-15}
+  s.date = %q{2011-04-20}
   s.description = %q{Lightweight CMS which leverages the lastest external social networking APIs}
   s.email = ["info@fiftyandfifty.org"]
   s.extra_rdoc_files = [
@@ -1089,7 +1089,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/fiftyandfifty/skinnycms}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
+  s.rubygems_version = %q{1.7.2}
   s.summary = %q{Lightweight CMS}
   s.test_files = [
     "spec/models/category_item_spec.rb",

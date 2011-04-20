@@ -55,12 +55,29 @@
             <% Fleakr::Objects::Set.find_by_id(content.remote_module.fleakr_gallery_id).photos.each do |photo| %>
               <a href="<%= photo.medium.url %>" target="_blank">
                 <%= image_tag(photo.medium.url) %>
-                <span>
-		  <%= photo.title %>
-	        </span>
+                <span><%= photo.title %></span>
               </a>
             <% end %>
           </div>
+          
+          <% content_for :html_header_includes do %>
+
+            <%= javascript_include_tag 'skinnycms/gallery/coin-slider.min.js' %>
+            <%= stylesheet_link_tag 'skinnycms/coin-slider-styles.css' %>
+
+            <script type="text/javascript">
+              $(document).ready(function() {
+
+                var sliders = $('.sliders');
+
+                $.each(sliders, function(index,value) {
+                  $(value).coinslider({ effect: 'rain', delay: 5000 });
+                });
+
+              });
+            </script>
+
+          <% end %>
 
         <% elsif content.module_type == 'CacheVimeoVideo' %>
 
@@ -85,25 +102,3 @@
   <% end %>
 
 <%- end -%>
-
-<% content_for :html_header_includes do %>
-
-  <%= javascript_include_tag 'skinnycms/jquery/jquery-1.4.4.min.js' %>
-  <%= javascript_include_tag 'skinnycms/gallery/coin-slider.min.js' %>
-  <%= stylesheet_link_tag 'skinnycms/coin-slider-styles.css' %>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-
-      var sliders = $('.sliders');
-
-      $.each(sliders, function(index,value) {
-        $(value).coinslider({ effect: 'rain', delay: 5000 });
-      });
-
-    });
-  </script>
-
-<% end %>
-
-
